@@ -23,10 +23,10 @@ class PersonsController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args)
     {
-        if (!$GLOBALS['perm']->have_perm('root')) {
+        /*if (!$GLOBALS['perm']->have_perm('root')) {
             throw new AccessDeniedException(dgettext('luna',
                 'Sie haben nicht die nötigen Rechte, um auf diese Funktion zuzugreifen!'));
-        }
+        }*/
 
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
@@ -51,6 +51,11 @@ class PersonsController extends AuthenticatedController {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
         }
         PageLayout::addStylesheet($style);
+
+        $this->client = LunaClient::getCurrentClient();
+        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
+            $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
+        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
     }
 
     /**
@@ -58,10 +63,13 @@ class PersonsController extends AuthenticatedController {
      */
     public function index_action()
     {
-        Navigation::activateItem('/admin/luna/persons');
+        Navigation::activateItem('/tools/luna/persons');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
 
-        $this->persons = LunaUser::findBySQL("1 ORDER BY `lastname`, `firstname`");
+        $this->persons = $this->client->users;
+        if ($this->persons) {
+            $this->persons->orderBy('lastname firstname');
+        }
 
         $actions = new ActionsWidget();
         $actions->addLink(dgettext('luna', 'Person hinzufügen'),
@@ -77,7 +85,7 @@ class PersonsController extends AuthenticatedController {
      */
     public function edit_action($id = '')
     {
-        Navigation::activateItem('/admin/luna/persons');
+        Navigation::activateItem('/tools/luna/persons');
 
         if ($id) {
             $this->person = LunaUser::find($id);
@@ -113,8 +121,14 @@ class PersonsController extends AuthenticatedController {
             }
         }
 
-        $this->skills = LunaSkill::findBySQL("1 ORDER BY `name`");
-        $this->companies = LunaCompany::findBySQL("1 ORDER BY `name`");
+        $this->skills = $this->client->skills;
+        if ($this->skills) {
+            $this->skills->orderBy('name');
+        }
+        $this->companies = $this->client->companies;
+        if ($this->companies) {
+            $this->companies->orderBy('name');
+        }
 
         $title = $this->person->isNew() ?
             dgettext('luna', 'Neue Person anlegen') :
@@ -144,6 +158,7 @@ class PersonsController extends AuthenticatedController {
                 $user = new LunaUser();
                 $user->info = new LunaUserInfo();
             }
+            $user->client_id = $this->client->client_id;
             $user->firstname = Request::get('firstname');
             $user->lastname = Request::get('lastname');
             $user->title_front = Request::get('title_front');

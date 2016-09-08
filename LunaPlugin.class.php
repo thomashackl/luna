@@ -21,23 +21,45 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
     public function __construct()
     {
         parent::__construct();
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
+
         // Localization
         bindtextdomain('luna', realpath(__DIR__.'/locale'));
 
         // Plugin only available for roots or role.
-        if ($GLOBALS['perm']->have_perm('root')) {
+        if ($GLOBALS['perm']->have_perm('root') || $clients = LunaClientUser::findByUser_id($GLOBALS['user']->id)) {
+            $currentClient = LunaClient::getCurrentClient();
+            $target = 'persons';
+
+            if (!$currentClient) {
+                if (count($clients) > 1 || $GLOBALS['perm']->have_perm('root')) {
+                    $target = 'clients';
+                } else {
+                    LunaClient::setCurrentClient($clients[0]->client_id);
+                }
+            }
+
             $navigation = new Navigation($this->getDisplayName(),
-                PluginEngine::getURL($this, array(), 'persons'));
-            $navigation->addSubNavigation('persons',
-                new Navigation(dgettext('luna', 'Personen'),
-                    PluginEngine::getURL($this, array(), 'persons')));
-            $navigation->addSubNavigation('companies',
-                new Navigation(dgettext('luna', 'Firmen'),
-                    PluginEngine::getURL($this, array(), 'companies')));
-            $navigation->addSubNavigation('skills',
-                new Navigation(dgettext('luna', 'Kompetenzen'),
-                    PluginEngine::getURL($this, array(), 'skills')));
-            Navigation::addItem('/admin/luna', $navigation);
+                PluginEngine::getURL($this, array(), $target));
+
+            if ($currentClient) {
+                $navigation->addSubNavigation('persons',
+                    new Navigation(dgettext('luna', 'Personen'),
+                        PluginEngine::getURL($this, array(), 'persons')));
+                $navigation->addSubNavigation('companies',
+                    new Navigation(dgettext('luna', 'Firmen'),
+                        PluginEngine::getURL($this, array(), 'companies')));
+                $navigation->addSubNavigation('skills',
+                    new Navigation(dgettext('luna', 'Kompetenzen'),
+                        PluginEngine::getURL($this, array(), 'skills')));
+            }
+            // Roots or people with more than one assigned clients see client selection.
+            if ($GLOBALS['perm']->have_perm('root') || count($clients) > 1) {
+                $navigation->addSubNavigation('clients',
+                    new Navigation(dgettext('luna', 'Mandanten'),
+                        PluginEngine::getURL($this, array(), 'clients')));
+            }
+            Navigation::addItem('/tools/luna', $navigation);
         }
     }
 
@@ -56,7 +78,6 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
 
     public function perform($unconsumed_path)
     {
-        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
 
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),

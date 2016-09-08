@@ -49,7 +49,7 @@ class SkillsController extends AuthenticatedController {
      */
     public function index_action()
     {
-        Navigation::activateItem('/admin/luna/skills');
+        Navigation::activateItem('/tools/luna/skills');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Kompetenzen'));
 
         $this->skills = LunaSkill::findBySQL("1 ORDER BY `name`");
@@ -68,7 +68,7 @@ class SkillsController extends AuthenticatedController {
      */
     public function edit_action($id = '')
     {
-        Navigation::activateItem('/admin/luna/skills');
+        Navigation::activateItem('/tools/luna/skills');
 
         if ($id) {
             $this->skill = LunaSkill::find($id);
@@ -92,6 +92,11 @@ class SkillsController extends AuthenticatedController {
         $this->sidebar->addWidget($views);
 
         $this->flash->keep();
+
+        $this->client = LunaClient::getCurrentClient();
+        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
+            $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
+        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
     }
 
     public function save_action($id = '')
@@ -103,6 +108,7 @@ class SkillsController extends AuthenticatedController {
         } else {
             $skill = new LunaSkill($id);
         }
+        $skill->client_id = $this->client->client_id;
         $skill->name = Request::get('name');
 
         if ($skill->store()) {

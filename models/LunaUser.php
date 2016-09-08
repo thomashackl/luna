@@ -53,12 +53,16 @@ class LunaUser extends SimpleORMap
         $config['has_and_belongs_to_many']['skills'] = array(
             'class_name' => 'LunaSkill',
             'thru_table' => 'luna_user_skills',
+            'thru_key' => 'user_id',
+            'thru_assoc_key' => 'skill_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
         $config['has_and_belongs_to_many']['companies'] = array(
             'class_name' => 'LunaCompany',
             'thru_table' => 'luna_user_company',
+            'thru_key' => 'user_id',
+            'thru_assoc_key' => 'company_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
         );

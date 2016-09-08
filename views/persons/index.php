@@ -52,13 +52,15 @@
                         <?php endif ?>
                     </td>
                     <td>
-                        <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog="size=auto">
-                            <?= Icon::create('edit', 'clickable')->asImg() ?>
-                        </a>
-                        <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
-                                dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
-                            <?= Icon::create('trash', 'clickable')->asImg() ?>
-                        </a>
+                        <?php if ($hasWriteAccess) : ?>
+                            <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog="size=auto">
+                                <?= Icon::create('edit', 'clickable')->asImg() ?>
+                            </a>
+                            <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
+                                    dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
+                                <?= Icon::create('trash', 'clickable')->asImg() ?>
+                            </a>
+                        <?php endif ?>
                     </td>
                 </tr>
             <?php endforeach ?>

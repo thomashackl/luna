@@ -27,6 +27,6 @@
         <?php endforeach ?>
         <?= CSRFProtection::tokenTag() ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Speichern'), 'store') ?>
-        <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('persons')) ?>
+        <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('skills')) ?>
     </footer>
 </form>

@@ -49,6 +49,11 @@ class CompaniesController extends AuthenticatedController {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
         }
         PageLayout::addStylesheet($style);
+
+        $this->client = LunaClient::getCurrentClient();
+        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
+            $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
+        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
     }
 
     /**
@@ -56,7 +61,7 @@ class CompaniesController extends AuthenticatedController {
      */
     public function index_action()
     {
-        Navigation::activateItem('/admin/luna/companies');
+        Navigation::activateItem('/tools/luna/companies');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Firmenübersicht'));
 
         $this->companies = LunaCompany::findBySQL("1 ORDER BY `name`");
@@ -75,7 +80,7 @@ class CompaniesController extends AuthenticatedController {
      */
     public function edit_action($id = '')
     {
-        Navigation::activateItem('/admin/luna/companies');
+        Navigation::activateItem('/tools/luna/companies');
 
         if ($id) {
             $this->company = LunaCompany::find($id);
@@ -111,6 +116,7 @@ class CompaniesController extends AuthenticatedController {
         } else {
             $company = new LunaCompany($id);
         }
+        $company->client_id = $this->client->client_id;
         $company->name = Request::get('name');
         $company->contact_person = Request::get('contact_person');
         $company->street = Request::get('street');

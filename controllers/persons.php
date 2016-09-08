@@ -23,11 +23,6 @@ class PersonsController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args)
     {
-        /*if (!$GLOBALS['perm']->have_perm('root')) {
-            throw new AccessDeniedException(dgettext('luna',
-                'Sie haben nicht die nötigen Rechte, um auf diese Funktion zuzugreifen!'));
-        }*/
-
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
@@ -71,11 +66,13 @@ class PersonsController extends AuthenticatedController {
             $this->persons->orderBy('lastname firstname');
         }
 
-        $actions = new ActionsWidget();
-        $actions->addLink(dgettext('luna', 'Person hinzufügen'),
-            $this->url_for('persons/edit'),
-            Icon::create('person+add', 'clickable'))->asDialog('size=auto');
-        $this->sidebar->addWidget($actions);
+        if ($this->hasWriteAccess) {
+            $actions = new ActionsWidget();
+            $actions->addLink(dgettext('luna', 'Person hinzufügen'),
+                $this->url_for('persons/edit'),
+                Icon::create('person+add', 'clickable'))->asDialog('size=auto');
+            $this->sidebar->addWidget($actions);
+        }
     }
 
     /**

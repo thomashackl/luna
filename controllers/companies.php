@@ -24,11 +24,6 @@ class CompaniesController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
-        if (!$GLOBALS['perm']->have_perm('root')) {
-            throw new AccessDeniedException(dgettext('luna',
-                'Sie haben nicht die nötigen Rechte, um auf diese Funktion zuzugreifen!'));
-        }
-
         // Check for AJAX.
         if (Request::isXhr()) {
             $this->set_layout(null);
@@ -64,13 +59,18 @@ class CompaniesController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/companies');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Firmenübersicht'));
 
-        $this->companies = LunaCompany::findBySQL("1 ORDER BY `name`");
+        $this->companies = $this->client->companies;
+        if ($this->companies) {
+            $this->companies->orderBy('name');
+        }
 
-        $actions = new ActionsWidget();
-        $actions->addLink(dgettext('luna', 'Firma hinzufügen'),
-            $this->url_for('companies/edit'),
-            Icon::create('vcard+add', 'clickable'))->asDialog('size=auto');
-        $this->sidebar->addWidget($actions);
+        if ($this->hasWriteAccess) {
+            $actions = new ActionsWidget();
+            $actions->addLink(dgettext('luna', 'Firma hinzufügen'),
+                $this->url_for('companies/edit'),
+                Icon::create('vcard+add', 'clickable'))->asDialog('size=auto');
+            $this->sidebar->addWidget($actions);
+        }
     }
 
     /**

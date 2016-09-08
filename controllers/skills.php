@@ -21,11 +21,6 @@ class SkillsController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args)
     {
-        if (!$GLOBALS['perm']->have_perm('root')) {
-            throw new AccessDeniedException(dgettext('luna',
-                'Sie haben nicht die nötigen Rechte, um auf diese Funktion zuzugreifen!'));
-        }
-
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
@@ -52,13 +47,18 @@ class SkillsController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/skills');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Kompetenzen'));
 
-        $this->skills = LunaSkill::findBySQL("1 ORDER BY `name`");
+        $this->skills = $this->client->skills;
+        if ($this->skills) {
+            $this->skills->orderBy('name');
+        }
 
-        $actions = new ActionsWidget();
-        $actions->addLink(dgettext('luna', 'Kompetenz hinzufügen'),
-            $this->url_for('skills/edit'),
-            Icon::create('roles+add', 'clickable'))->asDialog('size=auto');
-        $this->sidebar->addWidget($actions);
+        if ($this->hasWriteAccess) {
+            $actions = new ActionsWidget();
+            $actions->addLink(dgettext('luna', 'Kompetenz hinzufügen'),
+                $this->url_for('skills/edit'),
+                Icon::create('roles+add', 'clickable'))->asDialog('size=auto');
+            $this->sidebar->addWidget($actions);
+        }
     }
 
     /**

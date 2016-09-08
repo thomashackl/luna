@@ -47,6 +47,12 @@ class LunaClientUser extends SimpleORMap
             array($client_id, is_array($status) ? $status : words($status)));
     }
 
+    public static function findByUserAndStatus($user_id, $status)
+    {
+        return self::findBySQL("`user_id` = ? AND `status` IN (?)",
+            array($user_id, is_array($status) ? $status : words($status)));
+    }
+
     public static function getPermissionLevels()
     {
         return array(

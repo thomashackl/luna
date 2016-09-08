@@ -21,11 +21,6 @@ class ClientsController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args)
     {
-        if (!$GLOBALS['perm']->have_perm('root')) {
-            throw new AccessDeniedException(dgettext('luna',
-                'Sie haben nicht die nötigen Rechte, um auf diese Funktion zuzugreifen!'));
-        }
-
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
@@ -43,10 +38,12 @@ class ClientsController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/admin-sidebar.png');
 
+        $this->isRoot = $GLOBALS['perm']->have_perm('root');
+
         $this->currentClient = LunaClient::getCurrentClient();
-        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
+        $access = $this->isRoot ? 'admin' :
             $this->currentClient->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->isAdmin = in_array($access, array('admin'));
     }
 
     /**

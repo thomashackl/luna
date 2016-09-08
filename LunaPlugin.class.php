@@ -54,7 +54,8 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
                         PluginEngine::getURL($this, array(), 'skills')));
             }
             // Roots or people with more than one assigned clients see client selection.
-            if ($GLOBALS['perm']->have_perm('root') || count($clients) > 1) {
+            if ($GLOBALS['perm']->have_perm('root') || count($clients) > 1 ||
+                    LunaClientUser::findByUserAndStatus($GLOBALS['user']->id, 'admin')) {
                 $navigation->addSubNavigation('clients',
                     new Navigation(dgettext('luna', 'Mandanten'),
                         PluginEngine::getURL($this, array(), 'clients')));

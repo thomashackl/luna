@@ -1,4 +1,5 @@
 <?php if ($persons) : ?>
+    <?= $this->render_partial('persons/_filter') ?>
     <table class="default">
         <caption>
             <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Personen') ?>
@@ -6,7 +7,7 @@
                 <a href="<?= $controller->url_for('persons/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('person+add', 'clickable')->asImg() ?>
                 </a>
-            </>
+            </span>
         </caption>
         <colgroup>
             <col>

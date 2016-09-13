@@ -61,10 +61,19 @@ class PersonsController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/persons');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
 
+        if (Studip\ENV == 'development') {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
+        } else {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
+        }
+        PageLayout::addScript($js);
+
         $this->persons = $this->client->users;
         if ($this->persons) {
             $this->persons->orderBy('lastname firstname');
         }
+
+        $this->lastnames = LunaUser::getDistinctValues('lastname');
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
@@ -248,6 +257,16 @@ class PersonsController extends AuthenticatedController {
         }
 
         $this->relocate('persons');
+    }
+
+    public function get_filternames_action()
+    {
+        $this->render_text(studip_json_encode(LunaUserFilter::getFilterNames()));
+    }
+
+    public function get_filterdata_action()
+    {
+        $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues(Request::get('column'))));
     }
 
     // customized #url_for for plugins

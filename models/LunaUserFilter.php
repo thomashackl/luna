@@ -22,17 +22,17 @@ class LunaUserFilter
         return array(
             'firstname' => array(
                 'name' => dgettext('luna', 'Vorname'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'firstname'
             ),
             'lastname' => array(
                 'name' => dgettext('luna', 'Nachname'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'lastname'
             ),
             'gender' => array(
                 'name' => dgettext('luna', 'Geschlecht'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'gender',
                 'values' => array(
                     0 => _('unbekannt'),
@@ -42,19 +42,19 @@ class LunaUserFilter
             ),
             'street' => array(
                 'name' => dgettext('luna', 'Straße'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'street'
             ),
             'city' => array(
                 'name' => dgettext('luna', 'Stadt'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'city'
             ),
             'country' => array(
                 'name' => dgettext('luna', 'Land'),
-                'table' => 'luna_user',
+                'table' => 'luna_users',
                 'column' => 'country'
-            ),
+            )
         );
     }
 
@@ -67,15 +67,17 @@ class LunaUserFilter
         return $names;
     }
 
-    public static function getFilterValues($field)
+    public static function getFilterValues($client, $field)
     {
-        $values = LunaUser::getDistinctValues($field);
+        $values = LunaUser::getDistinctValues($client, $field);
         $fields = self::getFilterFields();
         $filter = $fields[$field];
         $result = array(
             'compare' => array(
-                '==' => dgettext('luna', 'ist'),
+                '=' => dgettext('luna', 'ist'),
                 '!=' => dgettext('luna', 'ist nicht'),
+                'LIKE' => dgettext('luna', 'enthält'),
+                'NOT LIKE' => dgettext('luna', 'enthält nicht'),
             ),
             'values' => array()
         );
@@ -87,6 +89,33 @@ class LunaUserFilter
             $result['values'][$v] = $current;
         }
         return $result;
+    }
+
+    public static function getFilters($user_id, $client = '')
+    {
+        $filters = studip_json_decode(UserConfig::get($user_id)->LUNA_USER_FILTER);
+        if ($client) {
+            $filters = $filters[$client];
+        }
+        return $filters;
+    }
+
+    public static function setFilters($client, $filters)
+    {
+        $data = self::getFilters($GLOBALS['user']->id);
+        $data[$client] = $filters;
+        UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($data));
+    }
+
+    public function addFilter($client, $column, $compare, $value)
+    {
+        $filters = self::getFilters($GLOBALS['user']->id);
+        $filters[$client][] = array(
+            'column' => $column,
+            'compare' => $compare,
+            'value' => $value
+        );
+        UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($filters));
     }
 
 }

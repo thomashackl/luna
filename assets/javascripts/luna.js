@@ -34,15 +34,22 @@
         },
 
         getFilterNames: function() {
+            var newFilterEl = $('#luna-newfilter');
+            var nameEl = $('#luna-newfilter-name');
+            var configEl = $('#luna-newfilter-config');
             $.ajax({
-                url: $('#luna-newfilter').data('filternames-url'),
+                url: newFilterEl.data('filternames-url'),
                 dataType: 'json',
                 beforeSend: function (xhr, settings) {
-                    $('#luna-newfilter-name').html(
+                    newFilterEl.removeClass('hidden-js');
+                    nameEl.html(
                         $('<img>').
-                            attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
+                            attr('width', 16).
+                            attr('height', 16).
+                            attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
                 },
                 success: function (json) {
+                    newFilterEl.addClass('newfilter');
                     var select = $('<select>').
                         attr('name', 'column').
                         on('change', function() {
@@ -51,10 +58,10 @@
                                 data: { column: $('select[name="column"] option:selected').val() },
                                 dataType: 'json',
                                 beforeSend: function (xhr, settings) {
-                                    $('#luna-newfilter-config').html(
-                                        $('#luna-newfilter-config').html() +
-                                        $('<img>').
-                                        attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
+                                    configEl.html($('<img>').
+                                        attr('width', 16).
+                                        attr('height', 16).
+                                        attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
                                 },
                                 success: function (json) {
                                     var compare = json.compare;
@@ -77,7 +84,10 @@
                                         valSelect.append(valOption);
                                     });
 
-                                    $('#luna-newfilter-config').html(compSelect + valSelect);
+                                    configEl.html('');
+                                    configEl.append(compSelect);
+                                    configEl.append(valSelect);
+                                    $('button[name="apply"]').removeClass('hidden-js');
                                 }
                             });
                         });
@@ -87,7 +97,35 @@
                             html(value);
                         select.append(option);
                     });
-                    $('#luna-newfilter').html(select);
+                    nameEl.html(select);
+                }
+            });
+        },
+
+        removeFilter: function(element) {
+            $(element).parent().remove();
+            var filtersEl = $('#luna-applied-filters');
+            filtersEl.data('filter-count', filtersEl.data('filter-count') - 1);
+            if (filtersEl.children('span.luna-filter').length == 0) {
+                filtersEl.addClass('hidden-js');
+            }
+            STUDIP.Luna.loadPersons();
+        },
+
+        loadPersons: function() {
+            var dataEl = $('#luna-data');
+            $.ajax({
+                url: dataEl.data('update-url'),
+                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                dataType: 'html',
+                beforeSend: function (xhr, settings) {
+                    dataEl.html($('<img>').
+                        attr('width', 64).
+                        attr('height', 64).
+                        attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function (html) {
+                    dataEl.html(html);
                 }
             });
         }
@@ -95,10 +133,15 @@
     };
 
     $(document).ready(function () {
-        $('#luna-add-filter').on('click', function(event) {
+        $('#luna-add-filter').on('click', function() {
             STUDIP.Luna.getFilterNames();
             return false;
         });
+        $('.luna-remove-filter').on('click', function() {
+            STUDIP.Luna.removeFilter(this);
+            return false;
+        });
+        STUDIP.Luna.loadPersons();
     });
 
 }(jQuery, STUDIP));

@@ -64,4 +64,25 @@ class LunaClient extends SimpleORMap
         UserConfig::get($GLOBALS['user']->id)->store('LUNA_CURRENT_CLIENT', $client_id);
     }
 
+    public function getFilteredUsers()
+    {
+        $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
+        $all = LunaUserFilter::getFilterFields();
+        if ($filters) {
+            $sql = "SELECT `luna_users`.`user_id` FROM ";
+            $where = array();
+            foreach ($filters as $filter) {
+                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
+                    $filter['value'] = '%' . $filter['value'] . '%';
+                }
+                $where[] = "`" . $all[$filter['column']]['table'] . "`." .
+                    "`" . $filter['column'] . "`" .
+                    $filter['compare'] .
+                    "'" . $filter['value'] . "'";
+            }
+        }
+        return LunaUser::findBySQL("`client_id` = ?" . ($filters ? " AND ".implode(" AND ", $where) : "") . " ORDER BY `lastname`, `firstname`",
+            array($this->id));
+    }
+
 }

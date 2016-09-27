@@ -14,5 +14,6 @@ section#luna-data-filters div#luna-applied-filters {
 section#luna-data-filters div#luna-applied-filters span.luna-filter {
   border: 1px solid #a5adb2;
   background-color: #e1e4e5;
+  margin-right: 5px;
   padding: 5px;
 }

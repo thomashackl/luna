@@ -1,4 +1,3 @@
-
 <?php
 /**
  * LunaCompany.php
@@ -45,6 +44,21 @@ class LunaCompany extends SimpleORMap
         );
 
         parent::configure($config);
+    }
+
+    public static function getDistinctValues($client, $field)
+    {
+        $filters = LunaUserFilter::getFilterFields();
+        $column = $filters[$field]['ids'];
+        $values = $filters[$field]['dbvalues'];
+        $stmt = DBManager::get()->prepare(
+            "SELECT DISTINCT :ids AS id, :values AS value FROM `luna_companies`
+                WHERE `client_id` = :client ORDER BY :values");
+        $stmt->bindParam(':client', $client);
+        $stmt->bindParam(':ids', $column, StudipPDO::PARAM_COLUMN);
+        $stmt->bindParam(':values', $values, StudipPDO::PARAM_COLUMN);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

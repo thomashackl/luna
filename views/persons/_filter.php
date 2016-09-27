@@ -7,7 +7,8 @@
             $controller->url_for('persons/get_filternames'), array('id' => 'luna-add-filter')) ?>
         <div id="luna-newfilter" class="hidden-js"
                 data-filternames-url="<?= $controller->url_for('persons/get_filternames') ?>"
-                data-filterdata-url="<?= $controller->url_for('persons/get_filterdata') ?>">
+                data-filterdata-url="<?= $controller->url_for('persons/get_filterdata') ?>"
+                data-pleasechoose="<?= dgettext('luna', 'bitte auswählen') ?>">
             <span id="luna-newfilter-name"></span>
             <span id="luna-newfilter-config"></span>
             <?= Studip\Button::create(_('Übernehmen'), 'apply', array('class' => 'hidden-js')) ?>

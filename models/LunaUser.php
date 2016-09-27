@@ -1,4 +1,3 @@
-
 <?php
 /**
  * LunaUser.php
@@ -97,11 +96,17 @@ class LunaUser extends SimpleORMap
 
     public static function getDistinctValues($client, $field)
     {
-        $stmt = DBManager::get()->prepare("SELECT DISTINCT :field FROM `luna_users` WHERE `client_id` = :client ORDER BY :field");
+        $filters = LunaUserFilter::getFilterFields();
+        $column = $filters[$field]['ids'];
+        $values = $filters[$field]['dbvalues'];
+        $stmt = DBManager::get()->prepare(
+            "SELECT DISTINCT :ids AS id, :values AS value FROM `luna_users`
+                WHERE `client_id` = :client ORDER BY :values");
         $stmt->bindParam(':client', $client);
-        $stmt->bindParam(':field', $field, StudipPDO::PARAM_COLUMN);
+        $stmt->bindParam(':ids', $column, StudipPDO::PARAM_COLUMN);
+        $stmt->bindParam(':values', $values, StudipPDO::PARAM_COLUMN);
         $stmt->execute();
-        return $stmt->fetchFirst(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

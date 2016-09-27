@@ -51,11 +51,11 @@
                 success: function (json) {
                     newFilterEl.addClass('newfilter');
                     var select = $('<select>').
-                        attr('name', 'column').
+                        attr('name', 'field').
                         on('change', function() {
                             $.ajax({
                                 url: $('#luna-newfilter').data('filterdata-url'),
-                                data: { column: $('select[name="column"] option:selected').val() },
+                                data: { field: $('select[name="field"] option:selected').val() },
                                 dataType: 'json',
                                 beforeSend: function (xhr, settings) {
                                     configEl.html($('<img>').
@@ -91,6 +91,10 @@
                                 }
                             });
                         });
+                    var option = $('<option>').
+                        attr('value', '').
+                        html('-- ' + newFilterEl.data('pleasechoose') + ' --');
+                    select.append(option);
                     $.each(json, function(index, value) {
                         var option = $('<option>').
                             attr('value', index).

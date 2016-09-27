@@ -69,7 +69,7 @@ class PersonsController extends AuthenticatedController {
         PageLayout::addScript($js);
 
         if (Request::submitted('apply')) {
-            LunaUserFilter::addFilter($this->client->id, Request::get('column'),
+            LunaUserFilter::addFilter($this->client->id, Request::get('field'),
                 Request::get('compare'), Request::get('value'));
         }
 
@@ -279,7 +279,7 @@ class PersonsController extends AuthenticatedController {
 
     public function get_filterdata_action()
     {
-        $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues($this->client->id, Request::get('column'))));
+        $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues($this->client->id, Request::get('field'))));
     }
 
     // customized #url_for for plugins

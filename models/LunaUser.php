@@ -111,7 +111,8 @@ class LunaUser extends SimpleORMap
 
     public static function getDisplayValue($id, $field = 'name')
     {
-        return self::find($id)->$field;
+        $method = 'findOneBy' . $field;
+        return self::$method($id)->$field;
     }
 
 }

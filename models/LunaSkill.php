@@ -52,4 +52,9 @@ class LunaSkill extends SimpleORMap
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getDisplayValue($id, $field = 'name')
+    {
+        return self::find($id)->$field;
+    }
+
 }

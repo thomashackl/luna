@@ -73,6 +73,13 @@ class LunaUserFilter
                 'ids' => 'company_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaCompany'
+            ),
+            'skill' => array(
+                'name' => dgettext('luna', 'Kompetenz'),
+                'table' => 'luna_user_skills',
+                'ids' => 'skill_id',
+                'dbvalues' => 'name',
+                'class' => 'LunaSkill'
             )
         );
     }

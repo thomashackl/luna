@@ -37,6 +37,11 @@ class SkillsController extends AuthenticatedController {
         }
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/roles-sidebar.png');
+
+        $this->client = LunaClient::getCurrentClient();
+        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
+            $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
+        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
     }
 
     /**

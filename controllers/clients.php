@@ -120,6 +120,7 @@ class ClientsController extends AuthenticatedController {
             $client->skills = new SimpleORMapCollection();
         }
         $client->name = Request::get('name');
+        $client->sender_address = Request::get('sender_address');
 
         if ($client->store()) {
             PageLayout::postSuccess(sprintf(

@@ -15,6 +15,7 @@
  * @property string client_id database column
  * @property string id alias column for client_id
  * @property string name database column
+ * @property string sender_address database column
  * @property string mkdate database column
  * @property string chdate database column
  * @property LuneClientUser beneficiaries has_and_belongs_to_many LunaClientUser

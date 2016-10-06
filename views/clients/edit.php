@@ -15,6 +15,15 @@
                    value="<?= htmlReady($client->name) ?>" required>
         </label>
     </section>
+    <section>
+        <label>
+            <span class="required">
+                <?= dgettext('luna', 'Absender für E-Mails') ?>
+            </span>
+            <input type="text" name="sender_address" size="75" maxlength="255"
+                   value="<?= htmlReady($client->sender_address) ?>" required>
+        </label>
+    </section>
     <footer data-dialog-button>
         <?= CSRFProtection::tokenTag() ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Speichern'), 'store') ?>

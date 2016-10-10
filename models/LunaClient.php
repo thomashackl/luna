@@ -69,27 +69,29 @@ class LunaClient extends SimpleORMap
     {
         $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
         $all = LunaUserFilter::getFilterFields();
-        $sql = "SELECT DISTINCT `luna_users`.`user_id` FROM `luna_users`";
+        $sql = "SELECT DISTINCT u.`user_id` FROM `luna_users` u";
         if ($filters) {
             $tables = array();
             $where = array();
+            $counter = 0;
             foreach ($filters as $filter) {
                 if ($all[$filter['column']]['table'] != 'luna_users') {
-                    $tables[$all[$filter['column']]['table']] = true;
+                    $counter++;
+                    $tables['t' . $counter] = $all[$filter['column']]['table'];
                 }
                 if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
                     $filter['value'] = '%' . $filter['value'] . '%';
                 }
-                $where[] = "`" . $all[$filter['column']]['table'] . "`." .
-                    "`" . $all[$filter['column']]['ids'] . "`" .
+                $where[] = "t" . $counter .
+                    ".`" . $all[$filter['column']]['ids'] . "`" .
                     $filter['compare'] .
                     "'" . $filter['value'] . "'";
             }
-            foreach (array_keys($tables) as $table) {
-                $sql .= " JOIN `".$table."` USING (`user_id`)";
+            foreach ($tables as $alias => $table) {
+                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
             }
         }
-        $sql .= " WHERE `luna_users`.`client_id` = ?" .
+        $sql .= " WHERE u.`client_id` = ?" .
             ($filters ? " AND ".implode(" AND ", $where) : "");
         $ids = DBManager::get()->fetchFirst($sql, array($this->id));
         return SimpleORMapCollection::createFromArray(LunaUser::findMany($ids))->orderBy('lastname firstname');

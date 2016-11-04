@@ -65,6 +65,14 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
+        $config['has_and_belongs_to_many']['tags'] = array(
+            'class_name' => 'LunaTag',
+            'thru_table' => 'luna_user_tag',
+            'thru_key' => 'user_id',
+            'thru_assoc_key' => 'tag_id',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
 
         parent::configure($config);
     }

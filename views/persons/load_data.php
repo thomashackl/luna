@@ -16,13 +16,13 @@
             <col width="25">
         </colgroup>
         <thead>
-        <tr>
-            <th><?= dgettext('luna', 'Name') ?></th>
-            <th><?= dgettext('luna', 'Adresse') ?></th>
-            <th><?= dgettext('luna', 'Firma') ?></th>
-            <th><?= dgettext('luna', 'Kompetenzen') ?></th>
-            <th><?= dgettext('luna', 'Aktionen') ?></th>
-        </tr>
+            <tr>
+                <th><?= dgettext('luna', 'Name') ?></th>
+                <th><?= dgettext('luna', 'Adresse') ?></th>
+                <th><?= dgettext('luna', 'Firma') ?></th>
+                <th><?= dgettext('luna', 'Kompetenzen') ?></th>
+                <th><?= dgettext('luna', 'Aktionen') ?></th>
+            </tr>
         </thead>
         <tbody>
         <?php foreach ($persons as $p) : ?>
@@ -65,6 +65,25 @@
             </tr>
         <?php endforeach ?>
         </tbody>
+        <?php if ($pagecount > 1) : ?>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <?= dgettext('luna', 'Seite ') ?>
+                        <?php for ($i = 1 ; $i <= $pagecount ; $i++) : ?>
+                            <div class="luna-pagination<?= $i == $activepage ? ' active' : ''?>">
+                                <a href="" onclick="return STUDIP.Luna.loadPersons(<?= $i-1 ?>)">
+                                    <?= $i ?>
+                                </a>
+                            </div>
+                            <?php if ($i < $pagecount) : ?>
+                                |
+                            <?php endif ?>
+                        <?php endfor ?>
+                    </td>
+                </tr>
+            </tfoot>
+        <?php endif ?>
     </table>
 <?php else : ?>
     <h1>

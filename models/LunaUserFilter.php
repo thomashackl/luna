@@ -80,6 +80,13 @@ class LunaUserFilter
                 'ids' => 'skill_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaSkill'
+            ),
+            'tag' => array(
+                'name' => dgettext('luna', 'Schlagwort'),
+                'table' => 'luna_user_tag',
+                'ids' => 'tag_id',
+                'dbvalues' => 'name',
+                'class' => 'LunaTag'
             )
         );
     }
@@ -130,7 +137,7 @@ class LunaUserFilter
     {
         $data = self::getFilters($GLOBALS['user']->id);
         $data[$client] = $filters;
-        UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($data));
+        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($data));
     }
 
     public function addFilter($client, $column, $compare, $value)
@@ -141,7 +148,27 @@ class LunaUserFilter
             'compare' => $compare,
             'value' => $value
         );
-        UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($filters));
+        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($filters));
+    }
+
+    public function getFilterPresets($client)
+    {
+        $presets = UserConfig::get($GLOBALS['user']->id)->LUNA_USER_FILTER_PRESETS;
+        if ($presets) {
+            $decoded = studip_json_decode($presets);
+            $presets = $decoded[$client] ?: array();
+        } else {
+            $presets = array();
+        }
+        return $presets;
+    }
+
+    public function saveFilterPreset($client, $name)
+    {
+        $config = UserConfig::get($GLOBALS['user']->id);
+        $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : array();
+        $presets[$client][$name] = self::getFilters($GLOBALS['user']->id, $client);
+        return $config->store('LUNA_USER_FILTER_PRESETS', studip_json_encode($presets));
     }
 
 }

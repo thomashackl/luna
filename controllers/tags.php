@@ -1,8 +1,8 @@
 <?php
 /**
- * skills.php
+ * tags.php
  *
- * Shows all registered skills.
+ * Shows all registered tags.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -14,7 +14,7 @@
  * @category    Luna
  */
 
-class SkillsController extends AuthenticatedController {
+class TagsController extends AuthenticatedController {
 
     /**
      * Actions and settings taking place before every page call.
@@ -36,7 +36,7 @@ class SkillsController extends AuthenticatedController {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
         $this->sidebar = Sidebar::get();
-        $this->sidebar->setImage('sidebar/roles-sidebar.png');
+        $this->sidebar->setImage('sidebar/literature-sidebar.png');
 
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
@@ -49,19 +49,19 @@ class SkillsController extends AuthenticatedController {
      */
     public function index_action()
     {
-        Navigation::activateItem('/tools/luna/skills');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Kompetenzen'));
+        Navigation::activateItem('/tools/luna/tags');
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Schlagwörter'));
 
-        $this->skills = $this->client->skills;
-        if ($this->skills) {
-            $this->skills->orderBy('name');
+        $this->tags = $this->client->tags;
+        if ($this->tags) {
+            $this->tags->orderBy('name');
         }
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Kompetenz hinzufügen'),
-                $this->url_for('skills/edit'),
-                Icon::create('roles+add', 'clickable'))->asDialog('size=auto');
+            $actions->addLink(dgettext('luna', 'Schlagwort hinzufügen'),
+                $this->url_for('tags/edit'),
+                Icon::create('tag+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
         }
     }
@@ -69,31 +69,31 @@ class SkillsController extends AuthenticatedController {
     /**
      * Create a new or edit an existing skill.
      *
-     * @param string $id id of the skill to edit, empty if new skill
+     * @param string $id id of the tag to edit, empty if new tag
      */
     public function edit_action($id = '')
     {
-        Navigation::activateItem('/tools/luna/skills');
+        Navigation::activateItem('/tools/luna/tags');
 
         if ($id) {
-            $this->skill = LunaSkill::find($id);
+            $this->tag = LunaTag::find($id);
         } else {
-            $this->skill = new LunaSkill();
+            $this->tag = new LunaTag();
         }
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' .
-            $id ?
-            sprintf(dgettext('luna', 'Kompetenz %s bearbeiten'), $this->skill->name) :
-            dgettext('luna', 'Neue Kompetenz anlegen'));
+        $id ?
+            sprintf(dgettext('luna', 'Schlagwort %s bearbeiten'), $this->tag->name) :
+            dgettext('luna', 'Neues Schlagwort anlegen'));
 
         $views = new ViewsWidget();
         $views->addLink(dgettext('luna', 'Übersicht'),
-            $this->url_for('skills'),
-            Icon::create('roles', 'clickable'))->setActive(false);
-        $views->addLink($id ? dgettext('luna', 'Kompetenz bearbeiten') :
-            dgettext('luna', 'Neue Kompetenz anlegen'),
-            $this->url_for('skills/edit', $id),
-            Icon::create('roles+add', 'clickable'))->setActive(true);
+            $this->url_for('tags'),
+            Icon::create('tag', 'clickable'))->setActive(false);
+        $views->addLink($id ? dgettext('luna', 'Schlagwort bearbeiten') :
+            dgettext('luna', 'Neues Schlagwort anlegen'),
+            $this->url_for('tags/edit', $id),
+            Icon::create('tag+add', 'clickable'))->setActive(true);
         $this->sidebar->addWidget($views);
 
         $this->flash->keep();
@@ -142,16 +142,27 @@ class SkillsController extends AuthenticatedController {
 
     public function delete_action($id)
     {
-        $skill = LunaSkill::find($id);
-        $name = $skill->name;
+        $tag = LunaTag::find($id);
+        $name = $tag->name;
 
-        if ($skill->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Kompetenz "%s" wurde gelöscht.'), $name));
+        if ($tag->delete()) {
+            PageLayout::postSuccess(sprintf(dgettext('luna', 'Das Schlagwort "%s" wurde gelöscht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', 'Die Kompetenz "%s" konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', 'Das Schlagwort "%s" konnte nicht gelöscht werden.'), $name));
         }
 
-        $this->relocate('skills');
+        $this->relocate('tags');
+    }
+
+    public function search_action()
+    {
+        $results = LunaTag::findBySQL("`name` LIKE ? ORDER BY `name`", array('%' . Request::quoted('term') . '%'));
+        if (count($results) > 0) {
+            $tags = array_map(function($t) { return $t->name; }, $results);
+        } else {
+            $tags = array();
+        }
+        $this->render_text(studip_json_encode($tags));
     }
 
     // customized #url_for for plugins

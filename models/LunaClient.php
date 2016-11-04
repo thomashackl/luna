@@ -22,6 +22,7 @@
  * @property LunaUser users has_many LunaUser
  * @property LunaCompany companies has_many LunaCompany
  * @property LunaSkill skills has_many LunaSkill
+ * @property LunaTags tags has_many LunaTag
  */
 class LunaClient extends SimpleORMap
 {
@@ -51,6 +52,11 @@ class LunaClient extends SimpleORMap
             'assoc_foreign_key' => 'client_id',
             'on_delete' => 'delete'
         );
+        $config['has_many']['tags'] = array(
+            'class_name' => 'LunaTag',
+            'assoc_foreign_key' => 'client_id',
+            'on_delete' => 'delete'
+        );
 
         parent::configure($config);
     }
@@ -65,7 +71,7 @@ class LunaClient extends SimpleORMap
         UserConfig::get($GLOBALS['user']->id)->store('LUNA_CURRENT_CLIENT', $client_id);
     }
 
-    public function getFilteredUsers()
+    public function getFilteredUsers($start = 0)
     {
         $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
         $all = LunaUserFilter::getFilterFields();
@@ -77,12 +83,15 @@ class LunaClient extends SimpleORMap
             foreach ($filters as $filter) {
                 if ($all[$filter['column']]['table'] != 'luna_users') {
                     $counter++;
+                    $alias = 't' . $counter;
                     $tables['t' . $counter] = $all[$filter['column']]['table'];
+                } else {
+                    $alias = 'u';
                 }
                 if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
                     $filter['value'] = '%' . $filter['value'] . '%';
                 }
-                $where[] = "t" . $counter .
+                $where[] = $alias .
                     ".`" . $all[$filter['column']]['ids'] . "`" .
                     $filter['compare'] .
                     "'" . $filter['value'] . "'";
@@ -93,8 +102,60 @@ class LunaClient extends SimpleORMap
         }
         $sql .= " WHERE u.`client_id` = ?" .
             ($filters ? " AND ".implode(" AND ", $where) : "");
-        $ids = DBManager::get()->fetchFirst($sql, array($this->id));
+        $sql .= " ORDER BY u.`lastname`, u.`firstname`";
+        $sql .= " LIMIT ?, ?";
+        $count_per_page = $this->getListMaxEntries();
+        $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
         return SimpleORMapCollection::createFromArray(LunaUser::findMany($ids))->orderBy('lastname firstname');
+    }
+
+    public function getFilteredUsersCount()
+    {
+        $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
+        $all = LunaUserFilter::getFilterFields();
+        $sql = "SELECT COUNT(DISTINCT u.`user_id`) FROM `luna_users` u";
+        if ($filters) {
+            $tables = array();
+            $where = array();
+            $counter = 0;
+            foreach ($filters as $filter) {
+                if ($all[$filter['column']]['table'] != 'luna_users') {
+                    $counter++;
+                    $alias = 't' . $counter;
+                    $tables['t' . $counter] = $all[$filter['column']]['table'];
+                } else {
+                    $alias = 'u';
+                }
+                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
+                    $filter['value'] = '%' . $filter['value'] . '%';
+                }
+                $where[] = $alias .
+                    ".`" . $all[$filter['column']]['ids'] . "`" .
+                    $filter['compare'] .
+                    "'" . $filter['value'] . "'";
+            }
+            foreach ($tables as $alias => $table) {
+                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
+            }
+        }
+        $sql .= " WHERE u.`client_id` = ?" .
+            ($filters ? " AND ".implode(" AND ", $where) : "");
+        $data = DBManager::get()->fetchFirst($sql, array($this->id));
+        return $data[0];
+    }
+
+    public function getListMaxEntries()
+    {
+        $counts = json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_SHOW_USER_COUNT);
+        return $counts[$this->id] ?: 50;
+    }
+
+    public function setListMaxEntries($count)
+    {
+        $config = UserConfig::get($GLOBALS['user']->id);
+        $counts = $config->LUNA_SHOW_USER_COUNT ? studip_json_decode($config->LUNA_SHOW_USER_COUNT) : array();
+        $counts[$this->id] = $count;
+        return $config->store('LUNA_SHOW_USER_COUNT', studip_json_encode($counts));
     }
 
 }

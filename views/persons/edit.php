@@ -188,6 +188,34 @@
     <?php endif ?>
     <fieldset>
         <legend>
+            <?= dgettext('luna', 'Schlagworte') ?>
+        </legend>
+        <section>
+            <label>
+                <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
+                <br>
+                <input type="text" name="tag" size="40" class="luna-new-tag" data-available-tags="<?= $controller->url_for('tags/search') ?>">
+                <a class="luna-tag-add" href="">
+                    <?= Icon::create('add', 'clickable')->asImg(24) ?>
+                </a>
+            </label>
+            <div id="luna-person-tags">
+                <?php if ($person->tags) : ?>
+                    <?php foreach ($person->tags as $tag) : ?>
+                        <div class="luna-tag" id="luna-tag-<?= $tag->name ?>">
+                            <?= htmlReady($tag->name) ?>
+                            <input type="hidden" name="tags[]" value="<?= htmlReady($tag->name) ?>">
+                            <a class="luna-tag-remove" href="">
+                                <?= Icon::create('trash', 'clickable')->asImg() ?>
+                            </a>
+                        </div>
+                    <?php endforeach ?>
+                <?php endif ?>
+            </div>
+        </section>
+    </fieldset>
+    <fieldset>
+        <legend>
             <?= dgettext('luna', 'Weitere Daten') ?>
         </legend>
         <section>

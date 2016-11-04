@@ -1,7 +1,22 @@
 <form action="" method="post">
-    <head>
+    <header>
         <h1><?= dgettext('luna', 'Daten filtern') ?></h1>
-    </head>
+    </header>
+    <?php if (count($presets) > 0) : ?>
+        <section>
+            <label>
+                <?= dgettext('luna', 'Eine vorhandene Suchvorlage laden') ?>
+                <br>
+                <select name="preset" id="luna-userfilter-preset" data-update-url="<?= $controller->url_for('persons/load_preset') ?>">
+                    <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
+                    <?php foreach ($presets as $name => $filters) : ?>
+                        <option value="<?= htmlReady($name) ?>"><?= htmlReady($name) ?></option>
+                    <?php endforeach ?>
+                </select>
+            </label>
+        </section>
+        <?= dgettext('luna', 'oder') ?>
+    <?php endif ?>
     <section id="luna-data-filters">
         <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
             $controller->url_for('persons/get_filternames'), array('id' => 'luna-add-filter')) ?>
@@ -31,4 +46,10 @@
             <?php endif ?>
         </div>
     </section>
+    <?php if (count($filters) > 0) : ?>
+        <section>
+            <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
+                $controller->url_for('persons/filter_preset'), array('data-dialog' => 'size=auto')) ?>
+        </section>
+    <?php endif ?>
 </form>

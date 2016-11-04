@@ -76,6 +76,9 @@ class PersonsController extends AuthenticatedController {
         $this->allfilters = LunaUserFilter::getFilterFields();
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
 
+        $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
+
+        $this->personcount = $this->client->getFilteredUsersCount();
         $this->persons = $this->client->getFilteredUsers();
 
         if ($this->hasWriteAccess) {
@@ -87,14 +90,24 @@ class PersonsController extends AuthenticatedController {
         }
     }
 
-    public function load_data_action()
+    public function load_data_action($start = 0)
     {
         LunaUserFilter::setFilters($this->client->id, Request::getArray('filters'));
 
         $this->allfilters = LunaUserFilter::getFilterFields();
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
 
-        $this->persons = $this->client->getFilteredUsers();
+        $this->persons = $this->client->getFilteredUsers($start);
+        $this->personcount = $this->client->getFilteredUsersCount();
+        $this->pagecount = ceil($this->personcount / $this->client->getListMaxEntries());
+        $this->activepage = $start + 1;
+    }
+
+    public function load_preset_action($name)
+    {
+        $presets = LunaUserFilter::getFilterPresets($this->client->id);
+        LunaUserFilter::setFilters($this->client->id, $presets[$name]);
+        $this->render_text(studip_json_encode($presets[$name]));
     }
 
     /**
@@ -148,6 +161,10 @@ class PersonsController extends AuthenticatedController {
         if ($this->companies) {
             $this->companies->orderBy('name');
         }
+        $this->tags = $this->client->tags;
+        if ($this->tags) {
+            $this->tags->orderBy('name');
+        }
 
         $title = $this->person->isNew() ?
             dgettext('luna', 'Neue Person anlegen') :
@@ -195,12 +212,30 @@ class PersonsController extends AuthenticatedController {
             $user->fax = Request::get('fax');
             $user->homepage = Request::get('homepage');
 
-            $user->skills = SimpleORMapCollection::createFromArray(LunaSkill::findMany(Request::getArray('skills')))->orderBy('name');
+            $user->skills = SimpleORMapCollection::createFromArray(LunaSkill::findMany(Request::getArray('skills')));
 
             $user->companies = new SimpleORMapCollection();
             if (Request::option('company')) {
                 $user->companies->append(LunaCompany::find(Request::option('company')));
             }
+
+            $tags = array();
+            foreach (Request::getArray('tags') as $tag) {
+                $data = $this->client->tags->findOneBy('name', trim($tag));
+                if (!$data) {
+                    $data = new LunaTag();
+                    $data->client_id = $this->client->id;
+                    $data->name = trim($tag);
+                }
+                if (!$data->users) {
+                    $data->users = array($user);
+                } else if (!$data->users->findByUser_id($user->user_id)) {
+                    $data->users->append($user);
+                }
+                $data->store();
+                $tags[] = $data;
+            }
+            $user->tags = SimpleORMapCollection::createFromArray($tags);
 
             $user->info->status = Request::get('status');
             $user->info->graduation = Request::get('graduation');
@@ -280,6 +315,26 @@ class PersonsController extends AuthenticatedController {
     public function get_filterdata_action()
     {
         $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues($this->client->id, Request::get('field'))));
+    }
+
+    public function filter_preset_action()
+    {
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
+    }
+
+    public function save_filter_preset_action()
+    {
+        CSRFProtection::verifyUnsafeRequest();
+        if (LunaUserFilter::saveFilterPreset($this->client->id, Request::quoted('name'))) {
+            PageLayout::postSuccess(sprintf(
+                dgettext('luna', 'Die Suchvorlage %s wurde gespeichert.'),
+                Request::quoted('name')));
+        } else {
+            PageLayout::postError(sprintf(
+                dgettext('luna', 'Die Suchvorlage %s konnte nicht gespeichert werden.'),
+                Request::quoted('name')));
+        }
+        $this->relocate('persons');
     }
 
     // customized #url_for for plugins

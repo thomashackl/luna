@@ -1,7 +1,23 @@
+@import url('../../../studip-passau/public/assets/stylesheets/mixins/colors.less');
+
 table.default {
   tr {
     td {
       vertical-align: top;
+    }
+  }
+
+  tfoot {
+    div.luna-pagination {
+      background-color: @content-color-40;
+      display: inline-block;
+      padding: 3px;
+      text-align: center;
+      width: 20px;
+
+      &.active, &:hover {
+        background-color: @content-color-60;
+      }
     }
   }
 }
@@ -9,22 +25,52 @@ table.default {
 section#luna-data-filters {
 
   div#luna-newfilter {
-    border: 1px solid #a5adb2;
-    background-color: #e1e4e5;
+    border: 1px solid @light-gray-color-60;
+    background-color: @light-gray-color-20;
     padding: 5px;
   }
 
   div#luna-applied-filters {
-    border: 1px solid #a5adb2;
+    border: 1px solid @light-gray-color-60;
     margin-bottom: 10px;
     padding: 10px;
 
     span.luna-filter {
-      border: 1px solid #a5adb2;
-      background-color: #e1e4e5;
+      border: 1px solid @light-gray-color-60;
+      background-color: @light-gray-color-20;
       margin-right: 5px;
       padding: 5px;
     }
   }
 
+}
+
+form.default {
+  section {
+    input.luna-new-tag {
+      display: inline !important;
+      max-width: 16em;
+    }
+
+    a.luna-tag-add {
+      img, svg {
+        position: relative;
+        top: 10px;
+      }
+    }
+
+    div#luna-person-tags {
+      margin-top: 10px;
+
+      div.luna-tag {
+        border: 1px solid @light-gray-color-60;
+        background-color: @light-gray-color-20;
+        display: inline-block;
+        margin-bottom: 2px;
+        padding: 5px;
+        padding-right: 0;
+      }
+    }
+
+  }
 }

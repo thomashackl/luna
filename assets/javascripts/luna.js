@@ -116,10 +116,35 @@
             STUDIP.Luna.loadPersons();
         },
 
-        loadPersons: function() {
-            var dataEl = $('#luna-data');
+        loadFilterPreset: function() {
+            var element = $('#luna-userfilter-presets');
             $.ajax({
-                url: dataEl.data('update-url'),
+                url: element.data('update-url'),
+                data: {
+                    preset: element.children('option:selected').attr('value')
+                },
+                dataType: 'json',
+                beforeSend: function (xhr, settings) {
+                    $('div#luna-applied-filters').html($('<img>').
+                        attr('width', 32).
+                        attr('height', 32).
+                        attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function (data) {
+                    STUDIP.Luna.loadPersons();
+                }
+            });
+        },
+
+        loadPersons: function(startPage) {
+            var dataEl = $('#luna-data');
+            var fullUrl = $(dataEl).data('update-url').split('?');
+            var url = fullUrl[0] + '/' + startPage;
+            if (fullUrl[1] != '') {
+                url += '?' + fullUrl[1];
+            }
+            $.ajax({
+                url: url,
                 data: $('input[type="hidden"][name*="filters["]').serialize(),
                 dataType: 'html',
                 beforeSend: function (xhr, settings) {
@@ -132,6 +157,42 @@
                     dataEl.html(html);
                 }
             });
+            return false;
+        },
+
+        addTag: function(tag) {
+            var div = $('div#luna-person-tags');
+            if (div.children('div#luna-tag-' + tag).length == 0) {
+                var tagDiv = $('<div>').
+                    addClass('luna-tag').
+                    attr('id', 'luna-tag-' + tag).
+                    html(tag);
+                var input = $('<input>').
+                    attr('type', 'hidden').
+                    attr('name', 'tags[]').
+                    attr('value', tag);
+                var a = $('<a>').
+                    attr('href', '').
+                    addClass('luna-tag-remove').
+                    on('click', function() {
+                        STUDIP.Luna.removeTag(this);
+                        return false;
+                    });
+                var img = $('<img>').
+                    attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
+                    attr('width', '16').
+                    attr('height', '16').
+                    addClass('icon-role-clickable').
+                    addClass('icon-role-trash');
+                a.append(img);
+                tagDiv.append(input);
+                tagDiv.append(a);
+                div.append(tagDiv);
+            }
+        },
+
+        removeTag: function(element) {
+            $(element).parent().remove();
         }
 
     };
@@ -145,7 +206,39 @@
             STUDIP.Luna.removeFilter(this);
             return false;
         });
-        STUDIP.Luna.loadPersons();
+        $('#luna-userfilter-preset').on('change', function() {
+            STUDIP.Luna.loadFilterPreset();
+            return false;
+        });
+        $(document).on('dialog-open', function () {
+            $('a.luna-tag-remove').on('click', function() {
+                STUDIP.Luna.removeTag(this);
+                return false;
+            });
+            var tagInput = $('input[name="tag"]');
+            $('a.luna-tag-add').on('click', function() {
+                STUDIP.Luna.addTag(tagInput.val());
+                tagInput.val('');
+                return false;
+            });
+            tagInput.autocomplete({
+                source: tagInput.data('available-tags'),
+                minLength: 2,
+                select: function(event, ui) {
+                    STUDIP.Luna.addTag(ui.item.value);
+                    tagInput.val('');
+                }
+            });
+            tagInput.on('keypress', function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    event.preventDefault();
+                    STUDIP.Luna.addTag(tagInput.val());
+                    tagInput.val('');
+                }
+            });
+        });
+        STUDIP.Luna.loadPersons(0);
     });
 
 }(jQuery, STUDIP));

@@ -193,24 +193,60 @@
 
         removeTag: function(element) {
             $(element).parent().remove();
-        }
+        },
 
-    };
+        remove_attachment: function () {
+            jQuery.ajax({
+                url: STUDIP.ABSOLUTE_URI_STUDIP + "dispatch.php/messages/delete_attachment",
+                data: {
+                    'document_id' : jQuery(this).closest("li").data('document_id'),
+                    'message_id' : jQuery(this).closest("form").find('input[name=message_id]').val()
+                },
+                type: "POST",
+            });
+            jQuery(this).closest("li").fadeOut(300, function() { jQuery(this).remove(); });
+        },
 
-    $(document).ready(function () {
-        $('#luna-add-filter').on('click', function() {
-            STUDIP.Luna.getFilterNames();
-            return false;
-        });
-        $('.luna-remove-filter').on('click', function() {
-            STUDIP.Luna.removeFilter(this);
-            return false;
-        });
-        $('#luna-userfilter-preset').on('change', function() {
-            STUDIP.Luna.loadFilterPreset();
-            return false;
-        });
-        $(document).on('dialog-open', function () {
+        prepareFileUpload: function(input) {
+            var ul = $('ul#luna-newdocs');
+            for (var i = 0 ; i < input.files.length ; i++) {
+                var li = $('<li>');
+                var newdoc = $('<input>').
+                    attr('type', 'hidden').
+                    attr('name', 'newdocs[]').
+                    attr('value', input.files[i].name)
+                var text = $(document.createTextNode(input.files[i].name));
+                var a = $('<a>').
+                    on('click', function(event) {
+                        $(this).parent().remove();
+                    });
+                var img = $('<img>').
+                    attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
+                    attr('width', '16').
+                    attr('height', '16').
+                    addClass('icon-role-clickable').
+                    addClass('icon-role-trash');
+                ul.append(
+                    li.append(newdoc).append(text).append(
+                        a.append(img)
+                    )
+                );
+            }
+        },
+
+        init: function() {
+            $('#luna-add-filter').on('click', function() {
+                STUDIP.Luna.getFilterNames();
+                return false;
+            });
+            $('.luna-remove-filter').on('click', function() {
+                STUDIP.Luna.removeFilter(this);
+                return false;
+            });
+            $('#luna-userfilter-preset').on('change', function() {
+                STUDIP.Luna.loadFilterPreset();
+                return false;
+            });
             $('a.luna-tag-remove').on('click', function() {
                 STUDIP.Luna.removeTag(this);
                 return false;
@@ -237,8 +273,21 @@
                     tagInput.val('');
                 }
             });
+            $('input[name="docs[]"]').on('change', function(event) {
+                STUDIP.Luna.prepareFileUpload(this);
+            })
+        }
+
+    };
+
+    $(document).ready(function () {
+        STUDIP.Luna.init();
+        $(document).on('dialog-open', function () {
+            STUDIP.Luna.init();
         });
-        STUDIP.Luna.loadPersons(0);
+        if ($('div#luna-data').length > 0) {
+            STUDIP.Luna.loadPersons(0);
+        }
     });
 
 }(jQuery, STUDIP));

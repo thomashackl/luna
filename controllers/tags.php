@@ -156,7 +156,8 @@ class TagsController extends AuthenticatedController {
 
     public function search_action()
     {
-        $results = LunaTag::findBySQL("`name` LIKE ? ORDER BY `name`", array('%' . Request::quoted('term') . '%'));
+        $results = LunaTag::findBySQL("`client_id` = ?  AND `name` LIKE ? ORDER BY `name`",
+            array($this->client->id, '%' . Request::quoted('term') . '%'));
         if (count($results) > 0) {
             $tags = array_map(function($t) { return $t->name; }, $results);
         } else {

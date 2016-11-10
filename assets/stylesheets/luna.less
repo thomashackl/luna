@@ -47,9 +47,15 @@ section#luna-data-filters {
 
 form.default {
   section {
-    input.luna-new-tag {
-      display: inline !important;
-      max-width: 16em;
+    input {
+      &.luna-new-tag {
+        display: inline !important;
+        max-width: 16em;
+      }
+
+      &[name="docs[]"] {
+        display: none;
+      }
     }
 
     a.luna-tag-add {
@@ -70,6 +76,10 @@ form.default {
         padding: 5px;
         padding-right: 0;
       }
+    }
+
+    label.luna-cursor-pointer {
+      cursor: pointer;
     }
 
   }

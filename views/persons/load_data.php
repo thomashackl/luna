@@ -53,8 +53,8 @@
                 </td>
                 <td>
                     <?php if ($hasWriteAccess) : ?>
-                        <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog="size=auto">
-                            <?= Icon::create('edit', 'clickable')->asImg() ?>
+                        <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog>
+                            <?= Icon::create('info', 'clickable')->asImg() ?>
                         </a>
                         <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
                         dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">

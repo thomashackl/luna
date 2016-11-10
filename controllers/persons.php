@@ -51,6 +51,13 @@ class PersonsController extends AuthenticatedController {
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
         $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+
+        if (Studip\ENV == 'development') {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
+        } else {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
+        }
+        PageLayout::addScript($js);
     }
 
     /**
@@ -60,13 +67,6 @@ class PersonsController extends AuthenticatedController {
     {
         Navigation::activateItem('/tools/luna/persons');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
-
-        if (Studip\ENV == 'development') {
-            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
-        } else {
-            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
-        }
-        PageLayout::addScript($js);
 
         if (Request::submitted('apply')) {
             LunaUserFilter::addFilter($this->client->id, Request::get('field'),
@@ -237,6 +237,24 @@ class PersonsController extends AuthenticatedController {
             }
             $user->tags = SimpleORMapCollection::createFromArray($tags);
 
+            $docs = array();
+            foreach ($_FILES['docs']['name'] as $index => $filename) {
+                if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
+                    $file = studip_utf8decode($filename);
+                    $doc = StudipDocument::createWithFile($_FILES['docs']['tmp_name'][$index], array(
+                        'range_id' => $this->client->id,
+                        'user_id' => $GLOBALS['user']->id,
+                        'name' => $file,
+                        'filename' => $file,
+                        'filesize' => $_FILES['docs']['size'][$index]
+                    ));
+                    if ($doc) {
+                        $docs[] = $doc;
+                    }
+                }
+            }
+            $user->documents = SimpleORMapCollection::createFromArray($docs);
+
             $user->info->status = Request::get('status');
             $user->info->graduation = Request::get('graduation');
             $user->info->vita = Request::get('vita');
@@ -335,6 +353,104 @@ class PersonsController extends AuthenticatedController {
                 Request::quoted('name')));
         }
         $this->relocate('persons');
+    }
+
+    /**
+     * Deletes the given document which is assigned to the given person.
+     * @param $person_id
+     * @param $doc_id
+     */
+    public function delete_doc_action($person_id, $doc_id)
+    {
+        if ($this->hasWriteAccess) {
+            $doc = StudipDocument::find($doc_id);
+            $docname = $doc->name;
+            if ($doc->delete()) {
+                @unlink(get_upload_file_path($doc_id));
+                PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Datei %s wurde gelöscht.'), $docname));
+            }
+            $this->relocate('persons/edit', $person_id);
+        } else {
+            throw new AccessDeniedException();
+        }
+    }
+
+    /**
+     * As the normal sendfile.php has several permission checks which cannot
+     * be satisfied here, an extra download action is provided.
+     *
+     * @param $doc_id the file to download
+     */
+    public function download_action($doc_id)
+    {
+        $path = get_upload_file_path($doc_id);
+        $doc = StudipDocument::find($doc_id);
+        //replace bad charakters to avoid problems when saving the file
+        $file_name = prepareFilename(basename($doc->filename));
+        $content_type = get_mime_type($file_name);
+
+        if (Request::int('force_download') || $content_type == "application/octet-stream") {
+            $content_disposition = "attachment";
+        } else {
+            $content_disposition = "inline";
+        }
+
+        $filesize = @filesize($path);
+        $start = $end = null;
+
+        if ($filesize) {
+            header('Accept-Ranges: bytes');
+            $start = 0;
+            $end = $filesize - 1;
+            $length = $filesize;
+            if (isset($_SERVER['HTTP_RANGE'])) {
+                $c_start = $start;
+                $c_end   = $end;
+                list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+                if (strpos($range, ',') !== false) {
+                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                    header('Content-Range: bytes $start-$end/$filesize');
+                    exit;
+                }
+                if ($range == '-') {
+                    $c_start = $filesize - substr($range, 1);
+                } else {
+                    $range  = explode('-', $range);
+                    $c_start = $range[0];
+                    $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $filesize;
+                }
+                $c_end = ($c_end > $end) ? $end : $c_end;
+                if ($c_start > $c_end || $c_start > $filesize - 1 || $c_end >= $filesize) {
+                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                    header('Content-Range: bytes $start-$end/$filesize');
+                    exit;
+                }
+                $start  = $c_start;
+                $end    = $c_end;
+                $length = $end - $start + 1;
+                header('HTTP/1.1 206 Partial Content');
+            }
+            header('Content-Range: bytes ' . ($start-$end/$filesize));
+            header('Content-Length: ' . $length);
+        }
+
+        header('Expires: Mon, 12 Dec 2001 08:00:00 GMT');
+        header('Last-Modified: ' . gmdate ('D, d M Y H:i:s') . ' GMT');
+        if ($_SERVER['HTTPS'] == 'on'){
+            header('Pragma: public');
+            header('Cache-Control: private');
+        } else {
+            header('Pragma: no-cache');
+            header('Cache-Control: no-store, no-cache, must-revalidate');   // HTTP/1.1
+        }
+        header('Cache-Control: post-check=0, pre-check=0', false);
+        header('Content-Type: $content_type');
+        header('Content-Disposition: $content_disposition; filename="' . $file_name . '"');
+
+
+        @readfile_chunked($path, $start, $end);
+
+        $this->render_nothing();
     }
 
     // customized #url_for for plugins

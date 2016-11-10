@@ -36,6 +36,7 @@
  * @property LunaUserInfo info has_one LunaUserInfo
  * @property LunaSkill skills has_and_belongs_to_many LunaSkill
  * @property LunaCompany companies has_and_belongs_to_many LunaCompany
+ * @property StudipDocument documents has_many StudipDocument
  */
 class LunaUser extends SimpleORMap
 {
@@ -70,6 +71,13 @@ class LunaUser extends SimpleORMap
             'thru_table' => 'luna_user_tag',
             'thru_key' => 'user_id',
             'thru_assoc_key' => 'tag_id',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
+        $config['has_many']['documents'] = array(
+            'class_name' => 'StudipDocument',
+            'foreign_key' => 'user_id',
+            'assoc_foreign_key' => 'seminar_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
         );

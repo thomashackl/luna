@@ -118,27 +118,31 @@
 
         loadFilterPreset: function() {
             var element = $('#luna-userfilter-preset');
-            var fullUrl = element.data('update-url').split('?');
-            var url = fullUrl[0] + '/' + element.children('option:selected').attr('value');
-            if (fullUrl[1] != '') {
-                url += '?' + fullUrl[1];
-            }
-            $.ajax({
-                url: url,
-                dataType: 'html',
-                beforeSend: function (xhr, settings) {
-                    $('div#luna-applied-filters').html($('<img>').
-                        attr('width', 32).
-                        attr('height', 32).
-                        attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
-                },
-                success: function (data) {
-                    var el = $('div#luna-applied-filters');
-                    el.html(data);
-                    el.removeClass('hidden-js');
-                    STUDIP.Luna.loadPersons(0);
+
+            if (element.children('option:selected').attr('value') != '') {
+                var fullUrl = element.data('update-url').split('?');
+                var url = fullUrl[0] + '/' + element.children('option:selected').attr('value');
+                if (fullUrl[1] != '') {
+                    url += '?' + fullUrl[1];
                 }
-            });
+                $.ajax({
+                    url: url,
+                    dataType: 'html',
+                    beforeSend: function (xhr, settings) {
+                        $('div#luna-applied-filters').
+                            html($('<img>').
+                            attr('width', 32).
+                            attr('height', 32).
+                            attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                    },
+                    success: function (data) {
+                        var el = $('div#luna-applied-filters');
+                        el.html(data);
+                        el.removeClass('hidden-js');
+                        STUDIP.Luna.loadPersons(0);
+                    }
+                });
+            }
         },
 
         loadPersons: function(startPage) {

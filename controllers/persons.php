@@ -107,7 +107,8 @@ class PersonsController extends AuthenticatedController {
     {
         $presets = LunaUserFilter::getFilterPresets($this->client->id);
         LunaUserFilter::setFilters($this->client->id, $presets[$name]);
-        $this->render_text(studip_json_encode($presets[$name]));
+        $this->allfilters = LunaUserFilter::getFilterFields();
+        $this->filters = $presets[$name];
     }
 
     /**

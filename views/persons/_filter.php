@@ -9,7 +9,7 @@
                 <br>
                 <select name="preset" id="luna-userfilter-preset" data-update-url="<?= $controller->url_for('persons/load_preset') ?>">
                     <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
-                    <?php foreach ($presets as $name => $filters) : ?>
+                    <?php foreach ($presets as $name => $filterdata) : ?>
                         <option value="<?= htmlReady($name) ?>"><?= htmlReady($name) ?></option>
                     <?php endforeach ?>
                 </select>
@@ -31,17 +31,8 @@
         <div id="luna-applied-filters"<?= count($filters) == 0 ? ' class="hidden-js"' : '' ?> data-filter-count="<?= count($filters) ?>">
             <?php if (count($filters) > 0) : $i = 0; ?>
                 <?php foreach ($filters as $filter) : ?>
-                    <span class="luna-filter">
-                        <?= htmlReady($allfilters[$filter['column']]['name']) ?>
-                        <?= htmlReady($filter['compare']) ?>
-                        <?= htmlReady(
-                            $allfilters[$filter['column']]['class']::getDisplayValue($filter['value'],
-                                $allfilters[$filter['column']]['dbvalues'])) ?>
-                        <input type="hidden" name="filters[<?= $i ?>][column]" value="<?= htmlReady($filter['column']) ?>">
-                        <input type="hidden" name="filters[<?= $i ?>][compare]" value="<?= htmlReady($filter['compare']) ?>">
-                        <input type="hidden" name="filters[<?= $i ?>][value]" value="<?= htmlReady($filter['value']) ?>">
-                        <?= Icon::create('decline', 'clickable', array('class' => 'luna-remove-filter')) ?>
-                    </span>
+                    <?= $this->render_partial('persons/_singlefilter',
+                        array('allfilters' => $allfilters, 'filter' => $filter, 'i' => $i)) ?>
                 <?php $i++; endforeach ?>
             <?php endif ?>
         </div>

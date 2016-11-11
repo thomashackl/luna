@@ -117,13 +117,15 @@
         },
 
         loadFilterPreset: function() {
-            var element = $('#luna-userfilter-presets');
+            var element = $('#luna-userfilter-preset');
+            var fullUrl = element.data('update-url').split('?');
+            var url = fullUrl[0] + '/' + element.children('option:selected').attr('value');
+            if (fullUrl[1] != '') {
+                url += '?' + fullUrl[1];
+            }
             $.ajax({
-                url: element.data('update-url'),
-                data: {
-                    preset: element.children('option:selected').attr('value')
-                },
-                dataType: 'json',
+                url: url,
+                dataType: 'html',
                 beforeSend: function (xhr, settings) {
                     $('div#luna-applied-filters').html($('<img>').
                         attr('width', 32).
@@ -131,7 +133,10 @@
                         attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
                 },
                 success: function (data) {
-                    STUDIP.Luna.loadPersons();
+                    var el = $('div#luna-applied-filters');
+                    el.html(data);
+                    el.removeClass('hidden-js');
+                    STUDIP.Luna.loadPersons(0);
                 }
             });
         },
@@ -239,14 +244,12 @@
                 STUDIP.Luna.getFilterNames();
                 return false;
             });
-            $('.luna-remove-filter').on('click', function() {
-                STUDIP.Luna.removeFilter(this);
-                return false;
-            });
+
             $('#luna-userfilter-preset').on('change', function() {
                 STUDIP.Luna.loadFilterPreset();
                 return false;
             });
+
             $('a.luna-tag-remove').on('click', function() {
                 STUDIP.Luna.removeTag(this);
                 return false;
@@ -273,6 +276,7 @@
                     tagInput.val('');
                 }
             });
+
             $('input[name="docs[]"]').on('change', function(event) {
                 STUDIP.Luna.prepareFileUpload(this);
             })

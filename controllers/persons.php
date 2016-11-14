@@ -88,6 +88,13 @@ class PersonsController extends AuthenticatedController {
                 Icon::create('person+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
         }
+
+        $export = new ExportWidget();
+        $export->addLink(dgettext('luna', 'Excel-Export'),
+            $this->url_for('persons/export_persons'),
+            Icon::create('file-excel', 'clickable')
+        )->asDialog('size=auto');
+        $this->sidebar->addWidget($export);
     }
 
     public function load_data_action($start = 0)
@@ -101,14 +108,6 @@ class PersonsController extends AuthenticatedController {
         $this->personcount = $this->client->getFilteredUsersCount();
         $this->pagecount = ceil($this->personcount / $this->client->getListMaxEntries());
         $this->activepage = $start + 1;
-    }
-
-    public function load_preset_action($name)
-    {
-        $presets = LunaUserFilter::getFilterPresets($this->client->id);
-        LunaUserFilter::setFilters($this->client->id, $presets[$name]);
-        $this->allfilters = LunaUserFilter::getFilterFields();
-        $this->filters = $presets[$name];
     }
 
     /**
@@ -452,6 +451,27 @@ class PersonsController extends AuthenticatedController {
         @readfile_chunked($path, $start, $end);
 
         $this->render_nothing();
+    }
+
+    public function export_persons_action()
+    {
+        $this->fields = LunaUserFilter::getFilterFields(true);
+        if (Request::submitted('do_export')) {
+            $persons = $this->client->getFilteredUsers();
+            $csv = array();
+            foreach ($persons as $person) {
+                $entry = array();
+                foreach (Request::getArray('fields') as $field) {
+                    $entry[] = $person->$field;
+                }
+                $csv[] = $entry;
+            }
+            $this->response->add_header('Content-Type', 'text/csv');
+            $this->response->add_header('Content-Disposition', 'attachment; filename='.Request::get('filename').'.csv');
+            $this->render_text(array_to_csv($csv));
+        } else {
+            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
+        }
     }
 
     // customized #url_for for plugins

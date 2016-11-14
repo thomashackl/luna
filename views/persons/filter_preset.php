@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('persons/save_filter_preset') ?>" method="post">
+<form class="default" action="<?= $controller->url_for('search/save') ?>" method="post">
     <section>
         <label>
             <?= dgettext('luna', 'Name der Suchvorlage') ?>

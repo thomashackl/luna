@@ -6,7 +6,7 @@
                 <a href="<?= $controller->url_for('skills/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('roles+add', 'clickable')->asImg() ?>
                 </a>
-            </>
+            </span>
         </caption>
         <colgroup>
             <col>

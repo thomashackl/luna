@@ -82,6 +82,19 @@ class LunaUser extends SimpleORMap
             'on_store' => 'store'
         );
 
+        $info = new LunaUserInfo();
+        $info_meta = $info->getTableMetadata();
+        foreach ( $info_meta['fields'] as $field => $meta ) {
+            if ($field !== $info_meta['pk'][0] && $field !== $info_meta['mkdate'] && $field !== $info_meta['chdate']) {
+                $config['additional_fields'][$field] = array (
+                    'get' => '_getAdditionalValueFromRelation',
+                    'set' => '_setAdditionalValueFromRelation',
+                    'relation' => 'info',
+                    'relation_field' => $field
+                );
+            }
+        }
+
         parent::configure($config);
     }
 

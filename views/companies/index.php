@@ -6,7 +6,7 @@
                 <a href="<?= $controller->url_for('companies/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('vcard+add', 'clickable')->asImg() ?>
                 </a>
-            </>
+            </span>
         </caption>
         <colgroup>
             <col>

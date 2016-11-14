@@ -6,7 +6,7 @@
                 <a href="<?= $controller->url_for('clients/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('category+add', 'clickable')->asImg() ?>
                 </a>
-            </>
+            </span>
         </caption>
         <colgroup>
             <col>

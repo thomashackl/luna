@@ -6,7 +6,7 @@
                 <a href="<?= $controller->url_for('tags/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('tag+add', 'clickable')->asImg() ?>
                 </a>
-            </>
+            </span>
         </caption>
         <colgroup>
             <col>

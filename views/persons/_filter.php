@@ -7,7 +7,7 @@
             <label>
                 <?= dgettext('luna', 'Eine vorhandene Suchvorlage laden') ?>
                 <br>
-                <select name="preset" id="luna-userfilter-preset" data-update-url="<?= $controller->url_for('persons/load_preset') ?>">
+                <select name="preset" id="luna-userfilter-preset" data-update-url="<?= $controller->url_for('search/load') ?>">
                     <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
                     <?php foreach ($presets as $name => $filterdata) : ?>
                         <option value="<?= htmlReady($name) ?>"><?= htmlReady($name) ?></option>

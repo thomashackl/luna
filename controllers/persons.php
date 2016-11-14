@@ -456,9 +456,20 @@ class PersonsController extends AuthenticatedController {
     public function export_persons_action()
     {
         $this->fields = LunaUserFilter::getFilterFields(true);
+
+        if (UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS) {
+            $selected = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS);
+            $this->selected = $selected[$this->client->id];
+        } else {
+            $this->selected = array_keys($this->fields);
+        }
+
         if (Request::submitted('do_export')) {
             $persons = $this->client->getFilteredUsers();
             $csv = array();
+            $csv[] = array_map(function($entry) {
+                return $entry['name'];
+            }, array_intersect_key($this->fields, array_flip($this->selected)));
             foreach ($persons as $person) {
                 $entry = array();
                 foreach (Request::getArray('fields') as $field) {
@@ -467,8 +478,20 @@ class PersonsController extends AuthenticatedController {
                 $csv[] = $entry;
             }
             $this->response->add_header('Content-Type', 'text/csv');
-            $this->response->add_header('Content-Disposition', 'attachment; filename='.Request::get('filename').'.csv');
+            $this->response->add_header('Content-Disposition', 'attachment; filename=' .
+                Request::get('filename') . '.csv');
             $this->render_text(array_to_csv($csv));
+        } else if (Request::submitted('default')) {
+            $stored = UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS;
+            $fields = studip_json_decode($stored ? studip_json_decode($stored) : array());
+
+            $fields[$this->client->id] = Request::getArray('fields');
+
+            UserConfig::get($GLOBALS['user']->id)->store('LUNA_EXPORT_FIELDS', studip_json_encode($fields));
+
+            PageLayout::postSuccess(dgettext('luna', 'Die Voreinstellung für den Datenexport wurde gespeichert.'));
+
+            $this->relocate('persons');
         } else {
             PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
         }

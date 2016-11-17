@@ -325,36 +325,6 @@ class PersonsController extends AuthenticatedController {
         $this->relocate('persons');
     }
 
-    public function get_filternames_action()
-    {
-        $this->render_text(studip_json_encode(LunaUserFilter::getFilterNames()));
-    }
-
-    public function get_filterdata_action()
-    {
-        $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues($this->client->id, Request::get('field'))));
-    }
-
-    public function filter_preset_action()
-    {
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
-    }
-
-    public function save_filter_preset_action()
-    {
-        CSRFProtection::verifyUnsafeRequest();
-        if (LunaUserFilter::saveFilterPreset($this->client->id, Request::quoted('name'))) {
-            PageLayout::postSuccess(sprintf(
-                dgettext('luna', 'Die Suchvorlage %s wurde gespeichert.'),
-                Request::quoted('name')));
-        } else {
-            PageLayout::postError(sprintf(
-                dgettext('luna', 'Die Suchvorlage %s konnte nicht gespeichert werden.'),
-                Request::quoted('name')));
-        }
-        $this->relocate('persons');
-    }
-
     /**
      * Deletes the given document which is assigned to the given person.
      * @param $person_id
@@ -495,6 +465,14 @@ class PersonsController extends AuthenticatedController {
         } else {
             PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
         }
+    }
+
+    public function get_status_action()
+    {
+        $values = DBManager::get()->fetchFirst(
+            "SELECT DISTINCT `status` FROM `luna_users` WHERE `client_id` = ? AND `status` LIKE ? ORDER BY `status`",
+            array($this->client->id, '%' . Request::quoted('term') . '%'));
+        $this->render_text(studip_json_encode($values));
     }
 
     // customized #url_for for plugins

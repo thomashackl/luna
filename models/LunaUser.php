@@ -31,6 +31,11 @@
  * @property string  phone_mobile database column
  * @property string  fax database column
  * @property string  homepage database column
+ * @property string  status database column
+ * @property string  graduation database column
+ * @property string  vita database column
+ * @property string  qualifications database column
+ * @property string  notes database column
  * @property string  mkdate database column
  * @property string  chdate database column
  * @property LunaUserInfo info has_one LunaUserInfo
@@ -44,12 +49,6 @@ class LunaUser extends SimpleORMap
     protected static function configure($config = array())
     {
         $config['db_table'] = 'luna_users';
-        $config['has_one']['info'] = array(
-            'class_name' => 'LunaUserInfo',
-            'foreign_key' => 'user_id',
-            'on_delete' => 'delete',
-            'on_store' => 'store'
-        );
         $config['has_and_belongs_to_many']['skills'] = array(
             'class_name' => 'LunaSkill',
             'thru_table' => 'luna_user_skills',
@@ -81,19 +80,6 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
-
-        $info = new LunaUserInfo();
-        $info_meta = $info->getTableMetadata();
-        foreach ( $info_meta['fields'] as $field => $meta ) {
-            if ($field !== $info_meta['pk'][0] && $field !== $info_meta['mkdate'] && $field !== $info_meta['chdate']) {
-                $config['additional_fields'][$field] = array (
-                    'get' => '_getAdditionalValueFromRelation',
-                    'set' => '_setAdditionalValueFromRelation',
-                    'relation' => 'info',
-                    'relation_field' => $field
-                );
-            }
-        }
 
         parent::configure($config);
     }

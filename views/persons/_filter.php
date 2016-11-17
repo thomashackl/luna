@@ -19,10 +19,10 @@
     <?php endif ?>
     <section id="luna-data-filters">
         <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
-            $controller->url_for('persons/get_filternames'), array('id' => 'luna-add-filter')) ?>
+            $controller->url_for('search/get_filternames'), array('id' => 'luna-add-filter')) ?>
         <div id="luna-newfilter" class="hidden-js"
-                data-filternames-url="<?= $controller->url_for('persons/get_filternames') ?>"
-                data-filterdata-url="<?= $controller->url_for('persons/get_filterdata') ?>"
+                data-filternames-url="<?= $controller->url_for('search/get_filternames') ?>"
+                data-filterdata-url="<?= $controller->url_for('search/get_filterdata') ?>"
                 data-pleasechoose="<?= dgettext('luna', 'bitte auswählen') ?>">
             <span id="luna-newfilter-name"></span>
             <span id="luna-newfilter-config"></span>
@@ -40,7 +40,7 @@
     <?php if (count($filters) > 0) : ?>
         <section>
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
-                $controller->url_for('persons/filter_preset'), array('data-dialog' => 'size=auto')) ?>
+                $controller->url_for('search/filter_preset'), array('data-dialog' => 'size=auto')) ?>
         </section>
     <?php endif ?>
 </form>

@@ -92,6 +92,21 @@ class SearchController extends AuthenticatedController {
         $this->filters = $presets[$name];
     }
 
+    public function get_filternames_action()
+    {
+        $this->render_text(studip_json_encode(LunaUserFilter::getFilterNames()));
+    }
+
+    public function get_filterdata_action()
+    {
+        $this->render_text(studip_json_encode(LunaUserFilter::getFilterValues($this->client->id, Request::get('field'))));
+    }
+
+    public function filter_preset_action()
+    {
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
+    }
+
     // customized #url_for for plugins
     public function url_for($to)
     {

@@ -12,6 +12,12 @@
         </legend>
         <section>
             <label>
+                <?= dgettext('luna', 'Status') ?>
+                <input type="text" name="status" value="<?= htmlReady($person->status) ?>" size="75" maxlength="255" data-available-status="<?= $controller->url_for('persons/get_status') ?>">
+            </label>
+        </section>
+        <section>
+            <label>
                 <span class="required">
                     <?= dgettext('luna', 'Vorname') ?>
                 </span>
@@ -220,32 +226,26 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Status') ?>
-                <input type="text" name="status" value="<?= htmlReady($person->info->status) ?>" size="75" maxlength="255">
-            </label>
-        </section>
-        <section>
-            <label>
                 <?= dgettext('luna', 'Hochschulabschluss') ?>
-                <input type="text" name="graduation" value="<?= htmlReady($person->info->graduation) ?>" size="75" maxlength="255">
+                <input type="text" name="graduation" value="<?= htmlReady($person->graduation) ?>" size="75" maxlength="255">
             </label>
         </section>
         <section>
             <label>
                 <?= dgettext('luna', 'Kurzlebenslauf') ?>
-                <textarea name="vita" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->info->vita) ?></textarea>
+                <textarea name="vita" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->vita) ?></textarea>
             </label>
         </section>
         <section>
             <label>
                 <?= dgettext('luna', 'Besondere Qualifikationen') ?>
-                <textarea name="qualifications" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->info->qualifications) ?></textarea>
+                <textarea name="qualifications" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->qualifications) ?></textarea>
             </label>
         </section>
         <section>
             <label>
                 <?= dgettext('luna', 'Notizen') ?>
-                <textarea name="notes" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->info->notes) ?></textarea>
+                <textarea name="notes" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->notes) ?></textarea>
             </label>
         </section>
     </fieldset>

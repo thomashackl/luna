@@ -258,6 +258,13 @@
                 STUDIP.Luna.removeTag(this);
                 return false;
             });
+
+            var statusInput = $('input[name="status"]');
+            statusInput.autocomplete({
+                source: statusInput.data('available-status'),
+                minLength: 2
+            });
+
             var tagInput = $('input[name="tag"]');
             $('a.luna-tag-add').on('click', function() {
                 STUDIP.Luna.addTag(tagInput.val());

@@ -157,42 +157,44 @@ class LunaUserFilter
                 'class' => 'LunaTag'
             )
         );
-        if ($all) {
-            $fields = $fields + array(
+        $fields = $fields + array(
                 'status' => array(
                     'name' => dgettext('luna', 'Status'),
-                    'table' => 'luna_user_info',
+                    'table' => 'luna_user',
                     'ids' => 'status',
                     'dbvalues' => 'status',
-                    'class' => 'LunaUserInfo'
-                ),
+                    'class' => 'LunaUser'
+                )
+            );
+        if ($all) {
+            $fields = $fields + array(
                 'graduation' => array(
                     'name' => dgettext('luna', 'Hochschulabschluss'),
-                    'table' => 'luna_user_info',
+                    'table' => 'luna_user',
                     'ids' => 'graduation',
                     'dbvalues' => 'graduation',
-                    'class' => 'LunaUserInfo'
+                    'class' => 'LunaUser'
                 ),
                 'vita' => array(
                     'name' => dgettext('luna', 'Kurzlebenslauf'),
-                    'table' => 'lluna_user_info',
+                    'table' => 'lluna_user',
                     'ids' => 'vita',
                     'dbvalues' => 'vita',
-                    'class' => 'LunaUserInfo'
+                    'class' => 'LunaUsero'
                 ),
                 'qualifications' => array(
                     'name' => dgettext('luna', 'Besondere Qualifikationen'),
-                    'table' => 'luna_user_info',
+                    'table' => 'luna_user',
                     'ids' => 'qualification',
                     'dbvalues' => 'qualification',
-                    'class' => 'LunaUserInfo'
+                    'class' => 'LunaUser'
                 ),
                 'notes' => array(
                     'name' => dgettext('luna', 'Notizen'),
-                    'table' => 'luna_user_info',
+                    'table' => 'luna_user',
                     'ids' => 'notes',
                     'dbvalues' => 'notes',
-                    'class' => 'LunaUserInfo'
+                    'class' => 'LunaUser'
                 )
             );
         }

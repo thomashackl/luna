@@ -38,4 +38,25 @@ class LunaUserInfo extends SimpleORMap
         parent::configure($config);
     }
 
+    public static function getDistinctValues($client, $field)
+    {
+        $filters = LunaUserFilter::getFilterFields();
+        $column = $filters[$field]['ids'];
+        $values = $filters[$field]['dbvalues'];
+        $stmt = DBManager::get()->prepare(
+            "SELECT DISTINCT :ids AS id, :values AS value FROM `luna_user_info`
+                WHERE `client_id` = :client ORDER BY :values");
+        $stmt->bindParam(':client', $client);
+        $stmt->bindParam(':ids', $column, StudipPDO::PARAM_COLUMN);
+        $stmt->bindParam(':values', $values, StudipPDO::PARAM_COLUMN);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getDisplayValue($id, $field = 'name')
+    {
+        $method = 'findOneBy' . $field;
+        return self::$method($id)->$field;
+    }
+
 }

@@ -73,7 +73,7 @@ class PersonsController extends AuthenticatedController {
                 Request::get('compare'), Request::get('value'));
         }
 
-        $this->allfilters = LunaUserFilter::getFilterFields();
+        $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
 
         $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
@@ -101,8 +101,14 @@ class PersonsController extends AuthenticatedController {
     {
         LunaUserFilter::setFilters($this->client->id, Request::getArray('filters'));
 
-        $this->allfilters = LunaUserFilter::getFilterFields();
+        $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+
+        $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+        $this->columns = $config[$this->client->id];
+        if (!$this->columns) {
+            $this->columns = array('address', 'companies', 'skills');
+        }
 
         $this->persons = $this->client->getFilteredUsers($start);
         $this->personcount = $this->client->getFilteredUsersCount();
@@ -473,6 +479,37 @@ class PersonsController extends AuthenticatedController {
             "SELECT DISTINCT `status` FROM `luna_users` WHERE `client_id` = ? AND `status` LIKE ? ORDER BY `status`",
             array($this->client->id, '%' . Request::quoted('term') . '%'));
         $this->render_text(studip_json_encode($values));
+    }
+
+    public function configure_view_action()
+    {
+        if (Request::submitted('store')) {
+            $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+            $config[$this->client->id] = Request::getArray('fields');
+
+            if (UserConfig::get($GLOBALS['user']->id)->store('LUNA_PERSON_LIST_COLUMNS', studip_json_encode($config))) {
+                PageLayout::postSuccess(dgettext('luna', 'Die anzuzeigenden Daten wurden gespeichert.'));
+            } else {
+                PageLayout::postError(dgettext('luna', 'Die anzuzeigenden Daten konnten nicht gespeichert werden.'));
+            }
+
+            $this->relocate('persons');
+        } else {
+            $this->fields = LunaUserFilter::getFilterFields(true);
+
+            foreach (words('firstname lastname street zip city country') as $entry) {
+                unset($this->fields[$entry]);
+            }
+
+            $address = array('address' => array('name' => dgettext('luna', 'Adresse')));
+            $this->fields = $address + $this->fields;
+
+            $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+            $this->selected = $config[$this->client->id];
+            if (!$this->selected) {
+                $this->selected = array('address', 'companies', 'skills');
+            }
+        }
     }
 
     // customized #url_for for plugins

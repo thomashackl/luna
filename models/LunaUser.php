@@ -109,6 +109,12 @@ class LunaUser extends SimpleORMap
         return $name;
     }
 
+    public function getAddress()
+    {
+        return $this->street . ' ' . $this->zip . ' ' . $this->city;
+
+}
+
     public static function getDistinctValues($client, $field)
     {
         $filters = LunaUserFilter::getFilterFields();

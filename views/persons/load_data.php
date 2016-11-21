@@ -6,21 +6,25 @@
                 <a href="<?= $controller->url_for('persons/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('person+add', 'clickable')->asImg() ?>
                 </a>
+                <a href="<?= $controller->url_for('persons/configure_view') ?>" data-dialog="size=auto">
+                    <?= Icon::create('checkbox-checked', 'clickable',
+                        array('title' => dgettext('luna', 'Welche Spalten sollen angezeigt werden?')))->asImg() ?>
+                </a>
             </span>
         </caption>
         <colgroup>
             <col>
-            <col>
-            <col>
-            <col>
+            <?php foreach ($columns as $c) : ?>
+                <col>
+            <?php endforeach ?>
             <col width="25">
         </colgroup>
         <thead>
             <tr>
                 <th><?= dgettext('luna', 'Name') ?></th>
-                <th><?= dgettext('luna', 'Adresse') ?></th>
-                <th><?= dgettext('luna', 'Firma') ?></th>
-                <th><?= dgettext('luna', 'Kompetenzen') ?></th>
+                <?php foreach ($columns as $c) : ?>
+                    <th><?= $c != 'address' ? htmlReady($allfilters[$c]['name']) : dgettext('luna', 'Adresse') ?></th>
+                <?php endforeach ?>
                 <th><?= dgettext('luna', 'Aktionen') ?></th>
             </tr>
         </thead>
@@ -28,36 +32,28 @@
         <?php foreach ($persons as $p) : ?>
             <tr>
                 <td><?= htmlReady($p->getFullname()) ?></td>
-                <td>
-                    <?= htmlReady($p->street) ?>
-                    <br>
-                    <?= htmlReady($p->zip) ?> <?= htmlReady($p->city) ?>
-                </td>
-                <td>
-                    <?php if ($p->companies) : ?>
-                        <?php foreach ($p->companies as $c) : ?>
-                            <div><?= htmlReady($c->name) ?></div>
-                        <?php endforeach ?>
-                    <?php endif ?>
-                </td>
-                <td>
-                    <?php if (count($p->skills) > 0) : ?>
-                        <ul>
-                            <?php foreach ($p->skills as $skill) : ?>
-                                <li>
-                                    <?= htmlReady($skill->name) ?>
-                                </li>
+                <?php foreach ($columns as $c) : ?>
+                    <td>
+                        <?php if (!in_array($c, array('companies', 'skills', 'address'))) : ?>
+                            <?= htmlReady($p->$c) ?>
+                        <?php elseif ($c == 'address') : ?>
+                            <?= htmlReady($p->street) ?>
+                            <br>
+                            <?= htmlReady($p->zip) ?> <?= htmlReady($p->city) ?>
+                        <?php else : ?>
+                            <?php foreach ($p->$c as $e) : ?>
+                                <div><?= htmlReady($e->name) ?></div>
                             <?php endforeach ?>
-                        </ul>
-                    <?php endif ?>
-                </td>
+                        <?php endif ?>
+                    </td>
+                <?php endforeach ?>
                 <td>
                     <?php if ($hasWriteAccess) : ?>
                         <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog>
                             <?= Icon::create('info', 'clickable')->asImg() ?>
                         </a>
                         <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
-                        dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
+                                dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
                         </a>
                     <?php endif ?>

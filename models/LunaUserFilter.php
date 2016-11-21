@@ -135,21 +135,21 @@ class LunaUserFilter
             );
         }
         $fields = $fields + array(
-            'company' => array(
+            'companies' => array(
                 'name' => dgettext('luna', 'Firma'),
                 'table' => 'luna_user_company',
                 'ids' => 'company_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaCompany'
             ),
-            'skill' => array(
+            'skills' => array(
                 'name' => dgettext('luna', 'Kompetenz'),
                 'table' => 'luna_user_skills',
                 'ids' => 'skill_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaSkill'
             ),
-            'tag' => array(
+            'tags' => array(
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_user_tag',
                 'ids' => 'tag_id',
@@ -160,7 +160,7 @@ class LunaUserFilter
         $fields = $fields + array(
                 'status' => array(
                     'name' => dgettext('luna', 'Status'),
-                    'table' => 'luna_user',
+                    'table' => 'luna_users',
                     'ids' => 'status',
                     'dbvalues' => 'status',
                     'class' => 'LunaUser'
@@ -170,7 +170,7 @@ class LunaUserFilter
             $fields = $fields + array(
                 'graduation' => array(
                     'name' => dgettext('luna', 'Hochschulabschluss'),
-                    'table' => 'luna_user',
+                    'table' => 'luna_users',
                     'ids' => 'graduation',
                     'dbvalues' => 'graduation',
                     'class' => 'LunaUser'
@@ -184,14 +184,14 @@ class LunaUserFilter
                 ),
                 'qualifications' => array(
                     'name' => dgettext('luna', 'Besondere Qualifikationen'),
-                    'table' => 'luna_user',
+                    'table' => 'luna_users',
                     'ids' => 'qualification',
                     'dbvalues' => 'qualification',
                     'class' => 'LunaUser'
                 ),
                 'notes' => array(
                     'name' => dgettext('luna', 'Notizen'),
-                    'table' => 'luna_user',
+                    'table' => 'luna_users',
                     'ids' => 'notes',
                     'dbvalues' => 'notes',
                     'class' => 'LunaUser'

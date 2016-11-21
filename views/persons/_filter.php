@@ -38,7 +38,7 @@
         </div>
     </section>
     <?php if (count($filters) > 0) : ?>
-        <section>
+        <section id="luna-save-filters">
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
                 $controller->url_for('search/filter_preset'), array('data-dialog' => 'size=auto')) ?>
         </section>

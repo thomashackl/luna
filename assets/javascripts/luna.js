@@ -112,6 +112,7 @@
             filtersEl.data('filter-count', filtersEl.data('filter-count') - 1);
             if (filtersEl.children('span.luna-filter').length == 0) {
                 filtersEl.addClass('hidden-js');
+                $('section#luna-save-filters').addClass('hidden-js');
             }
             STUDIP.Luna.loadPersons();
         },
@@ -202,18 +203,6 @@
 
         removeTag: function(element) {
             $(element).parent().remove();
-        },
-
-        remove_attachment: function () {
-            jQuery.ajax({
-                url: STUDIP.ABSOLUTE_URI_STUDIP + "dispatch.php/messages/delete_attachment",
-                data: {
-                    'document_id' : jQuery(this).closest("li").data('document_id'),
-                    'message_id' : jQuery(this).closest("form").find('input[name=message_id]').val()
-                },
-                type: "POST",
-            });
-            jQuery(this).closest("li").fadeOut(300, function() { jQuery(this).remove(); });
         },
 
         prepareFileUpload: function(input) {

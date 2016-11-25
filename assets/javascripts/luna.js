@@ -170,6 +170,36 @@
             return false;
         },
 
+        addEmail: function() {
+            var template = $('section#luna-email-template');
+            var newEl = template.clone();
+            var count = template.data('number-of-emails') + 1;
+            newEl.attr('id', null).
+                attr('data-number-of-emails', null);
+            newEl.find('input[name="email-template-address"]').attr('name', 'email[' + count + '][address]');
+            newEl.find('select[name="email-template-type"]').attr('name', 'email[' + count + '][type]');
+            newEl.find('input[name="email-template-default"]').
+                attr('name', 'email-default').
+                attr('value', count);
+            newEl.insertBefore('a.luna-email-add');
+            template.attr('data-number-of-emails', count);
+        },
+
+        addPhonenumber: function() {
+            var template = $('section#luna-phone-template');
+            var newEl = template.clone();
+            var count = template.data('number-of-phonenumbers') + 1;
+            newEl.attr('id', null).
+                attr('data-number-of-phonenumbers', null);
+            newEl.find('input[name="phone-template-address"]').attr('name', 'phone[' + count + '][number]');
+            newEl.find('select[name="phone-template-type"]').attr('name', 'phone[' + count + '][type]');
+            newEl.find('input[name="phone-template-default"]').
+                attr('name', 'phone-default').
+                attr('value', count);
+            newEl.insertBefore('a.luna-phone-add');
+            template.attr('data-number-of-phonenumbers', count);
+        },
+
         addTag: function(tag) {
             var div = $('div#luna-person-tags');
             if (div.children('div#luna-tag-' + tag).length == 0) {
@@ -252,6 +282,16 @@
             statusInput.autocomplete({
                 source: statusInput.data('available-status'),
                 minLength: 2
+            });
+
+            $('a.luna-email-add').on('click', function() {
+                STUDIP.Luna.addEmail();
+                return false;
+            });
+
+            $('a.luna-phone-add').on('click', function() {
+                STUDIP.Luna.addPhonenumber();
+                return false;
             });
 
             var tagInput = $('input[name="tag"]');

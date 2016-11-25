@@ -73,6 +73,20 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
+        $config['has_many']['emails'] = array(
+            'class_name' => 'LunaEMail',
+            'foreign_key' => 'user_id',
+            'assoc_foreign_key' => 'user_id',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
+        $config['has_many']['phonenumbers'] = array(
+            'class_name' => 'LunaPhoneNumber',
+            'foreign_key' => 'user_id',
+            'assoc_foreign_key' => 'user_id',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
         $config['has_many']['documents'] = array(
             'class_name' => 'StudipDocument',
             'foreign_key' => 'user_id',
@@ -108,12 +122,6 @@ class LunaUser extends SimpleORMap
         }
         return $name;
     }
-
-    public function getAddress()
-    {
-        return $this->street . ' ' . $this->zip . ' ' . $this->city;
-
-}
 
     public static function getDistinctValues($client, $field)
     {

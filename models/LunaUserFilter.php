@@ -83,40 +83,19 @@ class LunaUserFilter
         );
         if ($all) {
             $fields = $fields + array(
-                'email_office' => array(
-                    'name' => dgettext('luna', 'E-Mail geschäftlich'),
-                    'table' => 'luna_users',
-                    'ids' => 'email_office',
-                    'dbvalues' => 'email_office',
-                    'class' => 'LunaUser'
+                'email' => array(
+                    'name' => dgettext('luna', 'E-Mailadresse'),
+                    'table' => 'luna_email',
+                    'ids' => 'user_id',
+                    'dbvalues' => 'email',
+                    'class' => 'LunaEMail'
                 ),
-                'email_private' => array(
-                    'name' => dgettext('luna', 'E-Mail privat'),
-                    'table' => 'luna_users',
-                    'ids' => 'email_private',
-                    'dbvalues' => 'email_private',
-                    'class' => 'LunaUser'
-                ),
-                'phone_office' => array(
-                    'name' => dgettext('luna', 'Telefon geschäftlich'),
-                    'table' => 'luna_users',
-                    'ids' => 'phone_office',
-                    'dbvalues' => 'phone_office',
-                    'class' => 'LunaUser'
-                ),
-                'phone_private' => array(
-                    'name' => dgettext('luna', 'Telefon privat'),
-                    'table' => 'luna_users',
-                    'ids' => 'phone_private',
-                    'dbvalues' => 'phone_private',
-                    'class' => 'LunaUser'
-                ),
-                'phone_mobile' => array(
-                    'name' => dgettext('luna', 'Mobiltelefon'),
-                    'table' => 'luna_users',
-                    'ids' => 'phone_mobile',
-                    'dbvalues' => 'phone_mobile',
-                    'class' => 'LunaUser'
+                'phone' => array(
+                    'name' => dgettext('luna', 'Telefonnummer'),
+                    'table' => 'luna_phone',
+                    'ids' => 'user_id',
+                    'dbvalues' => 'number',
+                    'class' => 'LunaPhone'
                 ),
                 'fax' => array(
                     'name' => dgettext('luna', 'Fax'),

@@ -34,7 +34,7 @@
                 <td><?= htmlReady($p->getFullname()) ?></td>
                 <?php foreach ($columns as $c) : ?>
                     <td>
-                        <?php if (!in_array($c, array('companies', 'skills', 'address'))) : ?>
+                        <?php if (!in_array($c, array('companies', 'skills', 'address', 'emails', 'phonenumbers'))) : ?>
                             <?= htmlReady($p->$c) ?>
                         <?php elseif ($c == 'address') : ?>
                             <?= htmlReady($p->street) ?>

@@ -25,12 +25,11 @@ class LunaSkill extends SimpleORMap
     protected static function configure($config = array())
     {
         $config['db_table'] = 'luna_skills';
-        $config['has_and_belongs_to_many']['users'] = array(
+        $config['belongs_to']['user'] = array(
             'class_name' => 'LunaUser',
             'thru_table' => 'luna_user_skills',
             'thru_key' => 'skill_id',
             'thru_assoc_key' => 'user_id',
-            'on_delete' => 'delete',
             'on_store' => 'store'
         );
 

@@ -34,6 +34,20 @@ section#luna-data-filters div#luna-applied-filters span.luna-filter {
   margin-right: 5px;
   padding: 5px;
 }
+form.default section#luna-email-template,
+form.default section#luna-phone-template {
+  display: none;
+}
+form.default section.luna-email label,
+form.default section.luna-phone label {
+  display: inline-block !important;
+}
+form.default section.luna-email label input,
+form.default section.luna-phone label input,
+form.default section.luna-email label select,
+form.default section.luna-phone label select {
+  width: auto !important;
+}
 form.default section input.luna-new-tag {
   display: inline !important;
   max-width: 16em;

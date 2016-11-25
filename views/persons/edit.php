@@ -102,40 +102,111 @@
         <legend>
             <?= dgettext('luna', 'Kontaktdaten') ?>
         </legend>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Geschäftliche E-Mailadresse') ?>
-                <input type="email" name="email_office" size="75" maxlength="255"
-                       value="<?= htmlReady($person->email_office) ?>">
-            </label>
+        <section id="luna-emails">
+            <header>
+                <?= dgettext('luna', 'E-Mailadresse(n)') ?>
+            </header>
+            <section id="luna-email-template" class="luna-email" data-number-of-emails="<?= count($person->emails) ?>">
+                <label>
+                    <?= dgettext('luna', 'Adresse') ?>
+                    <input type="email" name="email-template-address" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine E-Mailadresse ein') ?>">
+                </label>
+                <label>
+                    <?= dgettext('luna', 'Art') ?>
+                    <select name="email-template-type">
+                        <option value="private"><?= dgettext('luna', 'Privat') ?></option>
+                        <option value="office"><?= dgettext('luna', 'Geschäftlich') ?></option>
+                    </select>
+                </label>
+                <label>
+                    <input type="radio" name="email-template-default">
+                    <?= dgettext('luna', 'Standardadresse') ?>
+                </label>
+            </section>
+            <?php $i = 0; foreach ($person->emails as $m) : ?>
+                <section class="luna-email">
+                    <label>
+                        <?= dgettext('luna', 'Adresse') ?>
+                        <input type="email" name="email[<?= $i ?>][address]" size="50" value="<?= htmlReady($m->email) ?>">
+                    </label>
+                    <label>
+                        <?= dgettext('luna', 'Art') ?>
+                        <select name="email[<?= $i ?>][type]">
+                            <option value="private"<?= $m->type == 'private' ? ' selected' : '' ?>>
+                                <?= dgettext('luna', 'Privat') ?>
+                            </option>
+                            <option value="office"<?= $m->type == 'office' ? ' selected' : '' ?>>
+                                <?= dgettext('luna', 'Geschäftlich') ?>
+                            </option>
+                        </select>
+                    </label>
+                    <label>
+                        <input type="radio" name="email-default" value="<?= $i ?>"<?= $m->default ? ' checked' : '' ?>>
+                        <?= dgettext('luna', 'Standardadresse') ?>
+                    </label>
+                </section>
+            <?php $i++; endforeach ?>
+            <a class="luna-email-add" href="">
+                <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufügen')))->asImg(24) ?>
+            </a>
         </section>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Private E-Mailadresse') ?>
-                <input type="email" name="email_private" size="75" maxlength="255"
-                       value="<?= htmlReady($person->email_private) ?>">
-            </label>
-        </section>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Geschäftliche Telefonnummer') ?>
-                <input type="text" name="phone_office" size="75" maxlength="255"
-                       value="<?= htmlReady($person->phone_office) ?>">
-            </label>
-        </section>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Private Telefonnummer') ?>
-                <input type="text" name="phone_private" size="75" maxlength="255"
-                       value="<?= htmlReady($person->phone_private) ?>">
-            </label>
-        </section>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Mobiltelefon') ?>
-                <input type="text" name="phone_mobile" size="75" maxlength="255"
-                       value="<?= htmlReady($person->phone_mobile) ?>">
-            </label>
+        <section id="luna-phone">
+            <header>
+                <?= dgettext('luna', 'Telefonnummer(n)') ?>
+            </header>
+            <section id="luna-phone-template" class="luna-phone" data-number-of-phonenumbers="<?= count($person->phonenumbers) ?>">
+                <label>
+                    <?= dgettext('luna', 'Nummer') ?>
+                    <input type="tel" name="phone-template-number" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine Telefonnummer ein') ?>">
+                </label>
+                <label>
+                    <?= dgettext('luna', 'Art') ?>
+                    <select name="phone-template-type">
+                        <option value="private">
+                            <?= dgettext('luna', 'Privat') ?>
+                        </option>
+                        <option value="mobile">
+                            <?= dgettext('luna', 'Mobil') ?>
+                        </option>
+                        <option value="office">
+                            <?= dgettext('luna', 'Geschäftlich') ?>
+                        </option>
+                    </select>
+                </label>
+                <label>
+                    <input type="radio" name="phone-template-default">
+                    <?= dgettext('luna', 'Standardnummer') ?>
+                </label>
+            </section>
+            <?php $i = 0; foreach ($person->phonenumbers as $p) : ?>
+                <section class="luna-phone">
+                    <label>
+                        <?= dgettext('luna', 'Nummer') ?>
+                        <input type="tel" name="phone[<?= $i ?>][number]" size="50" value="<?= htmlReady($p->number) ?>">
+                    </label>
+                    <label>
+                        <?= dgettext('luna', 'Art') ?>
+                        <select name="phone[<?= $i ?>][type]">
+                            <option value="private"<?= $p->type == 'private' ? ' selected' : '' ?>>
+                                <?= dgettext('luna', 'Privat') ?>
+                            </option>
+                            <option value="mobile"<?= $p->type == 'mobile' ? ' selected' : '' ?>>
+                                <?= dgettext('luna', 'Mobil') ?>
+                            </option>
+                            <option value="office"<?= $p->type == 'office' ? ' selected' : '' ?>>
+                                <?= dgettext('luna', 'Geschäftlich') ?>
+                            </option>
+                        </select>
+                    </label>
+                    <label>
+                        <input type="radio" name="phone-default" value="<?= $i ?>"<?= $p->default ? ' checked' : '' ?>>
+                        <?= dgettext('luna', 'Standardnummer') ?>
+                    </label>
+                </section>
+            <?php $i++; endforeach ?>
+            <a class="luna-phone-add" href="">
+                <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufügen')))->asImg(24) ?>
+            </a>
         </section>
         <section>
             <label>

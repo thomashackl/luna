@@ -31,7 +31,6 @@ class LunaTag extends SimpleORMap
             'thru_table' => 'luna_user_tag',
             'thru_key' => 'tag_id',
             'thru_assoc_key' => 'user_id',
-            'on_delete' => 'delete',
             'on_store' => 'store'
         );
 

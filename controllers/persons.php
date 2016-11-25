@@ -130,7 +130,6 @@ class PersonsController extends AuthenticatedController {
             $this->pid = $id;
         } else {
             $this->person = new LunaUser();
-            $this->person->info = new LunaUserInfo();
         }
 
         if ($this->flash['skills']) {
@@ -147,15 +146,9 @@ class PersonsController extends AuthenticatedController {
         }
 
         foreach (words('firstname lastname title_front title_rear gender '.
-                'street zip city country email_office email_private phone_office '.
-                'phone_private phone_mobile fax homepage') as $entry) {
+                'street zip city country fax homepage status graduation vita qualifications notes') as $entry) {
             if (isset($this->flash[$entry])) {
                 $this->person->$entry = $this->flash[$entry];
-            }
-        }
-        foreach (words('status graduation vita qualifications notes') as $entry) {
-            if (isset($this->flash[$entry])) {
-                $this->person->info->$entry = $this->flash[$entry];
             }
         }
 
@@ -198,7 +191,6 @@ class PersonsController extends AuthenticatedController {
                 $user = LunaUser::find($id);
             } else {
                 $user = new LunaUser();
-                $user->info = new LunaUserInfo();
             }
             $user->client_id = $this->client->client_id;
             $user->firstname = Request::get('firstname');
@@ -210,11 +202,6 @@ class PersonsController extends AuthenticatedController {
             $user->zip = Request::get('zip');
             $user->city = Request::get('city');
             $user->country = Request::get('country', 'Deutschland');
-            $user->email_office = Request::get('email_office');
-            $user->email_private = Request::get('email_private');
-            $user->phone_office = Request::get('phone_office');
-            $user->phone_private = Request::get('phone_private');
-            $user->phone_mobile = Request::get('phone_mobile');
             $user->fax = Request::get('fax');
             $user->homepage = Request::get('homepage');
 
@@ -224,6 +211,44 @@ class PersonsController extends AuthenticatedController {
             if (Request::option('company')) {
                 $user->companies->append(LunaCompany::find(Request::option('company')));
             }
+
+            $emails = array();
+            foreach (Request::getArray('email') as $index => $email) {
+                if (trim($email['address'])) {
+                    if ($user->id) {
+                        if (!$entry = LunaEMail::find(array($user->id, $email['address']))) {
+                            $entry = new LunaEMail();
+                        }
+                    } else {
+                        $entry = new LunaEMail();
+                    }
+                    $entry->user_id = $user->id;
+                    $entry->email = trim($email['address']);
+                    $entry->type = $email['type'];
+                    $entry->default = count(Request::getArray('email')) == 1 ? 1 : Request::int('email-default') == $index ? 1 : 0;
+                    $emails[] = $entry;
+                }
+            }
+            $user->emails = SimpleORMapCollection::createFromArray($emails);
+
+            $phonenumbers = array();
+            foreach (Request::getArray('phone') as $index => $phone) {
+                if (trim($phone['number'])) {
+                    if ($user->id) {
+                        if (!$entry = LunaPhoneNumber::find(array($user->id, $email['number']))) {
+                            $entry = new LunaPhoneNumber();
+                        }
+                    } else {
+                        $entry = new LunaPhoneNumber();
+                    }
+                    $entry->user_id = $user->id;
+                    $entry->number = trim($phone['number']);
+                    $entry->type = $phone['type'];
+                    $entry->default = count(Request::getArray('phone')) == 1 ? 1 : Request::int('phone-default') == $index ? 1 : 0;
+                    $phonenumbers[] = $entry;
+                }
+            }
+            $user->phonenumbers = SimpleORMapCollection::createFromArray($phonenumbers);
 
             $tags = array();
             foreach (Request::getArray('tags') as $tag) {
@@ -261,11 +286,11 @@ class PersonsController extends AuthenticatedController {
             }
             $user->documents = SimpleORMapCollection::createFromArray($docs);
 
-            $user->info->status = Request::get('status');
-            $user->info->graduation = Request::get('graduation');
-            $user->info->vita = Request::get('vita');
-            $user->info->qualifications = Request::get('qualifications');
-            $user->info->notes = Request::get('notes');
+            $user->status = Request::get('status');
+            $user->graduation = Request::get('graduation');
+            $user->vita = Request::get('vita');
+            $user->qualifications = Request::get('qualifications');
+            $user->notes = Request::get('notes');
 
             if ($user->store()) {
                 PageLayout::postSuccess(sprintf(

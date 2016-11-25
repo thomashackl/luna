@@ -47,6 +47,21 @@ section#luna-data-filters {
 
 form.default {
   section {
+
+    &#luna-email-template, &#luna-phone-template {
+      display: none;
+    }
+
+    &.luna-email, &.luna-phone {
+      label {
+        display: inline-block !important;
+
+        input, select {
+          width: auto !important;
+        }
+      }
+    }
+
     input {
       &.luna-new-tag {
         display: inline !important;

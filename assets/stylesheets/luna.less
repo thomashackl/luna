@@ -8,15 +8,27 @@ table.default {
   }
 
   tfoot {
-    div.luna-pagination {
-      background-color: @content-color-40;
-      display: inline-block;
-      padding: 3px;
-      text-align: center;
-      width: 20px;
+    tr {
+      td {
+        &.luna-entries-per-page {
+          text-align: right;
+        }
 
-      &.active, &:hover {
-        background-color: @content-color-60;
+        div.luna-pagination {
+          display: inline-block;
+          text-align: center;
+          width: 15px;
+          margin-left: -2px;
+          margin-right: -2px;
+
+          &.active, &:hover {
+            background-color: @content-color-60;
+          }
+
+          a {
+            cursor: pointer;
+          }
+        }
       }
     }
   }

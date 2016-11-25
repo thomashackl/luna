@@ -64,7 +64,7 @@
         <?php if ($pagecount > 1) : ?>
             <tfoot>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="<?= count($columns) ?>">
                         <?= dgettext('luna', 'Seite ') ?>
                         <?php for ($i = 1 ; $i <= $pagecount ; $i++) : ?>
                             <div class="luna-pagination<?= $i == $activepage ? ' active' : ''?>">
@@ -76,6 +76,17 @@
                                 |
                             <?php endif ?>
                         <?php endfor ?>
+                    </td>
+                    <td colspan="2" class="luna-entries-per-page">
+                        <select name="entries-per-page"
+                                data-set-url="<?= $controller->url_for('filters/set_entries_per_page') ?>"
+                                onchange="STUDIP.Luna.setEntriesPerPage('persons', this)">
+                            <option value="25"<?= $entries_per_page == 25 ? ' selected' : ''?>>25</option>
+                            <option value="50"<?= $entries_per_page == 50 ? ' selected' : ''?>>50</option>
+                            <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
+                            <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
+                        </select>
+                        <?= dgettext('luna', 'Einträge pro Seite') ?>
                     </td>
                 </tr>
             </tfoot>

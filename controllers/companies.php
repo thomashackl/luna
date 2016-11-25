@@ -45,6 +45,13 @@ class CompaniesController extends AuthenticatedController {
         }
         PageLayout::addStylesheet($style);
 
+        if (Studip\ENV == 'development') {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
+        } else {
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
+        }
+        PageLayout::addScript($js);
+
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
@@ -71,6 +78,20 @@ class CompaniesController extends AuthenticatedController {
                 Icon::create('vcard+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
         }
+    }
+
+    public function load_companies_action($start = 0)
+    {
+        LunaCompanyFilter::setFilters($this->client->id, Request::getArray('filters'));
+
+        $this->allfilters = LunaCompanyFilter::getFilterFields(true);
+        $this->filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+
+        $this->companies = $this->client->getFilteredCompanies($start);
+        $this->companycount = $this->client->getFilteredCompaniesCount();
+        $this->entries_per_page = $this->client->getListMaxEntries('companies');
+        $this->pagecount = ceil($this->companycount / $this->entries_per_page);
+        $this->activepage = $start + 1;
     }
 
     /**

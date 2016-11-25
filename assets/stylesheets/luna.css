@@ -7,16 +7,22 @@ hsvvalue(@red));
 table.default tr td {
   vertical-align: top;
 }
-table.default tfoot div.luna-pagination {
-  background-color: #d0d7e3;
-  display: inline-block;
-  padding: 3px;
-  text-align: center;
-  width: 20px;
+table.default tfoot tr td.luna-entries-per-page {
+  text-align: right;
 }
-table.default tfoot div.luna-pagination.active,
-table.default tfoot div.luna-pagination:hover {
+table.default tfoot tr td div.luna-pagination {
+  display: inline-block;
+  text-align: center;
+  width: 15px;
+  margin-left: -2px;
+  margin-right: -2px;
+}
+table.default tfoot tr td div.luna-pagination.active,
+table.default tfoot tr td div.luna-pagination:hover {
   background-color: #b8c2d5;
+}
+table.default tfoot tr td div.luna-pagination a {
+  cursor: pointer;
 }
 section#luna-data-filters div#luna-newfilter {
   border: 1px solid #a7aaaf;

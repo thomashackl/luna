@@ -97,7 +97,7 @@ class PersonsController extends AuthenticatedController {
         $this->sidebar->addWidget($export);
     }
 
-    public function load_data_action($start = 0)
+    public function load_persons_action($start = 0)
     {
         LunaUserFilter::setFilters($this->client->id, Request::getArray('filters'));
 
@@ -112,7 +112,8 @@ class PersonsController extends AuthenticatedController {
 
         $this->persons = $this->client->getFilteredUsers($start);
         $this->personcount = $this->client->getFilteredUsersCount();
-        $this->pagecount = ceil($this->personcount / $this->client->getListMaxEntries());
+        $this->entries_per_page = $this->client->getListMaxEntries('persons');
+        $this->pagecount = ceil($this->personcount / $this->entries_per_page);
         $this->activepage = $start + 1;
     }
 

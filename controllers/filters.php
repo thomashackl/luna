@@ -1,8 +1,8 @@
 <?php
 /**
- * search.php
+ * filters.php
  *
- * Shows all registered search presets.
+ * Handles all filter related stuff.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -14,7 +14,7 @@
  * @category    Luna
  */
 
-class SearchController extends AuthenticatedController {
+class FiltersController extends AuthenticatedController {
 
     /**
      * Actions and settings taking place before every page call.
@@ -35,8 +35,6 @@ class SearchController extends AuthenticatedController {
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        $this->sidebar = Sidebar::get();
-        $this->sidebar->setImage('sidebar/search-sidebar.png');
 
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
@@ -44,47 +42,7 @@ class SearchController extends AuthenticatedController {
         $this->hasWriteAccess = in_array($access, array('admin', 'write'));
     }
 
-    /**
-     * List all available search presets.
-     */
-    public function index_action()
-    {
-        Navigation::activateItem('/tools/luna/search');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlagen'));
-
-        $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
-        $this->allfilters = LunaUserFilter::getFilterFields();
-        ksort($this->presets);
-    }
-
-    public function delete_action($name)
-    {
-        $presets = LunaUserFilter::getFilterPresets($this->client->id);
-
-        unset($presets[$name]);
-        LunaUserFilter::saveFilterPresets($this->client->id, $presets);
-
-        PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Suchvorlage "%s" wurde gelöscht.'), $name));
-
-        $this->relocate('search');
-    }
-
-    public function save_action()
-    {
-        CSRFProtection::verifyUnsafeRequest();
-        if (LunaUserFilter::saveFilterPreset($this->client->id, Request::quoted('name'))) {
-            PageLayout::postSuccess(sprintf(
-                dgettext('luna', 'Die Suchvorlage %s wurde gespeichert.'),
-                Request::quoted('name')));
-        } else {
-            PageLayout::postError(sprintf(
-                dgettext('luna', 'Die Suchvorlage %s konnte nicht gespeichert werden.'),
-                Request::quoted('name')));
-        }
-        $this->relocate('persons');
-    }
-
-    public function load_preset_action($type, $name)
+    public function get_filternames_action($type)
     {
         switch ($type) {
             case 'persons':
@@ -94,10 +52,33 @@ class SearchController extends AuthenticatedController {
                 $class = 'LunaCompanyFilter';
                 break;
         }
-        $presets = $class::getFilterPresets($this->client->id);
-        $class::setFilters($this->client->id, $presets[$name]);
-        $this->allfilters = $class::getFilterFields();
-        $this->filters = $presets[$name];
+        $this->render_text(studip_json_encode($class::getFilterNames()));
+    }
+
+    public function get_filterdata_action($type)
+    {
+        switch ($type) {
+            case 'persons':
+                $class = 'LunaUserFilter';
+                break;
+            case 'companies':
+                $class = 'LunaCompanyFilter';
+                break;
+        }
+        $this->render_text(studip_json_encode($class::getFilterValues($this->client->id, Request::get('field'))));
+    }
+
+    public function filter_preset_action()
+    {
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
+    }
+
+    public function set_entries_per_page_action()
+    {
+        $type = Request::option('type');
+        $count = Request::int('count');
+        $this->client->setListMaxEntries($type, $count);
+        $this->render_text(studip_json_encode(array('OK')));
     }
 
     // customized #url_for for plugins

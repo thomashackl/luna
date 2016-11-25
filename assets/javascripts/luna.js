@@ -262,6 +262,65 @@
             }
         },
 
+        loadCompanies: function(startPage) {
+            var dataEl = $('#luna-data');
+            var fullUrl = $(dataEl).data('update-url').split('?');
+            var url = fullUrl[0] + '/' + startPage;
+            if (fullUrl[1] != '') {
+                url += '?' + fullUrl[1];
+            }
+            $.ajax({
+                url: url,
+                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                dataType: 'html',
+                beforeSend: function (xhr, settings) {
+                    dataEl.html($('<img>').
+                    attr('width', 64).
+                    attr('height', 64).
+                    attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function (html) {
+                    dataEl.html(html);
+                }
+            });
+            return false;
+        },
+
+        setEntriesPerPage: function(type, element) {
+            var fullUrl = $(element).data('set-url').split('?');
+            var url = fullUrl[0];
+            if (fullUrl[1] != '' && fullUrl[1] != null) {
+                url += '?' + fullUrl[1];
+            }
+            var parent = $(element).parent();
+            var newValue = $(element).children('option:selected').attr('value');
+            $.ajax({
+                url: url,
+                data: {
+                    'count': newValue,
+                    'type': type
+                },
+                dataType: 'json',
+                beforeSend: function (xhr, settings) {
+                    parent.html($('<img>').
+                        attr('width', 16).
+                        attr('height', 16).
+                        attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function() {
+                    switch (type) {
+                        case 'persons':
+                            STUDIP.Luna.loadPersons(0);
+                            break;
+                        case 'companies':
+                            STUDIP.Luna.loadCompanies(0);
+                            break;
+                    }
+                }
+            });
+            return false;
+        },
+
         init: function() {
             $('#luna-add-filter').on('click', function() {
                 STUDIP.Luna.getFilterNames();
@@ -320,8 +379,8 @@
             $('input[name="docs[]"]').on('change', function(event) {
                 STUDIP.Luna.prepareFileUpload(this);
             })
-        }
 
+        }
     };
 
     $(document).ready(function () {
@@ -329,8 +388,16 @@
         $(document).on('dialog-open', function () {
             STUDIP.Luna.init();
         });
-        if ($('div#luna-data').length > 0) {
-            STUDIP.Luna.loadPersons(0);
+        var dataDiv = $('div#luna-data');
+        if (dataDiv.length > 0) {
+            switch (dataDiv.data('type')) {
+                case 'persons':
+                    STUDIP.Luna.loadPersons(0);
+                    break;
+                case 'companies':
+                    STUDIP.Luna.loadCompanies(0);
+                    break;
+            }
         }
     });
 

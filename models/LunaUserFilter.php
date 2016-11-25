@@ -83,14 +83,14 @@ class LunaUserFilter
         );
         if ($all) {
             $fields = $fields + array(
-                'email' => array(
+                'emails' => array(
                     'name' => dgettext('luna', 'E-Mailadresse'),
                     'table' => 'luna_email',
                     'ids' => 'user_id',
                     'dbvalues' => 'email',
                     'class' => 'LunaEMail'
                 ),
-                'phone' => array(
+                'phonenumbers' => array(
                     'name' => dgettext('luna', 'Telefonnummer'),
                     'table' => 'luna_phone',
                     'ids' => 'user_id',

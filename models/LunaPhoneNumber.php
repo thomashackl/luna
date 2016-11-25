@@ -33,6 +33,7 @@ class LunaPhoneNumber extends SimpleORMap
             'assoc_foreign_key' => 'user_id',
             'on_store' => 'store'
         );
+        $config['alias_fields']['name'] = 'number';
 
         parent::configure($config);
     }

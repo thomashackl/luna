@@ -123,6 +123,11 @@ class LunaUser extends SimpleORMap
         return $name;
     }
 
+    public function getDefaultEmail()
+    {
+        return $this->emails->findOneBy('default', 1)->email;
+    }
+
     public static function getDistinctValues($client, $field)
     {
         $filters = LunaUserFilter::getFilterFields();

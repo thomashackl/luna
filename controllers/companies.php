@@ -40,16 +40,12 @@ class CompaniesController extends AuthenticatedController {
 
         if (Studip\ENV == 'development') {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
-        } else {
-            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
-        }
-        PageLayout::addStylesheet($style);
-
-        if (Studip\ENV == 'development') {
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
         } else {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
+        PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
 
         $this->client = LunaClient::getCurrentClient();

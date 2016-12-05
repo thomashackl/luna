@@ -220,7 +220,7 @@ class LunaClient extends SimpleORMap
     public function getListMaxEntries($type)
     {
         $counts = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_ENTRIES_PER_PAGE);
-        return $counts[$this->id][$type] ?: 2;
+        return $counts[$this->id][$type] ?: 25;
     }
 
     public function setListMaxEntries($type, $count)

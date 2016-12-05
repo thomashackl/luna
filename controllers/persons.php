@@ -40,23 +40,19 @@ class PersonsController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/person-sidebar.png');
 
-        if (Studip\ENV == 'development') {
-            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
-        } else {
-            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
-        }
-        PageLayout::addStylesheet($style);
-
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
         $this->hasWriteAccess = in_array($access, array('admin', 'write'));
 
         if (Studip\ENV == 'development') {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
         } else {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
+        PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
     }
 
@@ -65,36 +61,48 @@ class PersonsController extends AuthenticatedController {
      */
     public function index_action()
     {
-        Navigation::activateItem('/tools/luna/persons');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
+        if (Request::submitted('do-action')) {
+            switch (Request::option('bulkaction')) {
+                case 'message':
+                    $this->flash['bulkusers'] = Request::optionArray('persons');
+                    $this->redirect($this->url_for('message/write'));
+                    break;
+                case 'export':
+                    $this->flash['bulkusers'] = Request::optionArray('persons');
+                    $this->redirect($this->url_for('persons/export_persons'));
+                    break;
+            }
+        } else {
+            Navigation::activateItem('/tools/luna/persons');
+            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
 
-        if (Request::submitted('apply')) {
-            LunaUserFilter::addFilter($this->client->id, Request::get('field'),
-                Request::get('compare'), Request::get('value'));
-        }
+            if (Request::submitted('apply')) {
+                LunaUserFilter::addFilter($this->client->id, Request::get('field'),
+                    Request::get('compare'), Request::get('value'));
+            }
 
-        $this->allfilters = LunaUserFilter::getFilterFields(true);
-        $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+            $this->allfilters = LunaUserFilter::getFilterFields(true);
+            $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
 
-        $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
+            $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
 
-        $this->personcount = $this->client->getFilteredUsersCount();
-        $this->persons = $this->client->getFilteredUsers();
+            $this->personcount = $this->client->getFilteredUsersCount();
+            $this->persons = $this->client->getFilteredUsers();
 
-        if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Person hinzufügen'),
-                $this->url_for('persons/edit'),
-                Icon::create('person+add', 'clickable'))->asDialog('size=auto');
-            $this->sidebar->addWidget($actions);
-        }
+            if ($this->hasWriteAccess) {
+                $actions->addLink(dgettext('luna', 'Person hinzufügen'),
+                    $this->url_for('persons/edit'),
+                    Icon::create('person+add', 'clickable'))->asDialog('size=auto');
+            }
 
-        $export = new ExportWidget();
-        $export->addLink(dgettext('luna', 'Excel-Export'),
-            $this->url_for('persons/export_persons'),
-            Icon::create('file-excel', 'clickable')
-        )->asDialog('size=auto');
-        $this->sidebar->addWidget($export);
+            $export = new ExportWidget();
+            $export->addLink(dgettext('luna', 'Excel-Export'),
+                $this->url_for('persons/export_persons'),
+                Icon::create('file-excel', 'clickable')
+            )->asDialog('size=auto');
+            $this->sidebar->addWidget($export);
+        }
     }
 
     public function load_persons_action($start = 0)

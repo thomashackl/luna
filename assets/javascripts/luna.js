@@ -376,10 +376,34 @@
                 }
             });
 
-            $('input[name="docs[]"]').on('change', function(event) {
+            $('input[name="docs[]"]').on('change', function() {
                 STUDIP.Luna.prepareFileUpload(this);
-            })
+            });
 
+            $('a#luna-toggle-recipients').on('click', function() {
+                $('#luna-recipients').toggle();
+                $('#luna-show-recipients').toggle();
+                $('#luna-hide-recipients').toggle();
+                return false;
+            });
+
+            var markers = $('label#luna-markers');
+            var addMarker = $('#luna-add-marker');
+            markers.children('select').on('change', function() {
+                var selected = $(this).children('option:selected');
+                $('#luna-marker-description').html(selected.data('description'));
+                if (selected.attr('value') != '') {
+                    addMarker.removeClass('hidden-js');
+                } else {
+                    addMarker.addClass('hidden-js');
+                }
+            });
+            markers.insertAfter('div.buttons');
+            addMarker.on('click', function() {
+                markers.parent().children('textarea').
+                    insertAtCaret($('label#luna-markers select option:selected').attr('value'));
+                return false;
+            });
         }
     };
 

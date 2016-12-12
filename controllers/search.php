@@ -52,27 +52,69 @@ class SearchController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/search');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlagen'));
 
-        $this->presets = LunaUserFilter::getFilterPresets($this->client->id);
-        $this->allfilters = LunaUserFilter::getFilterFields();
-        ksort($this->presets);
+        $user_presets = LunaUserFilter::getFilterPresets($this->client->id);
+        ksort($user_presets);
+        $company_presets = LunaCompanyFilter::getFilterPresets($this->client->id);
+        ksort($company_presets);
+
+        $this->presets = array(
+            'persons' => array(
+                'name' => dgettext('luna', 'Personen'),
+                'presets' => $user_presets,
+                'allfilters' => LunaUserFilter::getFilterFields()
+            ),
+            'companies' => array(
+                'name' => dgettext('luna', 'Firmen'),
+                'presets' => $company_presets,
+                'allfilters' => LunaCompanyFilter::getFilterFields()
+            ),
+        );
     }
 
-    public function delete_action($name)
+    public function filter_preset_action($type)
     {
-        $presets = LunaUserFilter::getFilterPresets($this->client->id);
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
 
-        unset($presets[$name]);
-        LunaUserFilter::saveFilterPresets($this->client->id, $presets);
+        $this->type = $type;
+    }
 
-        PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Suchvorlage "%s" wurde gelöscht.'), $name));
+    public function delete_preset_action($type, $name)
+    {
+        switch ($type) {
+            case 'companies':
+                $class = 'LunaCompanyFilter';
+                break;
+            case 'persons':
+            default:
+                $class = 'LunaUserFilter';
+                break;
+        }
+
+        $presets = $class::getFilterPresets($this->client->id);
+
+        unset($presets[urldecode($name)]);
+        $class::saveFilterPresets($this->client->id, $presets);
+
+        PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Suchvorlage "%s" wurde gelöscht.'), urldecode($name)));
 
         $this->relocate('search');
     }
 
-    public function save_action()
+    public function save_preset_action($type)
     {
         CSRFProtection::verifyUnsafeRequest();
-        if (LunaUserFilter::saveFilterPreset($this->client->id, Request::quoted('name'))) {
+
+        switch ($type) {
+            case 'companies':
+                $class = 'LunaCompanyFilter';
+                break;
+            case 'persons':
+            default:
+                $class = 'LunaUserFilter';
+                break;
+        }
+
+        if ($class::saveFilterPreset($this->client->id, Request::quoted('name'))) {
             PageLayout::postSuccess(sprintf(
                 dgettext('luna', 'Die Suchvorlage %s wurde gespeichert.'),
                 Request::quoted('name')));
@@ -81,7 +123,7 @@ class SearchController extends AuthenticatedController {
                 dgettext('luna', 'Die Suchvorlage %s konnte nicht gespeichert werden.'),
                 Request::quoted('name')));
         }
-        $this->relocate('persons');
+        $this->relocate($type);
     }
 
     public function load_preset_action($type, $name)

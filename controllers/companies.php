@@ -62,7 +62,19 @@ class CompaniesController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/companies');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Firmenübersicht'));
 
-        $this->companies = $this->client->companies;
+        if (Request::submitted('apply')) {
+            LunaCompanyFilter::addFilter($this->client->id, Request::get('field'),
+                Request::get('compare'), Request::get('value'));
+        }
+
+        $this->allfilters = LunaCompanyFilter::getFilterFields(true);
+        $this->filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+
+        $this->presets = LunaCompanyFilter::getFilterPresets($this->client->id);
+
+        $this->companycount = $this->client->getFilteredCompaniesCount();
+        $this->companies = $this->client->getFilteredCompanies();
+
         if ($this->companies) {
             $this->companies->orderBy('name');
         }

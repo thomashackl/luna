@@ -8,7 +8,7 @@
                 <?= dgettext('luna', 'Eine vorhandene Suchvorlage laden') ?>
                 <br>
                 <select name="preset" id="luna-userfilter-preset"
-                        data-update-url="<?= $controller->url_for('filters/load_preset', 'persons') ?>">
+                        data-update-url="<?= $controller->url_for('search/load_preset', 'persons') ?>">
                     <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
                     <?php foreach ($presets as $name => $filterdata) : ?>
                         <option value="<?= htmlReady($name) ?>"><?= htmlReady($name) ?></option>
@@ -32,7 +32,7 @@
         <div id="luna-applied-filters"<?= count($filters) == 0 ? ' class="hidden-js"' : '' ?> data-filter-count="<?= count($filters) ?>">
             <?php if (count($filters) > 0) : $i = 0; ?>
                 <?php foreach ($filters as $filter) : ?>
-                    <?= $this->render_partial('persons/_singlefilter',
+                    <?= $this->render_partial('filters/_singlefilter',
                         array('allfilters' => $allfilters, 'filter' => $filter, 'i' => $i)) ?>
                 <?php $i++; endforeach ?>
             <?php endif ?>
@@ -41,7 +41,7 @@
     <?php if (count($filters) > 0) : ?>
         <section id="luna-save-filters">
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
-                $controller->url_for('search/filter_preset'), array('data-dialog' => 'size=auto')) ?>
+                $controller->url_for('search/filter_preset/persons'), array('data-dialog' => 'size=auto')) ?>
         </section>
     <?php endif ?>
 </form>

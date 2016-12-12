@@ -68,11 +68,6 @@ class FiltersController extends AuthenticatedController {
         $this->render_text(studip_json_encode($class::getFilterValues($this->client->id, Request::get('field'))));
     }
 
-    public function filter_preset_action()
-    {
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Suchvorlage speichern'));
-    }
-
     public function set_entries_per_page_action()
     {
         $type = Request::option('type');

@@ -365,6 +365,11 @@ class PersonsController extends AuthenticatedController {
         $this->relocate('persons');
     }
 
+    public function bulk_action()
+    {
+
+    }
+
     /**
      * Deletes the given document which is assigned to the given person.
      * @param $person_id

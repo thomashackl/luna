@@ -1,4 +1,4 @@
-<?php if ($persons) : ?>
+<?php if (count($persons) > 0) : ?>
     <table class="default">
         <caption>
             <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Personen') ?>
@@ -59,11 +59,15 @@
                 <td>
                     <?php if ($hasWriteAccess) : ?>
                         <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog>
-                            <?= Icon::create('info', 'clickable')->asImg() ?>
+                            <?= Icon::create('edit', 'clickable')->asImg() ?>
                         </a>
                         <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
                                 dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
+                        </a>
+                    <?php else : ?>
+                        <a href="<?= $controller->url_for('persons/info', $p->id) ?>" data-dialog>
+                            <?= Icon::create('info', 'clickable')->asImg() ?>
                         </a>
                     <?php endif ?>
                 </td>

@@ -83,13 +83,6 @@ class PersonsController extends AuthenticatedController {
                 $this->url_for('persons/edit'),
                 Icon::create('person+add', 'clickable'))->asDialog('size=auto');
         }
-
-        $export = new ExportWidget();
-        $export->addLink(dgettext('luna', 'Excel-Export'),
-            $this->url_for('persons/export_persons'),
-            Icon::create('file-excel', 'clickable')
-        )->asDialog('size=auto');
-        $this->sidebar->addWidget($export);
     }
 
     public function load_persons_action($start = 0)
@@ -119,7 +112,6 @@ class PersonsController extends AuthenticatedController {
      */
     public function edit_action($id = '')
     {
-        SimpleORMap::expireTableScheme();
         Navigation::activateItem('/tools/luna/persons');
 
         if ($id) {
@@ -176,6 +168,31 @@ class PersonsController extends AuthenticatedController {
             dgettext('luna', 'Neue Person anlegen'),
             $this->url_for('persons/edit', $id),
             Icon::create('roles2', 'clickable'))->setActive(true);
+        $this->sidebar->addWidget($views);
+    }
+
+    /**
+     * Create a new or edit an existing person.
+     *
+     * @param string $id id of the person to edit, empty if new person
+     */
+    public function info_action($id)
+    {
+        Navigation::activateItem('/tools/luna/persons');
+
+        $this->person = LunaUser::find($id);
+
+        $title = sprintf(dgettext('luna', 'Daten von %s'), $this->person->getFullname('full'));
+
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
+
+        $views = new ViewsWidget();
+        $views->addLink(dgettext('luna', 'Übersicht'),
+            $this->url_for('persons'),
+            Icon::create('group2', 'clickable'))->setActive(false);
+        $views->addLink(dgettext('luna', 'Personendaten'),
+            $this->url_for('persons/info', $id),
+            Icon::create('info', 'clickable'))->setActive(true);
         $this->sidebar->addWidget($views);
     }
 

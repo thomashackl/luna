@@ -223,6 +223,29 @@
             </label>
         </section>
     </fieldset>
+    <?php if (count($companies) > 0) : ?>
+        <fieldset>
+            <legend>
+                <?= dgettext('luna', 'Firma') ?>
+            </legend>
+            <section>
+                <label>
+                    <?= dgettext('luna', 'Bestehende Firma auswählen') ?>
+                    <select name="company">
+                        <option value="">-- <?= dgettext('luna', 'Keine Firma auswählen') ?> --</option>
+                        <?foreach ($companies as $company) : ?>
+                            <option value="<?= $company->id ?>"<?= $person->companies->find($company->id) ? ' selected' : ''?>>
+                                <?= htmlReady($company->name) ?>
+                            </option>
+                        <?php endforeach ?>
+                    </select>
+                </label>
+                <?= dgettext('luna', 'oder') ?>
+                <?= Studip\Button::create(dgettext('luna', 'Neue Firma hinzufügen'), 'newcompany',
+                    array('data-dialog' => '')) ?>
+            </section>
+        </fieldset>
+    <?php endif ?>
     <?php if (count($skills) > 0) : ?>
         <fieldset>
             <legend>
@@ -250,29 +273,6 @@
                         <?php endforeach ?>
                     <?php endif ?>
                 </div>
-            </section>
-        </fieldset>
-    <?php endif ?>
-    <?php if (count($companies) > 0) : ?>
-        <fieldset>
-            <legend>
-                <?= dgettext('luna', 'Firma') ?>
-            </legend>
-            <section>
-                <label>
-                    <?= dgettext('luna', 'Bestehende Firma auswählen') ?>
-                    <select name="company">
-                        <option value="">-- <?= dgettext('luna', 'Keine Firma auswählen') ?> --</option>
-                        <?foreach ($companies as $company) : ?>
-                            <option value="<?= $company->id ?>"<?= $person->companies->find($company->id) ? ' selected' : ''?>>
-                                <?= htmlReady($company->name) ?>
-                            </option>
-                        <?php endforeach ?>
-                    </select>
-                </label>
-                <?= dgettext('luna', 'oder') ?>
-                <?= Studip\Button::create(dgettext('luna', 'Neue Firma hinzufügen'), 'newcompany',
-                    array('data-dialog' => '')) ?>
             </section>
         </fieldset>
     <?php endif ?>

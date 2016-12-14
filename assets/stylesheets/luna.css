@@ -54,6 +54,7 @@ form.default section.luna-email label select,
 form.default section.luna-phone label select {
   width: auto !important;
 }
+form.default section input.luna-new-skill,
 form.default section input.luna-new-tag {
   display: inline !important;
   max-width: 16em;
@@ -61,14 +62,20 @@ form.default section input.luna-new-tag {
 form.default section input[name="docs[]"] {
   display: none;
 }
+form.default section a.luna-skill-add img,
 form.default section a.luna-tag-add img,
+form.default section a.luna-skill-add svg,
 form.default section a.luna-tag-add svg {
   position: relative;
   top: 10px;
 }
+form.default section div#luna-person-skills,
 form.default section div#luna-person-tags {
   margin-top: 10px;
 }
+form.default section div#luna-person-skills div.luna-skill,
+form.default section div#luna-person-tags div.luna-skill,
+form.default section div#luna-person-skills div.luna-tag,
 form.default section div#luna-person-tags div.luna-tag {
   border: 1px solid #a7aaaf;
   background-color: #e2e3e4;

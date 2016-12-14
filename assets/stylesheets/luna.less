@@ -75,7 +75,7 @@ form.default {
     }
 
     input {
-      &.luna-new-tag {
+      &.luna-new-skill, &.luna-new-tag {
         display: inline !important;
         max-width: 16em;
       }
@@ -85,23 +85,25 @@ form.default {
       }
     }
 
-    a.luna-tag-add {
+    a.luna-skill-add, a.luna-tag-add {
       img, svg {
         position: relative;
         top: 10px;
       }
     }
 
-    div#luna-person-tags {
+    div#luna-person-skills, div#luna-person-tags {
       margin-top: 10px;
 
-      div.luna-tag {
-        border: 1px solid @light-gray-color-60;
-        background-color: @light-gray-color-20;
-        display: inline-block;
-        margin-bottom: 2px;
-        padding: 5px;
-        padding-right: 0;
+      div {
+        &.luna-skill, &.luna-tag {
+          border: 1px solid @light-gray-color-60;
+          background-color: @light-gray-color-20;
+          display: inline-block;
+          margin-bottom: 2px;
+          padding: 5px;
+          padding-right: 0;
+        }
       }
     }
 

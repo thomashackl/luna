@@ -55,7 +55,8 @@ class LunaUser extends SimpleORMap
             'thru_key' => 'user_id',
             'thru_assoc_key' => 'skill_id',
             'on_delete' => 'delete',
-            'on_store' => 'store'
+            'on_store' => 'store',
+            'order_by' => 'ORDER BY `name`'
         );
         $config['has_and_belongs_to_many']['companies'] = array(
             'class_name' => 'LunaCompany',
@@ -63,7 +64,8 @@ class LunaUser extends SimpleORMap
             'thru_key' => 'user_id',
             'thru_assoc_key' => 'company_id',
             'on_delete' => 'delete',
-            'on_store' => 'store'
+            'on_store' => 'store',
+            'order_by' => 'ORDER BY `name`'
         );
         $config['has_and_belongs_to_many']['tags'] = array(
             'class_name' => 'LunaTag',
@@ -71,7 +73,8 @@ class LunaUser extends SimpleORMap
             'thru_key' => 'user_id',
             'thru_assoc_key' => 'tag_id',
             'on_delete' => 'delete',
-            'on_store' => 'store'
+            'on_store' => 'store',
+            'order_by' => 'ORDER BY `name`'
         );
         $config['has_many']['emails'] = array(
             'class_name' => 'LunaEMail',

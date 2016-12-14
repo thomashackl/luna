@@ -98,116 +98,116 @@
             </label>
         </section>
     </fieldset>
-    <fieldset>
+    <fieldset id="luna-emails">
         <legend>
-            <?= dgettext('luna', 'Kontaktdaten') ?>
+            <?= dgettext('luna', 'E-Mailadresse(n)') ?>
         </legend>
-        <section id="luna-emails">
-            <header>
-                <?= dgettext('luna', 'E-Mailadresse(n)') ?>
-            </header>
-            <section id="luna-email-template" class="luna-email" data-number-of-emails="<?= count($person->emails) ?>">
+        <section id="luna-email-template" class="luna-email" data-number-of-emails="<?= count($person->emails) ?>">
+            <label>
+                <?= dgettext('luna', 'Adresse') ?>
+                <input type="email" name="email-template-address" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine E-Mailadresse ein') ?>">
+            </label>
+            <label>
+                <?= dgettext('luna', 'Art') ?>
+                <select name="email-template-type">
+                    <option value="private"><?= dgettext('luna', 'Privat') ?></option>
+                    <option value="office"><?= dgettext('luna', 'Geschäftlich') ?></option>
+                </select>
+            </label>
+            <label>
+                <input type="radio" name="email-template-default">
+                <?= dgettext('luna', 'Standardadresse') ?>
+            </label>
+        </section>
+        <?php $i = 0; foreach ($person->emails as $m) : ?>
+            <section class="luna-email">
                 <label>
                     <?= dgettext('luna', 'Adresse') ?>
-                    <input type="email" name="email-template-address" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine E-Mailadresse ein') ?>">
+                    <input type="email" name="email[<?= $i ?>][address]" size="50" value="<?= htmlReady($m->email) ?>">
                 </label>
                 <label>
                     <?= dgettext('luna', 'Art') ?>
-                    <select name="email-template-type">
-                        <option value="private"><?= dgettext('luna', 'Privat') ?></option>
-                        <option value="office"><?= dgettext('luna', 'Geschäftlich') ?></option>
-                    </select>
-                </label>
-                <label>
-                    <input type="radio" name="email-template-default">
-                    <?= dgettext('luna', 'Standardadresse') ?>
-                </label>
-            </section>
-            <?php $i = 0; foreach ($person->emails as $m) : ?>
-                <section class="luna-email">
-                    <label>
-                        <?= dgettext('luna', 'Adresse') ?>
-                        <input type="email" name="email[<?= $i ?>][address]" size="50" value="<?= htmlReady($m->email) ?>">
-                    </label>
-                    <label>
-                        <?= dgettext('luna', 'Art') ?>
-                        <select name="email[<?= $i ?>][type]">
-                            <option value="private"<?= $m->type == 'private' ? ' selected' : '' ?>>
-                                <?= dgettext('luna', 'Privat') ?>
-                            </option>
-                            <option value="office"<?= $m->type == 'office' ? ' selected' : '' ?>>
-                                <?= dgettext('luna', 'Geschäftlich') ?>
-                            </option>
-                        </select>
-                    </label>
-                    <label>
-                        <input type="radio" name="email-default" value="<?= $i ?>"<?= $m->default ? ' checked' : '' ?>>
-                        <?= dgettext('luna', 'Standardadresse') ?>
-                    </label>
-                </section>
-            <?php $i++; endforeach ?>
-            <a class="luna-email-add" href="">
-                <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufügen')))->asImg(24) ?>
-            </a>
-        </section>
-        <section id="luna-phone">
-            <header>
-                <?= dgettext('luna', 'Telefonnummer(n)') ?>
-            </header>
-            <section id="luna-phone-template" class="luna-phone" data-number-of-phonenumbers="<?= count($person->phonenumbers) ?>">
-                <label>
-                    <?= dgettext('luna', 'Nummer') ?>
-                    <input type="tel" name="phone-template-number" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine Telefonnummer ein') ?>">
-                </label>
-                <label>
-                    <?= dgettext('luna', 'Art') ?>
-                    <select name="phone-template-type">
-                        <option value="private">
+                    <select name="email[<?= $i ?>][type]">
+                        <option value="private"<?= $m->type == 'private' ? ' selected' : '' ?>>
                             <?= dgettext('luna', 'Privat') ?>
                         </option>
-                        <option value="mobile">
-                            <?= dgettext('luna', 'Mobil') ?>
-                        </option>
-                        <option value="office">
+                        <option value="office"<?= $m->type == 'office' ? ' selected' : '' ?>>
                             <?= dgettext('luna', 'Geschäftlich') ?>
                         </option>
                     </select>
                 </label>
                 <label>
-                    <input type="radio" name="phone-template-default">
+                    <input type="radio" name="email-default" value="<?= $i ?>"<?= $m->default ? ' checked' : '' ?>>
+                    <?= dgettext('luna', 'Standardadresse') ?>
+                </label>
+            </section>
+        <?php $i++; endforeach ?>
+        <a class="luna-email-add" href="">
+            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufügen')))->asImg(24) ?>
+        </a>
+    </fieldset>
+    <fieldset id="luna-phone">
+        <legend>
+            <?= dgettext('luna', 'Telefonnummer(n)') ?>
+        </legend>
+        <section id="luna-phone-template" class="luna-phone" data-number-of-phonenumbers="<?= count($person->phonenumbers) ?>">
+            <label>
+                <?= dgettext('luna', 'Nummer') ?>
+                <input type="tel" name="phone-template-number" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine Telefonnummer ein') ?>">
+            </label>
+            <label>
+                <?= dgettext('luna', 'Art') ?>
+                <select name="phone-template-type">
+                    <option value="private">
+                        <?= dgettext('luna', 'Privat') ?>
+                    </option>
+                    <option value="mobile">
+                        <?= dgettext('luna', 'Mobil') ?>
+                    </option>
+                    <option value="office">
+                        <?= dgettext('luna', 'Geschäftlich') ?>
+                    </option>
+                </select>
+            </label>
+            <label>
+                <input type="radio" name="phone-template-default">
+                <?= dgettext('luna', 'Standardnummer') ?>
+            </label>
+        </section>
+        <?php $i = 0; foreach ($person->phonenumbers as $p) : ?>
+            <section class="luna-phone">
+                <label>
+                    <?= dgettext('luna', 'Nummer') ?>
+                    <input type="tel" name="phone[<?= $i ?>][number]" size="50" value="<?= htmlReady($p->number) ?>">
+                </label>
+                <label>
+                    <?= dgettext('luna', 'Art') ?>
+                    <select name="phone[<?= $i ?>][type]">
+                        <option value="private"<?= $p->type == 'private' ? ' selected' : '' ?>>
+                            <?= dgettext('luna', 'Privat') ?>
+                        </option>
+                        <option value="mobile"<?= $p->type == 'mobile' ? ' selected' : '' ?>>
+                            <?= dgettext('luna', 'Mobil') ?>
+                        </option>
+                        <option value="office"<?= $p->type == 'office' ? ' selected' : '' ?>>
+                            <?= dgettext('luna', 'Geschäftlich') ?>
+                        </option>
+                    </select>
+                </label>
+                <label>
+                    <input type="radio" name="phone-default" value="<?= $i ?>"<?= $p->default ? ' checked' : '' ?>>
                     <?= dgettext('luna', 'Standardnummer') ?>
                 </label>
             </section>
-            <?php $i = 0; foreach ($person->phonenumbers as $p) : ?>
-                <section class="luna-phone">
-                    <label>
-                        <?= dgettext('luna', 'Nummer') ?>
-                        <input type="tel" name="phone[<?= $i ?>][number]" size="50" value="<?= htmlReady($p->number) ?>">
-                    </label>
-                    <label>
-                        <?= dgettext('luna', 'Art') ?>
-                        <select name="phone[<?= $i ?>][type]">
-                            <option value="private"<?= $p->type == 'private' ? ' selected' : '' ?>>
-                                <?= dgettext('luna', 'Privat') ?>
-                            </option>
-                            <option value="mobile"<?= $p->type == 'mobile' ? ' selected' : '' ?>>
-                                <?= dgettext('luna', 'Mobil') ?>
-                            </option>
-                            <option value="office"<?= $p->type == 'office' ? ' selected' : '' ?>>
-                                <?= dgettext('luna', 'Geschäftlich') ?>
-                            </option>
-                        </select>
-                    </label>
-                    <label>
-                        <input type="radio" name="phone-default" value="<?= $i ?>"<?= $p->default ? ' checked' : '' ?>>
-                        <?= dgettext('luna', 'Standardnummer') ?>
-                    </label>
-                </section>
-            <?php $i++; endforeach ?>
-            <a class="luna-phone-add" href="">
-                <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufügen')))->asImg(24) ?>
-            </a>
-        </section>
+        <?php $i++; endforeach ?>
+        <a class="luna-phone-add" href="">
+            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufügen')))->asImg(24) ?>
+        </a>
+    </fieldset>
+    <fieldset>
+        <legend>
+            <?= dgettext('luna', 'Weitere Kontaktdaten') ?>
+        </legend>
         <section>
             <label>
                 <?= dgettext('luna', 'Fax') ?>
@@ -229,14 +229,27 @@
                 <?= dgettext('luna', 'Kompetenzen') ?>
             </legend>
             <section>
-                <?foreach ($skills as $skill) : ?>
-                    <label>
-                        <input type="checkbox" name="skills[]" value="<?= $skill->id ?>"<?= $person->skills->find($skill->id) ? ' checked' : ''?>>
-                        <?= htmlReady($skill->name) ?>
-                    </label>
-                <?php endforeach ?>
-                <?= Studip\Button::create(dgettext('luna', 'Neue Kompetenz hinzufügen'), 'newskill',
-                    array('data-dialog' => '')) ?>
+                <label>
+                    <?= dgettext('luna', 'Fügen Sie eine Kompetenz hinzu') ?>:
+                    <br>
+                    <input type="text" name="skill" size="40" class="luna-new-skill" data-available-skills="<?= $controller->url_for('skills/search') ?>">
+                    <a class="luna-skill-add" href="">
+                        <?= Icon::create('add', 'clickable')->asImg(24) ?>
+                    </a>
+                </label>
+                <div id="luna-person-skills">
+                    <?php if ($person->skills) : ?>
+                        <?php foreach ($person->skills as $skill) : ?>
+                            <div class="luna-skill" id="luna-skill-<?= htmlReady(str_replace(' ', '-', $skill->name)) ?>">
+                                <?= htmlReady($skill->name) ?>
+                                <input type="hidden" name="skills[]" value="<?= htmlReady($skill->name) ?>">
+                                <a class="luna-skill-remove" href="">
+                                    <?= Icon::create('trash', 'clickable')->asImg() ?>
+                                </a>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                </div>
             </section>
         </fieldset>
     <?php endif ?>
@@ -279,7 +292,7 @@
             <div id="luna-person-tags">
                 <?php if ($person->tags) : ?>
                     <?php foreach ($person->tags as $tag) : ?>
-                        <div class="luna-tag" id="luna-tag-<?= $tag->name ?>">
+                        <div class="luna-tag" id="luna-tag-<?= htmlReady(str_replace(' ', '-', $tag->name)) ?>">
                             <?= htmlReady($tag->name) ?>
                             <input type="hidden" name="tags[]" value="<?= htmlReady($tag->name) ?>">
                             <a class="luna-tag-remove" href="">

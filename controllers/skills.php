@@ -154,6 +154,18 @@ class SkillsController extends AuthenticatedController {
         $this->relocate('skills');
     }
 
+    public function search_action()
+    {
+        $results = LunaSkill::findBySQL("`client_id` = ?  AND `name` LIKE ? ORDER BY `name`",
+            array($this->client->id, '%' . Request::quoted('term') . '%'));
+        if (count($results) > 0) {
+            $skills = array_map(function($t) { return $t->name; }, $results);
+        } else {
+            $skills = array();
+        }
+        $this->render_text(studip_json_encode($skills));
+    }
+
     // customized #url_for for plugins
     public function url_for($to)
     {

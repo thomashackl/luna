@@ -200,12 +200,43 @@
             template.attr('data-number-of-phonenumbers', count);
         },
 
+        addSkill: function(skill) {
+            var div = $('div#luna-person-skills');
+            if (div.children('div#luna-skill-' + skill.replace(' ', '-')).length == 0) {
+                var skillDiv = $('<div>').
+                    addClass('luna-skill').
+                    attr('id', 'luna-skill-' + skill.replace(' ', '-')).
+                    html(skill);
+                var input = $('<input>').
+                    attr('type', 'hidden').
+                    attr('name', 'skills[]').
+                    attr('value', skill);
+                var a = $('<a>').
+                    attr('href', '').
+                    addClass('luna-skill-remove').
+                    on('click', function() {
+                        STUDIP.Luna.removeEntry(this);
+                        return false;
+                    });
+                var img = $('<img>').
+                    attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
+                    attr('width', '16').
+                    attr('height', '16').
+                    addClass('icon-role-clickable').
+                    addClass('icon-role-trash');
+                a.append(img);
+                skillDiv.append(input);
+                skillDiv.append(a);
+                div.append(skillDiv);
+            }
+        },
+
         addTag: function(tag) {
             var div = $('div#luna-person-tags');
-            if (div.children('div#luna-tag-' + tag).length == 0) {
+            if (div.children('div#luna-tag-' + tag.replace(' ', '-')).length == 0) {
                 var tagDiv = $('<div>').
                     addClass('luna-tag').
-                    attr('id', 'luna-tag-' + tag).
+                    attr('id', 'luna-tag-' + tag.replace(' ', '-')).
                     html(tag);
                 var input = $('<input>').
                     attr('type', 'hidden').
@@ -231,7 +262,7 @@
             }
         },
 
-        removeTag: function(element) {
+        removeEntry: function(element) {
             $(element).parent().remove();
         },
 
@@ -332,11 +363,6 @@
                 return false;
             });
 
-            $('a.luna-tag-remove').on('click', function() {
-                STUDIP.Luna.removeTag(this);
-                return false;
-            });
-
             var statusInput = $('input[name="status"]');
             statusInput.autocomplete({
                 source: statusInput.data('available-status'),
@@ -350,6 +376,39 @@
 
             $('a.luna-phone-add').on('click', function() {
                 STUDIP.Luna.addPhonenumber();
+                return false;
+            });
+
+            $('a.luna-skill-remove').on('click', function() {
+                STUDIP.Luna.removeEntry(this);
+                return false;
+            });
+
+            var skillInput = $('input[name="skill"]');
+            $('a.luna-skill-add').on('click', function() {
+                STUDIP.Luna.addSkill(skillInput.val());
+                skillInput.val('');
+                return false;
+            });
+            skillInput.autocomplete({
+                source: skillInput.data('available-skills'),
+                minLength: 2,
+                select: function(event, ui) {
+                    STUDIP.Luna.addSkill(ui.item.value);
+                    skillInput.val('');
+                }
+            });
+            skillInput.on('keypress', function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    event.preventDefault();
+                    STUDIP.Luna.addSkill(skillInput.val());
+                    skillInput.val('');
+                }
+            });
+
+            $('a.luna-tag-remove').on('click', function() {
+                STUDIP.Luna.removeEntry(this);
                 return false;
             });
 

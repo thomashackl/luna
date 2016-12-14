@@ -119,6 +119,7 @@ class PersonsController extends AuthenticatedController {
      */
     public function edit_action($id = '')
     {
+        SimpleORMap::expireTableScheme();
         Navigation::activateItem('/tools/luna/persons');
 
         if ($id) {
@@ -201,7 +202,23 @@ class PersonsController extends AuthenticatedController {
             $user->fax = Request::get('fax');
             $user->homepage = Request::get('homepage');
 
-            $user->skills = SimpleORMapCollection::createFromArray(LunaSkill::findMany(Request::getArray('skills')));
+            $skills = array();
+            foreach (Request::getArray('skills') as $skill) {
+                $data = $this->client->skills->findOneBy('name', trim($skill));
+                if (!$data) {
+                    $data = new LunaSkill();
+                    $data->client_id = $this->client->id;
+                    $data->name = trim($skill);
+                }
+                if (!$data->users) {
+                    $data->users = array($user);
+                } else if (!$data->users->findByUser_id($user->user_id)) {
+                    $data->users->append($user);
+                }
+                $data->store();
+                $skills[] = $data;
+            }
+            $user->skills = SimpleORMapCollection::createFromArray($skills);
 
             $user->companies = new SimpleORMapCollection();
             if (Request::option('company')) {

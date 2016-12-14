@@ -52,37 +52,35 @@
                 </tr>
             <?php endforeach ?>
         </tbody>
-        <?php if ($pagecount > 1) : ?>
-            <tfoot>
-                <tr>
-                    <td colspan="4">
-                        <?= dgettext('luna', 'Seite ') ?>
-                        <?php for ($i = 1 ; $i <= $pagecount ; $i++) : ?>
-                            <div class="luna-pagination<?= $i == $activepage ? ' active' : ''?>">
-                                <a href="" onclick="return STUDIP.Luna.loadCompanies(<?= $i-1 ?>)">
-                                    <?= $i ?>
-                                </a>
-                            </div>
-                            <?php if ($i < $pagecount) : ?>
-                                |
-                            <?php endif ?>
-                        <?php endfor ?>
-                    </td>
-                    <td colspan="2" class="luna-entries-per-page" data-type="companies"
-                            data-set-url="<?= $controller->url_for('filters/set_entries_per_page') ?>">
-                        <select name="entries-per-page"
-                                data-set-url="<?= $controller->url_for('filters/set_entries_per_page') ?>"
-                                onchange="STUDIP.Luna.setEntriesPerPage('companies', this)">
-                            <option value="25"<?= $entries_per_page == 25 ? ' selected' : ''?>>25</option>
-                            <option value="50"<?= $entries_per_page == 50 ? ' selected' : ''?>>50</option>
-                            <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
-                            <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
-                        </select>
-                        <?= dgettext('luna', 'Einträge pro Seite') ?>
-                    </td>
-                </tr>
-            </tfoot>
-        <?php endif ?>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <?= dgettext('luna', 'Seite ') ?>
+                    <?php for ($i = 1 ; $i <= $pagecount ; $i++) : ?>
+                        <div class="luna-pagination<?= $i == $activepage ? ' active' : ''?>">
+                            <a href="" onclick="return STUDIP.Luna.loadCompanies(<?= $i-1 ?>)">
+                                <?= $i ?>
+                            </a>
+                        </div>
+                        <?php if ($i < $pagecount) : ?>
+                            |
+                        <?php endif ?>
+                    <?php endfor ?>
+                </td>
+                <td colspan="2" class="luna-entries-per-page" data-type="companies"
+                        data-set-url="<?= $controller->url_for('filters/set_entries_per_page') ?>">
+                    <select name="entries-per-page"
+                            data-set-url="<?= $controller->url_for('filters/set_entries_per_page') ?>"
+                            onchange="STUDIP.Luna.setEntriesPerPage('companies', this)">
+                        <option value="25"<?= $entries_per_page == 25 ? ' selected' : ''?>>25</option>
+                        <option value="50"<?= $entries_per_page == 50 ? ' selected' : ''?>>50</option>
+                        <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
+                        <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
+                    </select>
+                    <?= dgettext('luna', 'Einträge pro Seite') ?>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 <?php else : ?>
     <h1>

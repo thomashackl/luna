@@ -135,7 +135,7 @@ class PersonsController extends AuthenticatedController {
         }
 
         foreach (words('firstname lastname title_front title_rear gender '.
-                'street zip city country fax homepage status graduation vita qualifications notes') as $entry) {
+                'street zip city country fax homepage status graduation notes') as $entry) {
             if (isset($this->flash[$entry])) {
                 $this->person->$entry = $this->flash[$entry];
             }
@@ -298,7 +298,12 @@ class PersonsController extends AuthenticatedController {
             }
             $user->tags = SimpleORMapCollection::createFromArray($tags);
 
-            $docs = array();
+            if (Request::getArray('userdocs')) {
+                $docs = StudipDocument::findMany(Request::getArray('userdocs'));
+            } else {
+                $docs = array();
+            }
+
             foreach ($_FILES['docs']['name'] as $index => $filename) {
                 if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
                     $file = studip_utf8decode($filename);
@@ -318,8 +323,6 @@ class PersonsController extends AuthenticatedController {
 
             $user->status = Request::get('status');
             $user->graduation = Request::get('graduation');
-            $user->vita = Request::get('vita');
-            $user->qualifications = Request::get('qualifications');
             $user->notes = Request::get('notes');
 
             if ($user->store()) {
@@ -334,7 +337,7 @@ class PersonsController extends AuthenticatedController {
 
             $this->relocate('persons');
 
-        } else if (Request::submittedSome('newcompany', 'newskill')) {
+        } else if (Request::submitted('newcompany')) {
 
             $this->flash['firstname'] = Request::get('firstname');
             $this->flash['lastname'] = Request::get('lastname');
@@ -358,8 +361,6 @@ class PersonsController extends AuthenticatedController {
             }
             $this->flash['status'] = Request::get('status');
             $this->flash['graduation'] = Request::get('graduation');
-            $this->flash['vita'] = Request::get('vita');
-            $this->flash['qualifications'] = Request::get('qualifications');
             $this->flash['notes'] = Request::get('notes');
             $this->flash['return_to'] = $this->url_for('persons/edit', $id ?: null);
 

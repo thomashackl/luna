@@ -316,20 +316,8 @@
         </section>
         <section>
             <label>
-                <?= dgettext('luna', 'Kurzlebenslauf') ?>
-                <textarea name="vita" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->vita) ?></textarea>
-            </label>
-        </section>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Besondere Qualifikationen') ?>
-                <textarea name="qualifications" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->qualifications) ?></textarea>
-            </label>
-        </section>
-        <section>
-            <label>
                 <?= dgettext('luna', 'Notizen') ?>
-                <textarea name="notes" cols="75" rows="4" class="add_toolbar"><?= htmlReady($person->notes) ?></textarea>
+                <textarea name="notes" cols="75" rows="10" class="add_toolbar"><?= htmlReady($person->notes) ?></textarea>
             </label>
         </section>
     </fieldset>

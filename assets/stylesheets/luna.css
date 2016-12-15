@@ -4,41 +4,41 @@
 hsvsaturation(@red),
 hsvvalue(@red));
 */
-table.default tr td {
-  vertical-align: top;
-}
-table.default tr td.luna-label div.luna-defaultentry {
+div.luna-defaultentry {
   font-style: italic;
   font-weight: bold;
 }
-table.default tr tfoot tr td.luna-entries-per-page {
+table.default tr td {
+  vertical-align: top;
+}
+table.default tfoot tr td.luna-entries-per-page {
   text-align: right;
 }
-table.default tr tfoot tr td div.luna-pagination {
+table.default tfoot tr td div.luna-pagination {
   display: inline-block;
   text-align: center;
   width: 15px;
   margin-left: -2px;
   margin-right: -2px;
 }
-table.default tr tfoot tr td div.luna-pagination.active,
-table.default tr tfoot tr td div.luna-pagination:hover {
+table.default tfoot tr td div.luna-pagination.active,
+table.default tfoot tr td div.luna-pagination:hover {
   background-color: #b8c2d5;
 }
-table.default tr tfoot tr td div.luna-pagination a {
+table.default tfoot tr td div.luna-pagination a {
   cursor: pointer;
 }
-table.default section#luna-data-filters div#luna-newfilter {
+section#luna-data-filters div#luna-newfilter {
   border: 1px solid #a7aaaf;
   background-color: #e2e3e4;
   padding: 5px;
 }
-table.default section#luna-data-filters div#luna-applied-filters {
+section#luna-data-filters div#luna-applied-filters {
   border: 1px solid #a7aaaf;
   margin-bottom: 10px;
   padding: 10px;
 }
-table.default section#luna-data-filters div#luna-applied-filters span.luna-filter {
+section#luna-data-filters div#luna-applied-filters span.luna-filter {
   border: 1px solid #a7aaaf;
   background-color: #e2e3e4;
   margin-right: 5px;

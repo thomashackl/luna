@@ -58,7 +58,7 @@
                 <?php endforeach ?>
                 <td>
                     <?php if ($hasWriteAccess) : ?>
-                        <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" data-dialog>
+                        <a href="<?= $controller->url_for('persons/edit', $p->id) ?>">
                             <?= Icon::create('edit', 'clickable')->asImg() ?>
                         </a>
                         <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=

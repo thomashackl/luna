@@ -33,8 +33,6 @@
  * @property string  homepage database column
  * @property string  status database column
  * @property string  graduation database column
- * @property string  vita database column
- * @property string  qualifications database column
  * @property string  notes database column
  * @property string  mkdate database column
  * @property string  chdate database column

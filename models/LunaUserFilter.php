@@ -154,20 +154,6 @@ class LunaUserFilter
                     'dbvalues' => 'graduation',
                     'class' => 'LunaUser'
                 ),
-                'vita' => array(
-                    'name' => dgettext('luna', 'Kurzlebenslauf'),
-                    'table' => 'lluna_user',
-                    'ids' => 'vita',
-                    'dbvalues' => 'vita',
-                    'class' => 'LunaUsero'
-                ),
-                'qualifications' => array(
-                    'name' => dgettext('luna', 'Besondere Qualifikationen'),
-                    'table' => 'luna_users',
-                    'ids' => 'qualification',
-                    'dbvalues' => 'qualification',
-                    'class' => 'LunaUser'
-                ),
                 'notes' => array(
                     'name' => dgettext('luna', 'Notizen'),
                     'table' => 'luna_users',

@@ -1,14 +1,14 @@
 @import url('../../../studip-passau/public/assets/stylesheets/mixins/colors.less');
 
+div.luna-defaultentry {
+  font-style: italic;
+  font-weight: bold;
+}
+
 table.default {
   tr {
     td {
       vertical-align: top;
-
-      div.luna-defaultentry {
-        font-style: italic;
-        font-weight: bold;
-      }
     }
   }
 
@@ -40,24 +40,22 @@ table.default {
 }
 
 section#luna-data-filters {
+  div#luna-newfilter {
+    border: 1px solid @light-gray-color-60;
+    background-color: @light-gray-color-20;
+    padding: 5px;
+  }
 
-    div#luna-newfilter {
+  div#luna-applied-filters {
+    border: 1px solid @light-gray-color-60;
+    margin-bottom: 10px;
+    padding: 10px;
+
+    span.luna-filter {
       border: 1px solid @light-gray-color-60;
       background-color: @light-gray-color-20;
+      margin-right: 5px;
       padding: 5px;
-    }
-
-    div#luna-applied-filters {
-      border: 1px solid @light-gray-color-60;
-      margin-bottom: 10px;
-      padding: 10px;
-
-      span.luna-filter {
-        border: 1px solid @light-gray-color-60;
-        background-color: @light-gray-color-20;
-        margin-right: 5px;
-        padding: 5px;
-      }
     }
   }
 }

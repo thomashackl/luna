@@ -13,13 +13,10 @@ class ReorganizeTables extends Migration {
         DBManager::get()->exec("ALTER TABLE `luna_users`
             ADD `status` VARCHAR(255) NULL AFTER `homepage`,
             ADD `graduation` VARCHAR(255) NULL AFTER `status`,
-            ADD `vita` TEXT NULL AFTER `graduation`,
-            ADD `qualifications` TEXT NULL AFTER `vita`,
             ADD `notes` TEXT NULL AFTER `qualifications`");
 
         $stmt = DBManager::get()->prepare("UPDATE `luna_users`
-            SET `status` = :status, `graduation` = :graduation, `vita` = :vita,
-                `qualifications` = :quali, `notes` = :notes
+            SET `status` = :status, `graduation` = :graduation, `notes` = :notes
             WHERE `user_id` = :uid");
 
         foreach (DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` FROM `luna_users` ORDER BY `user_id`") as $u) {
@@ -28,8 +25,6 @@ class ReorganizeTables extends Migration {
                 'uid' => $u,
                 'status' => $info['status'],
                 'graduation' => $info['graduation'],
-                'vita' => $info['vita'],
-                'quali' => $info['qualification'],
                 'notes' => $info['notes']
             ));
         }
@@ -62,8 +57,6 @@ class ReorganizeTables extends Migration {
                 'uid' => $data['user_id'],
                 'status' => $data['status'],
                 'graduation' => $data['graduation'],
-                'vita' => $data['vita'],
-                'quali' => $data['qualification'],
                 'notes' => $data['notes']
             ));
         }

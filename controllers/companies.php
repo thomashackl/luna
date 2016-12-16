@@ -134,6 +134,9 @@ class CompaniesController extends AuthenticatedController {
         $this->sidebar->addWidget($views);
 
         $this->flash->keep();
+
+        $this->usersearch = QuickSearch::get('contact', new LunaSearch('user_id'))
+            ->setInputStyle('width: 240px');
     }
 
     public function save_action($id = '')
@@ -147,7 +150,7 @@ class CompaniesController extends AuthenticatedController {
         }
         $company->client_id = $this->client->client_id;
         $company->name = Request::get('name');
-        $company->contact_person = Request::get('contact_person');
+        $company->contact_person = Request::get('contact') ?: Request::get('currentcontact') ?: null;
         $company->street = Request::get('street');
         $company->zip = Request::get('zip');
         $company->city = Request::get('city');

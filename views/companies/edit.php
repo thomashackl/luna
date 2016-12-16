@@ -53,9 +53,14 @@
         <section>
             <label>
                 <?= dgettext('luna', 'Kontaktperson') ?>
-                <input type="text" name="contact_person" size="75" maxlength="255"
-                       value="<?= htmlReady($company->contact_person) ?>">
+                <?= $usersearch->render() ?>
             </label>
+            <?php if ($company->contact) : ?>
+                <span class="luna-company-contact">
+                    <input type="hidden" name="currentcontact" value="<?= $company->contact_person ?>">
+                    <?= sprintf(dgettext('luna', 'Aktuell: %s'), htmlReady($company->contact->getFullname('full'))) ?>
+                </span>
+            <?php endif ?>
         </section>
         <section>
             <label>

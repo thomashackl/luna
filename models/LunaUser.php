@@ -36,7 +36,6 @@
  * @property string  notes database column
  * @property string  mkdate database column
  * @property string  chdate database column
- * @property LunaUserInfo info has_one LunaUserInfo
  * @property LunaSkill skills has_and_belongs_to_many LunaSkill
  * @property LunaCompany companies has_and_belongs_to_many LunaCompany
  * @property StudipDocument documents has_many StudipDocument

@@ -73,7 +73,7 @@ class Setup extends Migration {
             `phone` VARCHAR(255) NOT NULL DEFAULT '',
             `fax` VARCHAR(255) NOT NULL DEFAULT '',
             `homepage` VARCHAR(255) NOT NULL DEFAULT '',
-            `contact_person` VARCHAR(255) NOT NULL DEFAULT '',
+            `contact_person` CHAR(32) NULL DEFAULT NULL REFERENCES `luna_users`.`user_id`,
             `mkdate` INT NOT NULL,
             `chdate` INT NOT NULL,
             PRIMARY KEY (`company_id`)

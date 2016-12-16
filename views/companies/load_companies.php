@@ -35,7 +35,11 @@
                         <br>
                         <?= htmlReady($c->zip) ?> <?= htmlReady($c->city) ?>
                     </td>
-                    <td><?= htmlReady($c->contact_person) ?></td>
+                    <td>
+                        <?php if ($c->contact) : ?>
+                            <?= htmlReady($c->contact->getFullname('full')) ?>
+                        <?php endif ?>
+                    </td>
                     <td><?= htmlReady($c->email) ?></td>
                     <td><?= htmlReady($c->phone) ?></td>
                     <td>

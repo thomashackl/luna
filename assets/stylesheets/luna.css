@@ -113,3 +113,6 @@ form.default section#luna-message label#luna-markers div#luna-marker-description
   font-style: italic;
   padding-top: 2px;
 }
+form.default section span.luna-company-contact {
+  font-style: italic;
+}

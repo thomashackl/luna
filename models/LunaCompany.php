@@ -27,6 +27,7 @@
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaUser members has_many LunaUser
+ * @property LunaUser concat has_one LunaUser
  */
 class LunaCompany extends SimpleORMap
 {
@@ -39,6 +40,13 @@ class LunaCompany extends SimpleORMap
             'thru_table' => 'luna_user_company',
             'thru_key' => 'company_id',
             'thru_assoc_key' => 'user_id',
+            'on_store' => 'store',
+            'on_delete' => 'delete'
+        );
+        $config['has_one']['contact'] = array(
+            'class_name' => 'LunaUser',
+            'foreign_key' => 'contact_person',
+            'assoc_foreign_key' => 'user_id',
             'on_store' => 'store',
             'on_delete' => 'delete'
         );

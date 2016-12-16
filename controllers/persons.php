@@ -582,6 +582,21 @@ class PersonsController extends AuthenticatedController {
         }
     }
 
+    public function find_person_action()
+    {
+        $values = DBManager::get()->fetchAll(
+            "SELECT DISTINCT `user_id`, `firstname`, `lastname`, `title_front`, `title_rear`
+                FROM `luna_users`
+                WHERE `client_id` = :client
+                    AND (`firstname` LIKE :term
+                        OR `lastname` LIKE :term
+                        OR CONCAT_WS(' ', `firstname`, `lastname`) LIKE :term
+                        OR CONCAT_WS(' ', `lastname`, `firstname`) LIKE :term)
+                ORDER BY `lastname`, `firstname`",
+            array('client' => $this->client->id, 'term' => '%' . Request::quoted('term') . '%'));
+        $this->render_text(studip_json_encode($values));
+    }
+
     // customized #url_for for plugins
     public function url_for($to)
     {

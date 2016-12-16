@@ -20,8 +20,8 @@
  * @property string type database column
  * @property string description database column
  * @property string replacement database column
+ * @property string replacement_male database column
  * @property string replacement_female database column
- * @property string replacement_unknown database column
  * @property string mkdate database column
  * @property string chdate database column
  */
@@ -77,9 +77,9 @@ class LunaMarker extends SimpleORMap
         $replacement = $this->replacement;
 
         switch ($user->gender) {
-            case 0:
-                if ($this->replacement_unknown) {
-                    $replacement = $this->replacement_unknown;
+            case 1:
+                if ($this->replacement_male) {
+                    $replacement = $this->replacement_male;
                 }
                 break;
             case 2:
@@ -121,9 +121,44 @@ class LunaMarker extends SimpleORMap
                         // Extract the database fields...
                         list($table, $column) = explode('.', $entry);
                         // ... and query database for values to insert.
-                        $stmt = DBManager::get()->prepare("SELECT `:column` FROM `:table` WHERE `user_id` = :userid LIMIT 1");
+                        $stmt = DBManager::get()->prepare("SELECT `:column`
+                            FROM `:table` WHERE `user_id` = :userid LIMIT 1");
                         $stmt->bindParam('column', $column, StudipPDO::PARAM_COLUMN);
                         $stmt->bindParam('table', $table, StudipPDO::PARAM_COLUMN);
+                        $stmt->bindParam('userid', $user->id);
+                        $stmt->execute();
+                        $dbdata = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $replacement = str_replace($entry, $dbdata[$column], $replacement);
+                    }
+                }
+                // If have empty values from database, there could be excess whitespace -> remove.
+                return trim(preg_replace('/(\s)+/', ' ', $replacement));
+
+            // Content from one or more database columns replaces the marker.
+            case 'database-relation':
+                $data = words($replacement);
+                $find = array();
+                $replace = array();
+                foreach ($data as $entry) {
+                    if (strpos($entry, '{') !== false) {
+                        $matches = array();
+                        preg_match_all('/{([a-zA-Z0-9\-_]+)}/m', $entry, $matches);
+                        foreach ($matches[1] as $match) {
+                            $replacement = str_replace($entry,
+                                LunaMarker::findOneByMarker(trim($match))->getMarkerReplacement($user, $level + 1),
+                                $replacement);
+                        }
+                    } else {
+                        // Extract the database fields...
+                        list($table1, $join_on, $table2, $column) = explode('->', $entry);
+                        // ... and query database for values to insert.
+                        $stmt = DBManager::get()->prepare("SELECT `:column`
+                            FROM `:table1` JOIN `:table2` USING(`:join`)
+                            WHERE `user_id` = :userid LIMIT 1");
+                        $stmt->bindParam('column', $column, StudipPDO::PARAM_COLUMN);
+                        $stmt->bindParam('table1', $table1, StudipPDO::PARAM_COLUMN);
+                        $stmt->bindParam('table2', $table2, StudipPDO::PARAM_COLUMN);
+                        $stmt->bindParam('join', $join_on, StudipPDO::PARAM_COLUMN);
                         $stmt->bindParam('userid', $user->id);
                         $stmt->execute();
                         $dbdata = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -43,7 +43,7 @@
                         </a>
                         <a href="<?= $controller->url_for('clients/delete', $c->id) ?>" data-confirm="<?=
                             dgettext('luna', 'Wollen Sie den Mandanten wirklich löschen? Damit '.
-                                'werden alle Personen, Firmen und Kompetenzen dieses Mandanten '.
+                                'werden alle Personen, Unternehmen, Kompetenzen und Schlagwörter dieses Mandanten '.
                                 'ebenfalls gelöscht!')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
                         </a>

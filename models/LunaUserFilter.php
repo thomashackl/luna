@@ -115,7 +115,7 @@ class LunaUserFilter
         }
         $fields = $fields + array(
             'companies' => array(
-                'name' => dgettext('luna', 'Firma'),
+                'name' => dgettext('luna', 'Unternehmen'),
                 'table' => 'luna_user_company',
                 'ids' => 'company_id',
                 'dbvalues' => 'name',

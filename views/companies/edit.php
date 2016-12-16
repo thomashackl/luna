@@ -2,8 +2,8 @@
     <header>
         <h1>
             <?= $company->isNew() ?
-                dgettext('luna', 'Neue Firma anlegen') :
-                dgettext('luna', 'Firmendaten bearbeiten') ?>
+                dgettext('luna', 'Neues Unternehmen anlegen') :
+                dgettext('luna', 'Unternehmensdaten bearbeiten') ?>
         </h1>
     </header>
     <fieldset>
@@ -13,7 +13,7 @@
         <section>
             <label>
                 <span class="required">
-                    <?= dgettext('luna', 'Firmenname') ?>
+                    <?= dgettext('luna', 'Name des Unternehmens') ?>
                 </span>
                 <input type="text" name="name" size="75" maxlength="255"
                        value="<?= htmlReady($company->name) ?>" required>

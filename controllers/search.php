@@ -64,7 +64,7 @@ class SearchController extends AuthenticatedController {
                 'allfilters' => LunaUserFilter::getFilterFields()
             ),
             'companies' => array(
-                'name' => dgettext('luna', 'Firmen'),
+                'name' => dgettext('luna', 'Unternehmen'),
                 'presets' => $company_presets,
                 'allfilters' => LunaCompanyFilter::getFilterFields()
             ),

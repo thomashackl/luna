@@ -60,7 +60,7 @@ class CompaniesController extends AuthenticatedController {
     public function index_action()
     {
         Navigation::activateItem('/tools/luna/companies');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Firmenübersicht'));
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Unternehmensübersicht'));
 
         if (Request::submitted('apply')) {
             LunaCompanyFilter::addFilter($this->client->id, Request::get('field'),
@@ -81,7 +81,7 @@ class CompaniesController extends AuthenticatedController {
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Firma hinzufügen'),
+            $actions->addLink(dgettext('luna', 'Unternehmen hinzufügen'),
                 $this->url_for('companies/edit'),
                 Icon::create('vcard+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
@@ -118,7 +118,7 @@ class CompaniesController extends AuthenticatedController {
         }
 
         $title = $this->company->isNew() ?
-            dgettext('luna', 'Neue Firma anlegen') :
+            dgettext('luna', 'Neues Unternehmen anlegen') :
             sprintf(dgettext('luna', 'Daten von "%s" bearbeiten'), $this->company->name);
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
@@ -127,8 +127,8 @@ class CompaniesController extends AuthenticatedController {
         $views->addLink(dgettext('luna', 'Übersicht'),
             $this->url_for('companies'),
             Icon::create('vcard', 'clickable'))->setActive(false);
-        $views->addLink($id ? dgettext('luna', 'Firmendaten bearbeiten') :
-            dgettext('luna', 'Neue Firma anlegen'),
+        $views->addLink($id ? dgettext('luna', 'Unternehmensdaten bearbeiten') :
+            dgettext('luna', 'Neues Unternehmen anlegen'),
             $this->url_for('companies/edit', $id),
             Icon::create('vcard+edit', 'clickable'))->setActive(true);
         $this->sidebar->addWidget($views);
@@ -159,11 +159,11 @@ class CompaniesController extends AuthenticatedController {
 
         if ($company->store()) {
             PageLayout::postSuccess(sprintf(
-                dgettext('luna', 'Die Firmendaten von "%s" wurden gespeichert.'),
+                dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
                 $company->name));
         } else {
             PageLayout::postError(sprintf(
-                dgettext('luna', 'Die Firmendaten von "%s" konnten nicht gespeichert werden.'),
+                dgettext('luna', 'Die Unternehmensdaten von "%s" konnten nicht gespeichert werden.'),
                 $company->name));
         }
 
@@ -187,9 +187,9 @@ class CompaniesController extends AuthenticatedController {
         $name = $company->name;
 
         if ($company->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Firma "%s" wurde gelöscht.'), $name));
+            PageLayout::postSuccess(sprintf(dgettext('luna', 'Das Unternehmen "%s" wurde gelöscht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', 'Die Firma "%s" konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', 'Das Unternehmen "%s" konnte nicht gelöscht werden.'), $name));
         }
 
         $this->relocate('companies');

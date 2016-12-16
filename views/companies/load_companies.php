@@ -1,7 +1,7 @@
 <?php if ($companies) : ?>
     <table class="default">
         <caption>
-            <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Firmen') ?>
+            <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Unternehmen') ?>
             <span class="actions">
                 <a href="<?= $controller->url_for('companies/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('vcard+add', 'clickable')->asImg() ?>
@@ -44,7 +44,7 @@
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>
                             </a>
                             <a href="<?= $controller->url_for('companies/delete', $c->id) ?>" data-confirm="<?=
-                                    dgettext('luna', 'Wollen Sie die Firma wirklich löschen?')?>">
+                                    dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
                             </a>
                         <?php endif ?>
@@ -84,9 +84,9 @@
     </table>
 <?php else : ?>
     <h1>
-        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Firmen') ?>
+        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Unternehmen') ?>
     </h1>
     <p>
-        <?= dgettext('luna', 'Es wurden keine Firmen gefunden.') ?>
+        <?= dgettext('luna', 'Es wurden keine Unternehmen gefunden.') ?>
     </p>
 <?php endif ?>

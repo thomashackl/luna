@@ -110,7 +110,7 @@
         <?php if (count($person->companies) > 0) :  ?>
             <tr>
                 <td class="luna-label">
-                    <?= dgettext('luna', 'Firma') ?>
+                    <?= dgettext('luna', 'Unternehmen') ?>
                 </td>
                 <td>
                     <?= htmlReady($person->companies->first()->name) ?>

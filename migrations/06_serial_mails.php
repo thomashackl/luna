@@ -12,15 +12,15 @@ class SerialMails extends Migration {
             `marker` VARCHAR(255) UNIQUE NOT NULL,
             `name` VARCHAR(255) UNIQUE NOT NULL,
             `priority` INT(2) UNIQUE NOT NULL,
-            `type` ENUM ('text', 'database', 'function') NOT NULL DEFAULT 'text',
+            `type` ENUM ('text', 'database', 'database-relation', 'function') NOT NULL DEFAULT 'text',
             `description` TEXT NOT NULL,
             `replacement` TEXT NOT NULL,
+            `replacement_male` TEXT NULL,
             `replacement_female` TEXT NULL,
-            `replacement_unknown` TEXT NULL,
             `mkdate` INT NOT NULL DEFAULT 0,
             `chdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`marker_id`)
-        )");
+        ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC");
 
         // Fill with available entries.
         $markers = array(
@@ -29,10 +29,10 @@ class SerialMails extends Migration {
                 'name' => 'Anrede',
                 'priority' => 1,
                 'type' => 'text',
-                'description' => 'Erzeugt eine vollständige Anrede: "Sehr geehrte Michaela Musterfrau" bzw. "Sehr geehrter Max Mustermann".',
-                'replacement' => 'Sehr geehrter {FULLNAME}',
-                'replacement_female' => 'Sehr geehrte {FULLNAME}',
-                'replacement_unknown' => 'Sehr geehrte/r {FULLNAME}'
+                'description' => 'Erzeugt eine vollständige Anrede: "Sehr geehrte Frau Michaela Musterfrau" bzw. "Sehr geehrter Herr Max Mustermann".',
+                'replacement' => 'Sehr geehrte/r {FULLNAME}',
+                'replacement_male' => 'Sehr geehrter Herr {FULLNAME}',
+                'replacement_female' => 'Sehr geehrte Frau {FULLNAME}',
             ),
             array(
                 'marker' => 'FULLNAME',
@@ -94,6 +94,14 @@ class SerialMails extends Migration {
                 'replacement' => '{FULLNAME_WITH_TITLE}
 {STREET}
 {CITY}'
+            ),
+            array(
+                'marker' => 'COMPANY',
+                'name' => 'Unternehmen',
+                'priority' => 9,
+                'type' => 'database-relation',
+                'description' => 'Setzt den Namen der Firma ein, der die Person zugeordnet ist.',
+                'replacement' => 'luna_user_company->company_id->luna_companies->name'
             ),
         );
 

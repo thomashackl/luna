@@ -226,13 +226,13 @@
     <?php if (count($companies) > 0) : ?>
         <fieldset>
             <legend>
-                <?= dgettext('luna', 'Firma') ?>
+                <?= dgettext('luna', 'Unternehmen') ?>
             </legend>
             <section>
                 <label>
-                    <?= dgettext('luna', 'Bestehende Firma auswählen') ?>
+                    <?= dgettext('luna', 'Bestehendes Unternehmen auswählen') ?>
                     <select name="company">
-                        <option value="">-- <?= dgettext('luna', 'Keine Firma auswählen') ?> --</option>
+                        <option value="">-- <?= dgettext('luna', 'Kein Unternehmen auswählen') ?> --</option>
                         <?foreach ($companies as $company) : ?>
                             <option value="<?= $company->id ?>"<?= $person->companies->find($company->id) ? ' selected' : ''?>>
                                 <?= htmlReady($company->name) ?>
@@ -241,7 +241,7 @@
                     </select>
                 </label>
                 <?= dgettext('luna', 'oder') ?>
-                <?= Studip\Button::create(dgettext('luna', 'Neue Firma hinzufügen'), 'newcompany',
+                <?= Studip\Button::create(dgettext('luna', 'Neues Unternehmen hinzufügen'), 'newcompany',
                     array('data-dialog' => '')) ?>
             </section>
         </fieldset>

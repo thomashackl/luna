@@ -47,7 +47,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
                     new Navigation(dgettext('luna', 'Personen'),
                         PluginEngine::getURL($this, array(), 'persons')));
                 $navigation->addSubNavigation('companies',
-                    new Navigation(dgettext('luna', 'Firmen'),
+                    new Navigation(dgettext('luna', 'Unternehmen'),
                         PluginEngine::getURL($this, array(), 'companies')));
                 $navigation->addSubNavigation('skills',
                     new Navigation(dgettext('luna', 'Kompetenzen'),

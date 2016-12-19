@@ -90,9 +90,32 @@ class MessageController extends AuthenticatedController {
                     ->setBodyText('')
                     ->setSenderEmail($this->client->sender_address)
                     ->addRecipient($u->getDefaultEmail(), $u->getFullname('full'))
-                    ->setBodyHtml(formatReady($message));
+                    ->setBodyHtml(formatReady(nl2br($message)));
                 $mail->send();
             }
+
+            // Send copy to self or other recipients if requested.
+            if (Request::int('sendercopy') || Request::get('cc')) {
+                $mail = new StudipMail();
+                $mail->setSubject(Request::get('subject'))
+                    ->setReplyToEmail($this->client->sender_address)
+                    ->setBodyText('')
+                    ->setSenderEmail($this->client->sender_address)
+                    ->setBodyHtml(formatReady(nl2br($message)));
+                if (Request::int('sendercopy')) {
+                    $mail->addRecipient($this->client->sender_address);
+                }
+                // Extra recipients added in CC
+                if (Request::get('cc')) {
+                    foreach (explode(',', Request::get('cc')) as $cc) {
+                        if (!$mail->isRecipient(trim($cc))) {
+                            $mail->addRecipient(trim($cc), 'Cc');
+                        }
+                    }
+                }
+                $mail->send();
+            }
+
         } else {
             $mail = new StudipMail();
             $mail->setSubject(Request::get('subject'))
@@ -101,8 +124,36 @@ class MessageController extends AuthenticatedController {
                 ->setSenderEmail($this->client->sender_address);
 
             foreach ($users as $u) {
-                $mail->addRecipient($u->getDefaultEmail(), $u->getFullname('full'), 'Bcc');
+                if (!$mail->isRecipient($u->getDefaultEmail())) {
+                    $mail->addRecipient($u->getDefaultEmail(), $u->getFullname('full'), 'Bcc');
+                }
             }
+
+            // Send copy to self if requested.
+            if (Request::int('sendercopy') && !$mail->isRecipient($u->getDefaultEmail())) {
+                $mail->addRecipient($this->client->sender_address);
+            }
+
+            // Extra recipients added in CC
+            if (Request::get('cc')) {
+                foreach (explode(',', Request::get('cc')) as $cc) {
+                    if (!$mail->isRecipient(trim($cc))) {
+                        $mail->addRecipient(trim($cc), 'Cc');
+                    }
+                }
+            }
+
+            // Attachments
+            foreach ($_FILES['docs']['name'] as $index => $filename) {
+                if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
+                    $file = studip_utf8decode($filename);
+                    $mail->addFileAttachment(
+                        $_FILES['docs']['tmp_name'][$index],
+                        $file,
+                        $_FILES['docs']['type'][$index]);
+                }
+            }
+
             $mail->setBodyHtml(formatReady(nl2br(Request::get('message'))));
             $mail->send();
         }

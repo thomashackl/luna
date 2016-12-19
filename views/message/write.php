@@ -5,6 +5,10 @@
         </span>
         <br>
         <?= htmlReady($client->sender_address) ?>
+        <label>
+            <input type="checkbox" name="sendercopy" value="1" checked>
+            <?= dgettext('luna', 'Kopie der Nachricht an diese Adresse senden') ?>
+        </label>
     </section>
     <section>
         <span class="required">
@@ -29,6 +33,16 @@
                     <input type="hidden" name="recipients[]" value="<?= $u->id ?>">
                 </span>
             <?php endforeach ?>
+        </div>
+        <div>
+            <label>
+                <?= dgettext('luna', 'Weitere Empfänger in CC, durch Komma getrennt') ?>
+                <br>
+                <i>
+                    <?= dgettext('luna', 'Bitte beachten Sie: Bei Serienmails werden an diese Empfänger ohne Textersetzungen verschickt!') ?>
+                </i>
+                <textarea name="cc" cols="75" rows="2"></textarea>
+            </label>
         </div>
     </section>
     <section>
@@ -59,6 +73,17 @@
             <textarea name="message" cols="75" rows="20" class="add_toolbar" required placeholder="<?=
                 dgettext('luna', 'Geben Sie hier den Inhalt Ihrer E-Mail ein.') ?>"></textarea>
         </label>
+    </section>
+    <section>
+        <label class="luna-cursor-pointer">
+            <?= dgettext('luna', 'Dateianhänge') ?>
+            <br>
+            <input type="file" name="docs[]" multiple>
+            <?= Icon::create('upload', 'clickable', array('title' => _('Datei(en) hochladen'), 'class' => 'text-bottom')) ?>
+            <?= _('Datei(en) hochladen') ?>
+        </label>
+        <ul id="luna-newdocs"></ul>
+        <br><br>
     </section>
     <footer data-dialog-button>
         <?= Studip\Button::createAccept(dgettext('luna', 'Absenden'), 'send') ?>

@@ -392,7 +392,7 @@ class PersonsController extends AuthenticatedController {
         switch (Request::option('bulkaction')) {
             case 'message':
                 $this->flash['bulkusers'] = Request::optionArray('persons');
-                $this->redirect($this->url_for('message/write'));
+                $this->relocate('message/write');
                 break;
             case 'export':
                 $this->flash['bulkusers'] = Request::optionArray('persons');

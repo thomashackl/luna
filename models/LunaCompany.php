@@ -56,7 +56,7 @@ class LunaCompany extends SimpleORMap
 
     public static function getDistinctValues($client, $field)
     {
-        $filters = LunaUserFilter::getFilterFields();
+        $filters = LunaCompanyFilter::getFilterFields();
         $column = $filters[$field]['ids'];
         $values = $filters[$field]['dbvalues'];
         $stmt = DBManager::get()->prepare(
@@ -71,7 +71,8 @@ class LunaCompany extends SimpleORMap
 
     public static function getDisplayValue($id, $field = 'name')
     {
-        return self::find($id)->$field;
+        $method = 'findOneBy' . $field;
+        return self::$method($id)->$field;
     }
 
 }

@@ -24,11 +24,6 @@
  * @property string  zip database column
  * @property string  city database column
  * @property string  country database column
- * @property string  email_office database column
- * @property string  email_private database column
- * @property string  phone_office database column
- * @property string  phone_private database column
- * @property string  phone_mobile database column
  * @property string  fax database column
  * @property string  homepage database column
  * @property string  status database column
@@ -38,6 +33,9 @@
  * @property string  chdate database column
  * @property LunaSkill skills has_and_belongs_to_many LunaSkill
  * @property LunaCompany companies has_and_belongs_to_many LunaCompany
+ * @property LunaTag tags has_and_belongs_to_many LunaTag
+ * @property LunaEMail emails has_many LunaEMail
+ * @property LunaPhoneNumber phonenumbers has_many LunaPhoneNumber
  * @property StudipDocument documents has_many StudipDocument
  */
 class LunaUser extends SimpleORMap
@@ -128,7 +126,7 @@ class LunaUser extends SimpleORMap
         return $this->emails->findOneBy('default', 1)->email;
     }
 
-    public static function getDistinctValues($client, $field)
+    public static function getDistinctValues($client, $field, $type = 'user')
     {
         $filters = LunaUserFilter::getFilterFields();
         $column = $filters[$field]['ids'];
@@ -143,10 +141,14 @@ class LunaUser extends SimpleORMap
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getDisplayValue($id, $field = 'name')
+    public static function getDisplayValue($value, $field = 'name', $is_id = false)
     {
-        $method = 'findOneBy' . $field;
-        return self::$method($id)->$field;
+        if ($is_id) {
+            $method = 'find';
+        } else {
+            $method = 'findOneBy' . $field;
+        }
+        return self::$method($value)->$field;
     }
 
 }

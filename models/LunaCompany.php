@@ -54,9 +54,13 @@ class LunaCompany extends SimpleORMap
         parent::configure($config);
     }
 
-    public static function getDistinctValues($client, $field)
+    public static function getDistinctValues($client, $field, $type = 'company')
     {
-        $filters = LunaCompanyFilter::getFilterFields();
+        if ($type == 'user') {
+            $filters = LunaUserFilter::getFilterFields();
+        } else {
+            $filters = LunaCompanyFilter::getFilterFields();
+        }
         $column = $filters[$field]['ids'];
         $values = $filters[$field]['dbvalues'];
         $stmt = DBManager::get()->prepare(
@@ -69,10 +73,14 @@ class LunaCompany extends SimpleORMap
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getDisplayValue($id, $field = 'name')
+    public static function getDisplayValue($value, $field = 'name', $is_id = false)
     {
-        $method = 'findOneBy' . $field;
-        return self::$method($id)->$field;
+        if ($is_id) {
+            $method = 'find';
+        } else {
+            $method = 'findOneBy' . $field;
+        }
+        return self::$method($value)->$field;
     }
 
 }

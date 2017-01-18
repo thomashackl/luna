@@ -31,7 +31,8 @@
                                     <?= htmlReady($filter['compare']) ?>
                                     <?= htmlReady(
                                         $data['allfilters'][$filter['column']]['class']::getDisplayValue($filter['value'],
-                                            $data['allfilters'][$filter['column']]['dbvalues'])) ?>
+                                            $data['allfilters'][$filter['column']]['dbvalues'],
+                                            $allfilters[$filter['column']]['is_id'])) ?>
                                 </li>
                             <?php endforeach ?>
                         </ul>

@@ -25,21 +25,24 @@ class LunaCompanyFilter
                 'table' => 'luna_companies',
                 'ids' => 'name',
                 'dbvalues' => 'name',
-                'class' => 'LunaCompany'
+                'class' => 'LunaCompany',
+                'is_id' => false
             ),
             'city' => array(
                 'name' => dgettext('luna', 'Stadt'),
                 'table' => 'luna_companies',
                 'ids' => 'city',
                 'dbvalues' => 'city',
-                'class' => 'LunaCompany'
+                'class' => 'LunaCompany',
+                'is_id' => false
             ),
             'country' => array(
                 'name' => dgettext('luna', 'Land'),
                 'table' => 'luna_company',
                 'ids' => 'country',
                 'dbvalues' => 'country',
-                'class' => 'LunaCompany'
+                'class' => 'LunaCompany',
+                'is_id' => false
             )
         );
         return $fields;

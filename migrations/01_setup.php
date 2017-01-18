@@ -88,10 +88,11 @@ class Setup extends Migration {
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `luna_skills` (
             `skill_id` CHAR(32) NOT NULL,
             `client_id` CHAR(32) NOT NULL REFERENCES `luna_clients`.`client_id`,
-            `name` VARCHAR(255) NOT NULL DEFAULT '' UNIQUE,
+            `name` VARCHAR(255) NOT NULL DEFAULT '',
             `mkdate` INT NOT NULL,
             `chdate` INT NOT NULL,
-            PRIMARY KEY (`skill_id`)
+            PRIMARY KEY (`skill_id`),
+            UNIQUE (`client_id`, `name`)
         ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC");
 
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `luna_user_skills` (

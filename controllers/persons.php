@@ -243,6 +243,8 @@ class PersonsController extends AuthenticatedController {
             }
 
             $emails = array();
+            $default = false;
+            $i = 0;
             foreach (Request::getArray('email') as $index => $email) {
                 if (trim($email['address'])) {
                     if ($user->id) {
@@ -256,12 +258,23 @@ class PersonsController extends AuthenticatedController {
                     $entry->email = trim($email['address']);
                     $entry->type = $email['type'];
                     $entry->default = count(Request::getArray('email')) == 1 ? 1 : Request::int('email-default') == $index ? 1 : 0;
+                    if ($entry->default) {
+                        $default = true;
+                    }
+                    $i++;
+
+                    // Set first email address as default if no default is given.
+                    if ($i == sizeof(Request::getArray('email')) && !$default) {
+                        $emails[0]->default = true;
+                    }
                     $emails[] = $entry;
                 }
             }
             $user->emails = SimpleORMapCollection::createFromArray($emails);
 
             $phonenumbers = array();
+            $default = false;
+            $i = 0;
             foreach (Request::getArray('phone') as $index => $phone) {
                 if (trim($phone['number'])) {
                     if ($user->id) {
@@ -275,6 +288,15 @@ class PersonsController extends AuthenticatedController {
                     $entry->number = trim($phone['number']);
                     $entry->type = $phone['type'];
                     $entry->default = count(Request::getArray('phone')) == 1 ? 1 : Request::int('phone-default') == $index ? 1 : 0;
+                    if ($entry->default) {
+                        $default = true;
+                    }
+                    $i++;
+
+                    // Set first email address as default if no default is given.
+                    if ($i == sizeof(Request::getArray('phone')) && !$default) {
+                        $phonenumbers[0]->default = true;
+                    }
                     $phonenumbers[] = $entry;
                 }
             }

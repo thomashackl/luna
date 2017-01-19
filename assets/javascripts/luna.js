@@ -173,7 +173,7 @@
         addEmail: function() {
             var template = $('section#luna-email-template');
             var newEl = template.clone();
-            var count = template.data('number-of-emails') + 1;
+            var count = parseInt(template.data('number-of-emails'), 10) + 1;
             newEl.attr('id', null).
                 attr('data-number-of-emails', null);
             newEl.find('input[name="email-template-address"]').attr('name', 'email[' + count + '][address]');
@@ -182,7 +182,7 @@
                 attr('name', 'email-default').
                 attr('value', count);
             newEl.insertBefore('a.luna-email-add');
-            template.attr('data-number-of-emails', count);
+            template.data('number-of-emails', count);
         },
 
         addPhonenumber: function() {
@@ -190,14 +190,14 @@
             var newEl = template.clone();
             var count = template.data('number-of-phonenumbers') + 1;
             newEl.attr('id', null).
-                attr('data-number-of-phonenumbers', null);
-            newEl.find('input[name="phone-template-address"]').attr('name', 'phone[' + count + '][number]');
+                data('number-of-phonenumbers', null);
+            newEl.find('input[name="phone-template-number"]').attr('name', 'phone[' + count + '][number]');
             newEl.find('select[name="phone-template-type"]').attr('name', 'phone[' + count + '][type]');
             newEl.find('input[name="phone-template-default"]').
                 attr('name', 'phone-default').
                 attr('value', count);
             newEl.insertBefore('a.luna-phone-add');
-            template.attr('data-number-of-phonenumbers', count);
+            template.data('number-of-phonenumbers', count);
         },
 
         addSkill: function(skill) {
@@ -246,7 +246,7 @@
                     attr('href', '').
                     addClass('luna-tag-remove').
                     on('click', function() {
-                        STUDIP.Luna.removeTag(this);
+                        STUDIP.Luna.removeEntry(this);
                         return false;
                     });
                 var img = $('<img>').

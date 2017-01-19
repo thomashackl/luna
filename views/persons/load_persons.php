@@ -60,6 +60,9 @@
                         </td>
                     <?php endforeach ?>
                     <td>
+                        <a href="<?= $controller->url_for('message/write', $p->id) ?>">
+                            <?= Icon::create('mail', 'clickable')->asImg() ?>
+                        </a>
                         <?php if ($hasWriteAccess) : ?>
                             <a href="<?= $controller->url_for('persons/edit', $p->id) ?>">
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>

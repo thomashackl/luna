@@ -63,13 +63,19 @@ class MessageController extends AuthenticatedController {
 
     /**
      * List all available search presets.
+     *
+     * @param string $user_id message recipient
      */
-    public function write_action()
+    public function write_action($user_id = '')
     {
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Serienmail schreiben'));
         Navigation::activateItem('/tools/luna/persons');
 
-        $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
+        if ($user_id) {
+            $ids = array($user_id);
+        } else {
+            $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
+        }
         $this->users = SimpleORMapCollection::createFromArray(LunaUser::findMany($ids))->orderBy('lastname firstname');
         $this->markers = LunaMarker::findBySQL("1 ORDER BY `priority`");
     }
@@ -80,6 +86,7 @@ class MessageController extends AuthenticatedController {
     public function send_action()
     {
         $users = LunaUser::findMany(Request::getArray('recipients'));
+
         if (LunaMarker::hasMarkers(Request::get('message'))) {
             foreach ($users as $u) {
                 $message = LunaMarker::replaceMarkers(Request::get('message'), $u);
@@ -90,8 +97,24 @@ class MessageController extends AuthenticatedController {
                     ->setBodyText('')
                     ->setSenderEmail($this->client->sender_address)
                     ->addRecipient($u->getDefaultEmail(), $u->getFullname('full'))
-                    ->setBodyHtml(formatReady(nl2br($message)));
-                $mail->send();
+                    ->setBodyHtml(formatReady($message));
+
+                // Attachments
+                foreach ($_FILES['docs']['name'] as $index => $filename) {
+                    if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
+                        $file = studip_utf8decode($filename);
+                        $mail->addFileAttachment(
+                            $_FILES['docs']['tmp_name'][$index],
+                            $file,
+                            $_FILES['docs']['type'][$index]);
+                    }
+                }
+
+                if ($mail->send()) {
+                    PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
+                } else {
+                    PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
+                }
             }
 
             // Send copy to self or other recipients if requested.
@@ -101,7 +124,7 @@ class MessageController extends AuthenticatedController {
                     ->setReplyToEmail($this->client->sender_address)
                     ->setBodyText('')
                     ->setSenderEmail($this->client->sender_address)
-                    ->setBodyHtml(formatReady(nl2br($message)));
+                    ->setBodyHtml(formatReady($message));
                 if (Request::int('sendercopy')) {
                     $mail->addRecipient($this->client->sender_address);
                 }
@@ -113,7 +136,23 @@ class MessageController extends AuthenticatedController {
                         }
                     }
                 }
-                $mail->send();
+
+                // Attachments
+                foreach ($_FILES['docs']['name'] as $index => $filename) {
+                    if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
+                        $file = studip_utf8decode($filename);
+                        $mail->addFileAttachment(
+                            $_FILES['docs']['tmp_name'][$index],
+                            $file,
+                            $_FILES['docs']['type'][$index]);
+                    }
+                }
+
+                if ($mail->send()) {
+                    PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
+                } else {
+                    PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
+                }
             }
 
         } else {
@@ -144,18 +183,25 @@ class MessageController extends AuthenticatedController {
             }
 
             // Attachments
-            foreach ($_FILES['docs']['name'] as $index => $filename) {
-                if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                    $file = studip_utf8decode($filename);
-                    $mail->addFileAttachment(
-                        $_FILES['docs']['tmp_name'][$index],
-                        $file,
-                        $_FILES['docs']['type'][$index]);
+            if (count($_FILES['docs']['name']) > 0) {
+                foreach ($_FILES['docs']['name'] as $index => $filename) {
+                    if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
+                        $file = studip_utf8decode($filename);
+                        $mail->addFileAttachment(
+                            $_FILES['docs']['tmp_name'][$index],
+                            $file,
+                            $_FILES['docs']['type'][$index]);
+                    }
                 }
             }
 
-            $mail->setBodyHtml(formatReady(nl2br(Request::get('message'))));
-            $mail->send();
+            $mail->setBodyHtml(formatReady(Request::get('message')));
+
+            if ($mail->send()) {
+                PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
+            } else {
+                PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
+            }
         }
         $this->relocate('persons');
     }

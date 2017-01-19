@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('message/send') ?>" method="post">
+<form class="default" action="<?= $controller->url_for('message/send') ?>" method="post" enctype="multipart/form-data">
     <section>
         <span class="required">
             <?= dgettext('luna', 'Absender') ?>

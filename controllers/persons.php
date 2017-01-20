@@ -603,7 +603,11 @@ class PersonsController extends AuthenticatedController {
             foreach ($persons as $person) {
                 $entry = array();
                 foreach (Request::getArray('fields') as $field) {
-                    $entry[] = $person->$field;
+                    if ($person->$field instanceof SimpleORMapCollection) {
+                        $entry[] = implode("\n", $person->$field->pluck('name'));
+                    } else {
+                        $entry[] = $person->$field;
+                    }
                 }
                 $csv[] = $entry;
             }

@@ -57,7 +57,7 @@ class LunaSkill extends SimpleORMap
             return self::find($value)->$field;
         } else {
             return self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value));
+                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value))->$field;
         }
     }
 

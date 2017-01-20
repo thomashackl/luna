@@ -150,10 +150,10 @@ class LunaUser extends SimpleORMap
     public static function getDisplayValue($value, $field = 'name', $is_id = false)
     {
         if ($is_id) {
-            return self::find($value)->$field;
+            return LunaUser::find($value)->$field;
         } else {
-            return self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value));
+            return LunaUser::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
+                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value))->$field;
         }
     }
 

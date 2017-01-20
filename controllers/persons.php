@@ -154,9 +154,20 @@ class PersonsController extends AuthenticatedController {
             $this->tags->orderBy('name');
         }
 
+        $search = new PermissionSearch(
+            'user',
+            '',
+            'user_id',
+            array(
+                'permission' => array('user', 'autor', 'tutor', 'dozent'),
+                'exclude_user' => array()
+            )
+        );
+        $this->usersearch = QuickSearch::get('studip_user_id', $search);
+
         $title = $this->person->isNew() ?
             dgettext('luna', 'Neue Person anlegen') :
-            sprintf(dgettext('luna', 'Daten von %s bearbeiten'), $this->person->getFullname('full'));
+            sprintf(dgettext('luna', 'Daten von %s'), $this->person->getFullname('full'));
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
 
@@ -164,10 +175,15 @@ class PersonsController extends AuthenticatedController {
         $views->addLink(dgettext('luna', 'Übersicht'),
             $this->url_for('persons'),
             Icon::create('group2', 'clickable'))->setActive(false);
-        $views->addLink($id ? dgettext('luna', 'Personendaten bearbeiten') :
+        $views->addLink($id ? dgettext('luna', 'Personendaten') :
             dgettext('luna', 'Neue Person anlegen'),
             $this->url_for('persons/edit', $id),
             Icon::create('roles2', 'clickable'))->setActive(true);
+        if ($this->person->studip_user_id && $this->person->studip_user->course_memberships) {
+            $views->addLink(dgettext('luna', 'Veranstaltungen'),
+                $this->url_for('persons/courses', $id),
+                Icon::create('course', 'clickable'))->setActive(false);
+        }
         $this->sidebar->addWidget($views);
     }
 
@@ -193,6 +209,50 @@ class PersonsController extends AuthenticatedController {
         $views->addLink(dgettext('luna', 'Personendaten'),
             $this->url_for('persons/info', $id),
             Icon::create('info', 'clickable'))->setActive(true);
+        if ($this->person->studip_user_id && $this->person->studip_user->course_memberships) {
+            $views->addLink(dgettext('luna', 'Veranstaltungen'),
+                $this->url_for('persons/courses', $id),
+                Icon::create('course', 'clickable'))->setActive(false);
+        }
+        $this->sidebar->addWidget($views);
+    }
+
+    /**
+     * Lists the Stud.IP courses this user has held as lecturer.
+     *
+     * @param $user_id The user to show courses for.
+     */
+    public function courses_action($user_id) {
+        Navigation::activateItem('/tools/luna/persons');
+
+        $this->user = LunaUser::find($user_id);
+
+        $this->courses = array();
+
+        if (count($this->user->studip_user->course_memberships) > 0) {
+            $lecturedcourses = $this->user->studip_user->course_memberships->findBy('status', 'dozent');
+
+            if (count($lecturedcourses) > 0) {
+                $courses = Course::findBySQL(
+                    "`Seminar_id` IN (?) ORDER BY `start_time`, `VeranstaltungsNummer`, `Name`",
+                    array($lecturedcourses->pluck('seminar_id')));
+
+                foreach ($courses as $course) {
+                    $this->courses[$course->start_semester->description][] = $course;
+                }
+            }
+        }
+
+        $views = new ViewsWidget();
+        $views->addLink(dgettext('luna', 'Übersicht'),
+            $this->url_for('persons'),
+            Icon::create('group2', 'clickable'))->setActive(false);
+        $views->addLink(dgettext('luna', 'Personendaten'),
+            $this->url_for($this->hasWriteAccess ? 'persons/edit' : 'persons/info', $user_id),
+            Icon::create('info', 'clickable'))->setActive(false);
+        $views->addLink(dgettext('luna', 'Veranstaltungen'),
+            $this->url_for('persons/courses', $user_id),
+            Icon::create('course', 'clickable'))->setActive(true);
         $this->sidebar->addWidget($views);
     }
 
@@ -218,6 +278,8 @@ class PersonsController extends AuthenticatedController {
             $user->country = Request::get('country', 'Deutschland');
             $user->fax = Request::get('fax');
             $user->homepage = Request::get('homepage');
+
+            $user->studip_user_id = Request::option('studip_user_id', null);
 
             $skills = array();
             foreach (Request::getArray('skills') as $skill) {

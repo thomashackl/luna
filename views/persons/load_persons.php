@@ -1,8 +1,14 @@
-<?php if (count($persons) > 0) : ?>
+<?php if ($personcount > 0) : ?>
     <form action="<?= $controller->url_for('persons/bulk') ?>" method="post" data-dialog="size=auto">
         <table class="default">
             <caption>
                 <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Personen') ?>
+                <br>
+                <span class="luna-smaller-text">
+                    <?= sprintf(
+                        dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $personcount),
+                        $personcount) ?>
+                </span>
                 <span class="actions">
                     <a href="<?= $controller->url_for('persons/edit') ?>" data-dialog="size=auto">
                         <?= Icon::create('person+add', 'clickable')->asImg() ?>

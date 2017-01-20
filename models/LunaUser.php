@@ -37,6 +37,7 @@
  * @property LunaEMail emails has_many LunaEMail
  * @property LunaPhoneNumber phonenumbers has_many LunaPhoneNumber
  * @property StudipDocument documents has_many StudipDocument
+ * @property User studip_user has_one User
  */
 class LunaUser extends SimpleORMap
 {
@@ -91,6 +92,11 @@ class LunaUser extends SimpleORMap
             'assoc_foreign_key' => 'seminar_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
+        );
+        $config['has_one']['studip_user'] = array(
+            'class_name' => 'User',
+            'foreign_key' => 'studip_user_id',
+            'assoc_foreign_key' => 'user_id'
         );
 
         parent::configure($config);

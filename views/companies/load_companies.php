@@ -2,6 +2,12 @@
     <table class="default">
         <caption>
             <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Unternehmen') ?>
+            <br>
+            <span class="luna-smaller-text">
+                <?= sprintf(
+                    dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $companycount),
+                    $companycount) ?>
+            </span>
             <span class="actions">
                 <a href="<?= $controller->url_for('companies/edit') ?>" data-dialog="size=auto">
                     <?= Icon::create('vcard+add', 'clickable')->asImg() ?>

@@ -3,7 +3,7 @@
         <h1>
             <?= $person->isNew() ?
                 dgettext('luna', 'Neue Person anlegen') :
-                dgettext('luna', 'Personendaten bearbeiten') ?>
+                sprintf(dgettext('luna', 'Personendaten von %s'), $this->person->getFullname('full')) ?>
         </h1>
     </header>
     <fieldset>
@@ -350,6 +350,25 @@
                 </ul>
             </section>
         <?php endif ?>
+    </fieldset>
+    <fieldset>
+        <legend>
+            <?= dgettext('luna', 'Verknüpfung mit Stud.IP') ?>
+        </legend>
+        <section>
+            <label>
+                <?= dgettext('luna', 'Mit einer Stud.IP-Kennung verknüpfen') ?>
+                <?= $usersearch->render() ?>
+            </label>
+            <?php if ($person->studip_user_id) : ?>
+                <span class="luna-person-studip">
+                    <input type="hidden" name="currentstudipuser" value="<?= $person->studip_user_id ?>">
+                    <?= sprintf(dgettext('luna', 'Aktuell: %s'),
+                        htmlReady($person->studip_user->getFullname('full') .
+                            ' (' . $person->studip_user->username . ')')) ?>
+                </span>
+            <?php endif ?>
+        </section>
     </fieldset>
     <footer data-dialog-button>
         <?= CSRFProtection::tokenTag() ?>

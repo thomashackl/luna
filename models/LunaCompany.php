@@ -76,11 +76,12 @@ class LunaCompany extends SimpleORMap
     public static function getDisplayValue($value, $field = 'name', $is_id = false)
     {
         if ($is_id) {
-            $method = 'find';
+            return self::find($value)->$field;
         } else {
-            $method = 'findOneBy' . $field;
+            $company = self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
+                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value));
+            return $company->$field;
         }
-        return self::$method($value)->$field;
     }
 
 }

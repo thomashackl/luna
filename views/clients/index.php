@@ -26,7 +26,7 @@
                 <td><?= htmlReady($c->name) ?></td>
                 <td><?= htmlReady($c->sender_address) ?></td>
                 <td>
-                    <?php if ($current_client->client_id != $c->id) : ?>
+                    <?php if ($currentClient->client_id != $c->id) : ?>
                         <a href="<?= $controller->url_for('clients/select', $c->id) ?>">
                             <?= Icon::create('accept', 'clickable')->asImg() ?>
                         </a>

@@ -39,7 +39,7 @@
                 <?= dgettext('luna', 'Weitere Empfänger in CC, durch Komma getrennt') ?>
                 <br>
                 <i>
-                    <?= dgettext('luna', 'Bitte beachten Sie: Bei Serienmails werden an diese Empfänger ohne Textersetzungen verschickt!') ?>
+                    <?= dgettext('luna', 'Bitte beachten Sie: Serienmails werden an diese Empfänger ohne Textersetzungen verschickt!') ?>
                 </i>
                 <textarea name="cc" cols="75" rows="2"></textarea>
             </label>

@@ -23,10 +23,10 @@
                 <span id="luna-show-recipients" style="display:none">
                     <?= Icon::create('arr_1down', 'clickable') ?>
                 </span>
-                <?= sprintf(dgettext('luna', '%u Empfänger anzeigen/ausblenden'), count($emails)) ?>
+                <?= sprintf(dgettext('luna', '%u Empfänger anzeigen/ausblenden'), count($users)) ?>
             </a>
         <?php endif ?>
-        <div id="luna-recipients"<?= count($emails) > 10 ? ' class="hidden-js"' : '' ?>>
+        <div id="luna-recipients"<?= count($users) > 10 ? ' class="hidden-js"' : '' ?>>
             <?php foreach ($users as $u) : ?>
                 <span class="email">
                     <?= htmlReady($u->getDefaultEmail()) ?>

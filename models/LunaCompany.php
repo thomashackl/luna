@@ -27,7 +27,7 @@
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaUser members has_many LunaUser
- * @property LunaUser concat has_one LunaUser
+ * @property LunaUser contact has_one LunaUser
  */
 class LunaCompany extends SimpleORMap
 {

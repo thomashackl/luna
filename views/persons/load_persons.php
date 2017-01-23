@@ -66,7 +66,7 @@
                         </td>
                     <?php endforeach ?>
                     <td>
-                        <a href="<?= $controller->url_for('message/write', $p->id) ?>">
+                        <a href="<?= $controller->url_for('message/write/user', $p->id) ?>">
                             <?= Icon::create('mail', 'clickable')->asImg() ?>
                         </a>
                         <?php if ($hasWriteAccess) : ?>

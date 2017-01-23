@@ -64,15 +64,22 @@ class MessageController extends AuthenticatedController {
     /**
      * List all available search presets.
      *
-     * @param string $user_id message recipient
+     * @param string $type write a message to a single user or a whole company
+     * @param string $id message recipient
      */
-    public function write_action($user_id = '')
+    public function write_action($type = '', $id = '')
     {
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Serienmail schreiben'));
         Navigation::activateItem('/tools/luna/persons');
 
-        if ($user_id) {
-            $ids = array($user_id);
+        if ($type == 'user' && $id) {
+            $ids = array($id);
+        } else if ($type == 'company' && $id) {
+            $company = LunaCompany::find($id);
+            $ids = $company->members->pluck('user_id');
+            if ($company->contact_person) {
+                $ids[] = $company->contact_person;
+            }
         } else {
             $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
         }

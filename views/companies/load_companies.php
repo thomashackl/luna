@@ -49,6 +49,9 @@
                     <td><?= htmlReady($c->email) ?></td>
                     <td><?= htmlReady($c->phone) ?></td>
                     <td>
+                        <a href="<?= $controller->url_for('message/write/company', $c->id) ?>">
+                            <?= Icon::create('mail', 'clickable')->asImg() ?>
+                        </a>
                         <?php if ($hasWriteAccess) : ?>
                             <a href="<?= $controller->url_for('companies/edit', $c->id) ?>" data-dialog="size=auto">
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>

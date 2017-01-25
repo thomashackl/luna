@@ -58,6 +58,11 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
                 $navigation->addSubNavigation('search',
                     new Navigation(dgettext('luna', 'Suchvorlagen'),
                         PluginEngine::getURL($this, array(), 'search')));
+                if ($currentClient->isAdmin($GLOBALS['user']->id)) {
+                    $navigation->addSubNavigation('log',
+                        new Navigation(dgettext('luna', 'Aktionsprotokoll'),
+                            PluginEngine::getURL($this, array(), 'log')));
+                }
             }
             // Roots or people with more than one assigned clients see client selection.
             if ($GLOBALS['perm']->have_perm('root') || count($clients) > 1 ||

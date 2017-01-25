@@ -92,7 +92,7 @@ class LunaCompanyFilter
     {
         $data = self::getFilters($GLOBALS['user']->id);
         $data[$client] = $filters;
-        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_COMPANY_FILTER', studip_json_encode($data));
+        return $GLOBALS['user']->cfg->store('LUNA_COMPANY_FILTER', studip_json_encode($data));
     }
 
     public static function addFilter($client, $column, $compare, $value)
@@ -103,12 +103,12 @@ class LunaCompanyFilter
             'compare' => $compare,
             'value' => $value
         );
-        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_COMPANY_FILTER', studip_json_encode($filters));
+        return $GLOBALS['user']->cfg->store('LUNA_COMPANY_FILTER', studip_json_encode($filters));
     }
 
     public static function getFilterPresets($client)
     {
-        $presets = UserConfig::get($GLOBALS['user']->id)->LUNA_COMPANY_FILTER_PRESETS;
+        $presets = $GLOBALS['user']->cfg->LUNA_COMPANY_FILTER_PRESETS;
         if ($presets) {
             $decoded = studip_json_decode($presets);
             $presets = $decoded[$client] ?: array();
@@ -120,7 +120,7 @@ class LunaCompanyFilter
 
     public static function saveFilterPreset($client, $name)
     {
-        $config = UserConfig::get($GLOBALS['user']->id);
+        $config = $GLOBALS['user']->cfg;
         $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : array();
         $presets[$client][$name] = self::getFilters($GLOBALS['user']->id, $client);
         return $config->store('LUNA_COMPANY_FILTER_PRESETS', studip_json_encode($presets));
@@ -128,7 +128,7 @@ class LunaCompanyFilter
 
     public static function saveFilterPresets($client, $data)
     {
-        $config = UserConfig::get($GLOBALS['user']->id);
+        $config = $GLOBALS['user']->cfg;
         $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : array();
         $presets[$client] = $data;
         return $config->store('LUNA_COMPANY_FILTER_PRESETS', studip_json_encode($presets));

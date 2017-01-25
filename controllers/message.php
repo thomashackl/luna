@@ -74,12 +74,16 @@ class MessageController extends AuthenticatedController {
 
         if ($type == 'user' && $id) {
             $ids = array($id);
+            $this->type = 'user';
+            $this->target_id = $id;
         } else if ($type == 'company' && $id) {
             $company = LunaCompany::find($id);
             $ids = $company->members->pluck('user_id');
             if ($company->contact_person) {
                 $ids[] = $company->contact_person;
             }
+            $this->type = 'company';
+            $this->target_id = $id;
         } else {
             $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
         }
@@ -210,6 +214,17 @@ class MessageController extends AuthenticatedController {
                 PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
             }
         }
+
+        // Write log entry with info about the sent mail.
+        $log = new LunaLogEntry();
+        $log->user_id = $GLOBALS['user']->id;
+        $log->affected = Request::option('type') == 'company' ?
+            Request::option('target_id') : Request::getArray('recipients');
+        $log->affected_type = Request::option('type') == 'company' ? 'company' : 'user';
+        $log->action = 'MAIL';
+        $log->info = dgettext('luna', 'Betreff') . ': ' . Request::get('subject');
+        $log->store();
+
         $this->relocate('persons');
     }
 

@@ -9,7 +9,7 @@
             <?= dgettext('luna', 'Berechtigte Person hinzufügen') ?>
             <?= $search ?>
         </label>
-        <ul id="luna-beneficiaries" data-levels='<?= json_encode($levels) ?>'>
+        <ul id="luna-beneficiaries" data-levels='<?= studip_json_encode($levels) ?>'>
             <?php foreach ($client->beneficiaries as $b) : ?>
                 <li class="<?= $b->user_id ?>">
                     <?= htmlReady($b->user->getFullname()) ?>

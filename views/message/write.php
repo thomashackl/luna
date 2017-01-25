@@ -86,6 +86,10 @@
         <br><br>
     </section>
     <footer data-dialog-button>
+        <?php if ($type && $id) : ?>
+            <input type="hidden" name="type" value="<?= $type ?>">
+            <input type="hidden" name="target_id" value="<?= $id ?>">
+        <?php endif ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Absenden'), 'send') ?>
         <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('persons')) ?>
     </footer>

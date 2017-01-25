@@ -61,14 +61,21 @@ class LunaClient extends SimpleORMap
         parent::configure($config);
     }
 
+    public function __construct($id = null)
+    {
+        $this->registerCallback('after_create before_store before_delete', 'cbLog');
+
+        parent::__construct($id);
+    }
+
     public static function getCurrentClient()
     {
-        return LunaClient::find(UserConfig::get($GLOBALS['user']->id)->LUNA_CURRENT_CLIENT);
+        return LunaClient::find($GLOBALS['user']->cfg->LUNA_CURRENT_CLIENT);
     }
 
     public static function setCurrentClient($client_id)
     {
-        UserConfig::get($GLOBALS['user']->id)->store('LUNA_CURRENT_CLIENT', $client_id);
+        $GLOBALS['user']->cfg->store('LUNA_CURRENT_CLIENT', $client_id);
     }
 
     public function getFilteredUsers($start = 0)
@@ -217,18 +224,171 @@ class LunaClient extends SimpleORMap
         return $data[0];
     }
 
+    public function getFilteredLogEntries($start = 0)
+    {
+        if ($GLOBALS['user']->cfg->LUNA_LOG_FILTER) {
+            $filters = studip_json_decode($GLOBALS['user']->cfg->LUNA_LOG_FILTER)[$this->id];
+        } else {
+            $filters = array();
+        }
+        $sql = "SELECT DISTINCT `entry_id` FROM `luna_log`";
+        if ($filters) {
+            $where = array();
+            $params = array();
+            foreach ($filters as $filter => $value) {
+                switch ($filter) {
+                    case 'user_id':
+                        $where[] = "`user_id` = :user_id";
+                        $params['user_id'] = $value;
+                        break;
+                    case 'affected_id':
+                        $where[] = "`affected_id` = :affected";
+                        $params['affected'] = $value;
+                        break;
+                    case 'affected_type':
+                        $where[] = "`affected_type` = :atype";
+                        $params['atype'] = $value;
+                        break;
+                    case 'action':
+                        $where[] = "`action` = :action";
+                        $params['action'] = $value;
+                        break;
+                }
+            }
+        }
+        $sql .= " WHERE `client_id` = :client" .
+            ($filters ? " AND ".implode(" AND ", $where) : "");
+        $params['client'] = $this->id;
+        $sql .= " ORDER BY `mkdate` DESC";
+        $sql .= " LIMIT :count OFFSET :start";
+        $count_per_page = $this->getListMaxEntries('log');
+        $params['start'] = $start * $count_per_page;
+        $params['count'] = $count_per_page;
+        $ids = DBManager::get()->fetchFirst($sql, $params);
+        return SimpleORMapCollection::createFromArray(LunaLogEntry::findMany($ids))->orderBy('mkdate desc');
+    }
+
+    public function getFilteredLogEntriesCount()
+    {
+        if ($GLOBALS['user']->cfg->LUNA_LOG_FILTER) {
+            $filters = studip_json_decode($GLOBALS['user']->cfg->LUNA_LOG_FILTER)[$this->id];
+        } else {
+            $filters = array();
+        }
+        $sql = "SELECT COUNT(DISTINCT `entry_id`) FROM `luna_log`";
+        if ($filters) {
+            $where = array();
+            $params = array();
+            foreach ($filters as $filter => $value) {
+                switch ($filter) {
+                    case 'user_id':
+                        $where[] = "`user_id` = :user_id";
+                        $params['user_id'] = $value;
+                        break;
+                    case 'affected_id':
+                        $where[] = "`affected_id` = :affected";
+                        $params['affected'] = $value;
+                        break;
+                    case 'affected_type':
+                        $where[] = "`affected_type` = :atype";
+                        $params['atype'] = $value;
+                        break;
+                    case 'action':
+                        $where[] = "`action` = :action";
+                        $params['action'] = $value;
+                        break;
+                }
+            }
+        }
+        $sql .= " WHERE `client_id` = :client" .
+            ($filters ? " AND ".implode(" AND ", $where) : "");
+        $params['client'] = $this->id;
+        $data = DBManager::get()->fetchFirst($sql, $params);
+        return $data[0];
+    }
+
     public function getListMaxEntries($type)
     {
-        $counts = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_ENTRIES_PER_PAGE);
+        $counts = studip_json_decode($GLOBALS['user']->cfg->LUNA_ENTRIES_PER_PAGE);
         return $counts[$this->id][$type] ?: 25;
     }
 
     public function setListMaxEntries($type, $count)
     {
-        $config = UserConfig::get($GLOBALS['user']->id);
+        $config = $GLOBALS['user']->cfg;
         $counts = $config->LUNA_ENTRIES_PER_PAGE ? studip_json_decode($config->LUNA_ENTRIES_PER_PAGE) : array();
         $counts[$this->id][$type] = $count;
         return $config->store('LUNA_ENTRIES_PER_PAGE', studip_json_encode($counts));
+    }
+
+    public function hasReadAccess($user_id) {
+        $access = false;
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $access = true;
+        } else if (count($this->beneficiaries) > 0) {
+            if ($entry = $this->beneficiaries->findOneBy('user_id', $user_id)) {
+                $access = true;
+            }
+        }
+        return $access;
+    }
+
+    public function hasWriteAccess($user_id) {
+        $access = false;
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $access = true;
+        } else if (count($this->beneficiaries) > 0) {
+            $entry = $this->beneficiaries->findOneBy('user_id', $user_id);
+            if ($entry && in_array($entry->status, words('write admin'))) {
+                $access = true;
+            }
+        }
+        return $access;
+    }
+
+    public function isAdmin($user_id) {
+        $access = false;
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $access = true;
+        } else if (count($this->beneficiaries) > 0) {
+            $entry = $this->beneficiaries->findOneBy('user_id', $user_id);
+            if ($entry && $entry->status == 'admin') {
+                $access = true;
+            }
+        }
+        return $access;
+    }
+
+    /**
+     * @param $type string type of callback
+     */
+    protected function cbLog($type)
+    {
+        if ($type == 'before_delete' || $type == 'after_create' || ($type == 'before_store' && !$this->isNew() && $this->isDirty())) {
+            $log = new LunaLogEntry();
+            $log->client_id = '';
+            $log->user_id = $GLOBALS['user']->id;
+            $log->affected = array($this->id);
+            $log->affected_type = 'client';
+            if ($type == 'after_create') {
+                $log->action = 'create';
+                $log->info = $this->name;
+            } else if ($type == 'before_store' && !$this->isNew()) {
+                $dirty = array();
+                $old_entry = self::build($this->content_db);
+                foreach (array_keys($this->db_fields) as $field) {
+                    if ($this->isFieldDirty($field)) {
+                        $dirty[] = $field . ': ' . $this->$field . ' -> ' . $old_entry->$field;
+                    }
+                }
+                $log->action = 'update';
+                $log->info = implode("\n", $dirty);
+            } else if ($type == 'before_delete') {
+                $log->action = 'delete';
+                $log->info = $this->name;
+            }
+            $log->store();
+        }
     }
 
 }

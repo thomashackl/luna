@@ -229,7 +229,7 @@ class LunaUserFilter
     {
         $data = self::getFilters($GLOBALS['user']->id);
         $data[$client] = $filters;
-        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($data));
+        return $GLOBALS['user']->cfg->store('LUNA_USER_FILTER', studip_json_encode($data));
     }
 
     public static function addFilter($client, $column, $compare, $value)
@@ -240,12 +240,12 @@ class LunaUserFilter
             'compare' => $compare,
             'value' => $value
         );
-        return UserConfig::get($GLOBALS['user']->id)->store('LUNA_USER_FILTER', studip_json_encode($filters));
+        return $GLOBALS['user']->cfg->store('LUNA_USER_FILTER', studip_json_encode($filters));
     }
 
     public static function getFilterPresets($client)
     {
-        $presets = UserConfig::get($GLOBALS['user']->id)->LUNA_USER_FILTER_PRESETS;
+        $presets = $GLOBALS['user']->cfg->LUNA_USER_FILTER_PRESETS;
         if ($presets) {
             $decoded = studip_json_decode($presets);
             $presets = $decoded[$client] ?: array();
@@ -257,7 +257,7 @@ class LunaUserFilter
 
     public static function saveFilterPreset($client, $name)
     {
-        $config = UserConfig::get($GLOBALS['user']->id);
+        $config = $GLOBALS['user']->cfg;
         $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : array();
         $presets[$client][$name] = self::getFilters($GLOBALS['user']->id, $client);
         return $config->store('LUNA_USER_FILTER_PRESETS', studip_json_encode($presets));
@@ -265,7 +265,7 @@ class LunaUserFilter
 
     public static function saveFilterPresets($client, $data)
     {
-        $config = UserConfig::get($GLOBALS['user']->id);
+        $config = $GLOBALS['user']->cfg;
         $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : array();
         $presets[$client] = $data;
         return $config->store('LUNA_USER_FILTER_PRESETS', studip_json_encode($presets));

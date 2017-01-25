@@ -92,7 +92,7 @@ class PersonsController extends AuthenticatedController {
         $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
 
-        $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+        $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
         $this->columns = $config[$this->client->id];
         if (!$this->columns) {
             $this->columns = array('address', 'companies', 'skills');
@@ -587,8 +587,8 @@ class PersonsController extends AuthenticatedController {
     {
         $this->fields = LunaUserFilter::getFilterFields(true);
 
-        if (UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS) {
-            $selected = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS);
+        if ($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS) {
+            $selected = studip_json_decode($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS);
             $this->selected = $selected[$this->client->id];
         } else {
             $this->selected = array_keys($this->fields);
@@ -616,12 +616,12 @@ class PersonsController extends AuthenticatedController {
                 Request::get('filename') . '.csv');
             $this->render_text(array_to_csv($csv));
         } else if (Request::submitted('default')) {
-            $stored = UserConfig::get($GLOBALS['user']->id)->LUNA_EXPORT_FIELDS;
+            $stored = $GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS;
             $fields = studip_json_decode($stored ? studip_json_decode($stored) : array());
 
             $fields[$this->client->id] = Request::getArray('fields');
 
-            UserConfig::get($GLOBALS['user']->id)->store('LUNA_EXPORT_FIELDS', studip_json_encode($fields));
+            $GLOBALS['user']->cfg->store('LUNA_EXPORT_FIELDS', studip_json_encode($fields));
 
             PageLayout::postSuccess(dgettext('luna', 'Die Voreinstellung für den Datenexport wurde gespeichert.'));
 
@@ -642,10 +642,10 @@ class PersonsController extends AuthenticatedController {
     public function configure_view_action()
     {
         if (Request::submitted('store')) {
-            $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+            $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
             $config[$this->client->id] = Request::getArray('fields');
 
-            if (UserConfig::get($GLOBALS['user']->id)->store('LUNA_PERSON_LIST_COLUMNS', studip_json_encode($config))) {
+            if ($GLOBALS['user']->cfg->store('LUNA_PERSON_LIST_COLUMNS', studip_json_encode($config))) {
                 PageLayout::postSuccess(dgettext('luna', 'Die anzuzeigenden Daten wurden gespeichert.'));
             } else {
                 PageLayout::postError(dgettext('luna', 'Die anzuzeigenden Daten konnten nicht gespeichert werden.'));
@@ -662,7 +662,7 @@ class PersonsController extends AuthenticatedController {
             $address = array('address' => array('name' => dgettext('luna', 'Adresse')));
             $this->fields = $address + $this->fields;
 
-            $config = studip_json_decode(UserConfig::get($GLOBALS['user']->id)->LUNA_PERSON_LIST_COLUMNS);
+            $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
             $this->selected = $config[$this->client->id];
             if (!$this->selected) {
                 $this->selected = array('address', 'companies', 'skills');

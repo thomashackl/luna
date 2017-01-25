@@ -38,4 +38,43 @@ class LunaPhoneNumber extends SimpleORMap
         parent::configure($config);
     }
 
+    public function __construct($id = null)
+    {
+        $this->registerCallback('after_create before_store before_delete', 'cbLog');
+
+        parent::__construct($id);
+    }
+
+    /**
+     * @param $type string type of callback
+     */
+    protected function cbLog($type)
+    {
+        if ($type == 'before_delete' || $type == 'after_create' || ($type == 'before_store' && !$this->isNew() && $this->isDirty())) {
+            $log = new LunaLogEntry();
+            $log->client_id = LunaClient::getCurrentClient()->id;
+            $log->user_id = $GLOBALS['user']->id;
+            $log->affected = array($this->user->id);
+            $log->affected_type = 'phone';
+            if ($type == 'after_create') {
+                $log->action = 'create';
+                $log->info = $this->number;
+            } else if ($type == 'before_store' && !$this->isNew()) {
+                $dirty = array();
+                $old_entry = self::build($this->content_db);
+                foreach (array_keys($this->db_fields) as $field) {
+                    if ($this->isFieldDirty($field)) {
+                        $dirty[] = $field . ': ' . $this->$field . ' -> ' . $old_entry->$field;
+                    }
+                }
+                $log->action = 'update';
+                $log->info = implode("\n", $dirty);
+            } else if ($type == 'before_delete') {
+                $log->action = 'delete';
+                $log->info = $this->number;
+            }
+            $log->store();
+        }
+    }
+
 }

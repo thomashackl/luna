@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('persons/save', $pid ?: null) ?>" method="post" enctype="multipart/form-data">
+<form class="default" action="<?= $controller->url_for('persons/save', $pid ?: null) ?>" method="post" enctype="multipart/form-data" data-dialog="reload-on-close">
     <header>
         <h1>
             <?= $person->isNew() ?
@@ -371,6 +371,15 @@
         </section>
     </fieldset>
     <footer data-dialog-button>
+        <?php foreach ($flash->flash as $key => $value) : ?>
+            <?php if (is_array($value)) : ?>
+                <?php foreach ($value as $entry) : ?>
+                    <input type="hidden" name="company[<?= $key ?>][]" value="<?= $entry ?>">
+                <?php endforeach ?>
+            <?php else : ?>
+                <input type="hidden" name="company[<?= $key ?>]" value="<?= $value ?>">
+            <?php endif ?>
+        <?php endforeach ?>
         <?= CSRFProtection::tokenTag() ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Speichern'), 'store') ?>
         <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('persons')) ?>

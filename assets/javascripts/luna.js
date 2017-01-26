@@ -498,6 +498,9 @@
         $(document).on('dialog-open', function () {
             STUDIP.Luna.init();
         });
+        $(document).on('dialog-update', function () {
+            STUDIP.Luna.init();
+        });
         var dataDiv = $('div#luna-data');
         if (dataDiv.length > 0) {
             switch (dataDiv.data('type')) {

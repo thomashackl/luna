@@ -117,6 +117,12 @@ class CompaniesController extends AuthenticatedController {
             $this->company = new LunaCompany();
         }
 
+        foreach (words('name contact_person street zip city country email phone fax homepage') as $entry) {
+            if (isset($this->flash[$entry])) {
+                $this->company->$entry = $this->flash[$entry];
+            }
+        }
+
         $title = $this->company->isNew() ?
             dgettext('luna', 'Neues Unternehmen anlegen') :
             sprintf(dgettext('luna', 'Daten von "%s" bearbeiten'), $this->company->name);
@@ -141,46 +147,66 @@ class CompaniesController extends AuthenticatedController {
 
     public function save_action($id = '')
     {
-        CSRFProtection::verifyUnsafeRequest();
 
-        if ($id) {
-            $company = LunaCompany::find($id);
-        } else {
-            $company = new LunaCompany($id);
-        }
-        $company->client_id = $this->client->client_id;
-        $company->name = Request::get('name');
-        $company->contact_person = Request::get('contact') ?: Request::get('currentcontact') ?: null;
-        $company->street = Request::get('street');
-        $company->zip = Request::get('zip');
-        $company->city = Request::get('city');
-        $company->country = Request::get('country', 'Deutschland');
-        $company->email = Request::get('email');
-        $company->phone = Request::get('phone');
-        $company->fax = Request::get('fax');
-        $company->homepage = Request::get('homepage');
+        if (Request::submitted('store')) {
+            CSRFProtection::verifyUnsafeRequest();
 
-        if ($company->store()) {
-            PageLayout::postSuccess(sprintf(
-                dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
-                $company->name));
-        } else {
-            PageLayout::postError(sprintf(
-                dgettext('luna', 'Die Unternehmensdaten von "%s" konnten nicht gespeichert werden.'),
-                $company->name));
-        }
-
-        $persondata = Request::getArray('person');
-        if ($persondata['return_to']) {
-            foreach ($persondata as $key => $value) {
-                if ($key != 'return_to') {
-                    $this->flash[$key] = $value;
-                }
+            if ($id) {
+                $company = LunaCompany::find($id);
+            } else {
+                $company = new LunaCompany($id);
             }
-            $this->flash['company'] = $company->id;
-            $this->redirect($persondata['return_to']);
-        } else {
-            $this->relocate('companies');
+            $company->client_id = $this->client->client_id;
+            $company->name = Request::get('name');
+            $company->contact_person = Request::get('contact') ?: Request::get('currentcontact') ?: null;
+            $company->street = Request::get('street');
+            $company->zip = Request::get('zip');
+            $company->city = Request::get('city');
+            $company->country = Request::get('country', 'Deutschland');
+            $company->email = Request::get('email');
+            $company->phone = Request::get('phone');
+            $company->fax = Request::get('fax');
+            $company->homepage = Request::get('homepage');
+
+            if ($company->store()) {
+                PageLayout::postSuccess(sprintf(
+                    dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
+                    $company->name));
+            } else {
+                PageLayout::postError(sprintf(
+                    dgettext('luna', 'Die Unternehmensdaten von "%s" konnten nicht gespeichert werden.'),
+                    $company->name));
+            }
+
+            $persondata = Request::getArray('person');
+            if ($persondata['return_to']) {
+                foreach ($persondata as $key => $value) {
+                    if ($key != 'return_to') {
+                        $this->flash[$key] = $value;
+                    }
+                }
+                $this->flash['company'] = $company->id;
+                $this->redirect($persondata['return_to']);
+            } else {
+                $this->relocate('companies');
+            }
+        } else if (Request::submitted('newperson')) {
+            $this->flash['name'] = Request::get('name');
+            if (Request::option('currentcontact')) {
+                $this->flash['contact_person'] = Request::option('currentcontact');
+            }
+            $this->flash['street'] = Request::get('street');
+            $this->flash['zip'] = Request::get('zip');
+            $this->flash['city'] = Request::get('city');
+            $this->flash['country'] = Request::get('country');
+            $this->flash['email'] = Request::get('email');
+            $this->flash['phone'] = Request::get('phone');
+            $this->flash['fax'] = Request::get('fax');
+            $this->flash['homepage'] = Request::get('homepage');
+            $this->flash['return_to'] = $this->url_for('companies/edit', $id ?: null);
+
+            $this->redirect($this->url_for('persons/edit'));
+
         }
     }
 

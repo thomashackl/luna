@@ -169,6 +169,8 @@ class PersonsController extends AuthenticatedController {
             dgettext('luna', 'Neue Person anlegen') :
             sprintf(dgettext('luna', 'Daten von %s'), $this->person->getFullname('full'));
 
+        $this->flash->keep();
+
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
 
         $views = new ViewsWidget();
@@ -419,7 +421,18 @@ class PersonsController extends AuthenticatedController {
                     $user->getFullname('full')));
             }
 
-            $this->relocate('persons');
+            $companydata = Request::getArray('company');
+            if ($companydata['return_to']) {
+                foreach ($companydata as $key => $value) {
+                    if ($key != 'return_to') {
+                        $this->flash[$key] = $value;
+                    }
+                }
+                $this->flash['contact_person'] = $user->id;
+                $this->redirect($companydata['return_to']);
+            } else {
+                $this->relocate('persons');
+            }
 
         } else if (Request::submitted('newcompany')) {
 
@@ -448,11 +461,7 @@ class PersonsController extends AuthenticatedController {
             $this->flash['notes'] = Request::get('notes');
             $this->flash['return_to'] = $this->url_for('persons/edit', $id ?: null);
 
-            if (Request::submitted('newcompany')) {
-                $this->redirect($this->url_for('companies/edit'));
-            } else if (Request::submitted('newskill')) {
-                $this->redirect($this->url_for('skills/edit'));
-            }
+            $this->redirect($this->url_for('companies/edit'));
 
         }
     }

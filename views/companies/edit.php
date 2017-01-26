@@ -60,7 +60,11 @@
                     <input type="hidden" name="currentcontact" value="<?= $company->contact_person ?>">
                     <?= sprintf(dgettext('luna', 'Aktuell: %s'), htmlReady($company->contact->getFullname('full'))) ?>
                 </span>
+                <br>
             <?php endif ?>
+            <?= dgettext('luna', 'oder') ?>
+            <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufügen'), 'newperson',
+                array('data-dialog' => '')) ?>
         </section>
         <section>
             <label>

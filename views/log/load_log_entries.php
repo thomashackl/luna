@@ -1,7 +1,7 @@
 <?php if ($log) : ?>
     <table class="default">
         <caption>
-            <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Aktivitätsprotokoll') ?>
+            <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Aktionsprotokoll') ?>
             <br>
             <span class="luna-smaller-text">
                 <?= sprintf(
@@ -197,7 +197,7 @@
     </table>
 <?php else : ?>
     <h1>
-        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Aktivitätsprotokoll') ?>
+        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Aktionsprotokoll') ?>
     </h1>
     <p>
         <?= dgettext('luna', 'Es wurden keine Einträge gefunden.') ?>

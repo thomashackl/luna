@@ -21,7 +21,6 @@ table.default tfoot tr td.luna-entries-per-page {
 table.default tfoot tr td div.luna-pagination {
   display: inline-block;
   text-align: center;
-  width: 15px;
   margin-left: -2px;
   margin-right: -2px;
 }

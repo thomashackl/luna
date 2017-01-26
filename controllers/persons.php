@@ -190,9 +190,9 @@ class PersonsController extends AuthenticatedController {
     }
 
     /**
-     * Create a new or edit an existing person.
+     * Show info about a person.
      *
-     * @param string $id id of the person to edit, empty if new person
+     * @param string $id id of the person to show
      */
     public function info_action($id)
     {

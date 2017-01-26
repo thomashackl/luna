@@ -103,9 +103,57 @@ class CompaniesController extends AuthenticatedController {
     }
 
     /**
+     * Show info about a company.
+     *
+     * @param string $id id of the company to show
+     */
+    public function info_action($id)
+    {
+        Navigation::activateItem('/tools/luna/companies');
+
+        $this->company = LunaCompany::find($id);
+
+        $title = sprintf(dgettext('luna', 'Daten des Unternehmens %s'), $this->company->name);
+
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
+
+        $views = new ViewsWidget();
+        $views->addLink(dgettext('luna', 'Übersicht'),
+            $this->url_for('companies'),
+            Icon::create('vcard', 'clickable'))->setActive(false);
+        $views->addLink(dgettext('luna', 'Unternehmensdaten'),
+            $this->url_for('companies/info', $id),
+            Icon::create('info', 'clickable'))->setActive(true);
+        $this->sidebar->addWidget($views);
+    }
+
+    /**
+     * List company members.
+     *
+     * @param string $id id of the company
+     */
+    public function members_action($id)
+    {
+        $this->company = LunaCompany::find($id);
+    }
+
+    /**
+     * Remove a member from a company.
+     *
+     * @param string $company id of the company
+     * @param string $user id of the member
+     */
+    public function delete_member_action($company, $user)
+    {
+        DBManager::get()->execute("DELETE FROM `luna_user_company` WHERE `company_id` = ? AND `user_id` = ?",
+            array($company, $user));
+        $this->render_nothing();
+    }
+
+    /**
      * Create a new or edit an existing person.
      *
-     * @param string $id id of the person to edit, empty if new person
+     * @param string $id id of the company to edit, empty if new company
      */
     public function edit_action($id = '')
     {

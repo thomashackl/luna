@@ -20,7 +20,7 @@
             <col width="150">
             <col width="250">
             <col width="150">
-            <col width="25">
+            <col width="90">
         </colgroup>
         <thead>
             <tr>
@@ -49,18 +49,30 @@
                     <td><?= htmlReady($c->email) ?></td>
                     <td><?= htmlReady($c->phone) ?></td>
                     <td>
-                        <?php if (count($company->members) > 0) : ?>
-                            <a href="<?= $controller->url_for('message/write/company', $c->id) ?>">
+                        <?php if (count($c->members) > 0) : ?>
+                            <a href="<?= $controller->url_for('companies/members', $c->id) ?>" data-dialog="size=auto"
+                                    title="<?= dgettext('luna', 'Mitglieder anzeigen') ?>">
+                                <?= Icon::create('community', 'clickable')->asImg() ?>
+                            </a>
+                            <a href="<?= $controller->url_for('message/write/company', $c->id) ?>"
+                                    title="<?= dgettext('luna', 'Nachricht schreiben') ?>">
                                 <?= Icon::create('mail', 'clickable')->asImg() ?>
                             </a>
                         <?php endif ?>
                         <?php if ($hasWriteAccess) : ?>
-                            <a href="<?= $controller->url_for('companies/edit', $c->id) ?>" data-dialog="size=auto">
+                            <a href="<?= $controller->url_for('companies/edit', $c->id) ?>" data-dialog="size=auto"
+                                    title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>
                             </a>
                             <a href="<?= $controller->url_for('companies/delete', $c->id) ?>" data-confirm="<?=
-                                    dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')?>">
+                                    dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')?>"
+                                    title="<?= dgettext('luna', 'Löschen') ?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
+                            </a>
+                        <?php else : ?>
+                            <a href="<?= $controller->url_for('companies/info', $c->id) ?>" data-dialog
+                                    title="<?= dgettext('luna', 'Daten anzeigen') ?>">
+                                <?= Icon::create('info', 'clickable')->asImg() ?>
                             </a>
                         <?php endif ?>
                     </td>

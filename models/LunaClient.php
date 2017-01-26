@@ -242,8 +242,8 @@ class LunaClient extends SimpleORMap
                         $params['user_id'] = $value;
                         break;
                     case 'affected_id':
-                        $where[] = "`affected_id` = :affected";
-                        $params['affected'] = $value;
+                        $where[] = "`affected` LIKE :affected";
+                        $params['affected'] = '%' . $value . '%';
                         break;
                     case 'affected_type':
                         $where[] = "`affected_type` = :atype";
@@ -286,8 +286,8 @@ class LunaClient extends SimpleORMap
                         $params['user_id'] = $value;
                         break;
                     case 'affected_id':
-                        $where[] = "`affected_id` = :affected";
-                        $params['affected'] = $value;
+                        $where[] = "`affected` LIKE :affected";
+                        $params['affected'] = '%' . $value . '%';
                         break;
                     case 'affected_type':
                         $where[] = "`affected_type` = :atype";

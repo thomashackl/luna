@@ -87,6 +87,9 @@ class LogController extends AuthenticatedController {
                 } else {
                     $filters[$this->client->id][$type] = $value;
                 }
+                if ($type == 'affected_type') {
+                    unset($filters[$this->client->id]['affected_id']);
+                }
             }
         }
 
@@ -154,10 +157,19 @@ class LogController extends AuthenticatedController {
                     $class = 'LunaUser';
                     $title = dgettext('luna', 'Person');
                     $order = 'lastname, firstname';
-                    $name = 'getFullname("full")';
+                    $name = 'getFullname';
+                    $param = 'full';
+                    break;
+                case 'email':
+                case 'phone':
+                    $class = 'LunaUser';
+                    $title = dgettext('luna', 'Person');
+                    $order = 'lastname, firstname';
+                    $name = 'getFullname';
+                    $param = 'full';
                     break;
                 case 'company':
-                    $class = 'LunaClient';
+                    $class = 'LunaCompany';
                     $title = dgettext('luna', 'Unternehmen');
                     $order = 'name';
                     $name = 'name';
@@ -170,8 +182,8 @@ class LogController extends AuthenticatedController {
                     break;
             }
             $affected = DBManager::get()->fetchFirst(
-                "SELECT `affected` FROM `luna_log` WHERE `client_id` = ? AND `affected_type` = ?",
-                array($this->client->id, $filters[$this->client->id]['affected_type']));
+                "SELECT DISTINCT `affected` FROM `luna_log` WHERE `client_id` = ? AND `affected_type` = ?",
+                array($this->client->id, $filters['affected_type']));
             $ids = array();
             foreach ($affected as $a) {
                 $ids = array_merge($ids, studip_json_decode($a));
@@ -182,7 +194,12 @@ class LogController extends AuthenticatedController {
             $list = new SelectWidget(dgettext('luna', $title), $this->url_for('log/set_selection'), 'affected_id');
             $list->addElement(new SelectElement('all', dgettext('luna', 'alle')), 'affected_id-all');
             foreach ($data as $entry) {
-                $list->addElement(new SelectElement($entry->id, $entry->$name, $filters['affected_id'] == $entry->id),
+                if (method_exists($entry, $name)) {
+                    $text = $entry->$name($param);
+                } else {
+                    $text = $entry->$name;
+                }
+                $list->addElement(new SelectElement($entry->id, $text, $filters['affected_id'] == $entry->id),
                     'affected_id-' . $entry->id);
             }
             $sidebar->addWidget($list, 'filter_affected_id');

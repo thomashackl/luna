@@ -599,7 +599,7 @@ class PersonsController extends AuthenticatedController {
             $csv = array();
             $csv[] = array_map(function($entry) {
                 return $entry['name'];
-            }, array_intersect_key($this->fields, array_flip($this->selected)));
+            }, array_intersect_key($this->fields, array_flip(Request::getArray('fields'))));
             foreach ($persons as $person) {
                 $entry = array();
                 foreach (Request::getArray('fields') as $field) {

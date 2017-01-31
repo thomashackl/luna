@@ -41,9 +41,6 @@ class ClientsController extends AuthenticatedController {
         $this->isRoot = $GLOBALS['perm']->have_perm('root');
 
         $this->currentClient = LunaClient::getCurrentClient();
-        $access = $this->isRoot ? 'admin' :
-            $this->currentClient->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->isAdmin = in_array($access, array('admin'));
     }
 
     /**
@@ -60,7 +57,15 @@ class ClientsController extends AuthenticatedController {
         }
         PageLayout::addScript($js);
 
-        $this->clients = LunaClient::findBySQL("1 ORDER BY `name`");
+        if ($this->isRoot) {
+            $this->clients = LunaClient::findBySQL("1 ORDER BY `name`");
+        } else {
+            $accessible = SimpleORMapCollection::createFromArray(
+                LunaClientUser::findByUser_id($GLOBALS['user']->id));
+            if (count($accessible) > 0) {
+                $this->clients = LunaClient::findMany($accessible->pluck('client_id'));
+            }
+        }
 
         $actions = new ActionsWidget();
         $actions->addLink(dgettext('luna', 'Mandant hinzufügen'),

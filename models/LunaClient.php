@@ -70,7 +70,17 @@ class LunaClient extends SimpleORMap
 
     public static function getCurrentClient()
     {
-        return LunaClient::find($GLOBALS['user']->cfg->LUNA_CURRENT_CLIENT);
+        $client = LunaClient::find($GLOBALS['user']->cfg->LUNA_CURRENT_CLIENT);
+
+        if (!$client) {
+            $clients = LunaClientUser::findByUser_id($GLOBALS['user']->id);
+            if (count($clients) == 1) {
+                LunaClient::setCurrentClient($clients[0]->client_id);
+                $client = LunaClient::find($clients[0]->client_id);
+            }
+        }
+
+        return $client;
     }
 
     public static function setCurrentClient($client_id)

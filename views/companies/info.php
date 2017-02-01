@@ -79,5 +79,17 @@
                 </td>
             </tr>
         <?php endif ?>
+        <?php if (count($company->tags) > 0) : ?>
+            <tr>
+                <td class="luna-label">
+                    <?= dgettext('luna', 'Schlagworte') ?>
+                </td>
+                <td>
+                    <?php foreach ($company->tags as $tag) : ?>
+                        <div><?= htmlReady($tag->name) ?></div>
+                    <?php endforeach ?>
+                </td>
+            </tr>
+        <?php endif ?>
     </tbody>
 </table>

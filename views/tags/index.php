@@ -23,6 +23,7 @@
             <tr>
                 <td><?= htmlReady($t->name) ?></td>
                 <td>
+                    <?= Icon::create('info', 'clickable')->asImg() ?>
                     <?php if ($hasWriteAccess) : ?>
                         <a href="<?= $controller->url_for('tags/edit', $t->id) ?>" data-dialog="size=auto">
                             <?= Icon::create('edit', 'clickable')->asImg() ?>

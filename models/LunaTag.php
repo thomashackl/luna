@@ -19,6 +19,7 @@
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaUser users has_and_belongs_to_many LunaUser
+ * @property LunaCompany companies has_and_belongs_to_many LunaCompany
  */
 class LunaTag extends SimpleORMap
 {
@@ -33,13 +34,24 @@ class LunaTag extends SimpleORMap
             'thru_assoc_key' => 'user_id',
             'on_store' => 'store'
         );
+        $config['has_and_belongs_to_many']['companies'] = array(
+            'class_name' => 'LunaCompany',
+            'thru_table' => 'luna_company_tag',
+            'thru_key' => 'tag_id',
+            'thru_assoc_key' => 'company_id',
+            'on_store' => 'store'
+        );
 
         parent::configure($config);
     }
 
     public static function getDistinctValues($client, $field, $type = 'user')
     {
-        $filters = LunaUserFilter::getFilterFields();
+        if ($type == 'user') {
+            $filters = LunaUserFilter::getFilterFields();
+        } else if ($type = 'company') {
+            $filters = LunaCompanyrFilter::getFilterFields();
+        }
         $column = $filters[$field]['ids'];
         $values = $filters[$field]['dbvalues'];
         $stmt = DBManager::get()->prepare(

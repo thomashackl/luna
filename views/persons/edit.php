@@ -288,7 +288,7 @@
                 </a>
             </label>
             <div id="luna-person-tags">
-                <?php if ($person->tags) : ?>
+                <?php if (count($person->tags) > 0) : ?>
                     <?php foreach ($person->tags as $tag) : ?>
                         <div class="luna-tag" id="luna-tag-<?= htmlReady(str_replace(' ', '-', $tag->name)) ?>">
                             <?= htmlReady($tag->name) ?>

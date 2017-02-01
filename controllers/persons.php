@@ -453,6 +453,7 @@ class PersonsController extends AuthenticatedController {
             $this->flash['fax'] = Request::get('fax');
             $this->flash['homepage'] = Request::get('homepage');
             $this->flash['skills'] = Request::getArray('skills');
+            $this->flash['tags'] = Request::getArray('tags');
             if (Request::option('company')) {
                 $this->flash['company'] = Request::option('company');
             }

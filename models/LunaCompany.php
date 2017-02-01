@@ -28,6 +28,7 @@
  * @property string chdate database column
  * @property LunaUser members has_many LunaUser
  * @property LunaUser contact has_one LunaUser
+ * @property LunaTag tags has_and_belongs_to_many LunaTag
  */
 class LunaCompany extends SimpleORMap
 {
@@ -49,6 +50,15 @@ class LunaCompany extends SimpleORMap
             'assoc_foreign_key' => 'user_id',
             'on_store' => 'store',
             'on_delete' => 'delete'
+        );
+        $config['has_and_belongs_to_many']['tags'] = array(
+            'class_name' => 'LunaTag',
+            'thru_table' => 'luna_company_tag',
+            'thru_key' => 'company_id',
+            'thru_assoc_key' => 'tag_id',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
+            'order_by' => 'ORDER BY `name`'
         );
 
         parent::configure($config);

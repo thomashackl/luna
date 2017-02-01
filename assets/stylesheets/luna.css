@@ -77,13 +77,16 @@ form.default section a.luna-tag-add svg {
   top: 10px;
 }
 form.default section div#luna-person-skills,
-form.default section div#luna-person-tags {
+form.default section div#luna-person-tags,
+form.default section div#luna-company-tags {
   margin-top: 10px;
 }
 form.default section div#luna-person-skills div.luna-skill,
 form.default section div#luna-person-tags div.luna-skill,
+form.default section div#luna-company-tags div.luna-skill,
 form.default section div#luna-person-skills div.luna-tag,
-form.default section div#luna-person-tags div.luna-tag {
+form.default section div#luna-person-tags div.luna-tag,
+form.default section div#luna-company-tags div.luna-tag {
   border: 1px solid #a7aaaf;
   background-color: #e2e3e4;
   display: inline-block;

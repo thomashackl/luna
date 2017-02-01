@@ -232,33 +232,37 @@
         },
 
         addTag: function(tag) {
-            var div = $('div#luna-person-tags');
-            if (div.children('div#luna-tag-' + tag.replace(' ', '-')).length == 0) {
-                var tagDiv = $('<div>').
-                    addClass('luna-tag').
-                    attr('id', 'luna-tag-' + tag.replace(' ', '-')).
-                    html(tag);
-                var input = $('<input>').
-                    attr('type', 'hidden').
-                    attr('name', 'tags[]').
-                    attr('value', tag);
-                var a = $('<a>').
-                    attr('href', '').
-                    addClass('luna-tag-remove').
-                    on('click', function() {
-                        STUDIP.Luna.removeEntry(this);
-                        return false;
-                    });
-                var img = $('<img>').
-                    attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
-                    attr('width', '16').
-                    attr('height', '16').
-                    addClass('icon-role-clickable').
+            if ($.trim(tag) != '') {
+                var div = $('div#luna-person-tags');
+                if (div.length == 0) {
+                    div = $('div#luna-company-tags');
+                }
+                if (div.children('div#luna-tag-' + tag.replace(' ', '-')).length == 0) {
+                    var tagDiv = $('<div>').
+                        addClass('luna-tag').
+                        attr('id', 'luna-tag-' + tag.replace(' ', '-')).
+                        html(tag);
+                    var input = $('<input>').
+                        attr('type', 'hidden').
+                        attr('name', 'tags[]').
+                        attr('value', tag);
+                    var a = $('<a>').attr('href', '').
+                        addClass('luna-tag-remove').
+                        on('click', function () {
+                            STUDIP.Luna.removeEntry(this);
+                            return false;
+                        });
+                    var img = $('<img>').
+                        attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
+                        attr('width', '16').
+                        attr('height', '16').
+                        addClass('icon-role-clickable').
                     addClass('icon-role-trash');
-                a.append(img);
-                tagDiv.append(input);
-                tagDiv.append(a);
-                div.append(tagDiv);
+                    a.append(img);
+                    tagDiv.append(input);
+                    tagDiv.append(a);
+                    div.append(tagDiv);
+                }
             }
         },
 

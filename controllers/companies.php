@@ -216,6 +216,24 @@ class CompaniesController extends AuthenticatedController {
             $company->fax = Request::get('fax');
             $company->homepage = Request::get('homepage');
 
+            $tags = array();
+            foreach (Request::getArray('tags') as $tag) {
+                $data = $this->client->tags->findOneBy('name', trim($tag));
+                if (!$data) {
+                    $data = new LunaTag();
+                    $data->client_id = $this->client->id;
+                    $data->name = trim($tag);
+                }
+                if (!$data->companies) {
+                    $data->companies = array($company);
+                } else if (!$data->companies->findByCompany_id($company->company_id)) {
+                    $data->companies->append($company);
+                }
+                $data->store();
+                $tags[] = $data;
+            }
+            $company->tags = SimpleORMapCollection::createFromArray($tags);
+
             if ($company->store()) {
                 PageLayout::postSuccess(sprintf(
                     dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
@@ -251,6 +269,7 @@ class CompaniesController extends AuthenticatedController {
             $this->flash['phone'] = Request::get('phone');
             $this->flash['fax'] = Request::get('fax');
             $this->flash['homepage'] = Request::get('homepage');
+            $this->flash['tags'] = Request::getArray('tags');
             $this->flash['return_to'] = $this->url_for('companies/edit', $id ?: null);
 
             $this->redirect($this->url_for('persons/edit'));

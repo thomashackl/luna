@@ -20,6 +20,7 @@
             <col width="150">
             <col width="250">
             <col width="150">
+            <col>
             <col width="90">
         </colgroup>
         <thead>
@@ -29,6 +30,7 @@
                 <th><?= dgettext('luna', 'Ansprechpartner') ?></th>
                 <th><?= dgettext('luna', 'E-Mail') ?></th>
                 <th><?= dgettext('luna', 'Telefon') ?></th>
+                <th><?= dgettext('luna', 'Schlagworte') ?></th>
                 <th><?= dgettext('luna', 'Aktionen') ?></th>
             </tr>
         </thead>
@@ -48,6 +50,14 @@
                     </td>
                     <td><?= htmlReady($c->email) ?></td>
                     <td><?= htmlReady($c->phone) ?></td>
+                    <td>
+                        <?php if (count($c->tags) > 0) : ?>
+                            <?php foreach ($c->tags as $tag) : ?>
+                                <?= htmlReady($tag->name) ?>
+                                <br>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </td>
                     <td>
                         <?php if (count($c->members) > 0) : ?>
                             <a href="<?= $controller->url_for('companies/members', $c->id) ?>" data-dialog="size=auto"

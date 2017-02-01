@@ -1,6 +1,6 @@
 pluginname=Luna
 pluginclassname=LunaPlugin
 origin=upa
-version=0.8
+version=1.0
 studipMinVersion=3.4
 studipMaxVersion=3.9.99

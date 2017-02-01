@@ -27,7 +27,8 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
         bindtextdomain('luna', realpath(__DIR__.'/locale'));
 
         // Plugin only available for roots or role.
-        if ($GLOBALS['perm']->have_perm('root') || $clients = LunaClientUser::findByUser_id($GLOBALS['user']->id)) {
+        $clients = LunaClientUser::findByUser_id($GLOBALS['user']->id);
+        if ($GLOBALS['perm']->have_perm('root') || count($clients) > 0) {
             $currentClient = LunaClient::getCurrentClient();
             $target = 'persons';
 

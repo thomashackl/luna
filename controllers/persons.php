@@ -483,13 +483,12 @@ class PersonsController extends AuthenticatedController {
 
     public function bulk_action()
     {
+        $this->flash['bulkusers'] = Request::optionArray('persons');
         switch (Request::option('bulkaction')) {
             case 'message':
-                $this->flash['bulkusers'] = Request::optionArray('persons');
-                $this->relocate('message/write');
+                $this->relocate('message/write/users');
                 break;
             case 'export':
-                $this->flash['bulkusers'] = Request::optionArray('persons');
                 $this->redirect($this->url_for('persons/export_persons'));
                 break;
         }
@@ -605,7 +604,9 @@ class PersonsController extends AuthenticatedController {
         }
 
         if (Request::submitted('do_export')) {
-            $persons = $this->client->getFilteredUsers();
+            $persons = Request::optionArray('users') ?
+                LunaUser::findMany(Request::optionArray('users')) :
+                $this->client->getFilteredUsers(0, -1);
             $csv = array();
             $csv[] = array_map(function($entry) {
                 return $entry['name'];

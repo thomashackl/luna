@@ -84,6 +84,15 @@ class MessageController extends AuthenticatedController {
             }
             $this->type = 'company';
             $this->target_id = $id;
+        } else if ($type == 'companies') {
+            if ($this->flash['bulkcompanies']) {
+                $companies = $this->flash['bulkcompanies'];
+                $ids = DBManager::get()->fetchAll(
+                    "SELECT DISTINCT `user_id`  FROM `luna_user_company` WHERE `company_id` IN (?)",
+                    array($companies));
+            } else {
+                $this->persons = $this->client->getFilteredUsers()->pluck('id');
+            }
         } else {
             $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
         }

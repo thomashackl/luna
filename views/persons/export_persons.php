@@ -25,6 +25,11 @@
         </label>
     </section>
     <footer data-dialog-button>
+        <?php if ($flash['bulkusers']) : ?>
+            <?php foreach ($flash['bulkusers'] as $u) : ?>
+                <input type="hidden" name="users[]" value="<?= htmlReady($u) ?>">
+            <?php endforeach ?>
+        <?php endif ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Exportieren'), 'do_export') ?>
         <?= Studip\Button::create(dgettext('luna', 'Als Standard speichern'), 'default') ?>
         <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('persons')) ?>

@@ -88,7 +88,7 @@ class LunaClient extends SimpleORMap
         $GLOBALS['user']->cfg->store('LUNA_CURRENT_CLIENT', $client_id);
     }
 
-    public function getFilteredUsers($start = 0)
+    public function getFilteredUsers($start = 0, $limit = 0)
     {
         $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
         $all = LunaUserFilter::getFilterFields();
@@ -120,9 +120,14 @@ class LunaClient extends SimpleORMap
         $sql .= " WHERE u.`client_id` = ?" .
             ($filters ? " AND ".implode(" AND ", $where) : "");
         $sql .= " ORDER BY u.`lastname`, u.`firstname`";
-        $sql .= " LIMIT ?, ?";
-        $count_per_page = $this->getListMaxEntries('persons');
-        $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+        if ($start == 0 && $limit == -1) {
+            $count_per_page = $limit;
+            $ids = DBManager::get()->fetchFirst($sql, array($this->id));
+        } else {
+            $sql .= " LIMIT ?, ?";
+            $count_per_page = $this->getListMaxEntries('persons');
+            $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+        }
         return SimpleORMapCollection::createFromArray(LunaUser::findMany($ids))->orderBy('lastname firstname');
     }
 
@@ -161,7 +166,7 @@ class LunaClient extends SimpleORMap
         return $data[0];
     }
 
-    public function getFilteredCompanies($start = 0)
+    public function getFilteredCompanies($start = 0, $limit = 0)
     {
         $filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->id);
         $all = LunaCompanyFilter::getFilterFields();
@@ -193,9 +198,14 @@ class LunaClient extends SimpleORMap
         $sql .= " WHERE c.`client_id` = ?" .
             ($filters ? " AND ".implode(" AND ", $where) : "");
         $sql .= " ORDER BY c.`name`";
-        $sql .= " LIMIT ?, ?";
-        $count_per_page = $this->getListMaxEntries('companies');
-        $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+        if ($start == 0 && $limit == -1) {
+            $count_per_page = $limit;
+            $ids = DBManager::get()->fetchFirst($sql, array($this->id));
+        } else {
+            $sql .= " LIMIT ?, ?";
+            $count_per_page = $this->getListMaxEntries('companies');
+            $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+        }
         return SimpleORMapCollection::createFromArray(LunaCompany::findMany($ids))->orderBy('name');
     }
 

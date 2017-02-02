@@ -27,7 +27,29 @@ class LunaCompanyFilter
                 'dbvalues' => 'name',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            ),
+            )
+        );
+        if ($all) {
+            $fields = $fields + array(
+                'street' => array(
+                    'name' => dgettext('luna', 'Straße'),
+                    'table' => 'luna_companies',
+                    'ids' => 'street',
+                    'dbvalues' => 'street',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                ),
+                'zip' => array(
+                    'name' => dgettext('luna', 'PLZ'),
+                    'table' => 'luna_companies',
+                    'ids' => 'zip',
+                    'dbvalues' => 'zip',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                )
+            );
+        }
+        $fields = $fields + array(
             'city' => array(
                 'name' => dgettext('luna', 'Stadt'),
                 'table' => 'luna_companies',
@@ -43,7 +65,45 @@ class LunaCompanyFilter
                 'dbvalues' => 'country',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            ),
+            )
+        );
+        if ($all) {
+            $fields = $fields + array(
+                'email' => array(
+                    'name' => dgettext('luna', 'E-Mailadresse'),
+                    'table' => 'luna_companies',
+                    'ids' => 'email',
+                    'dbvalues' => 'email',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                ),
+                'phone' => array(
+                    'name' => dgettext('luna', 'Telefonnummer'),
+                    'table' => 'luna_companies',
+                    'ids' => 'phone',
+                    'dbvalues' => 'phone',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                ),
+                'fax' => array(
+                    'name' => dgettext('luna', 'Fax'),
+                    'table' => 'luna_companies',
+                    'ids' => 'fax',
+                    'dbvalues' => 'fax',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                ),
+                'homepage' => array(
+                    'name' => dgettext('luna', 'Homepage'),
+                    'table' => 'luna_companies',
+                    'ids' => 'homepage',
+                    'dbvalues' => 'homepage',
+                    'class' => 'LunaCompany',
+                    'is_id' => false
+                )
+            );
+        }
+        $fields = $fields + array(
             'tags' => array(
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_company_tag',

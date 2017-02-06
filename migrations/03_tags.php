@@ -16,7 +16,8 @@ class Tags extends Migration {
             `name` VARCHAR(255) NOT NULL UNIQUE,
             `mkdate` INT NOT NULL,
             `chdate` INT NOT NULL,
-            PRIMARY KEY (`tag_id`)
+            PRIMARY KEY (`tag_id`),
+            UNIQUE (`client_id`, `name`)
         ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC");
 
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `luna_user_tag` (

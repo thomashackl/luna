@@ -9,11 +9,13 @@
                         dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $companycount),
                         $companycount) ?>
                 </span>
-                <span class="actions">
-                    <a href="<?= $controller->url_for('companies/edit') ?>" data-dialog="size=auto">
-                        <?= Icon::create('vcard+add', 'clickable')->asImg() ?>
-                    </a>
-                </span>
+                <?php if ($hasWriteAccess) : ?>
+                    <span class="actions">
+                        <a href="<?= $controller->url_for('companies/edit') ?>" data-dialog="size=auto">
+                            <?= Icon::create('vcard+add', 'clickable')->asImg() ?>
+                        </a>
+                    </span>
+                <?php endif ?>
             </caption>
             <colgroup>
                 <col width="5">

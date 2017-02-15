@@ -345,6 +345,52 @@
             return false;
         },
 
+        loadSkills: function(startPage) {
+            var dataEl = $('#luna-data');
+            var fullUrl = $(dataEl).data('update-url').split('?');
+            var url = fullUrl[0] + '/' + startPage;
+            if (fullUrl[1] != '') {
+                url += '?' + fullUrl[1];
+            }
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                beforeSend: function (xhr, settings) {
+                    dataEl.html($('<img>').
+                    attr('width', 64).
+                    attr('height', 64).
+                    attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function (html) {
+                    dataEl.html(html);
+                }
+            });
+            return false;
+        },
+
+        loadTags: function(startPage) {
+            var dataEl = $('#luna-data');
+            var fullUrl = $(dataEl).data('update-url').split('?');
+            var url = fullUrl[0] + '/' + startPage;
+            if (fullUrl[1] != '') {
+                url += '?' + fullUrl[1];
+            }
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                beforeSend: function (xhr, settings) {
+                    dataEl.html($('<img>').
+                    attr('width', 64).
+                    attr('height', 64).
+                    attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
+                },
+                success: function (html) {
+                    dataEl.html(html);
+                }
+            });
+            return false;
+        },
+
         setEntriesPerPage: function(type, element) {
             var fullUrl = $(element).data('set-url').split('?');
             var url = fullUrl[0];
@@ -376,6 +422,12 @@
                             break;
                         case 'log':
                             STUDIP.Luna.loadLogEntries(0);
+                            break;
+                        case 'skills':
+                            STUDIP.Luna.loadSkills(0);
+                            break;
+                        case 'tags':
+                            STUDIP.Luna.loadTags(0);
                             break;
                     }
                 }
@@ -540,6 +592,12 @@
                     break;
                 case 'companies':
                     STUDIP.Luna.loadCompanies(0);
+                    break;
+                case 'skills':
+                    STUDIP.Luna.loadSkills(0);
+                    break;
+                case 'tags':
+                    STUDIP.Luna.loadTags(0);
                     break;
                 case 'log':
                     STUDIP.Luna.loadLogEntries(0);

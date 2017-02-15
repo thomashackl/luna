@@ -38,6 +38,16 @@ class TagsController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/literature-sidebar.png');
 
+        if (Studip\ENV == 'development') {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
+        } else {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
+        }
+        PageLayout::addStylesheet($style);
+        PageLayout::addScript($js);
+
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
@@ -52,11 +62,6 @@ class TagsController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/tags');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Schlagwörter'));
 
-        $this->tags = $this->client->tags;
-        if ($this->tags) {
-            $this->tags->orderBy('name');
-        }
-
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
             $actions->addLink(dgettext('luna', 'Schlagwort hinzufügen'),
@@ -64,6 +69,16 @@ class TagsController extends AuthenticatedController {
                 Icon::create('tag+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
         }
+    }
+
+    public function load_tags_action($start = 0)
+    {
+        $this->entries_per_page = $this->client->getListMaxEntries('tags');
+        if (count($this->client->tags) > 0) {
+            $this->tags = $this->client->tags->orderBy('name')->limit($start, $this->entries_per_page);
+        }
+        $this->pagecount = ceil(count($this->client->tags) / $this->entries_per_page);
+        $this->activepage = $start + 1;
     }
 
     /**

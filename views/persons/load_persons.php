@@ -10,9 +10,11 @@
                         $personcount) ?>
                 </span>
                 <span class="actions">
-                    <a href="<?= $controller->url_for('persons/edit') ?>" data-dialog="size=auto">
-                        <?= Icon::create('person+add', 'clickable')->asImg() ?>
-                    </a>
+                    <?php if ($hasWriteAccess) : ?>
+                        <a href="<?= $controller->url_for('persons/edit') ?>" data-dialog="size=auto">
+                            <?= Icon::create('person+add', 'clickable')->asImg() ?>
+                        </a>
+                    <?php endif ?>
                     <a href="<?= $controller->url_for('persons/configure_view') ?>" data-dialog="size=auto">
                         <?= Icon::create('checkbox-checked', 'clickable',
                             array('title' => dgettext('luna', 'Welche Spalten sollen angezeigt werden?')))->asImg() ?>

@@ -38,6 +38,16 @@ class SkillsController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/roles-sidebar.png');
 
+        if (Studip\ENV == 'development') {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.js';
+        } else {
+            $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
+            $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
+        }
+        PageLayout::addStylesheet($style);
+        PageLayout::addScript($js);
+
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
@@ -52,11 +62,6 @@ class SkillsController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/skills');
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Kompetenzen'));
 
-        $this->skills = $this->client->skills;
-        if ($this->skills) {
-            $this->skills->orderBy('name');
-        }
-
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
             $actions->addLink(dgettext('luna', 'Kompetenz hinzufügen'),
@@ -64,6 +69,16 @@ class SkillsController extends AuthenticatedController {
                 Icon::create('roles+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
         }
+    }
+
+    public function load_skills_action($start = 0)
+    {
+        $this->entries_per_page = $this->client->getListMaxEntries('skills');
+        if (count($this->client->skills) > 0) {
+            $this->skills = $this->client->skills->orderBy('name')->limit($start, $this->entries_per_page);
+        }
+        $this->pagecount = ceil(count($this->client->skills) / $this->entries_per_page);
+        $this->activepage = $start + 1;
     }
 
     /**

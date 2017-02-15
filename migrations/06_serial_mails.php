@@ -4,6 +4,8 @@
  * Adds markers for serial mails.
  */
 
+require_once(realpath(__DIR__.'/../models/LunaMarker.php'));
+
 class SerialMails extends Migration {
 
     public function up() {

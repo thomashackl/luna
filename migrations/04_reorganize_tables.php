@@ -13,7 +13,7 @@ class ReorganizeTables extends Migration {
         DBManager::get()->exec("ALTER TABLE `luna_users`
             ADD `status` VARCHAR(255) NULL AFTER `homepage`,
             ADD `graduation` VARCHAR(255) NULL AFTER `status`,
-            ADD `notes` TEXT NULL AFTER `qualifications`");
+            ADD `notes` TEXT NULL AFTER `graduation`");
 
         $stmt = DBManager::get()->prepare("UPDATE `luna_users`
             SET `status` = :status, `graduation` = :graduation, `notes` = :notes

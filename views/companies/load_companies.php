@@ -107,7 +107,7 @@
                     <label>
                         <?= dgettext('luna', 'Aktion für ausgewählte Unternehmen') ?>
                         <select name="bulkaction">
-                            <?php if (count($c->members) > 0 || $c->contact_persons) : ?>
+                            <?php if (count($c->members) > 0 || $c->contact_person) : ?>
                                 <option value="message">
                                     <?= dgettext('luna', 'Nachricht schreiben') ?>
                                 </option>

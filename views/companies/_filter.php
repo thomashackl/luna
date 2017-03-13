@@ -19,6 +19,9 @@
         <?= dgettext('luna', 'oder') ?>
     <?php endif ?>
     <section id="luna-data-filters">
+        <div id="luna-textfilter">
+            <input type="text" size="25" name="searchtext" value="<?= htmlReady($textfilter) ?>" data-type="companies" placeholder="<?= dgettext('luna', 'Suchbegriff eingeben') ?>">
+        </div>
         <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
             $controller->url_for('filters/get_filternames', 'companies'), array('id' => 'luna-add-filter')) ?>
         <div id="luna-newfilter" class="hidden-js"

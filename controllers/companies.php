@@ -46,6 +46,7 @@ class CompaniesController extends AuthenticatedController {
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
         PageLayout::addStylesheet($style);
+        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
         PageLayout::addScript($js);
 
         $this->client = LunaClient::getCurrentClient();
@@ -88,17 +89,18 @@ class CompaniesController extends AuthenticatedController {
         }
     }
 
-    public function load_companies_action($start = 0)
+    public function load_companies_action($start = 0, $searchtext = '')
     {
         LunaCompanyFilter::setFilters($this->client->id, Request::getArray('filters'));
 
         $this->allfilters = LunaCompanyFilter::getFilterFields(true);
         $this->filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+        $this->searchtext = studip_utf8decode($searchtext);
 
-        $this->companies = $this->client->getFilteredCompanies($start);
-        $this->companycount = $this->client->getFilteredCompaniesCount();
+        $this->companies = $this->client->getFilteredCompanies($start, 0, $this->searchtext);
+        $this->companycount = $this->client->getFilteredCompaniesCount($this->searchtext);
         $this->entries_per_page = $this->client->getListMaxEntries('companies');
-        $this->pagecount = ceil($this->companycount / $this->entries_per_page);
+        $this->pagecount = ceil($this->personcount / $this->entries_per_page);
         $this->activepage = $start + 1;
     }
 

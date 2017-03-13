@@ -53,6 +53,7 @@ class PersonsController extends AuthenticatedController {
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
         PageLayout::addStylesheet($style);
+        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
         PageLayout::addScript($js);
     }
 
@@ -85,12 +86,13 @@ class PersonsController extends AuthenticatedController {
         }
     }
 
-    public function load_persons_action($start = 0)
+    public function load_persons_action($start = 0, $searchtext = '')
     {
         LunaUserFilter::setFilters($this->client->id, Request::getArray('filters'));
 
         $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+        $this->searchtext = studip_utf8decode($searchtext);
 
         $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
         $this->columns = $config[$this->client->id];
@@ -98,8 +100,8 @@ class PersonsController extends AuthenticatedController {
             $this->columns = array('address', 'companies', 'skills');
         }
 
-        $this->persons = $this->client->getFilteredUsers($start);
-        $this->personcount = $this->client->getFilteredUsersCount();
+        $this->persons = $this->client->getFilteredUsers($start, 0, $this->searchtext);
+        $this->personcount = $this->client->getFilteredUsersCount($this->searchtext);
         $this->entries_per_page = $this->client->getListMaxEntries('persons');
         $this->pagecount = ceil($this->personcount / $this->entries_per_page);
         $this->activepage = $start + 1;

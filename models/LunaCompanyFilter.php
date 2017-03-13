@@ -60,7 +60,7 @@ class LunaCompanyFilter
             ),
             'country' => array(
                 'name' => dgettext('luna', 'Land'),
-                'table' => 'luna_company',
+                'table' => 'luna_companies',
                 'ids' => 'country',
                 'dbvalues' => 'country',
                 'class' => 'LunaCompany',
@@ -110,7 +110,8 @@ class LunaCompanyFilter
                 'ids' => 'tag_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaTag',
-                'is_id' => true
+                'is_id' => true,
+                'linked' => 'luna_tags'
             )
         );
         return $fields;

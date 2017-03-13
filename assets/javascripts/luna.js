@@ -146,10 +146,13 @@
             }
         },
 
-        loadPersons: function(startPage) {
+        loadPersons: function(startPage, searchtext) {
             var dataEl = $('#luna-data');
             var fullUrl = $(dataEl).data('update-url').split('?');
             var url = fullUrl[0] + '/' + startPage;
+            if (searchtext != '' && searchtext != null) {
+                url += '/' + searchtext;
+            }
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
@@ -297,10 +300,13 @@
             }
         },
 
-        loadCompanies: function(startPage) {
+        loadCompanies: function(startPage, searchtext) {
             var dataEl = $('#luna-data');
             var fullUrl = $(dataEl).data('update-url').split('?');
             var url = fullUrl[0] + '/' + startPage;
+            if (searchtext != '' && searchtext != null) {
+                url += '/' + searchtext;
+            }
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
@@ -458,6 +464,19 @@
         },
 
         init: function() {
+            // Use jQuery typing plugin for search term.
+            var searchtext = $('input[name="searchtext"]');
+            searchtext.typing({
+                stop: function() {
+                    if (searchtext.data('type') == 'persons') {
+                        STUDIP.Luna.loadPersons(0, searchtext.val());
+                    } else if (searchtext.data('type') == 'companies') {
+                        STUDIP.Luna.loadCompanies(0, searchtext.val());
+                    }
+                },
+                delay: 500
+            });
+
             $('#luna-add-filter').on('click', function() {
                 STUDIP.Luna.getFilterNames();
                 return false;

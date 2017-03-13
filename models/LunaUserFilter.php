@@ -131,7 +131,8 @@ class LunaUserFilter
                 'ids' => 'company_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaCompany',
-                'is_id' => true
+                'is_id' => true,
+                'linked' => 'luna_companies'
             ),
             'skills' => array(
                 'name' => dgettext('luna', 'Kompetenz'),
@@ -139,7 +140,8 @@ class LunaUserFilter
                 'ids' => 'skill_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaSkill',
-                'is_id' => true
+                'is_id' => true,
+                'linked' => 'luna_skills'
             ),
             'tags' => array(
                 'name' => dgettext('luna', 'Schlagwort'),
@@ -147,7 +149,8 @@ class LunaUserFilter
                 'ids' => 'tag_id',
                 'dbvalues' => 'name',
                 'class' => 'LunaTag',
-                'is_id' => true
+                'is_id' => true,
+                'linked' => 'luna_tags'
             )
         );
         $fields = $fields + array(

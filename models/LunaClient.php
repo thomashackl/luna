@@ -88,160 +88,30 @@ class LunaClient extends SimpleORMap
         $GLOBALS['user']->cfg->store('LUNA_CURRENT_CLIENT', $client_id);
     }
 
-    public function getFilteredUsers($start = 0, $limit = 0)
+    public function getFilteredUsers($start = 0, $limit = 0, $searchtext = '')
     {
-        $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
-        $all = LunaUserFilter::getFilterFields();
-        $sql = "SELECT DISTINCT u.`user_id` FROM `luna_users` u";
-        if ($filters) {
-            $tables = array();
-            $where = array();
-            $counter = 0;
-            foreach ($filters as $filter) {
-                if ($all[$filter['column']]['table'] != 'luna_users') {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables['t' . $counter] = $all[$filter['column']]['table'];
-                } else {
-                    $alias = 'u';
-                }
-                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
-                    $filter['value'] = '%' . $filter['value'] . '%';
-                }
-                $where[] = $alias .
-                    ".`" . $all[$filter['column']]['ids'] . "`" .
-                    $filter['compare'] .
-                    "'" . $filter['value'] . "'";
-            }
-            foreach ($tables as $alias => $table) {
-                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
-            }
-        }
-        $sql .= " WHERE u.`client_id` = ?" .
-            ($filters ? " AND ".implode(" AND ", $where) : "");
-        $sql .= " ORDER BY u.`lastname`, u.`firstname`";
-        if ($start == 0 && $limit == -1) {
-            $count_per_page = $limit;
-            $ids = DBManager::get()->fetchFirst($sql, array($this->id));
-        } else {
-            $sql .= " LIMIT ?, ?";
-            $count_per_page = $this->getListMaxEntries('persons');
-            $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
-        }
-        return SimpleORMapCollection::createFromArray(LunaUser::findMany($ids))->orderBy('lastname firstname');
+        return SimpleORMapCollection::createFromArray(
+            LunaUser::findMany(
+                $this->getFilteredEntries('persons', $start, $limit, $searchtext)))
+            ->orderBy('lastname firstname');
     }
 
-    public function getFilteredUsersCount()
+    public function getFilteredUsersCount($searchtext = '')
     {
-        $filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->id);
-        $all = LunaUserFilter::getFilterFields();
-        $sql = "SELECT COUNT(DISTINCT u.`user_id`) FROM `luna_users` u";
-        if ($filters) {
-            $tables = array();
-            $where = array();
-            $counter = 0;
-            foreach ($filters as $filter) {
-                if ($all[$filter['column']]['table'] != 'luna_users') {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables['t' . $counter] = $all[$filter['column']]['table'];
-                } else {
-                    $alias = 'u';
-                }
-                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
-                    $filter['value'] = '%' . $filter['value'] . '%';
-                }
-                $where[] = $alias .
-                    ".`" . $all[$filter['column']]['ids'] . "`" .
-                    $filter['compare'] .
-                    "'" . $filter['value'] . "'";
-            }
-            foreach ($tables as $alias => $table) {
-                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
-            }
-        }
-        $sql .= " WHERE u.`client_id` = ?" .
-            ($filters ? " AND ".implode(" AND ", $where) : "");
-        $data = DBManager::get()->fetchFirst($sql, array($this->id));
-        return $data[0];
+        return $this->getFilteredEntries('persons', 0, 0, $searchtext, true);
     }
 
-    public function getFilteredCompanies($start = 0, $limit = 0)
+    public function getFilteredCompanies($start = 0, $limit = 0, $searchtext = '')
     {
-        $filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->id);
-        $all = LunaCompanyFilter::getFilterFields();
-        $sql = "SELECT DISTINCT c.`company_id` FROM `luna_companies` c";
-        if ($filters) {
-            $tables = array();
-            $where = array();
-            $counter = 0;
-            foreach ($filters as $filter) {
-                if ($all[$filter['column']]['table'] != 'luna_companies') {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables['t' . $counter] = $all[$filter['column']]['table'];
-                } else {
-                    $alias = 'c';
-                }
-                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
-                    $filter['value'] = '%' . $filter['value'] . '%';
-                }
-                $where[] = $alias .
-                    ".`" . $all[$filter['column']]['ids'] . "`" .
-                    $filter['compare'] .
-                    "'" . $filter['value'] . "'";
-            }
-            foreach ($tables as $alias => $table) {
-                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`company_id`)";
-            }
-        }
-        $sql .= " WHERE c.`client_id` = ?" .
-            ($filters ? " AND ".implode(" AND ", $where) : "");
-        $sql .= " ORDER BY c.`name`";
-        if ($start == 0 && $limit == -1) {
-            $count_per_page = $limit;
-            $ids = DBManager::get()->fetchFirst($sql, array($this->id));
-        } else {
-            $sql .= " LIMIT ?, ?";
-            $count_per_page = $this->getListMaxEntries('companies');
-            $ids = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
-        }
-        return SimpleORMapCollection::createFromArray(LunaCompany::findMany($ids))->orderBy('name');
+        return SimpleORMapCollection::createFromArray(
+            LunaCompany::findMany(
+                $this->getFilteredEntries('companies', $start, $limit, $searchtext)))
+            ->orderBy('name');
     }
 
-    public function getFilteredCompaniesCount()
+    public function getFilteredCompaniesCount($searchtext = '')
     {
-        $filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->id);
-        $all = LunaCompanyFilter::getFilterFields();
-        $sql = "SELECT COUNT(DISTINCT c.`company_id`) FROM `luna_companies` c";
-        if ($filters) {
-            $tables = array();
-            $where = array();
-            $counter = 0;
-            foreach ($filters as $filter) {
-                if ($all[$filter['column']]['table'] != 'luna_companies') {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables['t' . $counter] = $all[$filter['column']]['table'];
-                } else {
-                    $alias = 'c';
-                }
-                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
-                    $filter['value'] = '%' . $filter['value'] . '%';
-                }
-                $where[] = $alias .
-                    ".`" . $all[$filter['column']]['ids'] . "`" .
-                    $filter['compare'] .
-                    "'" . $filter['value'] . "'";
-            }
-            foreach ($tables as $alias => $table) {
-                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`company_id`)";
-            }
-        }
-        $sql .= " WHERE c.`client_id` = ?" .
-            ($filters ? " AND ".implode(" AND ", $where) : "");
-        $data = DBManager::get()->fetchFirst($sql, array($this->id));
-        return $data[0];
+        return $this->getFilteredEntries('companies', 0, 0, $searchtext, true);
     }
 
     public function getFilteredLogEntries($start = 0)
@@ -408,6 +278,107 @@ class LunaClient extends SimpleORMap
                 $log->info = $this->name;
             }
             $log->store();
+        }
+    }
+
+    protected function getFilteredEntries($type, $start, $limit, $searchtext = '', $justcount = false)
+    {
+        switch ($type) {
+            case 'companies':
+                $tablename = 'luna_companies';
+                $joinfield = 'company_id';
+                $order = 't.`name`';
+                $filterClass = 'LunaCompanyFilter';
+                break;
+            case 'persons':
+            default:
+                $tablename = 'luna_users';
+                $joinfield = 'user_id';
+                $order = 't.`lastname`, t.`firstname`';
+                $filterClass = 'LunaUserFilter';
+                break;
+        }
+
+        $filters = $filterClass::getFilters($GLOBALS['user']->id, $this->id);
+        $all = $filterClass::getFilterFields();
+        if ($justcount) {
+            $sql = "SELECT COUNT(DISTINCT t.`" . $joinfield . "`) FROM `" . $tablename . "` t";
+        } else {
+            $sql = "SELECT DISTINCT t.`" . $joinfield . "` FROM `" . $tablename . "` t";
+        }
+        $where = array();
+        $tables = array();
+        $counter = 0;
+
+        if ($filters) {
+            foreach ($filters as $filter) {
+                if ($all[$filter['column']]['table'] != $tablename) {
+                    $counter++;
+                    $alias = 't' . $counter;
+                    $tables['t' . $counter] = $all[$filter['column']]['table'];
+                } else {
+                    $alias = 't';
+                }
+                if (in_array($filter['compare'], words('LIKE', 'NOT LIKE'))) {
+                    $filter['value'] = '%' . $filter['value'] . '%';
+                }
+                $where[] = $alias .
+                    ".`" . $all[$filter['column']]['ids'] . "`" .
+                    $filter['compare'] .
+                    "'" . $filter['value'] . "'";
+            }
+            foreach ($tables as $alias => $table) {
+                $sql .= " JOIN `" . $table . "` " . $alias . " USING (`" . $joinfield . "`)";
+            }
+        }
+
+        $tables2 = array();
+        $where2 = array();
+        if ($searchtext) {
+            foreach ($all as $key => $filter) {
+                if ($filter['table'] != $tablename) {
+                    $counter++;
+                    $alias = 't' . $counter;
+                    $tables['t' . $counter] = $filter['table'];
+                } else {
+                    $alias = 't';
+                }
+
+                if ($filter['linked']) {
+                    $counter++;
+                    $alias = 't' . $counter;
+                    $tables2['t' . $counter] = array('table' => $filter['linked'], 'join' => $filter['ids']);
+                    $where2[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $searchtext . "%'";
+                } else {
+                    $where2[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $searchtext . "%'";
+                }
+            }
+            foreach ($tables as $alias => $table) {
+                $sql .= " LEFT JOIN `" . $table . "` " . $alias . " USING (`" . $joinfield . "`)";
+            }
+            foreach ($tables2 as $alias => $table) {
+                $sql .= " LEFT JOIN `" . $table['table'] . "` " . $alias . " USING (`" . $table['join'] . "`)";
+            }
+        }
+
+        $sql .= " WHERE t.`client_id` = ?" .
+            ($where ? " AND (".implode(" AND ", $where) . ")" : "") .
+            ($where2 ? " AND (".implode(" OR ", $where2) . ")" : "");
+        $sql .= " ORDER BY " . $order;
+
+        if ($justcount) {
+            $data = DBManager::get()->fetchFirst($sql, array($this->id));
+            return $data[0];
+        } else {
+            if ($start == 0 && $limit == -1) {
+                $count_per_page = $limit;
+                $data = DBManager::get()->fetchFirst($sql, array($this->id));
+            } else {
+                $sql .= " LIMIT ?, ?";
+                $count_per_page = $this->getListMaxEntries($type);
+                $data = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+            }
+            return $data;
         }
     }
 

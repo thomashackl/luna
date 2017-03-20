@@ -94,7 +94,7 @@
             <label>
                 <?= dgettext('luna', 'Land') ?>
                 <input type="text" name="country" size="75" maxlength="255"
-                       value="<?= htmlReady($person->country) ?: dgettext('luna', 'Deutschland') ?>">
+                       value="<?= htmlReady($person->country) ?>">
             </label>
         </section>
     </fieldset>

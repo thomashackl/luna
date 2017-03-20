@@ -47,6 +47,7 @@ class SkillsController extends AuthenticatedController {
         }
         PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
+        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
 
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :

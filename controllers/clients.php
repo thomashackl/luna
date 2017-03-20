@@ -41,6 +41,7 @@ class ClientsController extends AuthenticatedController {
         $this->isRoot = $GLOBALS['perm']->have_perm('root');
 
         $this->currentClient = LunaClient::getCurrentClient();
+        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
     }
 
     /**

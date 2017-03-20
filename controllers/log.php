@@ -50,6 +50,7 @@ class LogController extends AuthenticatedController {
         PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.insert-at-caret.min.js');
+        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
     }
 
     /**

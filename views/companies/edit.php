@@ -91,7 +91,7 @@
             <label>
                 <?= dgettext('luna', 'Homepage') ?>
                 <input type="url" name="homepage" size="75" maxlength="255"
-                       value="<?= htmlReady($company->homepage) ?>">
+                       value="<?= htmlReady($company->homepage) ?>" placeholder="http://">
             </label>
         </section>
     </fieldset>

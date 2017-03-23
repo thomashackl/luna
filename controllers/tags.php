@@ -125,21 +125,43 @@ class TagsController extends AuthenticatedController {
         CSRFProtection::verifyUnsafeRequest();
 
         if ($id) {
-            $skill = LunaSkill::find($id);
+            $tag = LunaTag::find($id);
         } else {
-            $skill = new LunaSkill($id);
+            $tag = new LunaTag();
         }
-        $skill->client_id = $this->client->client_id;
-        $skill->name = Request::get('name');
 
-        if ($skill->store()) {
+        // Check if a tag with the given name already exists.
+        if (count($this->client->tags) > 0) {
+            if ($samename = $this->client->tags->findOneBy('name', Request::get('name'))) {
+                if (count($samename->users) > 0) {
+                    $samename->users->merge($tag->users, 'ignore');
+                } else {
+                    $samename->users = $tag->users;
+                }
+
+                if (count($samename->companies) > 0) {
+                    $samename->companies->merge($tag->companies, 'ignore');
+                } else {
+                    $samename->companies = $tag->companies;
+                }
+
+                $tag->delete();
+
+                $tag = $samename;
+            }
+        }
+
+        $tag->client_id = $this->client->client_id;
+        $tag->name = Request::get('name');
+
+        if ($tag->store()) {
             PageLayout::postSuccess(sprintf(
-                dgettext('luna', 'Die Kompetenz %s wurde gespeichert.'),
-                $skill->name));
+                dgettext('luna', 'Das Schlagwort %s wurde gespeichert.'),
+                $tag->name));
         } else {
             PageLayout::postError(sprintf(
-                dgettext('luna', 'Die Kompetenz %s konnte nicht gespeichert werden.'),
-                $skill->name));
+                dgettext('luna', 'Das Schlagwort %s konnte nicht gespeichert werden.'),
+                $tag->name));
         }
 
         $persondata = Request::getArray('person');
@@ -149,10 +171,10 @@ class TagsController extends AuthenticatedController {
                     $this->flash[$key] = $value;
                 }
             }
-            $this->flash['skill'] = $skill->id;
+            $this->flash['tag'] = $tag->id;
             $this->redirect($persondata['return_to']);
         } else {
-            $this->relocate('skills');
+            $this->relocate('tags');
         }
     }
 

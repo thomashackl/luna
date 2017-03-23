@@ -129,6 +129,22 @@ class SkillsController extends AuthenticatedController {
         } else {
             $skill = new LunaSkill($id);
         }
+
+        // Check if a skill with the given name already exists.
+        if (count($this->client->skills) > 0) {
+            if ($samename = $this->client->skills->findOneBy('name', Request::get('name'))) {
+                if (count($samename->users) > 0) {
+                    $samename->users->merge($skill->users, 'ignore');
+                } else {
+                    $samename->users = $skill->users;
+                }
+
+                $skill->delete();
+
+                $skill = $samename;
+            }
+        }
+
         $skill->client_id = $this->client->client_id;
         $skill->name = Request::get('name');
 

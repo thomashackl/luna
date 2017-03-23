@@ -76,7 +76,7 @@ class TagsController extends AuthenticatedController {
     {
         $this->entries_per_page = $this->client->getListMaxEntries('tags');
         if (count($this->client->tags) > 0) {
-            $this->tags = $this->client->tags->orderBy('name')->limit($start, $this->entries_per_page);
+            $this->tags = $this->client->tags->limit($start, $this->entries_per_page);
         }
         $this->pagecount = ceil(count($this->client->tags) / $this->entries_per_page);
         $this->activepage = $start + 1;
@@ -90,6 +90,9 @@ class TagsController extends AuthenticatedController {
     public function edit_action($id = '')
     {
         Navigation::activateItem('/tools/luna/tags');
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $id ?
+            dgettext('luna', 'Neues Schlagwort') :
+            dgettext('Schlagwort bearbeiten'));
 
         if ($id) {
             $this->tag = LunaTag::find($id);
@@ -202,6 +205,14 @@ class TagsController extends AuthenticatedController {
             $tags = array();
         }
         $this->render_text(studip_json_encode($tags));
+    }
+
+    public function assigned_to_action($tag_id)
+    {
+        $this->tag = LunaTag::find($tag_id);
+
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' .
+            sprintf(dgettext('luna', 'Zugeordnet zu Schlagwort %s'), $this->skill->name));
     }
 
     // customized #url_for for plugins

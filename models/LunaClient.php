@@ -40,21 +40,25 @@ class LunaClient extends SimpleORMap
         $config['has_many']['users'] = array(
             'class_name' => 'LunaUser',
             'assoc_foreign_key' => 'client_id',
+            'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_delete' => 'delete'
         );
         $config['has_many']['companies'] = array(
             'class_name' => 'LunaCompany',
             'assoc_foreign_key' => 'client_id',
+            'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
         );
         $config['has_many']['skills'] = array(
             'class_name' => 'LunaSkill',
             'assoc_foreign_key' => 'client_id',
+            'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
         );
         $config['has_many']['tags'] = array(
             'class_name' => 'LunaTag',
             'assoc_foreign_key' => 'client_id',
+            'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
         );
 

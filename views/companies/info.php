@@ -20,7 +20,7 @@
                 <?= dgettext('luna', 'Adresse') ?>
             </td>
             <td>
-                <?= htmlReady($company->street) ?>
+                <?= nl2br(htmlReady($company->address)) ?>
                 <br>
                 <?= htmlReady($company->zip) ?> <?= htmlReady($company->city) ?>
                 <br>

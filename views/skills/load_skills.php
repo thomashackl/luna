@@ -42,10 +42,15 @@
                         </td>
                         <td colspan="2"><?= htmlReady($s->name) ?></td>
                         <td>
-                            <?= Icon::create('community', 'clickable',
-                                ['title' => sprintf(
-                                        dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
-                                            count($s->users)), count($s->users))])->asImg() ?>
+                            <?php if (count($s->users) > 0) : ?>
+                                <a href="<?= $controller->url_for('skills/assigned_to', $s->id) ?>" data-dialog>
+                                    <?= Icon::create('community', 'clickable',
+                                        ['title' => sprintf(
+                                                dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
+                                                    count($s->users)), count($s->users))
+                                        ])->asImg() ?>
+                                </a>
+                            <?php endif ?>
                             <?php if ($hasWriteAccess) : ?>
                                 <a href="<?= $controller->url_for('skills/edit', $s->id) ?>" data-dialog="size=auto"
                                         title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">

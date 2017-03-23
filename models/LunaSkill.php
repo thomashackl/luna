@@ -30,6 +30,7 @@ class LunaSkill extends SimpleORMap
             'thru_table' => 'luna_user_skills',
             'thru_key' => 'skill_id',
             'thru_assoc_key' => 'user_id',
+            'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_store' => 'store'
         );
 

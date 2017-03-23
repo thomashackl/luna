@@ -77,10 +77,6 @@ class CompaniesController extends AuthenticatedController {
         $this->companycount = $this->client->getFilteredCompaniesCount();
         $this->companies = $this->client->getFilteredCompanies();
 
-        if ($this->companies) {
-            $this->companies->orderBy('name');
-        }
-
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
             $actions->addLink(dgettext('luna', 'Unternehmen hinzufügen'),
@@ -168,7 +164,7 @@ class CompaniesController extends AuthenticatedController {
             $this->company = new LunaCompany();
         }
 
-        foreach (words('name contact_person street zip city country email phone fax homepage') as $entry) {
+        foreach (words('name contact_person address zip city country email phone fax homepage') as $entry) {
             if (isset($this->flash[$entry])) {
                 $this->company->$entry = $this->flash[$entry];
             }
@@ -210,7 +206,7 @@ class CompaniesController extends AuthenticatedController {
             $company->client_id = $this->client->client_id;
             $company->name = Request::get('name');
             $company->contact_person = Request::get('contact') ?: Request::get('currentcontact') ?: null;
-            $company->street = Request::get('street');
+            $company->address = Request::get('address');
             $company->zip = Request::get('zip');
             $company->city = Request::get('city');
             $company->country = Request::get('country', 'Deutschland');
@@ -264,7 +260,7 @@ class CompaniesController extends AuthenticatedController {
             if (Request::option('currentcontact')) {
                 $this->flash['contact_person'] = Request::option('currentcontact');
             }
-            $this->flash['street'] = Request::get('street');
+            $this->flash['address'] = Request::get('address');
             $this->flash['zip'] = Request::get('zip');
             $this->flash['city'] = Request::get('city');
             $this->flash['country'] = Request::get('country');

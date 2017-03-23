@@ -21,8 +21,8 @@
         </section>
         <section>
             <label>
-                <?= dgettext('luna', 'Straße') ?>
-                <input type="text" name="address" size="75" maxlength="255" value="<?= htmlReady($company->address) ?>">
+                <?= dgettext('luna', 'Asnchrift') ?>
+                <textarea name="address" rows="3" rows="3"><?= htmlReady($company->address) ?></textarea>
             </label>
         </section>
         <section>

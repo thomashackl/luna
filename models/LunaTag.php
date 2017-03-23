@@ -32,6 +32,7 @@ class LunaTag extends SimpleORMap
             'thru_table' => 'luna_user_tag',
             'thru_key' => 'tag_id',
             'thru_assoc_key' => 'user_id',
+            'order_by' => 'ORDER BY lastname, firstname',
             'on_store' => 'store'
         );
         $config['has_and_belongs_to_many']['companies'] = array(
@@ -39,6 +40,7 @@ class LunaTag extends SimpleORMap
             'thru_table' => 'luna_company_tag',
             'thru_key' => 'tag_id',
             'thru_assoc_key' => 'company_id',
+            'order_by' => 'ORDER BY name',
             'on_store' => 'store'
         );
 

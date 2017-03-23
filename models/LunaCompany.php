@@ -15,7 +15,7 @@
  * @property string company_id database column
  * @property string id alias column for user_id
  * @property string name database column
- * @property string street database column
+ * @property string address database column
  * @property string zip database column
  * @property string city database column
  * @property string country database column
@@ -41,6 +41,7 @@ class LunaCompany extends SimpleORMap
             'thru_table' => 'luna_user_company',
             'thru_key' => 'company_id',
             'thru_assoc_key' => 'user_id',
+            'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_store' => 'store',
             'on_delete' => 'delete'
         );
@@ -56,9 +57,9 @@ class LunaCompany extends SimpleORMap
             'thru_table' => 'luna_company_tag',
             'thru_key' => 'company_id',
             'thru_assoc_key' => 'tag_id',
+            'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete',
             'on_store' => 'store',
-            'order_by' => 'ORDER BY `name`'
         );
 
         parent::configure($config);

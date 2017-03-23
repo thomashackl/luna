@@ -51,7 +51,7 @@
                         </td>
                         <td><?= htmlReady($c->name) ?></td>
                         <td>
-                            <?= htmlReady($c->street) ?>
+                            <?= nl2br(htmlReady($c->address)) ?>
                             <br>
                             <?= htmlReady($c->zip) ?> <?= htmlReady($c->city) ?>
                         </td>

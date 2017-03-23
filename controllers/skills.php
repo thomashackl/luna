@@ -76,7 +76,7 @@ class SkillsController extends AuthenticatedController {
     {
         $this->entries_per_page = $this->client->getListMaxEntries('skills');
         if (count($this->client->skills) > 0) {
-            $this->skills = $this->client->skills->orderBy('name')->limit($start, $this->entries_per_page);
+            $this->skills = $this->client->skills->limit($start, $this->entries_per_page);
         }
         $this->pagecount = ceil(count($this->client->skills) / $this->entries_per_page);
         $this->activepage = $start + 1;
@@ -196,6 +196,14 @@ class SkillsController extends AuthenticatedController {
             $skills = array();
         }
         $this->render_text(studip_json_encode($skills));
+    }
+
+    public function assigned_to_action($skill_id)
+    {
+        $this->skill = LunaSkill::find($skill_id);
+
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' .
+            sprintf(dgettext('luna', 'Zugeordnet zu Kompetenz %s'), $this->skill->name));
     }
 
     // customized #url_for for plugins

@@ -145,17 +145,8 @@ class PersonsController extends AuthenticatedController {
         }
 
         $this->skills = $this->client->skills;
-        if ($this->skills) {
-            $this->skills->orderBy('name');
-        }
         $this->companies = $this->client->companies;
-        if ($this->companies) {
-            $this->companies->orderBy('name');
-        }
         $this->tags = $this->client->tags;
-        if ($this->tags) {
-            $this->tags->orderBy('name');
-        }
 
         $search = new PermissionSearch(
             'user',

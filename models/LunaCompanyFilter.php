@@ -31,11 +31,11 @@ class LunaCompanyFilter
         );
         if ($all) {
             $fields = $fields + array(
-                'street' => array(
-                    'name' => dgettext('luna', 'Straße'),
+                'address' => array(
+                    'name' => dgettext('luna', 'Anschrift'),
                     'table' => 'luna_companies',
-                    'ids' => 'street',
-                    'dbvalues' => 'street',
+                    'ids' => 'address',
+                    'dbvalues' => 'address',
                     'class' => 'LunaCompany',
                     'is_id' => false
                 ),

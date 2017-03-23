@@ -41,15 +41,19 @@
                         <input type="checkbox" name="tags[]" value="<?= $t->id ?>">
                     </td>
                     <td colspan="2"><?= htmlReady($t->name) ?></td>
-                    <td>
-                        <?= Icon::create('community', 'clickable',
-                            ['title' => sprintf(
-                                dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
-                                    count($t->users)), count($t->users)) . '/' .
-                                sprintf(
-                                    dngettext('luna', '%u zugeordnete Unternehmen', '%u zugeordnete Unternehmen',
-                                        count($t->companies)), count($t->companies))
-                            ])->asImg() ?>
+                    <td class="actions">
+                        <?php if (count($t->users) > 0 || count($t->companies) > 0) : ?>
+                            <a href="<?= $controller->url_for('tags/assigned_to', $t->id) ?>" data-dialog>
+                                <?= Icon::create('community', 'clickable',
+                                    ['title' => sprintf(
+                                        dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
+                                            count($t->users)), count($t->users)) . '/' .
+                                        sprintf(
+                                            dngettext('luna', '%u zugeordnete Unternehmen', '%u zugeordnete Unternehmen',
+                                                count($t->companies)), count($t->companies))
+                                    ])->asImg() ?>
+                            </a>
+                        <?php endif ?>
                         <?php if ($hasWriteAccess) : ?>
                             <a href="<?= $controller->url_for('tags/edit', $t->id) ?>" data-dialog="size=auto"
                                title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">

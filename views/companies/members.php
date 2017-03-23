@@ -10,7 +10,7 @@
         <?php endif ?>
     </colgroup>
     <tbody>
-        <?php $i = 1; foreach ($company->members->orderBy('lastname, firstname') as $member) : ?>
+        <?php $i = 1; foreach ($company->members as $member) : ?>
             <tr>
                 <td>
                     <?= $i ?>.

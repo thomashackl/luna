@@ -78,11 +78,12 @@ class PersonsController extends AuthenticatedController {
         $this->personcount = $this->client->getFilteredUsersCount();
         $this->persons = $this->client->getFilteredUsers();
 
-        $actions = new ActionsWidget();
         if ($this->hasWriteAccess) {
+            $actions = new ActionsWidget();
             $actions->addLink(dgettext('luna', 'Person hinzufügen'),
                 $this->url_for('persons/edit'),
                 Icon::create('person+add', 'clickable'))->asDialog('size=auto');
+            $this->sidebar->addWidget($actions);
         }
     }
 

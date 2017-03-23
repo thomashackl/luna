@@ -20,7 +20,7 @@
  * @property string  title_rear database column
  * @property int     gender database column
  * @property string  studip_user_id database column
- * @property string  street database column
+ * @property string  address database column
  * @property string  zip database column
  * @property string  city database column
  * @property string  country database column

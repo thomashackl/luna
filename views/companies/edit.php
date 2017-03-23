@@ -22,7 +22,7 @@
         <section>
             <label>
                 <?= dgettext('luna', 'Straße') ?>
-                <input type="text" name="street" size="75" maxlength="255" value="<?= htmlReady($company->street) ?>">
+                <input type="text" name="address" size="75" maxlength="255" value="<?= htmlReady($company->address) ?>">
             </label>
         </section>
         <section>

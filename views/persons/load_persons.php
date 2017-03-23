@@ -57,7 +57,7 @@
                             <?php if (!in_array($c, array('companies', 'skills', 'address', 'emails', 'phonenumbers'))) : ?>
                                 <?= htmlReady($p->$c) ?>
                             <?php elseif ($c == 'address') : ?>
-                                <?= htmlReady($p->street) ?>
+                                <?= nl2br(htmlReady($p->address)) ?>
                                 <br>
                                 <?= htmlReady($p->zip) ?> <?= htmlReady($p->city) ?>
                             <?php else : ?>

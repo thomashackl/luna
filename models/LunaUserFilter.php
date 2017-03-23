@@ -49,11 +49,11 @@ class LunaUserFilter
                 'class' => 'LunaUser',
                 'is_id' => false
             ),
-            'street' => array(
-                'name' => dgettext('luna', 'Straße'),
+            'address' => array(
+                'name' => dgettext('luna', 'Anschrift'),
                 'table' => 'luna_users',
-                'ids' => 'street',
-                'dbvalues' => 'street',
+                'ids' => 'address',
+                'dbvalues' => 'address',
                 'class' => 'LunaUser',
                 'is_id' => false
             )

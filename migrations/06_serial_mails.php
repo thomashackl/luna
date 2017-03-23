@@ -70,10 +70,10 @@ class SerialMails extends Migration {
             ),
             array(
                 'marker' => 'STREET',
-                'name' => 'Straße',
+                'name' => 'Anschrift',
                 'priority' => 7,
                 'type' => 'database',
-                'description' => 'Setzt die Straße ein.',
+                'description' => 'Setzt die Anschrift (Straße) ein.',
                 'replacement' => 'luna_users.street'
             ),
             array(

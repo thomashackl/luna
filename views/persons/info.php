@@ -40,7 +40,7 @@
                 <?= dgettext('luna', 'Adresse') ?>
             </td>
             <td>
-                <?= htmlReady($person->street) ?>
+                <?= nl2br(htmlReady($person->address)) ?>
                 <br>
                 <?= htmlReady($person->zip) ?> <?= htmlReady($person->city) ?>
                 <br>

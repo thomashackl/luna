@@ -73,8 +73,8 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Straße') ?>
-                <input type="text" name="street" size="75" maxlength="255" value="<?= htmlReady($person->street) ?>">
+                <?= dgettext('luna', 'Anschrift') ?>
+                <textarea name="address" rows="3" cols="74"><?= htmlReady($person->address) ?></textarea>
             </label>
         </section>
         <section>

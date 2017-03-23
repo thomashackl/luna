@@ -138,7 +138,7 @@ class PersonsController extends AuthenticatedController {
         }
 
         foreach (words('firstname lastname title_front title_rear gender '.
-                'street zip city country fax homepage status graduation notes') as $entry) {
+                'address zip city country fax homepage status graduation notes') as $entry) {
             if (isset($this->flash[$entry])) {
                 $this->person->$entry = $this->flash[$entry];
             }
@@ -277,7 +277,7 @@ class PersonsController extends AuthenticatedController {
             $user->title_front = Request::get('title_front');
             $user->title_rear = Request::get('title_rear');
             $user->gender = Request::int('gender');
-            $user->street = Request::get('street');
+            $user->address = Request::get('address');
             $user->zip = Request::get('zip');
             $user->city = Request::get('city');
             $user->country = Request::get('country', 'Deutschland');
@@ -444,7 +444,7 @@ class PersonsController extends AuthenticatedController {
             $this->flash['title_front'] = Request::get('title_front');
             $this->flash['title_rear'] = Request::get('title_rear');
             $this->flash['gender'] = Request::int('gender');
-            $this->flash['street'] = Request::get('street');
+            $this->flash['address'] = Request::get('address');
             $this->flash['zip'] = Request::get('zip');
             $this->flash['city'] = Request::get('city');
             $this->flash['country'] = Request::get('country', 'Deutschland');
@@ -669,7 +669,7 @@ class PersonsController extends AuthenticatedController {
         } else {
             $this->fields = LunaUserFilter::getFilterFields(true);
 
-            foreach (words('firstname lastname street zip city country') as $entry) {
+            foreach (words('firstname lastname address zip city country') as $entry) {
                 unset($this->fields[$entry]);
             }
 

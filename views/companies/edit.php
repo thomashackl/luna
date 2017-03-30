@@ -21,7 +21,7 @@
         </section>
         <section>
             <label>
-                <?= dgettext('luna', 'Asnchrift') ?>
+                <?= dgettext('luna', 'Anschrift') ?>
                 <textarea name="address" rows="3" rows="3"><?= htmlReady($company->address) ?></textarea>
             </label>
         </section>

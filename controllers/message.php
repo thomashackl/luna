@@ -114,9 +114,9 @@ class MessageController extends AuthenticatedController {
 
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))
-                    ->setReplyToEmail($this->client->sender_address)
+                    ->setReplyToEmail(Request::get('sender'))
                     ->setBodyText('')
-                    ->setSenderEmail($this->client->sender_address)
+                    ->setSenderEmail(Request::get('sender'))
                     ->addRecipient($u->getDefaultEmail(), $u->getFullname('full'))
                     ->setBodyHtml(formatReady($message));
 
@@ -142,12 +142,12 @@ class MessageController extends AuthenticatedController {
             if (Request::int('sendercopy') || Request::get('cc')) {
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))
-                    ->setReplyToEmail($this->client->sender_address)
+                    ->setReplyToEmail(Request::get('sender'))
                     ->setBodyText('')
-                    ->setSenderEmail($this->client->sender_address)
+                    ->setSenderEmail(Request::get('sender'))
                     ->setBodyHtml(formatReady($message));
                 if (Request::int('sendercopy')) {
-                    $mail->addRecipient($this->client->sender_address);
+                    $mail->addRecipient(Request::get('sender'));
                 }
                 // Extra recipients added in CC
                 if (Request::get('cc')) {
@@ -179,9 +179,9 @@ class MessageController extends AuthenticatedController {
         } else {
             $mail = new StudipMail();
             $mail->setSubject(Request::get('subject'))
-                ->setReplyToEmail($this->client->sender_address)
+                ->setReplyToEmail(Request::get('sender'))
                 ->setBodyText('')
-                ->setSenderEmail($this->client->sender_address);
+                ->setSenderEmail(Request::get('sender'));
 
             foreach ($users as $u) {
                 if (!$mail->isRecipient($u->getDefaultEmail())) {
@@ -191,7 +191,7 @@ class MessageController extends AuthenticatedController {
 
             // Send copy to self if requested.
             if (Request::int('sendercopy') && !$mail->isRecipient($u->getDefaultEmail())) {
-                $mail->addRecipient($this->client->sender_address);
+                $mail->addRecipient(Request::get('sender'));
             }
 
             // Extra recipients added in CC

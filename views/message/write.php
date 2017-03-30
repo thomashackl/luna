@@ -1,10 +1,11 @@
 <form class="default" action="<?= $controller->url_for('message/send') ?>" method="post" enctype="multipart/form-data">
     <section>
-        <span class="required">
-            <?= dgettext('luna', 'Absender') ?>
-        </span>
-        <br>
-        <?= htmlReady($client->sender_address) ?>
+        <label>
+            <span class="required">
+                <?= dgettext('luna', 'Absender') ?>
+            </span>
+            <input type="email" name="sender" value="<?= htmlReady($client->sender_address) ?>">
+        </label>
         <label>
             <input type="checkbox" name="sendercopy" value="1" checked>
             <?= dgettext('luna', 'Kopie der Nachricht an diese Adresse senden') ?>

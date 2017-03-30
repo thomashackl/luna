@@ -9,7 +9,10 @@ require_once(realpath(__DIR__.'/../models/LunaMarker.php'));
 class PersonalSalutation extends Migration {
 
     public function up() {
-        DBManager::get()->exec("UPDATE `luna_markers` SET `priority` = `priority` + 1 WHERE `priority` >= 2");
+        $stmt = DBManager::get()->prepare("UPDATE `luna_markers` SET `priority` = `priority` + 1 WHERE `marker` = ?");
+        foreach (DBManager::get()->fetchAll("SELECT `marker` FROM `luna_markers` WHERE `priority` >= 2 ORDER BY `priority` DESC") as $entry) {
+            $stmt->execute(array($entry['marker']));
+        }
 
         LunaMarker::create(
             array(
@@ -28,7 +31,10 @@ class PersonalSalutation extends Migration {
 
     public function down() {
         DBManager::get()->exec("DELETE FROM  `luna_markers` WHERE `marker` = 'PERSONAL_SALUTATION'");
-        DBManager::get()->exec("UPDATE `luna_markers` SET `priority` = `priority` - 1 WHERE `priority` > 2");
+        $stmt = DBManager::get()->prepare("UPDATE `luna_markers` SET `priority` = `priority` - 1 WHERE `marker` = ?");
+        foreach (DBManager::get()->fetchAll("SELECT `marker` FROM `luna_markers` WHERE `priority` > 2 ORDER BY `priority` ASC") as $entry) {
+            $stmt->execute(array($entry['marker']));
+        }
     }
 
 }

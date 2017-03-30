@@ -597,9 +597,6 @@
 
     $(document).ready(function () {
         STUDIP.Luna.init();
-        $(document).on('dialog-open', function () {
-            STUDIP.Luna.init();
-        });
         $(document).on('dialog-update', function () {
             STUDIP.Luna.init();
         });

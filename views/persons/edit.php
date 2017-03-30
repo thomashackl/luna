@@ -105,6 +105,7 @@
         <section id="luna-email-template" class="luna-email" data-number-of-emails="<?= count($person->emails) ?>">
             <label>
                 <?= dgettext('luna', 'Adresse') ?>
+                <br>
                 <input type="email" name="email-template-address" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine E-Mailadresse ein') ?>">
             </label>
             <label>
@@ -153,6 +154,7 @@
         <section id="luna-phone-template" class="luna-phone" data-number-of-phonenumbers="<?= count($person->phonenumbers) ?>">
             <label>
                 <?= dgettext('luna', 'Nummer') ?>
+                <br>
                 <input type="tel" name="phone-template-number" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine Telefonnummer ein') ?>">
             </label>
             <label>

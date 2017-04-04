@@ -214,6 +214,7 @@ class CompaniesController extends AuthenticatedController {
             $company->phone = Request::get('phone');
             $company->fax = Request::get('fax');
             $company->homepage = Request::get('homepage');
+            $company->sector = Request::get('sector');
 
             $tags = array();
             foreach (Request::getArray('tags') as $tag) {
@@ -301,6 +302,14 @@ class CompaniesController extends AuthenticatedController {
                 $this->redirect($this->url_for('companies/export_companies'));
                 break;
         }
+    }
+
+    public function get_sectors_action()
+    {
+        $values = DBManager::get()->fetchFirst(
+            "SELECT DISTINCT `sector` FROM `luna_companies` WHERE `client_id` = ? AND `sector` LIKE ? ORDER BY `sector`",
+            array($this->client->id, '%' . Request::quoted('term') . '%'));
+        $this->render_text(studip_json_encode($values));
     }
 
     public function export_companies_action()

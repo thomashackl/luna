@@ -25,6 +25,7 @@
                 <col width="250">
                 <col width="150">
                 <col>
+                <col>
                 <col width="90">
             </colgroup>
             <thead>
@@ -39,6 +40,7 @@
                     <th><?= dgettext('luna', 'Ansprechpartner') ?></th>
                     <th><?= dgettext('luna', 'E-Mail') ?></th>
                     <th><?= dgettext('luna', 'Telefon') ?></th>
+                    <th><?= dgettext('luna', 'Branche') ?></th>
                     <th><?= dgettext('luna', 'Schlagworte') ?></th>
                     <th><?= dgettext('luna', 'Aktionen') ?></th>
                 </tr>
@@ -62,6 +64,7 @@
                         </td>
                         <td><?= htmlReady($c->email) ?></td>
                         <td><?= htmlReady($c->phone) ?></td>
+                        <td><?= htmlReady($c->sector) ?></td>
                         <td>
                             <?php if (count($c->tags) > 0) : ?>
                                 <?php foreach ($c->tags as $tag) : ?>

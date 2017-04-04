@@ -21,6 +21,12 @@
         </section>
         <section>
             <label>
+                <?= dgettext('luna', 'Branche') ?>
+                <input type="text" name="sector" value="<?= htmlReady($company->sector) ?>" size="75" maxlength="255" data-available-sectors="<?= $controller->url_for('companies/get_sectors') ?>">
+            </label>
+        </section>
+        <section>
+            <label>
                 <?= dgettext('luna', 'Anschrift') ?>
                 <textarea name="address" rows="3" rows="3"><?= htmlReady($company->address) ?></textarea>
             </label>

@@ -15,6 +15,16 @@
                 <?= htmlReady($company->name) ?>
             </td>
         </tr>
+        <?php if ($company->sector) : ?>
+            <tr>
+                <td class="luna-label">
+                    <?= dgettext('luna', 'Branche') ?>
+                </td>
+                <td>
+                    <?= htmlReady($company->sector) ?>
+                </td>
+            </tr>
+        <?php endif ?>
         <tr>
             <td class="luna-label">
                 <?= dgettext('luna', 'Adresse') ?>

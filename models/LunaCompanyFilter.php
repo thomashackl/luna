@@ -104,6 +104,14 @@ class LunaCompanyFilter
             );
         }
         $fields = $fields + array(
+            'sector' => array(
+                'name' => dgettext('luna', 'Branche'),
+                'table' => 'luna_companies',
+                'ids' => 'sector',
+                'dbvalues' => 'sector',
+                'class' => 'LunaCompany',
+                'is_id' => false
+            ),
             'tags' => array(
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_company_tag',

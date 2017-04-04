@@ -24,6 +24,7 @@
  * @property string fax database column
  * @property string homepage database column
  * @property string contact_person database column
+ * @property string sector database column
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaUser members has_many LunaUser

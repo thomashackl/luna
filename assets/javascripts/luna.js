@@ -493,6 +493,12 @@
                 minLength: 2
             });
 
+            var sectorInput = $('input[name="sector"]');
+            sectorInput.autocomplete({
+                source: sectorInput.data('available-sectors'),
+                minLength: 2
+            });
+
             $('a.luna-email-add').on('click', function() {
                 STUDIP.Luna.addEmail();
                 return false;

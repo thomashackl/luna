@@ -99,14 +99,13 @@ class LunaUser extends SimpleORMap
             'assoc_foreign_key' => 'user_id'
         );
 
+        $config['registered_callbacks']['after_create'][] = 'cbLog';
+        $config['registered_callbacks']['before_store'][] = 'cbLog';
+        $config['registered_callbacks']['before_delete'][] = 'cbLog';
+        $config['registered_callbacks']['after_initialize'][] = 'cbHomepageAddress';
+        $config['registered_callbacks']['before_store'][] = 'cbHomepageAddress';
+
         parent::configure($config);
-    }
-
-    public function __construct($id = null)
-    {
-        $this->registerCallback('after_create before_store before_delete', 'cbLog');
-
-        parent::__construct($id);
     }
 
     public function getFullname($format = 'full_rev')
@@ -193,6 +192,19 @@ class LunaUser extends SimpleORMap
                 $log->info = $this->getFullname('full');
             }
             $log->store();
+        }
+    }
+
+    /**
+     * @param $type string type of callback
+     */
+    protected function cbHomepageAddress($type)
+    {
+        if ($this->homepage) {
+            $this->homepage = preg_replace('/\s+/', '', trim($this->homepage));
+            if (mb_substr($this->homepage, 0, 4) != 'http') {
+                $this->homepage = 'http://' . $this->homepage;
+            }
         }
     }
 

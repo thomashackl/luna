@@ -89,6 +89,18 @@
                 </td>
             </tr>
         <?php endif ?>
+        <?php if (count($company->skills) > 0) : ?>
+            <tr>
+                <td class="luna-label">
+                    <?= dgettext('luna', 'Kompetenzen') ?>
+                </td>
+                <td>
+                    <?php foreach ($company->skills as $skills) : ?>
+                        <div><?= htmlReady($skill->name) ?></div>
+                    <?php endforeach ?>
+                </td>
+            </tr>
+        <?php endif ?>
         <?php if (count($company->tags) > 0) : ?>
             <tr>
                 <td class="luna-label">

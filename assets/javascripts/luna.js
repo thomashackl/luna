@@ -204,33 +204,38 @@
         },
 
         addSkill: function(skill) {
-            var div = $('div#luna-person-skills');
-            if (div.children('div#luna-skill-' + skill.replace(' ', '-')).length == 0) {
-                var skillDiv = $('<div>').
+            if ($.trim(skill) != '') {
+                var div = $('div#luna-person-skills');
+                if (div.length == 0) {
+                    div = $('div#luna-company-skills');
+                }
+                if (div.children('div#luna-skill-' + skill.replace(' ', '-')).length == 0) {
+                    var skillDiv = $('<div>').
                     addClass('luna-skill').
                     attr('id', 'luna-skill-' + skill.replace(' ', '-')).
                     html(skill);
-                var input = $('<input>').
+                    var input = $('<input>').
                     attr('type', 'hidden').
                     attr('name', 'skills[]').
                     attr('value', skill);
-                var a = $('<a>').
+                    var a = $('<a>').
                     attr('href', '').
                     addClass('luna-skill-remove').
                     on('click', function() {
                         STUDIP.Luna.removeEntry(this);
                         return false;
                     });
-                var img = $('<img>').
+                    var img = $('<img>').
                     attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
                     attr('width', '16').
                     attr('height', '16').
                     addClass('icon-role-clickable').
                     addClass('icon-role-trash');
-                a.append(img);
-                skillDiv.append(input);
-                skillDiv.append(a);
-                div.append(skillDiv);
+                    a.append(img);
+                    skillDiv.append(input);
+                    skillDiv.append(a);
+                    div.append(skillDiv);
+                }
             }
         },
 

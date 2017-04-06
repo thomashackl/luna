@@ -18,6 +18,7 @@
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaUser users has_and_belongs_to_many LunaUser
+ * @property LunaUser companies has_and_belongs_to_many LunaCompany
  */
 class LunaSkill extends SimpleORMap
 {
@@ -33,13 +34,25 @@ class LunaSkill extends SimpleORMap
             'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_store' => 'store'
         );
+        $config['has_and_belongs_to_many']['companies'] = array(
+            'class_name' => 'LunaCompany',
+            'thru_table' => 'luna_company_skill',
+            'thru_key' => 'skill_id',
+            'thru_assoc_key' => 'company_id',
+            'order_by' => 'ORDER BY `name`',
+            'on_store' => 'store'
+        );
 
         parent::configure($config);
     }
 
     public static function getDistinctValues($client, $field, $type = 'user')
     {
-        $filters = LunaUserFilter::getFilterFields();
+        if ($type == 'user') {
+            $filters = LunaUserFilter::getFilterFields();
+        } else if ($type = 'company') {
+            $filters = LunaCompanyFilter::getFilterFields();
+        }
         $column = $filters[$field]['ids'];
         $values = $filters[$field]['dbvalues'];
         $stmt = DBManager::get()->prepare(

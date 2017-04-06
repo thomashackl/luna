@@ -216,6 +216,24 @@ class CompaniesController extends AuthenticatedController {
             $company->homepage = Request::get('homepage');
             $company->sector = Request::get('sector');
 
+            $skills = array();
+            foreach (Request::getArray('skills') as $skill) {
+                $data = $this->client->skills->findOneBy('name', trim($skill));
+                if (!$data) {
+                    $data = new LunaSkill();
+                    $data->client_id = $this->client->id;
+                    $data->name = trim($skill);
+                }
+                if (count($data->companies) == 0) {
+                    $data->companies = array($company);
+                } else if (!$data->companies->findByCompany_id($company->company_id)) {
+                    $data->companies->append($company);
+                }
+                $data->store();
+                $skills[] = $data;
+            }
+            $company->skills = SimpleORMapCollection::createFromArray($skills);
+
             $tags = array();
             foreach (Request::getArray('tags') as $tag) {
                 $data = $this->client->tags->findOneBy('name', trim($tag));
@@ -224,7 +242,7 @@ class CompaniesController extends AuthenticatedController {
                     $data->client_id = $this->client->id;
                     $data->name = trim($tag);
                 }
-                if (!$data->companies) {
+                if (count($data->companies) == 0) {
                     $data->companies = array($company);
                 } else if (!$data->companies->findByCompany_id($company->company_id)) {
                     $data->companies->append($company);

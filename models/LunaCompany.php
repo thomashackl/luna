@@ -29,6 +29,7 @@
  * @property string chdate database column
  * @property LunaUser members has_many LunaUser
  * @property LunaUser contact has_one LunaUser
+ * @property LunaTag skills has_and_belongs_to_many LunaSkill
  * @property LunaTag tags has_and_belongs_to_many LunaTag
  */
 class LunaCompany extends SimpleORMap
@@ -52,6 +53,15 @@ class LunaCompany extends SimpleORMap
             'assoc_foreign_key' => 'user_id',
             'on_store' => 'store',
             'on_delete' => 'delete'
+        );
+        $config['has_and_belongs_to_many']['skills'] = array(
+            'class_name' => 'LunaSkill',
+            'thru_table' => 'luna_company_skill',
+            'thru_key' => 'company_id',
+            'thru_assoc_key' => 'skill_id',
+            'order_by' => 'ORDER BY `name`',
+            'on_delete' => 'delete',
+            'on_store' => 'store',
         );
         $config['has_and_belongs_to_many']['tags'] = array(
             'class_name' => 'LunaTag',

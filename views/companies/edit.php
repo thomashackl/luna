@@ -103,6 +103,34 @@
     </fieldset>
     <fieldset>
         <legend>
+            <?= dgettext('luna', 'Kompetenzen') ?>
+        </legend>
+        <section>
+            <label>
+                <?= dgettext('luna', 'Fügen Sie eine Kompetenz hinzu') ?>:
+                <br>
+                <input type="text" name="skill" size="40" class="luna-new-skill" data-available-skills="<?= $controller->url_for('skills/search') ?>">
+                <a class="luna-skill-add" href="">
+                    <?= Icon::create('add', 'clickable')->asImg(24) ?>
+                </a>
+            </label>
+            <div id="luna-company-skills">
+                <?php if (count($company->skills) > 0) : ?>
+                    <?php foreach ($company->skills as $skill) : ?>
+                        <div class="luna-skill" id="luna-skill-<?= htmlReady(str_replace(' ', '-', $skill->name)) ?>">
+                            <?= htmlReady($skill->name) ?>
+                            <input type="hidden" name="skills[]" value="<?= htmlReady($skill->name) ?>">
+                            <a class="luna-skill-remove" href="">
+                                <?= Icon::create('trash', 'clickable')->asImg() ?>
+                            </a>
+                        </div>
+                    <?php endforeach ?>
+                <?php endif ?>
+            </div>
+        </section>
+    </fieldset>
+    <fieldset>
+        <legend>
             <?= dgettext('luna', 'Schlagworte') ?>
         </legend>
         <section>

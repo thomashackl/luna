@@ -112,6 +112,15 @@ class LunaCompanyFilter
                 'class' => 'LunaCompany',
                 'is_id' => false
             ),
+            'skills' => array(
+                'name' => dgettext('luna', 'Kompetenz'),
+                'table' => 'luna_company_skill',
+                'ids' => 'skill_id',
+                'dbvalues' => 'name',
+                'class' => 'LunaSkill',
+                'is_id' => true,
+                'linked' => 'luna_skills'
+            ),
             'tags' => array(
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_company_tag',
@@ -138,7 +147,7 @@ class LunaCompanyFilter
     {
         $fields = self::getFilterFields();
         $filter = $fields[$field];
-        $values = $filter['class']::getDistinctValues($client, $field);
+        $values = $filter['class']::getDistinctValues($client, $field, 'company');
         $result = array(
             'compare' => array(
                 '=' => dgettext('luna', 'ist'),

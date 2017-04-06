@@ -52,7 +52,7 @@ class LunaTag extends SimpleORMap
         if ($type == 'user') {
             $filters = LunaUserFilter::getFilterFields();
         } else if ($type = 'company') {
-            $filters = LunaCompanyrFilter::getFilterFields();
+            $filters = LunaCompanyFilter::getFilterFields();
         }
         $column = $filters[$field]['ids'];
         $values = $filters[$field]['dbvalues'];

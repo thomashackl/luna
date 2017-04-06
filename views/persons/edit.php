@@ -262,7 +262,7 @@
                 </a>
             </label>
             <div id="luna-person-skills">
-                <?php if ($person->skills) : ?>
+                <?php if (count($person->skills) > 0) : ?>
                     <?php foreach ($person->skills as $skill) : ?>
                         <div class="luna-skill" id="luna-skill-<?= htmlReady(str_replace(' ', '-', $skill->name)) ?>">
                             <?= htmlReady($skill->name) ?>

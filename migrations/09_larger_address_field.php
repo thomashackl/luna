@@ -15,6 +15,8 @@ class LargerAddressField extends Migration {
         DBManager::get()->exec("ALTER TABLE `luna_companies`
             CHANGE `street` `address` TEXT NOT NULL DEFAULT ''");
 
+        DBManager::get()->exec("UPDATE `luna_markers` SET `replacement` = 'luna_users.address' WHERE `marker` = 'STREET'");
+
         LunaUser::expireTableScheme();
         LunaCompany::expireTableScheme();
     }
@@ -24,6 +26,8 @@ class LargerAddressField extends Migration {
             CHANGE `address` `street` VARCHAR(255) NOT NULL DEFAULT ''");
         DBManager::get()->exec("ALTER TABLE `luna_companies`
             CHANGE `address` `street` VARCHAR(255) NOT NULL DEFAULT ''");
+
+        DBManager::get()->exec("UPDATE `luna_markers` SET `replacement` = 'luna_users.street' WHERE `marker` = 'STREET'");
 
         LunaUser::expireTableScheme();
         LunaCompany::expireTableScheme();

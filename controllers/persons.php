@@ -482,8 +482,11 @@ class PersonsController extends AuthenticatedController {
             case 'message':
                 $this->relocate('message/write/users');
                 break;
-            case 'export':
+            case 'csv':
                 $this->redirect($this->url_for('persons/export_persons'));
+                break;
+            case 'serialmail':
+                $this->relocate('persons/export_persons_serialmail');
                 break;
         }
     }
@@ -634,6 +637,40 @@ class PersonsController extends AuthenticatedController {
         } else {
             PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
         }
+    }
+
+    public function export_persons_serialmail_action()
+    {
+        $this->fields = LunaUserFilter::getFilterFields(true);
+
+        if ($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS) {
+            $selected = studip_json_decode($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS);
+            $this->selected = $selected[$this->client->id];
+        } else {
+            $this->selected = array_keys($this->fields);
+        }
+
+        $markers = LunaMarker::findBySQL("1 ORDER BY `priority`");
+
+        $persons = $this->flash['bulkusers'] ?
+            LunaUser::findMany($this->flash['bulkusers']) :
+            $this->client->getFilteredUsers(0, -1);
+
+        $csv = array();
+        $csv[] = array_map(function($m) {
+            return $m->name;
+        }, $markers);
+
+        foreach ($persons as $person) {
+            $entry = array();
+            foreach ($markers as $marker) {
+                $entry[] = $marker->getMarkerReplacement($person);
+            }
+            $csv[] = $entry;
+        }
+        $this->response->add_header('Content-Type', 'text/csv');
+        $this->response->add_header('Content-Disposition', 'attachment; filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
+        $this->render_text(array_to_csv($csv));
     }
 
     public function get_status_action()

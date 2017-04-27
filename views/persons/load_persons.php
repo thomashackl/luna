@@ -97,8 +97,11 @@
                                 <option value="message">
                                     <?= dgettext('luna', 'Nachricht schreiben') ?>
                                 </option>
-                                <option value="export">
+                                <option value="csv">
                                     <?= dgettext('luna', 'Excel-Export') ?>
+                                </option>
+                                <option value="serialmail">
+                                    <?= dgettext('luna', 'Export für Word-Serienbrief') ?>
                                 </option>
                             </select>
                         </label>

@@ -106,7 +106,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     <label>
                         <?= dgettext('luna', 'Aktion für ausgewählte Unternehmen') ?>
                         <select name="bulkaction">
@@ -131,7 +131,7 @@
                 </td>
             </tr>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <?= dgettext('luna', 'Seite ') ?>
                         <?php for ($i = 1 ; $i <= $pagecount ; $i++) : ?>
                             <div class="luna-pagination<?= $i == $activepage ? ' active' : ''?>">

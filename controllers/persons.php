@@ -483,7 +483,7 @@ class PersonsController extends AuthenticatedController {
                 $this->relocate('message/write/users');
                 break;
             case 'csv':
-                $this->redirect($this->url_for('export/data', 'persons'));
+                $this->redirect($this->url_for('export/csv', 'persons'));
                 break;
             case 'serialmail':
                 $this->relocate('export/persons_serialmail');

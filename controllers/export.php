@@ -61,7 +61,7 @@ class ExportController extends AuthenticatedController {
      * Export data in CSV format.
      * @param string $type either 'persons' or 'companies'
      */
-    public function data_action($type)
+    public function csv_action($type)
     {
 
         switch ($type) {
@@ -133,6 +133,13 @@ class ExportController extends AuthenticatedController {
         }
     }
 
+    public function vcard_action()
+    {
+    }
+
+    /**
+     * Export data for usage in Word
+     */
     public function persons_serialmail_action()
     {
         $this->fields = LunaUserFilter::getFilterFields(true);

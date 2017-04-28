@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('export/data', $type) ?>" method="post">
+<form class="default" action="<?= $controller->url_for('export/csv', $type) ?>" method="post">
     <section class="contentbox">
         <article class="luna-export-datafields">
             <header>

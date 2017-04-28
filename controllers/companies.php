@@ -317,7 +317,7 @@ class CompaniesController extends AuthenticatedController {
                 $this->relocate('message/write/companies');
                 break;
             case 'export':
-                $this->redirect($this->url_for('export/data', 'companies'));
+                $this->redirect($this->url_for('export/csv', 'companies'));
                 break;
         }
     }

@@ -12,7 +12,7 @@ class MailAndPhoneEntries extends Migration {
     public function up() {
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `luna_email` (
             `user_id` CHAR(32) NOT NULL,
-            `email` CHAR(255) NOT NULL,
+            `email` VARCHAR(255) NOT NULL,
             `type` ENUM ('private', 'office') NOT NULL DEFAULT 'private',
             `default` TINYINT(1) NOT NULL DEFAULT 0,
             `mkdate` INT NOT NULL,
@@ -22,7 +22,7 @@ class MailAndPhoneEntries extends Migration {
 
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `luna_phone` (
             `user_id` CHAR(32) NOT NULL,
-            `number` CHAR(255) NOT NULL,
+            `number` VARCHAR(255) NOT NULL,
             `type` ENUM ('private', 'office', 'mobile') NOT NULL DEFAULT 'private',
             `default` TINYINT(1) NOT NULL DEFAULT 0,
             `mkdate` INT NOT NULL,

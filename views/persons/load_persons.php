@@ -103,6 +103,9 @@
                                 <option value="serialmail">
                                     <?= dgettext('luna', 'Export für Word-Serienbrief') ?>
                                 </option>
+                                <option value="vcard">
+                                    <?= dgettext('luna', 'Kontakte exportieren') ?>
+                                </option>
                             </select>
                         </label>
                         <br>

@@ -488,6 +488,9 @@ class PersonsController extends AuthenticatedController {
             case 'serialmail':
                 $this->relocate('export/persons_serialmail');
                 break;
+            case 'vcard':
+                $this->relocate('export/vcard', 'persons');
+                break;
         }
     }
 

@@ -73,7 +73,7 @@ class LunaSearch extends StandardSearch
      *
      * @return null
      */
-    public function getAvatarImageTag($id, $size = Avatar::SMALL, $options = array())
+    public function getAvatarImageTag($id, $size = Avatar::SMALL, $options = [])
     {
         return null;
     }

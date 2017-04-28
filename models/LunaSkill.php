@@ -23,7 +23,7 @@
 class LunaSkill extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_skills';
         $config['has_and_belongs_to_many']['users'] = array(

@@ -107,7 +107,7 @@ class LogController extends AuthenticatedController {
         if ($GLOBALS['user']->cfg->LUNA_LOG_FILTER) {
             $filters = studip_json_decode($GLOBALS['user']->cfg->LUNA_LOG_FILTER)[$this->client->id];
         } else {
-            $filters = array();
+            $filters = [];
         }
 
         $sidebar = Sidebar::get();
@@ -185,7 +185,7 @@ class LogController extends AuthenticatedController {
             $affected = DBManager::get()->fetchFirst(
                 "SELECT DISTINCT `affected` FROM `luna_log` WHERE `client_id` = ? AND `affected_type` = ?",
                 array($this->client->id, $filters['affected_type']));
-            $ids = array();
+            $ids = [];
             foreach ($affected as $a) {
                 $ids = array_merge($ids, studip_json_decode($a));
             }
@@ -216,7 +216,7 @@ class LogController extends AuthenticatedController {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

@@ -154,7 +154,7 @@ class PersonsController extends AuthenticatedController {
             'user_id',
             array(
                 'permission' => array('user', 'autor', 'tutor', 'dozent'),
-                'exclude_user' => array()
+                'exclude_user' => []
             )
         );
         $this->usersearch = QuickSearch::get('studip_user_id', $search);
@@ -223,7 +223,7 @@ class PersonsController extends AuthenticatedController {
 
         $this->user = LunaUser::find($user_id);
 
-        $this->courses = array();
+        $this->courses = [];
 
         if (count($this->user->studip_user->course_memberships) > 0) {
             $lecturedcourses = $this->user->studip_user->course_memberships->findBy('status', 'dozent');
@@ -277,7 +277,7 @@ class PersonsController extends AuthenticatedController {
 
             $user->studip_user_id = Request::option('studip_user_id', null);
 
-            $skills = array();
+            $skills = [];
             foreach (Request::getArray('skills') as $skill) {
                 $data = $this->client->skills->findOneBy('name', trim($skill));
                 if (!$data) {
@@ -300,7 +300,7 @@ class PersonsController extends AuthenticatedController {
                 $user->companies->append(LunaCompany::find(Request::option('company')));
             }
 
-            $emails = array();
+            $emails = [];
             $default = false;
             $i = 0;
             foreach (Request::getArray('email') as $index => $email) {
@@ -330,7 +330,7 @@ class PersonsController extends AuthenticatedController {
             }
             $user->emails = SimpleORMapCollection::createFromArray($emails);
 
-            $phonenumbers = array();
+            $phonenumbers = [];
             $default = false;
             $i = 0;
             foreach (Request::getArray('phone') as $index => $phone) {
@@ -360,7 +360,7 @@ class PersonsController extends AuthenticatedController {
             }
             $user->phonenumbers = SimpleORMapCollection::createFromArray($phonenumbers);
 
-            $tags = array();
+            $tags = [];
             foreach (Request::getArray('tags') as $tag) {
                 $data = $this->client->tags->findOneBy('name', trim($tag));
                 if (!$data) {
@@ -381,7 +381,7 @@ class PersonsController extends AuthenticatedController {
             if (Request::getArray('userdocs')) {
                 $docs = StudipDocument::findMany(Request::getArray('userdocs'));
             } else {
-                $docs = array();
+                $docs = [];
             }
 
             foreach ($_FILES['docs']['name'] as $index => $filename) {
@@ -483,10 +483,10 @@ class PersonsController extends AuthenticatedController {
                 $this->relocate('message/write/users');
                 break;
             case 'csv':
-                $this->redirect($this->url_for('persons/export_persons'));
+                $this->redirect($this->url_for('export/data', 'persons'));
                 break;
             case 'serialmail':
-                $this->relocate('persons/export_persons_serialmail');
+                $this->relocate('export/persons_serialmail');
                 break;
         }
     }
@@ -589,90 +589,6 @@ class PersonsController extends AuthenticatedController {
         $this->render_nothing();
     }
 
-    public function export_persons_action()
-    {
-        $this->fields = LunaUserFilter::getFilterFields(true);
-
-        if ($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS) {
-            $selected = studip_json_decode($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS);
-            $this->selected = $selected[$this->client->id];
-        } else {
-            $this->selected = array_keys($this->fields);
-        }
-
-        if (Request::submitted('do_export')) {
-            $persons = Request::optionArray('users') ?
-                LunaUser::findMany(Request::optionArray('users')) :
-                $this->client->getFilteredUsers(0, -1);
-            $csv = array();
-            $csv[] = array_map(function($entry) {
-                return $entry['name'];
-            }, array_intersect_key($this->fields, array_flip(Request::getArray('fields'))));
-            foreach ($persons as $person) {
-                $entry = array();
-                foreach (Request::getArray('fields') as $field) {
-                    if ($person->$field instanceof SimpleORMapCollection) {
-                        $entry[] = implode("\n", $person->$field->pluck('name'));
-                    } else {
-                        $entry[] = $person->$field;
-                    }
-                }
-                $csv[] = $entry;
-            }
-            $this->response->add_header('Content-Type', 'text/csv');
-            $this->response->add_header('Content-Disposition', 'attachment; filename=' .
-                Request::get('filename') . '.csv');
-            $this->render_text(array_to_csv($csv));
-        } else if (Request::submitted('default')) {
-            $stored = $GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS;
-            $fields = studip_json_decode($stored ? studip_json_decode($stored) : array());
-
-            $fields[$this->client->id] = Request::getArray('fields');
-
-            $GLOBALS['user']->cfg->store('LUNA_EXPORT_FIELDS', studip_json_encode($fields));
-
-            PageLayout::postSuccess(dgettext('luna', 'Die Voreinstellung für den Datenexport wurde gespeichert.'));
-
-            $this->relocate('persons');
-        } else {
-            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
-        }
-    }
-
-    public function export_persons_serialmail_action()
-    {
-        $this->fields = LunaUserFilter::getFilterFields(true);
-
-        if ($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS) {
-            $selected = studip_json_decode($GLOBALS['user']->cfg->LUNA_EXPORT_FIELDS);
-            $this->selected = $selected[$this->client->id];
-        } else {
-            $this->selected = array_keys($this->fields);
-        }
-
-        $markers = LunaMarker::findBySQL("1 ORDER BY `priority`");
-
-        $persons = $this->flash['bulkusers'] ?
-            LunaUser::findMany($this->flash['bulkusers']) :
-            $this->client->getFilteredUsers(0, -1);
-
-        $csv = array();
-        $csv[] = array_map(function($m) {
-            return $m->name;
-        }, $markers);
-
-        foreach ($persons as $person) {
-            $entry = array();
-            foreach ($markers as $marker) {
-                $entry[] = $marker->getMarkerReplacement($person);
-            }
-            $csv[] = $entry;
-        }
-        $this->response->add_header('Content-Type', 'text/csv');
-        $this->response->add_header('Content-Disposition', 'attachment; filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
-        $this->render_text(array_to_csv($csv));
-    }
-
     public function get_status_action()
     {
         $values = DBManager::get()->fetchFirst(
@@ -733,7 +649,7 @@ class PersonsController extends AuthenticatedController {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

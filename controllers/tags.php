@@ -202,7 +202,7 @@ class TagsController extends AuthenticatedController {
         if (count($results) > 0) {
             $tags = array_map(function($t) { return $t->name; }, $results);
         } else {
-            $tags = array();
+            $tags = [];
         }
         $this->render_text(studip_json_encode($tags));
     }
@@ -221,7 +221,7 @@ class TagsController extends AuthenticatedController {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

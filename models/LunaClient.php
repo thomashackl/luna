@@ -27,7 +27,7 @@
 class LunaClient extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_clients';
         $config['has_many']['beneficiaries'] = array(
@@ -123,12 +123,12 @@ class LunaClient extends SimpleORMap
         if ($GLOBALS['user']->cfg->LUNA_LOG_FILTER) {
             $filters = studip_json_decode($GLOBALS['user']->cfg->LUNA_LOG_FILTER)[$this->id];
         } else {
-            $filters = array();
+            $filters = [];
         }
         $sql = "SELECT DISTINCT `entry_id` FROM `luna_log`";
         if ($filters) {
-            $where = array();
-            $params = array();
+            $where = [];
+            $params = [];
             foreach ($filters as $filter => $value) {
                 switch ($filter) {
                     case 'user_id':
@@ -167,12 +167,12 @@ class LunaClient extends SimpleORMap
         if ($GLOBALS['user']->cfg->LUNA_LOG_FILTER) {
             $filters = studip_json_decode($GLOBALS['user']->cfg->LUNA_LOG_FILTER)[$this->id];
         } else {
-            $filters = array();
+            $filters = [];
         }
         $sql = "SELECT COUNT(DISTINCT `entry_id`) FROM `luna_log`";
         if ($filters) {
-            $where = array();
-            $params = array();
+            $where = [];
+            $params = [];
             foreach ($filters as $filter => $value) {
                 switch ($filter) {
                     case 'user_id':
@@ -210,7 +210,7 @@ class LunaClient extends SimpleORMap
     public function setListMaxEntries($type, $count)
     {
         $config = $GLOBALS['user']->cfg;
-        $counts = $config->LUNA_ENTRIES_PER_PAGE ? studip_json_decode($config->LUNA_ENTRIES_PER_PAGE) : array();
+        $counts = $config->LUNA_ENTRIES_PER_PAGE ? studip_json_decode($config->LUNA_ENTRIES_PER_PAGE) : [];
         $counts[$this->id][$type] = $count;
         return $config->store('LUNA_ENTRIES_PER_PAGE', studip_json_encode($counts));
     }
@@ -268,7 +268,7 @@ class LunaClient extends SimpleORMap
                 $log->action = 'create';
                 $log->info = $this->name;
             } else if ($type == 'before_store' && !$this->isNew()) {
-                $dirty = array();
+                $dirty = [];
                 $old_entry = self::build($this->content_db);
                 foreach (array_keys($this->db_fields) as $field) {
                     if ($this->isFieldDirty($field)) {
@@ -310,8 +310,8 @@ class LunaClient extends SimpleORMap
         } else {
             $sql = "SELECT DISTINCT t.`" . $joinfield . "` FROM `" . $tablename . "` t";
         }
-        $where = array();
-        $tables = array();
+        $where = [];
+        $tables = [];
         $counter = 0;
 
         if ($filters) {
@@ -336,8 +336,8 @@ class LunaClient extends SimpleORMap
             }
         }
 
-        $tables2 = array();
-        $where2 = array();
+        $tables2 = [];
+        $where2 = [];
         if ($searchtext) {
             foreach ($all as $key => $filter) {
                 if ($filter['table'] != $tablename) {

@@ -24,7 +24,7 @@
 class LunaPhoneNumber extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_phone';
         $config['belongs_to']['user'] = array(
@@ -60,7 +60,7 @@ class LunaPhoneNumber extends SimpleORMap
                 $log->action = 'create';
                 $log->info = $this->number;
             } else if ($type == 'before_store' && !$this->isNew()) {
-                $dirty = array();
+                $dirty = [];
                 $old_entry = self::build($this->content_db);
                 foreach (array_keys($this->db_fields) as $field) {
                     if ($this->isFieldDirty($field)) {

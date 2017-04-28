@@ -193,7 +193,7 @@ class SkillsController extends AuthenticatedController {
         if (count($results) > 0) {
             $skills = array_map(function($t) { return $t->name; }, $results);
         } else {
-            $skills = array();
+            $skills = [];
         }
         $this->render_text(studip_json_encode($skills));
     }
@@ -212,7 +212,7 @@ class SkillsController extends AuthenticatedController {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

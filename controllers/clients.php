@@ -177,7 +177,7 @@ class ClientsController extends AuthenticatedController {
             'user_id',
             array(
                 'permission' => array('user', 'autor', 'tutor', 'dozent', 'admin'),
-                'exclude_user' => array()
+                'exclude_user' => []
             )
         );
         $this->search = QuickSearch::get('user_id', $search)
@@ -222,7 +222,7 @@ class ClientsController extends AuthenticatedController {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

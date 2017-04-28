@@ -24,7 +24,7 @@
 class LunaTag extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_tags';
         $config['has_and_belongs_to_many']['users'] = array(

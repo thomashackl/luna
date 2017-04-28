@@ -188,7 +188,7 @@ class LunaUserFilter
 
     public static function getFilterNames()
     {
-        $names = array();
+        $names = [];
         foreach (self::getFilterFields() as $key => $f) {
             $names[$key] = $f['name'];
         }
@@ -207,7 +207,7 @@ class LunaUserFilter
                 'LIKE' => dgettext('luna', 'enthält'),
                 'NOT LIKE' => dgettext('luna', 'enthält nicht'),
             ),
-            'values' => array()
+            'values' => []
         );
         foreach ($values as $v) {
             $current = $v['value'];
@@ -251,9 +251,9 @@ class LunaUserFilter
         $presets = $GLOBALS['user']->cfg->LUNA_USER_FILTER_PRESETS;
         if ($presets) {
             $decoded = studip_json_decode($presets);
-            $presets = $decoded[$client] ?: array();
+            $presets = $decoded[$client] ?: [];
         } else {
-            $presets = array();
+            $presets = [];
         }
         return $presets;
     }
@@ -261,7 +261,7 @@ class LunaUserFilter
     public static function saveFilterPreset($client, $name)
     {
         $config = $GLOBALS['user']->cfg;
-        $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : array();
+        $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : [];
         $presets[$client][$name] = self::getFilters($GLOBALS['user']->id, $client);
         return $config->store('LUNA_USER_FILTER_PRESETS', studip_json_encode($presets));
     }
@@ -269,7 +269,7 @@ class LunaUserFilter
     public static function saveFilterPresets($client, $data)
     {
         $config = $GLOBALS['user']->cfg;
-        $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : array();
+        $presets = $config->LUNA_USER_FILTER_PRESETS ? studip_json_decode($config->LUNA_USER_FILTER_PRESETS) : [];
         $presets[$client] = $data;
         return $config->store('LUNA_USER_FILTER_PRESETS', studip_json_encode($presets));
     }

@@ -216,7 +216,7 @@ class CompaniesController extends AuthenticatedController {
             $company->homepage = Request::get('homepage');
             $company->sector = Request::get('sector');
 
-            $skills = array();
+            $skills = [];
             foreach (Request::getArray('skills') as $skill) {
                 $data = $this->client->skills->findOneBy('name', trim($skill));
                 if (!$data) {
@@ -234,7 +234,7 @@ class CompaniesController extends AuthenticatedController {
             }
             $company->skills = SimpleORMapCollection::createFromArray($skills);
 
-            $tags = array();
+            $tags = [];
             foreach (Request::getArray('tags') as $tag) {
                 $data = $this->client->tags->findOneBy('name', trim($tag));
                 if (!$data) {
@@ -317,7 +317,7 @@ class CompaniesController extends AuthenticatedController {
                 $this->relocate('message/write/companies');
                 break;
             case 'export':
-                $this->redirect($this->url_for('companies/export_companies'));
+                $this->redirect($this->url_for('export/data', 'companies'));
                 break;
         }
     }
@@ -330,47 +330,13 @@ class CompaniesController extends AuthenticatedController {
         $this->render_text(studip_json_encode($values));
     }
 
-    public function export_companies_action()
-    {
-        $this->fields = LunaCompanyFilter::getFilterFields(true);
-
-        $this->selected = array_keys($this->fields);
-
-        if (Request::submitted('do_export')) {
-            $companies = Request::optionArray('companies') ?
-                LunaCompany::findMany(Request::optionArray('companies')) :
-                $this->client->getFilteredCompanies(0, -1);
-            $csv = array();
-            $csv[] = array_map(function($entry) {
-                return $entry['name'];
-            }, $this->fields);
-            foreach ($companies as $company) {
-                $entry = array();
-                foreach ($this->selected as $field) {
-                    if ($company->$field instanceof SimpleORMapCollection) {
-                        $entry[] = implode("\n", $company->$field->pluck('name'));
-                    } else {
-                        $entry[] = $company->$field;
-                    }
-                }
-                $csv[] = $entry;
-            }
-            $this->response->add_header('Content-Type', 'text/csv');
-            $this->response->add_header('Content-Disposition', 'attachment; filename=' .
-                Request::get('filename') . '.csv');
-            $this->render_text(array_to_csv($csv));
-        } else {
-            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Dateinamen wählen'));
-        }
-    }
-
     // customized #url_for for plugins
     public function url_for($to)
     {
         $args = func_get_args();
 
         // find params
-        $params = array();
+        $params = [];
         if (is_array(end($args))) {
             $params = array_pop($args);
         }

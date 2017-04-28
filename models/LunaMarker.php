@@ -28,7 +28,7 @@
 class LunaMarker extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_markers';
 
@@ -49,7 +49,7 @@ class LunaMarker extends SimpleORMap
 
     public static function getMarkers($message)
     {
-        $found = array();
+        $found = [];
         $markers = LunaMarker::findBySQL("1");
         foreach ($markers as $marker) {
             if (strpos($message, $marker->marker) !== false) {
@@ -61,8 +61,8 @@ class LunaMarker extends SimpleORMap
 
     public static function replaceMarkers($message, $user)
     {
-        $find = array();
-        $replace = array();
+        $find = [];
+        $replace = [];
         foreach (LunaMarker::getMarkers($message) as $marker) {
             if (strpos($message, '{' . $marker->marker . '}') !== false) {
                 $find[] = '{' . $marker->marker . '}';
@@ -93,7 +93,7 @@ class LunaMarker extends SimpleORMap
             // Just plain text replacing the marker.
             case 'text':
                 if (strpos($replacement, '{') !== false) {
-                    $matches = array();
+                    $matches = [];
                     preg_match_all('/{([a-zA-Z0-9\-_]+)}/m', $replacement, $matches);
                     foreach ($matches[1] as $match) {
                         $replacement = str_replace('{' . $match . '}',
@@ -106,11 +106,11 @@ class LunaMarker extends SimpleORMap
             // Content from one or more database columns replaces the marker.
             case 'database':
                 $data = words($replacement);
-                $find = array();
-                $replace = array();
+                $find = [];
+                $replace = [];
                 foreach ($data as $entry) {
                     if (strpos($entry, '{') !== false) {
-                        $matches = array();
+                        $matches = [];
                         preg_match_all('/{([a-zA-Z0-9\-_]+)}/m', $entry, $matches);
                         foreach ($matches[1] as $match) {
                             $replacement = str_replace($entry,
@@ -137,11 +137,11 @@ class LunaMarker extends SimpleORMap
             // Content from one or more database columns replaces the marker.
             case 'database-relation':
                 $data = words($replacement);
-                $find = array();
-                $replace = array();
+                $find = [];
+                $replace = [];
                 foreach ($data as $entry) {
                     if (strpos($entry, '{') !== false) {
-                        $matches = array();
+                        $matches = [];
                         preg_match_all('/{([a-zA-Z0-9\-_]+)}/m', $entry, $matches);
                         foreach ($matches[1] as $match) {
                             $replacement = str_replace($entry,

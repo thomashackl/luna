@@ -41,28 +41,28 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
             }
 
             $navigation = new Navigation($this->getDisplayName(),
-                PluginEngine::getURL($this, array(), $target));
+                PluginEngine::getURL($this, [], $target));
 
             if ($currentClient) {
                 $navigation->addSubNavigation('persons',
                     new Navigation(dgettext('luna', 'Personen'),
-                        PluginEngine::getURL($this, array(), 'persons')));
+                        PluginEngine::getURL($this, [], 'persons')));
                 $navigation->addSubNavigation('companies',
                     new Navigation(dgettext('luna', 'Unternehmen'),
-                        PluginEngine::getURL($this, array(), 'companies')));
+                        PluginEngine::getURL($this, [], 'companies')));
                 $navigation->addSubNavigation('skills',
                     new Navigation(dgettext('luna', 'Kompetenzen'),
-                        PluginEngine::getURL($this, array(), 'skills')));
+                        PluginEngine::getURL($this, [], 'skills')));
                 $navigation->addSubNavigation('tags',
                     new Navigation(dgettext('luna', 'Schlagwörter'),
-                        PluginEngine::getURL($this, array(), 'tags')));
+                        PluginEngine::getURL($this, [], 'tags')));
                 $navigation->addSubNavigation('search',
                     new Navigation(dgettext('luna', 'Suchvorlagen'),
-                        PluginEngine::getURL($this, array(), 'search')));
+                        PluginEngine::getURL($this, [], 'search')));
                 if ($currentClient->isAdmin($GLOBALS['user']->id)) {
                     $navigation->addSubNavigation('log',
                         new Navigation(dgettext('luna', 'Aktionsprotokoll'),
-                            PluginEngine::getURL($this, array(), 'log')));
+                            PluginEngine::getURL($this, [], 'log')));
                 }
             }
             // Roots or people with more than one assigned clients see client selection.
@@ -70,7 +70,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
                     LunaClientUser::findByUserAndStatus($GLOBALS['user']->id, 'admin')) {
                 $navigation->addSubNavigation('clients',
                     new Navigation(dgettext('luna', 'Mandanten'),
-                        PluginEngine::getURL($this, array(), 'clients')));
+                        PluginEngine::getURL($this, [], 'clients')));
             }
             Navigation::addItem('/tools/luna', $navigation);
         }
@@ -94,7 +94,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
 
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),
-            rtrim(PluginEngine::getLink($this, array(), null), '/'),
+            rtrim(PluginEngine::getLink($this, [], null), '/'),
             'list'
         );
         $dispatcher->plugin = $this;

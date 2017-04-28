@@ -136,7 +136,7 @@ class LunaCompanyFilter
 
     public static function getFilterNames()
     {
-        $names = array();
+        $names = [];
         foreach (self::getFilterFields() as $key => $f) {
             $names[$key] = $f['name'];
         }
@@ -153,7 +153,7 @@ class LunaCompanyFilter
                 '=' => dgettext('luna', 'ist'),
                 '!=' => dgettext('luna', 'ist nicht')
             ),
-            'values' => array()
+            'values' => []
         );
         foreach ($values as $v) {
             $current = $v['value'];
@@ -197,9 +197,9 @@ class LunaCompanyFilter
         $presets = $GLOBALS['user']->cfg->LUNA_COMPANY_FILTER_PRESETS;
         if ($presets) {
             $decoded = studip_json_decode($presets);
-            $presets = $decoded[$client] ?: array();
+            $presets = $decoded[$client] ?: [];
         } else {
-            $presets = array();
+            $presets = [];
         }
         return $presets;
     }
@@ -207,7 +207,7 @@ class LunaCompanyFilter
     public static function saveFilterPreset($client, $name)
     {
         $config = $GLOBALS['user']->cfg;
-        $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : array();
+        $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : [];
         $presets[$client][$name] = self::getFilters($GLOBALS['user']->id, $client);
         return $config->store('LUNA_COMPANY_FILTER_PRESETS', studip_json_encode($presets));
     }
@@ -215,7 +215,7 @@ class LunaCompanyFilter
     public static function saveFilterPresets($client, $data)
     {
         $config = $GLOBALS['user']->cfg;
-        $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : array();
+        $presets = $config->LUNA_COMPANY_FILTER_PRESETS ? studip_json_decode($config->LUNA_COMPANY_FILTER_PRESETS) : [];
         $presets[$client] = $data;
         return $config->store('LUNA_COMPANY_FILTER_PRESETS', studip_json_encode($presets));
     }

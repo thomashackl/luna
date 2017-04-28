@@ -42,7 +42,7 @@
 class LunaUser extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_users';
         $config['has_and_belongs_to_many']['skills'] = array(
@@ -178,7 +178,7 @@ class LunaUser extends SimpleORMap
                 $log->action = 'create';
                 $log->info = '';
             } else if ($type == 'before_store' && !$this->isNew()) {
-                $dirty = array();
+                $dirty = [];
                 $old_entry = self::build($this->content_db);
                 foreach (array_keys($this->db_fields) as $field) {
                     if ($this->isFieldDirty($field)) {

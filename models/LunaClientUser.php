@@ -24,7 +24,7 @@
 class LunaClientUser extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_client_user';
         $config['belongs_to']['client'] = array(

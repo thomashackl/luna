@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('persons/export_persons') ?>" method="post">
+<form class="default" action="<?= $controller->url_for('export/data', $type) ?>" method="post">
     <section class="contentbox">
         <article class="luna-export-datafields">
             <header>
@@ -25,9 +25,14 @@
         </label>
     </section>
     <footer data-dialog-button>
-        <?php if ($flash['bulkusers']) : ?>
+        <?php if ($type == 'persons' && $flash['bulkusers']) : ?>
             <?php foreach ($flash['bulkusers'] as $u) : ?>
                 <input type="hidden" name="users[]" value="<?= htmlReady($u) ?>">
+            <?php endforeach ?>
+        <?php endif ?>
+        <?php if ($type == 'companies' && $flash['bulkcompanies']) : ?>
+            <?php foreach ($flash['bulkcompanies'] as $c) : ?>
+                <input type="hidden" name="companies[]" value="<?= htmlReady($c) ?>">
             <?php endforeach ?>
         <?php endif ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Exportieren'), 'do_export') ?>

@@ -25,7 +25,7 @@
 class LunaLog extends SimpleORMap
 {
 
-    protected static function configure($config = array())
+    protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_log';
         $config['belongs_to']['user'] = array(

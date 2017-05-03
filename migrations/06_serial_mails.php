@@ -70,10 +70,10 @@ class SerialMails extends Migration {
             ),
             array(
                 'marker' => 'STREET',
-                'name' => 'Anschrift',
+                'name' => 'Straße',
                 'priority' => 7,
                 'type' => 'database',
-                'description' => 'Setzt die Anschrift (Straße) ein.',
+                'description' => 'Setzt die Straße ein.',
                 'replacement' => 'luna_users.street'
             ),
             array(
@@ -89,13 +89,11 @@ class SerialMails extends Migration {
                 'name' => 'Anschrift',
                 'priority' => 4,
                 'type' => 'text',
-                'description' => 'Setzt die vollständige Adresse mit Zeilenumbrüchen ein, z.B.
+                'description' => 'Setzt die vollständige Anschrift mit Zeilenumbrüchen ein, z.B.
                     Prof. Dr. Max Mustermann
                     Musterstraße 47
                     12345 Musterstadt',
-                'replacement' => '{FULLNAME_WITH_TITLE}
-{STREET}
-{CITY}'
+                'replacement' => "{FULLNAME_WITH_TITLE}\r\n{STREET}\r\n{CITY}"
             ),
             array(
                 'marker' => 'COMPANY',

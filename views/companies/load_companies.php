@@ -84,6 +84,9 @@
                                     <?= Icon::create('mail', 'clickable')->asImg() ?>
                                 </a>
                             <?php endif ?>
+                            <a href="<?= $controller->url_for('export/vcard', 'companies', $c->id) ?>" title="<?= sprintf(dgettext('luna', 'Visitenkarte %s exportieren'), $c->name) ?>">
+                                <?= Icon::create('vcard', 'clickable')->asImg() ?>
+                            </a>
                             <?php if ($hasWriteAccess) : ?>
                                 <a href="<?= $controller->url_for('companies/edit', $c->id) ?>" data-dialog="size=auto"
                                         title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">

@@ -68,19 +68,22 @@
                         </td>
                     <?php endforeach ?>
                     <td>
-                        <a href="<?= $controller->url_for('message/write/user', $p->id) ?>">
+                        <a href="<?= $controller->url_for('message/write/user', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Nachricht an %s schreiben'), $p->getFullname('full')) ?>">
                             <?= Icon::create('mail', 'clickable')->asImg() ?>
                         </a>
+                        <a href="<?= $controller->url_for('export/vcard', 'persons', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Kontakt %s exportieren'), $p->getFullname('full')) ?>">
+                            <?= Icon::create('vcard', 'clickable')->asImg() ?>
+                        </a>
                         <?php if ($hasWriteAccess) : ?>
-                            <a href="<?= $controller->url_for('persons/edit', $p->id) ?>">
+                            <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen/bearbeiten'), $p->getFullname('full')) ?>">
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>
                             </a>
                             <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
-                                    dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>">
+                                    dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>" title="<?= sprintf(dgettext('luna', '%s löschen'), $p->getFullname('full')) ?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
                             </a>
                         <?php else : ?>
-                            <a href="<?= $controller->url_for('persons/info', $p->id) ?>" data-dialog>
+                            <a href="<?= $controller->url_for('persons/info', $p->id) ?>"  title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen'), $p->getFullname('full')) ?>" data-dialog>
                                 <?= Icon::create('info', 'clickable')->asImg() ?>
                             </a>
                         <?php endif ?>

@@ -15,7 +15,18 @@ class LargerAddressField extends Migration {
         DBManager::get()->exec("ALTER TABLE `luna_companies`
             CHANGE `street` `address` TEXT NOT NULL DEFAULT ''");
 
-        DBManager::get()->exec("UPDATE `luna_markers` SET `replacement` = 'luna_users.address' WHERE `marker` = 'STREET'");
+        DBManager::get()->exec("UPDATE `luna_markers`
+          SET `replacement` = 'luna_users.address',
+            `name` = 'Adresse',
+            `description` = 'Setzt die Adresse (Straße) ein.'
+        WHERE `marker` = 'STREET'");
+        DBManager::get()->exec("UPDATE `luna_markers`
+          SET `name` = 'Vollständige Anschrift',
+            `description` = 'Setzt die vollständige Anschrift mit Zeilenumbrüchen ein, z.B.
+                    Prof. Dr. Max Mustermann
+                    Musterstraße 47
+                    12345 Musterstadt'
+          WHERE `marker` = 'ADDRESS'");
 
         LunaUser::expireTableScheme();
         LunaCompany::expireTableScheme();
@@ -28,6 +39,18 @@ class LargerAddressField extends Migration {
             CHANGE `address` `street` VARCHAR(255) NOT NULL DEFAULT ''");
 
         DBManager::get()->exec("UPDATE `luna_markers` SET `replacement` = 'luna_users.street' WHERE `marker` = 'STREET'");
+        DBManager::get()->exec("UPDATE `luna_markers`
+          SET `replacement` = 'luna_users.street',
+            `name` = 'Straße',
+            `description` = 'Setzt die Straße ein.'
+        WHERE `marker` = 'STREET'");
+        DBManager::get()->exec("UPDATE `luna_markers`
+          SET `name` = 'Anschrift',
+            `description` = 'Setzt die vollständige Anschrift mit Zeilenumbrüchen ein, z.B.
+                    Prof. Dr. Max Mustermann
+                    Musterstraße 47
+                    12345 Musterstadt'
+          WHERE `marker` = 'ADDRESS'");
 
         LunaUser::expireTableScheme();
         LunaCompany::expireTableScheme();

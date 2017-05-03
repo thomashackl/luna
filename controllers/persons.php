@@ -16,8 +16,6 @@
 
 class PersonsController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     /**
      * Actions and settings taking place before every page call.
      */

@@ -16,8 +16,6 @@
 
 class ExportController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     /**
      * Actions and settings taking place before every page call.
      */
@@ -100,22 +98,21 @@ class ExportController extends AuthenticatedController {
                 $this->client->$getEntriesFunction(0, -1);
             $csv = [];
             $csv[] = array_map(function($entry) {
-                return $entry['name'];
+                return studip_utf8encode($entry['name']);
             }, array_intersect_key($this->fields, array_flip(Request::getArray('fields'))));
             foreach ($entries as $one) {
                 $entry = [];
                 foreach (Request::getArray('fields') as $field) {
                     if ($one->$field instanceof SimpleORMapCollection) {
-                        $entry[] = implode("\n", $one->$field->pluck('name'));
+                        $entry[] = implode("\n", studip_utf8encode($one->$field->pluck('name')));
                     } else {
-                        $entry[] = $one->$field;
+                        $entry[] = studip_utf8encode($one->$field);
                     }
                 }
                 $csv[] = $entry;
             }
-            $this->set_content_type('text/csv;charset=windows-1252');
+            $this->set_content_type('text/csv;charset=utf-8');
 
-            $this->response->add_header('Content-Type', 'text/csv');
             $this->response->add_header('Content-Disposition', 'attachment; filename=' .
                 Request::get('filename') . '.csv');
             $this->render_text(array_to_csv($csv));
@@ -135,33 +132,58 @@ class ExportController extends AuthenticatedController {
         }
     }
 
-    public function vcard_action($type)
+    /**
+     * Export one or more vcards for persons or companies.
+     * @param string $type on of 'persons' or 'companies'
+     * @param string|null $entry ID of a single entry to export
+     */
+    public function vcard_action($type, $entry = null)
     {
         switch ($type) {
             case 'persons':
                 $class = 'LunaUser';
-                $entriesName = 'users';
+                $entriesName = 'bulkusers';
                 $getEntriesFunction = 'getFilteredUsers';
                 break;
             case 'companies':
                 $class = 'LunaCompany';
-                $entriesName = 'companies';
+                $entriesName = 'bulkcompanies';
                 $getEntriesFunction = 'getFilteredCompanies';
                 break;
         }
 
         $this->type = $type;
 
-        $this->entries = Request::optionArray($entriesName) ?
-            $class::findMany(Request::optionArray($entriesName)) :
-            $this->client->$getEntriesFunction(0, -1);
+        if ($entry) {
+            $one = $class::find($entry);
+        }
 
-        $this->set_content_type('text/vcf;charset=windows-1252');
+        $this->entries = ($entry ?
+            [$one] :
+            ($this->flash[$entriesName] ?
+                $class::findMany($this->flash[$entriesName]) :
+                $this->client->$getEntriesFunction(0, -1)));
+
+        $this->set_content_type('text/vcf;charset=utf-8');
         $this->set_layout(null);
 
-        $this->response->add_header('Content-Type', 'text/vcf');
-        $this->response->add_header('Content-Disposition', 'attachment; filename=contacts-' .
-            date('Y-m-d-H-i') . '.vcf');
+        if ($entry) {
+            if ($type == 'persons') {
+                $filename = str_replace([' ', ',', '.'], ['-', '', ''], $one->getFullname('full_rev'));
+            } else if ($type == 'companies') {
+                $filename = str_replace(' ', '-', $one->name);
+            }
+        } else {
+            if ($type == 'persons') {
+                $filename = 'contacts-' . date('Y-m-d-H-i');
+            } else if ($type == 'companies') {
+                $filename = 'companies-' . date('Y-m-d-H-i');
+            }
+        }
+
+        $this->trans = Transliterator::create('Latin-ASCII');
+
+        $this->response->add_header('Content-Disposition', 'attachment; filename=' . $filename . '.vcf');
     }
 
     /**
@@ -196,8 +218,8 @@ class ExportController extends AuthenticatedController {
             }
             $csv[] = $entry;
         }
-        $this->response->add_header('Content-Type', 'text/csv');
-        $this->response->add_header('Content-Disposition', 'attachment; filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
+        $this->set_content_type('text/csv;charset=windows-1252');
+        $this->response->add_header('Content-Disposition', 'attachment;filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
         $this->render_text(array_to_csv($csv));
     }
 

@@ -55,7 +55,7 @@
                     <?php foreach ($columns as $c) : ?>
                         <td>
                             <?php if (!in_array($c, array('companies', 'skills', 'address', 'emails', 'phonenumbers'))) : ?>
-                                <?= htmlReady($p->$c) ?>
+                                <?= htmlReady($allfilters[$c]['values'] ? $allfilters[$c]['values'][$p->$c] : $p->$c) ?>
                             <?php elseif ($c == 'address') : ?>
                                 <?= nl2br(htmlReady($p->address)) ?>
                                 <br>

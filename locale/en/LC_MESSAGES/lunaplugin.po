@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-04 10:23+0200\n"
-"PO-Revision-Date: 2017-05-04 09:13+0000\n"
+"PO-Revision-Date: 2017-05-04 09:14+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <http://develop.intelec.uni-"
 "passau.de/weblate/projects/studip/luna/en/>\n"
@@ -173,7 +173,7 @@ msgstr "Write mail"
 
 #: controllers/log.php:144 views/log/_filter.php:30
 msgid "Worauf wurde die Aktion angewendet?"
-msgstr "Operation target"
+msgstr "Operation was applied to?"
 
 #: controllers/log.php:147 controllers/log.php:159 controllers/log.php:167
 msgid "Person"

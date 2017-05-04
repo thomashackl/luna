@@ -152,7 +152,7 @@
     </form>
 <?php else : ?>
     <h1>
-        <?= dgettext('luna', 'Lehrbeauftragten- und Adressverwaltung') ?>
+        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Personen') ?>
     </h1>
     <p>
         <?= dgettext('luna', 'Es wurden keine Personen gefunden.') ?>

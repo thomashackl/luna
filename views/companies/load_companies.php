@@ -1,4 +1,4 @@
-<?php if ($companies) : ?>
+<?php if ($companycount > 0) : ?>
     <form action="<?= $controller->url_for('companies/bulk') ?>" method="post" data-dialog="size=auto">
         <table class="default">
             <caption>

@@ -10,10 +10,10 @@ TRANSLATIONFILES_RELATIVE_PATHS="."
 
 for language in en
 do
-    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po.old"
-    > "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.UTF-8.po"
-    find $TRANSLATIONFILES_RELATIVE_PATHS \( -iname "*.php" \) | xargs xgettext --from-code=ISO-8859-1 -j -n --language=PHP -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.UTF-8.po"
-    msgconv --to-code=iso-8859-1 "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.UTF-8.po" -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po"
-    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po.old" && msgmerge "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po.old" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.po"
-    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.UTF-8.po" && rm "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/lunaplugin.UTF-8.po"
+    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po.old"
+    > "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.UTF-8.po"
+    find $TRANSLATIONFILES_RELATIVE_PATHS \( -iname "*.php" \) | xargs xgettext --from-code=ISO-8859-1 -j -n --language=PHP -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.UTF-8.po"
+    msgconv --to-code=iso-8859-1 "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.UTF-8.po" -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po"
+    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po.old" && msgmerge "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po.old" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.po"
+    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.UTF-8.po" && rm "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/luna.UTF-8.po"
 done

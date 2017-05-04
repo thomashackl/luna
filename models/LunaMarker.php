@@ -1,4 +1,3 @@
-
 <?php
 /**
  * LunaMarker.php
@@ -150,11 +149,16 @@ class LunaMarker extends SimpleORMap
                         }
                     } else {
                         // Extract the database fields...
-                        list($table1, $join_on, $table2, $column) = explode('->', $entry);
+                        list($table1, $join_on, $table2, $column, $where) = explode('->', $entry);
                         // ... and query database for values to insert.
-                        $stmt = DBManager::get()->prepare("SELECT `:column`
+                        $query = "SELECT `:column`
                             FROM `:table1` JOIN `:table2` USING(`:join`)
-                            WHERE `user_id` = :userid LIMIT 1");
+                            WHERE `user_id` = :userid";
+                        if ($where) {
+                            $query .= " AND " . $where;
+                        }
+                        $query .= " LIMIT 1";
+                        $stmt = DBManager::get()->prepare($query);
                         $stmt->bindParam('column', $column, StudipPDO::PARAM_COLUMN);
                         $stmt->bindParam('table1', $table1, StudipPDO::PARAM_COLUMN);
                         $stmt->bindParam('table2', $table2, StudipPDO::PARAM_COLUMN);

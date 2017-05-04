@@ -87,6 +87,7 @@
                                     configEl.html('');
                                     configEl.append(compSelect);
                                     configEl.append(valSelect);
+                                    valSelect.select2();
                                     $('button[name="apply"]').removeClass('hidden-js');
                                 }
                             });
@@ -492,28 +493,36 @@
                 return false;
             });
 
+            // Autocomplete for status field of persons
             var statusInput = $('input[name="status"]');
             statusInput.autocomplete({
                 source: statusInput.data('available-status'),
                 minLength: 2
             });
 
+            // Select2 for assigning a person to a company
+            $('select[name="company"]').select2();
+
+            // Autocomplete for sector field of companies
             var sectorInput = $('input[name="sector"]');
             sectorInput.autocomplete({
                 source: sectorInput.data('available-sectors'),
                 minLength: 2
             });
 
+            // E-Mail address handling
             $('a.luna-email-add').on('click', function() {
                 STUDIP.Luna.addEmail();
                 return false;
             });
 
+            // Phone number handling
             $('a.luna-phone-add').on('click', function() {
                 STUDIP.Luna.addPhonenumber();
                 return false;
             });
 
+            // Skill list
             $('a.luna-skill-remove').on('click', function() {
                 STUDIP.Luna.removeEntry(this);
                 return false;
@@ -542,6 +551,7 @@
                 }
             });
 
+            // Tag list
             $('a.luna-tag-remove').on('click', function() {
                 STUDIP.Luna.removeEntry(this);
                 return false;
@@ -570,6 +580,7 @@
                 }
             });
 
+            // File uploads
             $('input[name="docs[]"]').on('change', function() {
                 STUDIP.Luna.prepareFileUpload(this);
             });
@@ -581,6 +592,7 @@
                 return false;
             });
 
+            // Serial mail markers for text completion
             var markers = $('label#luna-markers');
             var addMarker = $('#luna-add-marker');
             markers.children('select').on('change', function() {
@@ -599,6 +611,7 @@
                 return false;
             });
 
+            // Company member list
             $('a.luna-member-remove').on('click', function() {
                 STUDIP.Luna.removeCompanyMember(this);
                 return false;

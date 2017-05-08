@@ -136,6 +136,11 @@ class SearchController extends AuthenticatedController {
                 $class = 'LunaCompanyFilter';
                 break;
         }
+
+        if (Request::isXhr()) {
+            $name = studip_utf8decode($name);
+        }
+
         $presets = $class::getFilterPresets($this->client->id);
         $class::setFilters($this->client->id, $presets[$name]);
         $this->allfilters = $class::getFilterFields();

@@ -19,7 +19,7 @@ class EmailMarker extends Migration {
                 'priority' => $max + 1,
                 'type' => 'database-relation',
                 'description' => 'Setzt die Standard-E-Mailadresse einer Person ein.',
-                'replacement' => 'luna_users->user_id->luna_email->email->default=1'
+                'replacement' => 'luna_users->user_id->luna_email->email->`default`=1'
             )
         );
 

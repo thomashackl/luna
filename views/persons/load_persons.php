@@ -51,7 +51,15 @@
                     <td>
                         <input type="checkbox" name="persons[]" value="<?= $p->id ?>">
                     </td>
-                    <td><?= htmlReady($p->getFullname()) ?></td>
+                    <td>
+                        <?php if ($p->studip_user_id) : ?>
+                            <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>" title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
+                        <?php endif ?>
+                                <?= htmlReady($p->getFullname()) ?>
+                        <?php if ($p->studip_user_id) : ?>
+                            </a>
+                        <?php endif ?>
+                    </td>
                     <?php foreach ($columns as $c) : ?>
                         <td>
                             <?php if (!in_array($c, array('companies', 'skills', 'address', 'emails', 'phonenumbers'))) : ?>

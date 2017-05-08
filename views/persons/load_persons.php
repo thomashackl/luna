@@ -52,7 +52,7 @@
                         <input type="checkbox" name="persons[]" value="<?= $p->id ?>">
                     </td>
                     <td>
-                        <a href="<?= $controller->url_for(($hasWriteAccess ? 'persons/edit' : 'persons/view'), $p->id) ?>">
+                        <a href="<?= $controller->url_for(($hasWriteAccess ? 'persons/edit' : 'persons/info'), $p->id) ?>">
                             <?= htmlReady($p->getFullname()) ?>
                         </a>
                     </td>

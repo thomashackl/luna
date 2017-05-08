@@ -182,6 +182,9 @@ class PersonsController extends AuthenticatedController {
             $views->addLink(dgettext('luna', 'Veranstaltungen'),
                 $this->url_for('persons/courses', $id),
                 Icon::create('course', 'clickable'))->setActive(false);
+            $views->addLink(dgettext('luna', 'Stud.IP-Profil'),
+                URLHelper::getURL('dispatch.php/profile', ['username' => $this->person->studip_user->username]),
+                Icon::create('profile', 'clickable'))->setActive(false);
         }
         $this->sidebar->addWidget($views);
     }

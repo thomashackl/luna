@@ -52,13 +52,9 @@
                         <input type="checkbox" name="persons[]" value="<?= $p->id ?>">
                     </td>
                     <td>
-                        <?php if ($p->studip_user_id) : ?>
-                            <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>" title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
-                        <?php endif ?>
-                                <?= htmlReady($p->getFullname()) ?>
-                        <?php if ($p->studip_user_id) : ?>
-                            </a>
-                        <?php endif ?>
+                        <a href="<?= $controller->url_for(($hasWriteAccess ? 'persons/edit' : 'persons/view'), $p->id) ?>">
+                            <?= htmlReady($p->getFullname()) ?>
+                        </a>
                     </td>
                     <?php foreach ($columns as $c) : ?>
                         <td>

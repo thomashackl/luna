@@ -23,7 +23,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
         parent::__construct();
 
         StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
-        //StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/vendor/PHPExcel-1.8'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/vendor/PHPExcel-1.8'));
 
         // Localization
         bindtextdomain('luna', realpath(__DIR__.'/locale'));

@@ -82,6 +82,11 @@
                             <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen/bearbeiten'), $p->getFullname('full')) ?>">
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>
                             </a>
+                            <?php if ($p->studip_user_id) : ?>
+                                <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>"  title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
+                                    <?= Icon::create('seminar', 'clickable')->asImg() ?>
+                                </a>
+                            <?php endif ?>
                             <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
                                     dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>" title="<?= sprintf(dgettext('luna', '%s löschen'), $p->getFullname('full')) ?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
@@ -90,6 +95,11 @@
                             <a href="<?= $controller->url_for('persons/info', $p->id) ?>"  title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen'), $p->getFullname('full')) ?>" data-dialog>
                                 <?= Icon::create('info', 'clickable')->asImg() ?>
                             </a>
+                            <?php if ($p->studip_user_id) : ?>
+                                <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>"  title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
+                                    <?= Icon::create('seminar', 'clickable')->asImg() ?>
+                                </a>
+                            <?php endif ?>
                         <?php endif ?>
                     </td>
                 </tr>

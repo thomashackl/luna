@@ -206,7 +206,7 @@ class ExportController extends AuthenticatedController {
             LunaUser::findMany($this->flash['bulkusers']) :
             $this->client->getFilteredUsers(0, -1);
 
-        /*$csv = [];
+        $csv = [];
         $csv[] = array_map(function($m) {
             return $m->name;
         }, $markers);
@@ -220,9 +220,9 @@ class ExportController extends AuthenticatedController {
         }
         $this->set_content_type('text/csv;charset=windows-1252');
         $this->response->add_header('Content-Disposition', 'attachment;filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
-        $this->render_text(array_to_csv($csv));*/
+        $this->render_text(array_to_csv($csv));
 
-        $excel = new PHPExcel();
+        /*$excel = new PHPExcel();
         $excel->getProperties()->setCreator(studip_utf8encode($GLOBALS['user']->getFullname('full')))
             ->setLastModifiedBy(studip_utf8encode($GLOBALS['user']->getFullname('full')))
             ->setCompany(studip_utf8encode($GLOBALS['UNI_NAME_CLEAN']))
@@ -269,7 +269,7 @@ class ExportController extends AuthenticatedController {
 
         $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $writer->save('php://output');
-        $this->render_nothing();
+        $this->render_nothing();*/
     }
 
     // customized #url_for for plugins

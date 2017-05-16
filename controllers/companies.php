@@ -46,13 +46,13 @@ class CompaniesController extends AuthenticatedController {
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
         PageLayout::addStylesheet($style);
+        PageLayout::addScript($js);
+
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
 
         // select2
         PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/stylesheets/select2.min.css');
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/select2.min.js');
-
-        PageLayout::addScript($js);
 
         $this->client = LunaClient::getCurrentClient();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :

@@ -64,7 +64,7 @@ class ClientsController extends AuthenticatedController {
         if ($this->isRoot) {
             $this->clients = LunaClient::findBySQL("1 ORDER BY `name`");
         } else {
-            $accessible = SimpleORMapCollection::createFromArray(
+            $accessible = SimpleCollection::createFromArray(
                 LunaClientUser::findByUser_id($GLOBALS['user']->id));
             if (count($accessible) > 0) {
                 $this->clients = LunaClient::findMany($accessible->pluck('client_id'));

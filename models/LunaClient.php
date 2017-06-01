@@ -159,7 +159,7 @@ class LunaClient extends SimpleORMap
         $params['start'] = $start * $count_per_page;
         $params['count'] = $count_per_page;
         $ids = DBManager::get()->fetchFirst($sql, $params);
-        return SimpleORMapCollection::createFromArray(LunaLogEntry::findMany($ids))->orderBy('mkdate desc');
+        return SimpleCollection::createFromArray(LunaLogEntry::findMany($ids));
     }
 
     public function getFilteredLogEntriesCount()

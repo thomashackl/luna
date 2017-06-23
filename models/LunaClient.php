@@ -338,27 +338,43 @@ class LunaClient extends SimpleORMap
 
         $tables2 = [];
         $where2 = [];
+        $used = [];
         if ($searchtext) {
-            foreach ($all as $key => $filter) {
-                if ($filter['table'] != $tablename) {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables['t' . $counter] = $filter['table'];
-                } else {
-                    $alias = 't';
-                }
+            foreach (str_getcsv($searchtext, ' ') as $word) {
+                $subwhere = [];
+                foreach ($all as $key => $filter) {
+                    if ($filter['table'] != $tablename) {
+                        if (!$used[$filter['table']]) {
+                            $counter++;
+                            $alias = 't' . $counter;
+                            $tables['t' . $counter] = $filter['table'];
+                            $used[$filter['table']] = $alias;
+                        } else {
+                            $alias = $used[$filter['table']];
+                        }
+                    } else {
+                        $alias = 't';
+                    }
 
-                if ($filter['linked']) {
-                    $counter++;
-                    $alias = 't' . $counter;
-                    $tables2['t' . $counter] = array('table' => $filter['linked'], 'join' => $filter['ids']);
-                    $where2[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $searchtext . "%'";
-                } else {
-                    $where2[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $searchtext . "%'";
+                    if ($filter['linked']) {
+                        if (!$used[$filter['linked']]) {
+                            $counter++;
+                            $alias = 't' . $counter;
+                            $tables2['t' . $counter] = array('table' => $filter['linked'], 'join' => $filter['ids']);
+                            $used[$filter['linked']] = $alias;
+                        } else {
+                            $alias = $used[$filter['linked']];
+                        }
+                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $word . "%'";
+                    } else {
+                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $word . "%'";
+                    }
                 }
+                $where2[] = $subwhere;
             }
+
             foreach ($tables as $alias => $table) {
-                $sql .= " LEFT JOIN `" . $table . "` " . $alias . " USING (`" . $joinfield . "`)";
+                $sql .= " LEFT JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
             }
             foreach ($tables2 as $alias => $table) {
                 $sql .= " LEFT JOIN `" . $table['table'] . "` " . $alias . " USING (`" . $table['join'] . "`)";
@@ -366,8 +382,14 @@ class LunaClient extends SimpleORMap
         }
 
         $sql .= " WHERE t.`client_id` = ?" .
-            ($where ? " AND (".implode(" AND ", $where) . ")" : "") .
-            ($where2 ? " AND (".implode(" OR ", $where2) . ")" : "");
+            ($where ? " AND (".implode(" AND ", $where) . ")" : "");
+
+        if ($where2) {
+            foreach ($where2 as $sub) {
+                $sql .= " AND (" . implode(" OR ", $sub) . ")";
+            }
+        }
+
         $sql .= " ORDER BY " . $order;
 
         if ($justcount) {

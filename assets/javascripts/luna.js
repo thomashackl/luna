@@ -482,6 +482,17 @@
                 },
                 delay: 500
             });
+            searchtext.on('keypress', function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    event.preventDefault();
+                    if (searchtext.data('type') == 'persons') {
+                        STUDIP.Luna.loadPersons(0, searchtext.val());
+                    } else if (searchtext.data('type') == 'companies') {
+                        STUDIP.Luna.loadCompanies(0, searchtext.val());
+                    }
+                }
+            });
 
             $('#luna-add-filter').on('click', function() {
                 STUDIP.Luna.getFilterNames();
@@ -616,6 +627,7 @@
                 STUDIP.Luna.removeCompanyMember(this);
                 return false;
             });
+
         }
     };
 

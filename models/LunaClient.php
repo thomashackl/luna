@@ -94,10 +94,10 @@ class LunaClient extends SimpleORMap
 
     public function getFilteredUsers($start = 0, $limit = 0, $searchtext = '')
     {
-        return SimpleORMapCollection::createFromArray(
+        return SimpleCollection::createFromArray(
             LunaUser::findMany(
-                $this->getFilteredEntries('persons', $start, $limit, $searchtext)))
-            ->orderBy('lastname firstname');
+                $this->getFilteredEntries('persons', $start, $limit, $searchtext),
+                "ORDER BY `lastname`, `firstname`"));
     }
 
     public function getFilteredUsersCount($searchtext = '')
@@ -107,10 +107,9 @@ class LunaClient extends SimpleORMap
 
     public function getFilteredCompanies($start = 0, $limit = 0, $searchtext = '')
     {
-        return SimpleORMapCollection::createFromArray(
+        return SimpleCollection::createFromArray(
             LunaCompany::findMany(
-                $this->getFilteredEntries('companies', $start, $limit, $searchtext)))
-            ->orderBy('name');
+                $this->getFilteredEntries('companies', $start, $limit, $searchtext), "ORDER BY `name`"));
     }
 
     public function getFilteredCompaniesCount($searchtext = '')

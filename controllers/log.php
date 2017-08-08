@@ -119,11 +119,9 @@ class LogController extends AuthenticatedController {
             $this->url_for('log/set_selection'), 'user_id');
         $list->addElement(new SelectElement('all', dgettext('luna', 'alle')), 'user_id-all');
 
-        $users = SimpleORMapCollection::createFromArray(
-            User::findMany(
-                DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` FROM `luna_log` WHERE `client_id` = ?",
-                    array($this->client->id))))
-            ->orderBy('nachname, vorname');
+        $users = User::findMany(
+            DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` FROM `luna_log` WHERE `client_id` = ?",
+                    array($this->client->id)), "ORDER BY `nachname`, `vorname`");
         foreach ($users as $user) {
             $list->addElement(
                 new SelectElement($user->id, $user->getFullname('full'), $filters['user_id'] == $user->id),
@@ -160,7 +158,7 @@ class LogController extends AuthenticatedController {
                 case 'user':
                     $class = 'LunaUser';
                     $title = dgettext('luna', 'Person');
-                    $order = 'lastname, firstname';
+                    $order = 'ORDER BY `lastname`, `firstname`';
                     $name = 'getFullname';
                     $param = 'full';
                     break;
@@ -168,20 +166,20 @@ class LogController extends AuthenticatedController {
                 case 'phone':
                     $class = 'LunaUser';
                     $title = dgettext('luna', 'Person');
-                    $order = 'lastname, firstname';
+                    $order = 'ORDER BY `lastname`, `firstname`';
                     $name = 'getFullname';
                     $param = 'full';
                     break;
                 case 'company':
                     $class = 'LunaCompany';
                     $title = dgettext('luna', 'Unternehmen');
-                    $order = 'name';
+                    $order = 'ORDER BY `name`';
                     $name = 'name';
                     break;
                 case 'client':
                     $class = 'LunaClient';
                     $title = dgettext('luna', 'Mandant');
-                    $order = 'name';
+                    $order = 'ORDER BY `name`';
                     $name = 'name';
                     break;
             }
@@ -192,8 +190,7 @@ class LogController extends AuthenticatedController {
             foreach ($affected as $a) {
                 $ids = array_merge($ids, studip_json_decode($a));
             }
-            $data = SimpleORMapCollection::createFromArray(
-                $class::findMany($ids))->orderBy($order);
+            $data = $class::findMany($ids, $order);
 
             $list = new SelectWidget(dgettext('luna', $title), $this->url_for('log/set_selection'), 'affected_id');
             $list->addElement(new SelectElement('all', dgettext('luna', 'alle')), 'affected_id-all');

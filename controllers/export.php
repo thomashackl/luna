@@ -24,17 +24,8 @@ class ExportController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
-        // Check for AJAX.
-        if (Request::isXhr()) {
-            $this->set_layout(null);
-            $this->set_content_type('text/html;charset=windows-1252');
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
-        } else {
-            $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-        }
+        $this->set_layout(Request::isXhr() ? null : $GLOBALS['template_factory']->open('layouts/base'));
+
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/export-sidebar.png');
 
@@ -218,7 +209,6 @@ class ExportController extends AuthenticatedController {
             }
             $csv[] = $entry;
         }
-        $this->set_content_type('text/csv;charset=windows-1252');
         $this->response->add_header('Content-Disposition', 'attachment;filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
         $this->render_text(array_to_csv($csv));
     }

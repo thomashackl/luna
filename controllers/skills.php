@@ -24,17 +24,8 @@ class SkillsController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
-        // Check for AJAX.
-        if (Request::isXhr()) {
-            $this->set_layout(null);
-            $this->set_content_type('text/html;charset=windows-1252');
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
-        } else {
-            $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-        }
+        $this->set_layout(Request::isXhr() ? null : $GLOBALS['template_factory']->open('layouts/base'));
+
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/roles-sidebar.png');
 

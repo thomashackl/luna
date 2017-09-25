@@ -115,7 +115,7 @@ class LogController extends AuthenticatedController {
 
         $sidebar = Sidebar::get();
 
-        $list = new SelectWidget(dgettext('luna', 'Wer hat die Aktion ausgeführt?'),
+        $list = new SelectWidget(dgettext('luna', 'Wer hat die Aktion ausgefÃ¼hrt?'),
             $this->url_for('log/set_selection'), 'user_id');
         $list->addElement(new SelectElement('all', dgettext('luna', 'alle')), 'user_id-all');
 
@@ -134,9 +134,9 @@ class LogController extends AuthenticatedController {
         $list->addElement(new SelectElement('all', dgettext('luna', 'alle')), 'action-all');
         $list->addElement(new SelectElement('create', dgettext('luna', 'Anlegen'), $filters['action'] == 'create'),
             'action-create');
-        $list->addElement(new SelectElement('update', dgettext('luna', 'Daten ändern'), $filters['action'] == 'update'),
+        $list->addElement(new SelectElement('update', dgettext('luna', 'Daten Ã¤ndern'), $filters['action'] == 'update'),
             'action-update');
-        $list->addElement(new SelectElement('delete', dgettext('luna', 'Löschen'), $filters['action'] == 'delete'),
+        $list->addElement(new SelectElement('delete', dgettext('luna', 'LÃ¶schen'), $filters['action'] == 'delete'),
             'action-delete');
         $list->addElement(new SelectElement('mail', dgettext('luna', 'E-Mail schreiben'), $filters['action'] == 'mail'),
             'action-mail');

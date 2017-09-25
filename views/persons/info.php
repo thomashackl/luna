@@ -29,7 +29,7 @@
             </td>
             <td>
                 <?= $person->gender == 1 ?
-                    dgettext('luna', 'männlich') :
+                    dgettext('luna', 'mÃ¤nnlich') :
                     ($person->gender == 2 ?
                         dgettext('luna', 'weiblich') :
                         dgettext('luna', 'unbekannt')) ?>
@@ -58,7 +58,7 @@
                             <?= $m->type == 'private' ?
                                 dgettext('luna', 'Privat') :
                                 ($m->type == 'office' ?
-                                    dgettext('luna', 'Geschäftlich') :
+                                    dgettext('luna', 'GeschÃ¤ftlich') :
                                     dgettext('luna', 'Sonstige')) ?>
                             <?= htmlReady($m->email) ?>
                         </div>
@@ -77,7 +77,7 @@
                             <?= $p->type == 'private' ?
                                 dgettext('luna', 'Privat') :
                                 ($p->type == 'office' ?
-                                    dgettext('luna', 'Geschäftlich') :
+                                    dgettext('luna', 'GeschÃ¤ftlich') :
                                     ($p->type == 'mobile' ?
                                         dgettext('luna', 'Mobil') :
                                         dgettext('luna', 'Sonstige'))) ?>

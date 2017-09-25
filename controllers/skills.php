@@ -68,7 +68,7 @@ class SkillsController extends AuthenticatedController {
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Kompetenz hinzufügen'),
+            $actions->addLink(dgettext('luna', 'Kompetenz hinzufÃ¼gen'),
                 $this->url_for('skills/edit'),
                 Icon::create('roles+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
@@ -106,7 +106,7 @@ class SkillsController extends AuthenticatedController {
             dgettext('luna', 'Neue Kompetenz anlegen'));
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('skills'),
             Icon::create('roles', 'clickable'))->setActive(false);
         $views->addLink($id ? dgettext('luna', 'Kompetenz bearbeiten') :
@@ -181,9 +181,9 @@ class SkillsController extends AuthenticatedController {
         $name = $skill->name;
 
         if ($skill->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Kompetenz "%s" wurde gelöscht.'), $name));
+            PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Kompetenz "%s" wurde gelÃ¶scht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', 'Die Kompetenz "%s" konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', 'Die Kompetenz "%s" konnte nicht gelÃ¶scht werden.'), $name));
         }
 
         $this->relocate('skills');

@@ -39,7 +39,7 @@ class MessageController extends AuthenticatedController {
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('persons'),
             Icon::create('person2', 'clickable'))->setActive(false);
         $views->addLink(dgettext('luna', 'Serienmail schreiben'),

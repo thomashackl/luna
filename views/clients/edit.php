@@ -18,7 +18,7 @@
     <section>
         <label>
             <span class="required">
-                <?= dgettext('luna', 'Absender für E-Mails') ?>
+                <?= dgettext('luna', 'Absender fÃ¼r E-Mails') ?>
             </span>
             <input type="text" name="sender_address" size="75" maxlength="255"
                    value="<?= htmlReady($client->sender_address) ?>" required>

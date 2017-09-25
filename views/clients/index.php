@@ -16,7 +16,7 @@
         <thead>
         <tr>
             <th><?= dgettext('luna', 'Name') ?></th>
-            <th><?= dgettext('luna', 'Absender für E-Mails') ?></th>
+            <th><?= dgettext('luna', 'Absender fÃ¼r E-Mails') ?></th>
             <th><?= dgettext('luna', 'Aktionen') ?></th>
         </tr>
         </thead>
@@ -42,9 +42,9 @@
                             <?= Icon::create('edit', 'clickable')->asImg() ?>
                         </a>
                         <a href="<?= $controller->url_for('clients/delete', $c->id) ?>" data-confirm="<?=
-                            dgettext('luna', 'Wollen Sie den Mandanten wirklich löschen? Damit '.
-                                'werden alle Personen, Unternehmen, Kompetenzen und Schlagwörter dieses Mandanten '.
-                                'ebenfalls gelöscht!')?>">
+                            dgettext('luna', 'Wollen Sie den Mandanten wirklich lÃ¶schen? Damit '.
+                                'werden alle Personen, Unternehmen, Kompetenzen und SchlagwÃ¶rter dieses Mandanten '.
+                                'ebenfalls gelÃ¶scht!')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
                         </a>
                     <?php endif ?>

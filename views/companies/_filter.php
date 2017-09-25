@@ -9,7 +9,7 @@
                 <br>
                 <select name="preset" id="luna-companyfilter-preset"
                         data-update-url="<?= $controller->url_for('search/load_preset', 'companies') ?>">
-                    <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
+                    <option value="">-- <?= dgettext('luna', 'bitte auswÃ¤hlen') ?> --</option>
                     <?php foreach ($presets as $name => $filterdata) : ?>
                         <option value="<?= htmlReady($name) ?>"><?= htmlReady($name) ?></option>
                     <?php endforeach ?>
@@ -22,15 +22,15 @@
         <div id="luna-textfilter">
             <input type="text" size="25" name="searchtext" value="<?= htmlReady($textfilter) ?>" data-type="companies" placeholder="<?= dgettext('luna', 'Suchbegriff eingeben') ?>">
         </div>
-        <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
+        <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufÃ¼gen'),
             $controller->url_for('filters/get_filternames', 'companies'), array('id' => 'luna-add-filter')) ?>
         <div id="luna-newfilter" class="hidden-js"
              data-filternames-url="<?= $controller->url_for('filters/get_filternames', 'companies') ?>"
              data-filterdata-url="<?= $controller->url_for('filters/get_filterdata', 'companies') ?>"
-             data-pleasechoose="<?= dgettext('luna', 'bitte auswählen') ?>">
+             data-pleasechoose="<?= dgettext('luna', 'bitte auswÃ¤hlen') ?>">
             <span id="luna-newfilter-name"></span>
             <span id="luna-newfilter-config"></span>
-            <?= Studip\Button::create(_('Übernehmen'), 'apply', array('class' => 'hidden-js')) ?>
+            <?= Studip\Button::create(_('Ãœbernehmen'), 'apply', array('class' => 'hidden-js')) ?>
         </div>
         <div id="luna-applied-filters"<?= count($filters) == 0 ? ' class="hidden-js"' : '' ?> data-filter-count="<?= count($filters) ?>">
             <?php if (count($filters) > 0) : $i = 0; ?>

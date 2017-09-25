@@ -66,7 +66,7 @@ class PersonsController extends AuthenticatedController {
     public function index_action()
     {
         Navigation::activateItem('/tools/luna/persons');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Personenübersicht'));
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'PersonenÃ¼bersicht'));
 
         if (Request::submitted('apply')) {
             LunaUserFilter::addFilter($this->client->id, Request::get('field'),
@@ -83,7 +83,7 @@ class PersonsController extends AuthenticatedController {
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Person hinzufügen'),
+            $actions->addLink(dgettext('luna', 'Person hinzufÃ¼gen'),
                 $this->url_for('persons/edit'),
                 Icon::create('person+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
@@ -171,7 +171,7 @@ class PersonsController extends AuthenticatedController {
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('persons'),
             Icon::create('group2', 'clickable'))->setActive(false);
         $views->addLink($id ? dgettext('luna', 'Personendaten') :
@@ -205,7 +205,7 @@ class PersonsController extends AuthenticatedController {
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('persons'),
             Icon::create('group2', 'clickable'))->setActive(false);
         $views->addLink(dgettext('luna', 'Personendaten'),
@@ -249,7 +249,7 @@ class PersonsController extends AuthenticatedController {
         }
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('persons'),
             Icon::create('group2', 'clickable'))->setActive(false);
         $views->addLink(dgettext('luna', 'Personendaten'),
@@ -479,9 +479,9 @@ class PersonsController extends AuthenticatedController {
         $name = $user->getFullname('full');
 
         if ($user->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', '%s wurde gelöscht.'), $name));
+            PageLayout::postSuccess(sprintf(dgettext('luna', '%s wurde gelÃ¶scht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', '%s konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', '%s konnte nicht gelÃ¶scht werden.'), $name));
         }
 
         $this->relocate('persons');
@@ -518,7 +518,7 @@ class PersonsController extends AuthenticatedController {
             $docname = $doc->name;
             if ($doc->delete()) {
                 @unlink(get_upload_file_path($doc_id));
-                PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Datei %s wurde gelöscht.'), $docname));
+                PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Datei %s wurde gelÃ¶scht.'), $docname));
             }
             $this->relocate('persons/edit', $person_id);
         } else {

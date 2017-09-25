@@ -2,11 +2,11 @@
     <form action="<?= $controller->url_for('tags/bulkdelete') ?>" method="post" data-dialog="size=auto">
         <table class="default">
             <caption>
-                <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Schlagwörter') ?>
+                <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'SchlagwÃ¶rter') ?>
                 <br>
                 <span class="luna-smaller-text">
                     <?= sprintf(
-                        dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', count($client->tags)),
+                        dngettext('luna', '(%u Eintrag gefunden)', '(%u EintrÃ¤ge gefunden)', count($client->tags)),
                         count($client->tags)) ?>
                 </span>
                 <?php if ($hasWriteAccess) : ?>
@@ -26,7 +26,7 @@
             <thead>
             <tr>
                 <th>
-                    <input aria-label="<?= sprintf(_('Alle Schlagwörter auswählen')) ?>"
+                    <input aria-label="<?= sprintf(_('Alle SchlagwÃ¶rter auswÃ¤hlen')) ?>"
                            type="checkbox" name="all" value="1"
                            data-proxyfor=":checkbox[name='tags[]']">
                 </th>
@@ -60,8 +60,8 @@
                                 <?= Icon::create('edit', 'clickable')->asImg() ?>
                             </a>
                             <a href="<?= $controller->url_for('tags/delete', $t->id) ?>" data-confirm="<?=
-                            dgettext('luna', 'Wollen Sie das Schlagwort wirklich löschen?')?>"
-                               title="<?= dgettext('luna', 'Löschen') ?>">
+                            dgettext('luna', 'Wollen Sie das Schlagwort wirklich lÃ¶schen?')?>"
+                               title="<?= dgettext('luna', 'LÃ¶schen') ?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
                             </a>
                         <?php endif ?>
@@ -74,11 +74,11 @@
                 <td colspan="3">
                     <i>
                         <?= dgettext('luna',
-                            'Wenn Sie keinen Eintrag auswählen, wird die Aktion auf alle gefundenen Schlagwörter angewendet.') ?>
+                            'Wenn Sie keinen Eintrag auswÃ¤hlen, wird die Aktion auf alle gefundenen SchlagwÃ¶rter angewendet.') ?>
                     </i>
                 </td>
                 <td>
-                    <?= Studip\Button::create(dgettext('luna', 'Löschen'), 'do-action') ?>
+                    <?= Studip\Button::create(dgettext('luna', 'LÃ¶schen'), 'do-action') ?>
                 </td>
             </tr>
             <tr>
@@ -105,7 +105,7 @@
                         <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
                         <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
                     </select>
-                    <?= dgettext('luna', 'Einträge pro Seite') ?>
+                    <?= dgettext('luna', 'EintrÃ¤ge pro Seite') ?>
                 </td>
             </tr>
             </tfoot>
@@ -113,9 +113,9 @@
     </form>
 <?php else : ?>
     <h1>
-        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Schlagwörter') ?>
+        <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'SchlagwÃ¶rter') ?>
     </h1>
     <p>
-        <?= dgettext('luna', 'Es wurden keine Schlagwörter gefunden.') ?>
+        <?= dgettext('luna', 'Es wurden keine SchlagwÃ¶rter gefunden.') ?>
     </p>
 <?php endif ?>

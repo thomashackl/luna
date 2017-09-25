@@ -18,13 +18,13 @@ class LargerAddressField extends Migration {
         DBManager::get()->exec("UPDATE `luna_markers`
           SET `replacement` = 'luna_users.address',
             `name` = 'Adresse',
-            `description` = 'Setzt die Adresse (Straﬂe) ein.'
+            `description` = 'Setzt die Adresse (Stra√üe) ein.'
         WHERE `marker` = 'STREET'");
         DBManager::get()->exec("UPDATE `luna_markers`
-          SET `name` = 'Vollst‰ndige Anschrift',
-            `description` = 'Setzt die vollst‰ndige Anschrift mit Zeilenumbr¸chen ein, z.B.
+          SET `name` = 'Vollst√§ndige Anschrift',
+            `description` = 'Setzt die vollst√§ndige Anschrift mit Zeilenumbr√ºchen ein, z.B.
                     Prof. Dr. Max Mustermann
-                    Musterstraﬂe 47
+                    Musterstra√üe 47
                     12345 Musterstadt'
           WHERE `marker` = 'ADDRESS'");
 
@@ -41,14 +41,14 @@ class LargerAddressField extends Migration {
         DBManager::get()->exec("UPDATE `luna_markers` SET `replacement` = 'luna_users.street' WHERE `marker` = 'STREET'");
         DBManager::get()->exec("UPDATE `luna_markers`
           SET `replacement` = 'luna_users.street',
-            `name` = 'Straﬂe',
-            `description` = 'Setzt die Straﬂe ein.'
+            `name` = 'Stra√üe',
+            `description` = 'Setzt die Stra√üe ein.'
         WHERE `marker` = 'STREET'");
         DBManager::get()->exec("UPDATE `luna_markers`
           SET `name` = 'Anschrift',
-            `description` = 'Setzt die vollst‰ndige Anschrift mit Zeilenumbr¸chen ein, z.B.
+            `description` = 'Setzt die vollst√§ndige Anschrift mit Zeilenumbr√ºchen ein, z.B.
                     Prof. Dr. Max Mustermann
-                    Musterstraﬂe 47
+                    Musterstra√üe 47
                     12345 Musterstadt'
           WHERE `marker` = 'ADDRESS'");
 

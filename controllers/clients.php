@@ -72,7 +72,7 @@ class ClientsController extends AuthenticatedController {
         }
 
         $actions = new ActionsWidget();
-        $actions->addLink(dgettext('luna', 'Mandant hinzufügen'),
+        $actions->addLink(dgettext('luna', 'Mandant hinzufÃ¼gen'),
             $this->url_for('clients/edit'),
             Icon::create('category+add', 'clickable'))->asDialog('size=auto');
         $this->sidebar->addWidget($actions);
@@ -103,7 +103,7 @@ class ClientsController extends AuthenticatedController {
             dgettext('luna', 'Neuen Mandanten anlegen'));
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('clients'),
             Icon::create('category', 'clickable'))->setActive(false);
         $views->addLink($id ? dgettext('luna', 'Mandant bearbeiten') :
@@ -150,9 +150,9 @@ class ClientsController extends AuthenticatedController {
         $name = $client->name;
 
         if ($client->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', 'Der Mandant "%s" wurde gelöscht.'), $name));
+            PageLayout::postSuccess(sprintf(dgettext('luna', 'Der Mandant "%s" wurde gelÃ¶scht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', 'Der Mandant "%s" konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', 'Der Mandant "%s" konnte nicht gelÃ¶scht werden.'), $name));
         }
 
         $this->relocate('clients');

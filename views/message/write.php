@@ -13,7 +13,7 @@
     </section>
     <section>
         <span class="required">
-            <?= dgettext('luna', 'Empfänger') ?>
+            <?= dgettext('luna', 'EmpfÃ¤nger') ?>
         </span>
         <?php if (count($users) > 10) : ?>
             <br>
@@ -24,7 +24,7 @@
                 <span id="luna-show-recipients" style="display:none">
                     <?= Icon::create('arr_1down', 'clickable') ?>
                 </span>
-                <?= sprintf(dgettext('luna', '%u Empfänger anzeigen/ausblenden'), count($users)) ?>
+                <?= sprintf(dgettext('luna', '%u EmpfÃ¤nger anzeigen/ausblenden'), count($users)) ?>
             </a>
         <?php endif ?>
         <div id="luna-recipients"<?= count($users) > 10 ? ' class="hidden-js"' : '' ?>>
@@ -37,10 +37,10 @@
         </div>
         <div>
             <label>
-                <?= dgettext('luna', 'Weitere Empfänger in CC, durch Komma getrennt') ?>
+                <?= dgettext('luna', 'Weitere EmpfÃ¤nger in CC, durch Komma getrennt') ?>
                 <br>
                 <i>
-                    <?= dgettext('luna', 'Bitte beachten Sie: Serienmails werden an diese Empfänger ohne Textersetzungen verschickt!') ?>
+                    <?= dgettext('luna', 'Bitte beachten Sie: Serienmails werden an diese EmpfÃ¤nger ohne Textersetzungen verschickt!') ?>
                 </i>
                 <textarea name="cc" cols="75" rows="2"></textarea>
             </label>
@@ -57,9 +57,9 @@
     </section>
     <section id="luna-message">
         <label id="luna-markers">
-            <?= dgettext('luna', 'Feld für Serienmail einfügen') ?>
+            <?= dgettext('luna', 'Feld fÃ¼r Serienmail einfÃ¼gen') ?>
             <select name="markers">
-                <option value="" data-description="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
+                <option value="" data-description="">-- <?= dgettext('luna', 'bitte auswÃ¤hlen') ?> --</option>
                 <?php foreach ($markers as $marker) : ?>
                     <option value="{<?= $marker['marker'] ?>}" data-description="<?= htmlReady(nl2br($marker['description'])) ?>"><?= htmlReady($marker['name']) ?></option>
                 <?php endforeach ?>
@@ -77,7 +77,7 @@
     </section>
     <section>
         <label class="luna-cursor-pointer">
-            <?= dgettext('luna', 'Dateianhänge') ?>
+            <?= dgettext('luna', 'DateianhÃ¤nge') ?>
             <br>
             <input type="file" name="docs[]" multiple>
             <?= Icon::create('upload', 'clickable', array('title' => _('Datei(en) hochladen'), 'class' => 'text-bottom')) ?>

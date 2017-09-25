@@ -23,7 +23,7 @@
                 <?php if ($hasWriteAccess) : ?>
                     <td data-remove-url="<?= $controller->url_for('companies/delete_member') ?>">
                         <a href="<?= $controller->url_for('companies/delete_member', $company->id, $member->id) ?>"
-                                title="<?= dgettext('luna', 'Zuordnung löschen') ?>"
+                                title="<?= dgettext('luna', 'Zuordnung lÃ¶schen') ?>"
                                 class="luna-member-remove"
                                 data-company="<?= $company->id ?>" data-member="<?= $member->id ?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>

@@ -14,8 +14,6 @@
  * @category    Luna
  */
 
-require 'bootstrap.php';
-
 class LunaPlugin extends StudIPPlugin implements SystemPlugin {
 
     public function __construct()
@@ -23,7 +21,6 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
         parent::__construct();
 
         StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
-        //StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/vendor/PHPExcel-1.8'));
 
         // Localization
         bindtextdomain('luna', realpath(__DIR__.'/locale'));
@@ -56,7 +53,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
                     new Navigation(dgettext('luna', 'Kompetenzen'),
                         PluginEngine::getURL($this, [], 'skills')));
                 $navigation->addSubNavigation('tags',
-                    new Navigation(dgettext('luna', 'Schlagwörter'),
+                    new Navigation(dgettext('luna', 'SchlagwÃ¶rter'),
                         PluginEngine::getURL($this, [], 'tags')));
                 $navigation->addSubNavigation('search',
                     new Navigation(dgettext('luna', 'Suchvorlagen'),

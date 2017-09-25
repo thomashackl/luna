@@ -31,7 +31,7 @@ class SerialMails extends Migration {
                 'name' => 'Anrede',
                 'priority' => 1,
                 'type' => 'text',
-                'description' => 'Erzeugt eine vollständige Anrede: "Sehr geehrte Frau Michaela Musterfrau" bzw. "Sehr geehrter Herr Max Mustermann".',
+                'description' => 'Erzeugt eine vollstÃ¤ndige Anrede: "Sehr geehrte Frau Michaela Musterfrau" bzw. "Sehr geehrter Herr Max Mustermann".',
                 'replacement' => 'Sehr geehrte/r {FULLNAME}',
                 'replacement_male' => 'Sehr geehrter Herr {FULLNAME}',
                 'replacement_female' => 'Sehr geehrte Frau {FULLNAME}',
@@ -70,10 +70,10 @@ class SerialMails extends Migration {
             ),
             array(
                 'marker' => 'STREET',
-                'name' => 'Straße',
+                'name' => 'StraÃŸe',
                 'priority' => 7,
                 'type' => 'database',
-                'description' => 'Setzt die Straße ein.',
+                'description' => 'Setzt die StraÃŸe ein.',
                 'replacement' => 'luna_users.street'
             ),
             array(
@@ -89,9 +89,9 @@ class SerialMails extends Migration {
                 'name' => 'Anschrift',
                 'priority' => 4,
                 'type' => 'text',
-                'description' => 'Setzt die vollständige Anschrift mit Zeilenumbrüchen ein, z.B.
+                'description' => 'Setzt die vollstÃ¤ndige Anschrift mit ZeilenumbrÃ¼chen ein, z.B.
                     Prof. Dr. Max Mustermann
-                    Musterstraße 47
+                    MusterstraÃŸe 47
                     12345 Musterstadt',
                 'replacement' => "{FULLNAME_WITH_TITLE}\r\n{STREET}\r\n{CITY}"
             ),

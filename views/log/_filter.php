@@ -4,7 +4,7 @@
     </header>
     <section>
         <label>
-            <?= dgettext('luna', 'Wer hat die Aktion ausgeführt?') ?>
+            <?= dgettext('luna', 'Wer hat die Aktion ausgefÃ¼hrt?') ?>
             <select name="filter[user_id]">
                 <option value="">-- <?= dgettext('luna', 'alle') ?> --</option>
                 <?php foreach ($users as $user) : ?>
@@ -19,8 +19,8 @@
             <select name="filter[action]">
                 <option value="">-- <?= dgettext('luna', 'alle') ?> --</option>
                 <option value="CREATE"><?= dgettext('luna', 'Anlegen') ?></option>
-                <option value="UPDATE"><?= dgettext('luna', 'Daten ändern') ?></option>
-                <option value="DELETE"><?= dgettext('luna', 'Löschen') ?></option>
+                <option value="UPDATE"><?= dgettext('luna', 'Daten Ã¤ndern') ?></option>
+                <option value="DELETE"><?= dgettext('luna', 'LÃ¶schen') ?></option>
                 <option value="MAIL"><?= dgettext('luna', 'E-Mail schreiben') ?></option>
             </select>
         </label>

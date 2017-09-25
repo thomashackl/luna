@@ -8,7 +8,7 @@
     </header>
     <fieldset>
         <legend>
-            <?= dgettext('luna', 'Persönliche Daten') ?>
+            <?= dgettext('luna', 'PersÃ¶nliche Daten') ?>
         </legend>
         <section>
             <label>
@@ -53,7 +53,7 @@
             <label>
                 <input type="radio" name="gender"
                        value="1"<?= $person->gender == 1 ? ' checked' : '' ?>>
-                <?= dgettext('luna', 'männlich') ?>
+                <?= dgettext('luna', 'mÃ¤nnlich') ?>
             </label>
             <label>
                 <input type="radio" name="gender"
@@ -112,7 +112,7 @@
                 <?= dgettext('luna', 'Art') ?>
                 <select name="email-template-type">
                     <option value="private"><?= dgettext('luna', 'Privat') ?></option>
-                    <option value="office"><?= dgettext('luna', 'Geschäftlich') ?></option>
+                    <option value="office"><?= dgettext('luna', 'GeschÃ¤ftlich') ?></option>
                 </select>
             </label>
             <label>
@@ -133,7 +133,7 @@
                             <?= dgettext('luna', 'Privat') ?>
                         </option>
                         <option value="office"<?= $m->type == 'office' ? ' selected' : '' ?>>
-                            <?= dgettext('luna', 'Geschäftlich') ?>
+                            <?= dgettext('luna', 'GeschÃ¤ftlich') ?>
                         </option>
                     </select>
                 </label>
@@ -144,7 +144,7 @@
             </section>
         <?php $i++; endforeach ?>
         <a class="luna-email-add" href="">
-            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufügen')))->asImg(24) ?>
+            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufÃ¼gen')))->asImg(24) ?>
         </a>
     </fieldset>
     <fieldset id="luna-phone">
@@ -167,7 +167,7 @@
                         <?= dgettext('luna', 'Mobil') ?>
                     </option>
                     <option value="office">
-                        <?= dgettext('luna', 'Geschäftlich') ?>
+                        <?= dgettext('luna', 'GeschÃ¤ftlich') ?>
                     </option>
                 </select>
             </label>
@@ -192,7 +192,7 @@
                             <?= dgettext('luna', 'Mobil') ?>
                         </option>
                         <option value="office"<?= $p->type == 'office' ? ' selected' : '' ?>>
-                            <?= dgettext('luna', 'Geschäftlich') ?>
+                            <?= dgettext('luna', 'GeschÃ¤ftlich') ?>
                         </option>
                     </select>
                 </label>
@@ -203,7 +203,7 @@
             </section>
         <?php $i++; endforeach ?>
         <a class="luna-phone-add" href="">
-            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufügen')))->asImg(24) ?>
+            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufÃ¼gen')))->asImg(24) ?>
         </a>
     </fieldset>
     <fieldset>
@@ -232,9 +232,9 @@
             </legend>
             <section>
                 <label>
-                    <?= dgettext('luna', 'Bestehendes Unternehmen auswählen') ?>
+                    <?= dgettext('luna', 'Bestehendes Unternehmen auswÃ¤hlen') ?>
                     <select name="company">
-                        <option value="">-- <?= dgettext('luna', 'Kein Unternehmen auswählen') ?> --</option>
+                        <option value="">-- <?= dgettext('luna', 'Kein Unternehmen auswÃ¤hlen') ?> --</option>
                         <?foreach ($companies as $company) : ?>
                             <option value="<?= $company->id ?>"<?= $person->companies->find($company->id) ? ' selected' : ''?>>
                                 <?= htmlReady($company->name) ?>
@@ -243,7 +243,7 @@
                     </select>
                 </label>
                 <?= dgettext('luna', 'oder') ?>
-                <?= Studip\Button::create(dgettext('luna', 'Neues Unternehmen hinzufügen'), 'newcompany',
+                <?= Studip\Button::create(dgettext('luna', 'Neues Unternehmen hinzufÃ¼gen'), 'newcompany',
                     array('data-dialog' => '')) ?>
             </section>
         </fieldset>
@@ -254,7 +254,7 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Fügen Sie eine Kompetenz hinzu') ?>:
+                <?= dgettext('luna', 'FÃ¼gen Sie eine Kompetenz hinzu') ?>:
                 <br>
                 <input type="text" name="skill" size="40" class="luna-new-skill" data-available-skills="<?= $controller->url_for('skills/search') ?>">
                 <a class="luna-skill-add" href="">
@@ -282,7 +282,7 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
+                <?= dgettext('luna', 'FÃ¼gen Sie ein Schlagwort hinzu') ?>:
                 <br>
                 <input type="text" name="tag" size="40" class="luna-new-tag" data-available-tags="<?= $controller->url_for('tags/search') ?>">
                 <a class="luna-tag-add" href="">
@@ -355,11 +355,11 @@
     </fieldset>
     <fieldset>
         <legend>
-            <?= dgettext('luna', 'Verknüpfung mit Stud.IP') ?>
+            <?= dgettext('luna', 'VerknÃ¼pfung mit Stud.IP') ?>
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Mit einer Stud.IP-Kennung verknüpfen') ?>
+                <?= dgettext('luna', 'Mit einer Stud.IP-Kennung verknÃ¼pfen') ?>
                 <?= $usersearch->render() ?>
             </label>
             <?php if ($person->studip_user_id) : ?>

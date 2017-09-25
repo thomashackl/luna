@@ -69,7 +69,7 @@
                 <br>
             <?php endif ?>
             <?= dgettext('luna', 'oder') ?>
-            <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufügen'), 'newperson',
+            <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufÃ¼gen'), 'newperson',
                 array('data-dialog' => '')) ?>
         </section>
         <section>
@@ -107,7 +107,7 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Fügen Sie eine Kompetenz hinzu') ?>:
+                <?= dgettext('luna', 'FÃ¼gen Sie eine Kompetenz hinzu') ?>:
                 <br>
                 <input type="text" name="skill" size="40" class="luna-new-skill" data-available-skills="<?= $controller->url_for('skills/search') ?>">
                 <a class="luna-skill-add" href="">
@@ -135,7 +135,7 @@
         </legend>
         <section>
             <label>
-                <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
+                <?= dgettext('luna', 'FÃ¼gen Sie ein Schlagwort hinzu') ?>:
                 <br>
                 <input type="text" name="tag" size="40" class="luna-new-tag" data-available-tags="<?= $controller->url_for('tags/search') ?>">
                 <a class="luna-tag-add" href="">

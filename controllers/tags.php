@@ -64,11 +64,11 @@ class TagsController extends AuthenticatedController {
     public function index_action()
     {
         Navigation::activateItem('/tools/luna/tags');
-        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Schlagwörter'));
+        PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'SchlagwÃ¶rter'));
 
         if ($this->hasWriteAccess) {
             $actions = new ActionsWidget();
-            $actions->addLink(dgettext('luna', 'Schlagwort hinzufügen'),
+            $actions->addLink(dgettext('luna', 'Schlagwort hinzufÃ¼gen'),
                 $this->url_for('tags/edit'),
                 Icon::create('tag+add', 'clickable'))->asDialog('size=auto');
             $this->sidebar->addWidget($actions);
@@ -109,7 +109,7 @@ class TagsController extends AuthenticatedController {
             dgettext('luna', 'Neues Schlagwort anlegen'));
 
         $views = new ViewsWidget();
-        $views->addLink(dgettext('luna', 'Übersicht'),
+        $views->addLink(dgettext('luna', 'Ãœbersicht'),
             $this->url_for('tags'),
             Icon::create('tag', 'clickable'))->setActive(false);
         $views->addLink($id ? dgettext('luna', 'Schlagwort bearbeiten') :
@@ -190,9 +190,9 @@ class TagsController extends AuthenticatedController {
         $name = $tag->name;
 
         if ($tag->delete()) {
-            PageLayout::postSuccess(sprintf(dgettext('luna', 'Das Schlagwort "%s" wurde gelöscht.'), $name));
+            PageLayout::postSuccess(sprintf(dgettext('luna', 'Das Schlagwort "%s" wurde gelÃ¶scht.'), $name));
         } else {
-            PageLayout::postError(sprintf(dgettext('luna', 'Das Schlagwort "%s" konnte nicht gelöscht werden.'), $name));
+            PageLayout::postError(sprintf(dgettext('luna', 'Das Schlagwort "%s" konnte nicht gelÃ¶scht werden.'), $name));
         }
 
         $this->relocate('tags');

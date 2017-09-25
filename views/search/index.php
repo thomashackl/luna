@@ -5,7 +5,7 @@
     <?php if (count($data['presets']) > 0) : ?>
         <table class="default">
             <caption>
-                <?= sprintf(dgettext('luna', 'Suchvorlagen für %s'), htmlReady($data['name'])) ?>
+                <?= sprintf(dgettext('luna', 'Suchvorlagen fÃ¼r %s'), htmlReady($data['name'])) ?>
             </caption>
             <colgroup>
                 <col>
@@ -39,7 +39,7 @@
                     </td>
                     <td>
                         <a href="<?= $controller->url_for('search/delete_preset', $type, $name) ?>" data-confirm="<?=
-                                dgettext('luna', 'Wollen Sie die Suchvorlage wirklich löschen?')?>">
+                                dgettext('luna', 'Wollen Sie die Suchvorlage wirklich lÃ¶schen?')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
                         </a>
                     </td>
@@ -49,7 +49,7 @@
         </table>
     <?php else : ?>
         <p>
-            <?= sprintf(dgettext('luna', 'Es wurden keine Suchvorlagen für %s gefunden.'), $data['name']) ?>
+            <?= sprintf(dgettext('luna', 'Es wurden keine Suchvorlagen fÃ¼r %s gefunden.'), $data['name']) ?>
         </p>
     <?php endif ?>
 <?php endforeach ?>

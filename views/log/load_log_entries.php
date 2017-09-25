@@ -5,7 +5,7 @@
             <br>
             <span class="luna-smaller-text">
                 <?= sprintf(
-                    dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $logcount),
+                    dngettext('luna', '(%u Eintrag gefunden)', '(%u EintrÃ¤ge gefunden)', $logcount),
                     $logcount) ?>
             </span>
         </caption>
@@ -20,7 +20,7 @@
         <thead>
         <tr>
             <th><?= dgettext('luna', 'Datum') ?></th>
-            <th><?= dgettext('luna', 'Ausgeführt von') ?></th>
+            <th><?= dgettext('luna', 'AusgefÃ¼hrt von') ?></th>
             <th><?= dgettext('luna', 'Aktion') ?></th>
             <th><?= dgettext('luna', 'Betroffener Eintrag') ?></th>
             <th><?= dgettext('luna', 'Weitere Informationen') ?></th>
@@ -47,10 +47,10 @@
                                     $text = dgettext('luna', 'Person wurde angelegt.');
                                     break;
                                 case 'email':
-                                    $text = dgettext('luna', 'E-Mailadresse wurde hinzugefügt.');
+                                    $text = dgettext('luna', 'E-Mailadresse wurde hinzugefÃ¼gt.');
                                     break;
                                 case 'phone':
-                                    $text = dgettext('luna', 'Telefonnummer wurde hinzugefügt.');
+                                    $text = dgettext('luna', 'Telefonnummer wurde hinzugefÃ¼gt.');
                                     break;
                                 case 'company':
                                     $text = dgettext('luna', 'Unternehmen wurde angelegt.');
@@ -62,25 +62,25 @@
                         } else if ($l->action == 'update') {
                             switch($l->affected_type) {
                                 case 'user':
-                                    $text = dgettext('luna', 'Personendaten wurden verändert.');
+                                    $text = dgettext('luna', 'Personendaten wurden verÃ¤ndert.');
                                     break;
                                 case 'email':
-                                    $text = dgettext('luna', 'E-Mailadresse wurde verändert.');
+                                    $text = dgettext('luna', 'E-Mailadresse wurde verÃ¤ndert.');
                                     break;
                                 case 'phone':
-                                    $text = dgettext('luna', 'Telefonnummer wurde verändert.');
+                                    $text = dgettext('luna', 'Telefonnummer wurde verÃ¤ndert.');
                                     break;
                                 case 'company':
-                                    $text = dgettext('luna', 'Unternehmensdaten wurden verändert.');
+                                    $text = dgettext('luna', 'Unternehmensdaten wurden verÃ¤ndert.');
                                     break;
                                 case 'client':
-                                    $text = dgettext('luna', 'Mandantendaten wurden verändert.');
+                                    $text = dgettext('luna', 'Mandantendaten wurden verÃ¤ndert.');
                                     break;
                             }
                         } else if ($l->action == 'delete') {
                             switch($l->affected_type) {
                                 case 'user':
-                                    $text = dgettext('luna', 'Person wurde gelöscht.');
+                                    $text = dgettext('luna', 'Person wurde gelÃ¶scht.');
                                     break;
                                 case 'email':
                                     $text = dgettext('luna', 'E-Mailadresse wurde entfernt.');
@@ -89,10 +89,10 @@
                                     $text = dgettext('luna', 'Telefonnummer wurde entfernt.');
                                     break;
                                 case 'company':
-                                    $text = dgettext('luna', 'Unternehmen wurde gelöscht.');
+                                    $text = dgettext('luna', 'Unternehmen wurde gelÃ¶scht.');
                                     break;
                                 case 'client':
-                                    $text = dgettext('luna', 'Mandant wurde gelöscht.');
+                                    $text = dgettext('luna', 'Mandant wurde gelÃ¶scht.');
                                     break;
                             }
                         } else if ($l->action == 'mail') {
@@ -190,7 +190,7 @@
                         <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
                         <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
                     </select>
-                    <?= dgettext('luna', 'Einträge pro Seite') ?>
+                    <?= dgettext('luna', 'EintrÃ¤ge pro Seite') ?>
                 </td>
             </tr>
         </tfoot>
@@ -200,6 +200,6 @@
         <?= $plugin->getLongDisplayName() . ' - ' . dgettext('luna', 'Aktionsprotokoll') ?>
     </h1>
     <p>
-        <?= dgettext('luna', 'Es wurden keine Einträge gefunden.') ?>
+        <?= dgettext('luna', 'Es wurden keine EintrÃ¤ge gefunden.') ?>
     </p>
 <?php endif ?>

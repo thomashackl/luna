@@ -95,7 +95,7 @@ class SearchController extends AuthenticatedController {
         unset($presets[urldecode($name)]);
         $class::saveFilterPresets($this->client->id, $presets);
 
-        PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Suchvorlage "%s" wurde gelöscht.'), urldecode($name)));
+        PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Suchvorlage "%s" wurde gelÃ¶scht.'), urldecode($name)));
 
         $this->relocate('search');
     }

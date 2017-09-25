@@ -124,11 +124,11 @@ class ExportController extends AuthenticatedController {
 
             $GLOBALS['user']->cfg->store($savedDefault, studip_json_encode($fields));
 
-            PageLayout::postSuccess(dgettext('luna', 'Die Voreinstellung für den Datenexport wurde gespeichert.'));
+            PageLayout::postSuccess(dgettext('luna', 'Die Voreinstellung fÃ¼r den Datenexport wurde gespeichert.'));
 
             $this->relocate($redirect);
         } else {
-            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wählen'));
+            PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Datenfelder wÃ¤hlen'));
         }
     }
 
@@ -221,55 +221,6 @@ class ExportController extends AuthenticatedController {
         $this->set_content_type('text/csv;charset=windows-1252');
         $this->response->add_header('Content-Disposition', 'attachment;filename=luna-serienmail-' . date('Y-m-d-H-i') . '.csv');
         $this->render_text(array_to_csv($csv));
-
-        /*$excel = new PHPExcel();
-        $excel->getProperties()->setCreator(studip_utf8encode($GLOBALS['user']->getFullname('full')))
-            ->setLastModifiedBy(studip_utf8encode($GLOBALS['user']->getFullname('full')))
-            ->setCompany(studip_utf8encode($GLOBALS['UNI_NAME_CLEAN']))
-            ->setTitle(dgettext('luna', 'Serienbrief'))
-            ->setSubject(dgettext('luna', 'Serienbrief'));
-
-        $column = 'A';
-        $row = 1;
-
-        // Write headers.
-        foreach ($markers as $marker) {
-            $excel->setActiveSheetIndex(0)
-                ->setCellValueExplicit($column . $row, studip_utf8encode($marker->name));
-            $column++;
-        }
-
-        $column = 'A';
-        $row = 2;
-
-        // Write person data.
-        foreach ($persons as $person) {
-            foreach ($markers as $marker) {
-                $excel->setActiveSheetIndex(0)
-                    ->setCellValueExplicit($column . $row,
-                        studip_utf8encode($marker->getMarkerReplacement($person)));
-                $column++;
-            }
-            $column = 'A';
-            $row++;
-        }
-
-        // HTTP headers for file download.
-        $this->set_layout(null);
-        $this->set_content_type('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-        $this->response->add_header('Content-Disposition', 'attachment;filename="luna-serienmail-' . date('Y-m-d-H-i') . '.xlsx"');
-        $this->response->add_header('Cache-Control', 'max-age=0');
-
-        // If you're serving to IE over SSL, then the following may be needed
-        $this->response->add_header('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        $this->response->add_header('Last-Modified', gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        $this->response->add_header('Cache-Control', 'cache, must-revalidate'); // HTTP/1.1
-        $this->response->add_header('Pragma', 'public'); // HTTP/1.0
-
-        $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-        $writer->save('php://output');
-        $this->render_nothing();*/
     }
 
     // customized #url_for for plugins

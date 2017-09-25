@@ -6,7 +6,7 @@
                 <br>
                 <span class="luna-smaller-text">
                     <?= sprintf(
-                        dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', count($client->skills)),
+                        dngettext('luna', '(%u Eintrag gefunden)', '(%u EintrÃ¤ge gefunden)', count($client->skills)),
                         count($client->skills)) ?>
                 </span>
                 <?php if ($hasWriteAccess) : ?>
@@ -26,7 +26,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input aria-label="<?= sprintf(_('Alle Kompetenzen auswählen')) ?>"
+                        <input aria-label="<?= sprintf(_('Alle Kompetenzen auswÃ¤hlen')) ?>"
                                type="checkbox" name="all" value="1"
                                data-proxyfor=":checkbox[name='skills[]']">
                     </th>
@@ -57,8 +57,8 @@
                                     <?= Icon::create('edit', 'clickable')->asImg() ?>
                                 </a>
                                 <a href="<?= $controller->url_for('skills/delete', $s->id) ?>" data-confirm="<?=
-                                        dgettext('luna', 'Wollen Sie die Kompetenz wirklich löschen?')?>"
-                                        title="<?= dgettext('luna', 'Löschen') ?>">
+                                        dgettext('luna', 'Wollen Sie die Kompetenz wirklich lÃ¶schen?')?>"
+                                        title="<?= dgettext('luna', 'LÃ¶schen') ?>">
                                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                                 </a>
                             <?php endif ?>
@@ -71,11 +71,11 @@
                     <td colspan="3">
                         <i>
                             <?= dgettext('luna',
-                                'Wenn Sie keinen Eintrag auswählen, wird die Aktion auf alle gefundenen Kompetenzen angewendet.') ?>
+                                'Wenn Sie keinen Eintrag auswÃ¤hlen, wird die Aktion auf alle gefundenen Kompetenzen angewendet.') ?>
                         </i>
                     </td>
                     <td>
-                        <?= Studip\Button::create(dgettext('luna', 'Löschen'), 'do-action') ?>
+                        <?= Studip\Button::create(dgettext('luna', 'LÃ¶schen'), 'do-action') ?>
                     </td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                             <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
                             <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
                         </select>
-                        <?= dgettext('luna', 'Einträge pro Seite') ?>
+                        <?= dgettext('luna', 'EintrÃ¤ge pro Seite') ?>
                     </td>
                 </tr>
             </tfoot>

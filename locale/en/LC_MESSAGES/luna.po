@@ -14,7 +14,7 @@ msgstr ""
 "passau.de/weblate/projects/studip/luna/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.11-dev\n"
@@ -25,7 +25,7 @@ msgid "Mandanten"
 msgstr "Clients"
 
 #: controllers/clients.php:72
-msgid "Mandant hinzufügen"
+msgid "Mandant hinzufÃ¼gen"
 msgstr "Add client"
 
 #: controllers/clients.php:99
@@ -43,7 +43,7 @@ msgstr "Create new client"
 #: controllers/persons.php:169 controllers/persons.php:200
 #: controllers/persons.php:241 controllers/skills.php:106
 #: controllers/tags.php:109
-msgid "Übersicht"
+msgid "Ãœbersicht"
 msgstr "Overview"
 
 #: controllers/clients.php:106 views/clients/edit.php:6
@@ -62,12 +62,12 @@ msgstr "The client \"%s\" could not be saved."
 
 #: controllers/clients.php:150
 #, php-format
-msgid "Der Mandant \"%s\" wurde gelöscht."
+msgid "Der Mandant \"%s\" wurde gelÃ¶scht."
 msgstr "The client \"%s\" was deleted."
 
 #: controllers/clients.php:152
 #, php-format
-msgid "Der Mandant \"%s\" konnte nicht gelöscht werden."
+msgid "Der Mandant \"%s\" konnte nicht gelÃ¶scht werden."
 msgstr "The client \"%s\" could not be deleted."
 
 #: controllers/clients.php:161
@@ -75,11 +75,11 @@ msgid "Zugriffsberechtigungen"
 msgstr "Permissions"
 
 #: controllers/companies.php:65
-msgid "Unternehmensübersicht"
+msgid "UnternehmensÃ¼bersicht"
 msgstr "Company overview"
 
 #: controllers/companies.php:82
-msgid "Unternehmen hinzufügen"
+msgid "Unternehmen hinzufÃ¼gen"
 msgstr "Add company"
 
 #: controllers/companies.php:115 views/companies/info.php:3
@@ -117,20 +117,20 @@ msgstr "The company data of \"%s\" could not be saved."
 
 #: controllers/companies.php:304
 #, php-format
-msgid "Das Unternehmen \"%s\" wurde gelöscht."
+msgid "Das Unternehmen \"%s\" wurde gelÃ¶scht."
 msgstr "The company \"%s\" was deleted."
 
 #: controllers/companies.php:306
 #, php-format
-msgid "Das Unternehmen \"%s\" konnte nicht gelöscht werden."
+msgid "Das Unternehmen \"%s\" konnte nicht gelÃ¶scht werden."
 msgstr "The company \"%s\" could not be deleted."
 
 #: controllers/export.php:127
-msgid "Die Voreinstellung für den Datenexport wurde gespeichert."
+msgid "Die Voreinstellung fÃ¼r den Datenexport wurde gespeichert."
 msgstr "Export preset has been saved."
 
 #: controllers/export.php:131
-msgid "Datenfelder wählen"
+msgid "Datenfelder wÃ¤hlen"
 msgstr "Choose datafields"
 
 #: controllers/log.php:61 LunaPlugin.class.php:65
@@ -139,7 +139,7 @@ msgid "Aktionsprotokoll"
 msgstr "Operation log"
 
 #: controllers/log.php:115 views/log/_filter.php:7
-msgid "Wer hat die Aktion ausgeführt?"
+msgid "Wer hat die Aktion ausgefÃ¼hrt?"
 msgstr "Who performed the operation?"
 
 #: controllers/log.php:117 controllers/log.php:133 controllers/log.php:146
@@ -157,14 +157,14 @@ msgid "Anlegen"
 msgstr "Create"
 
 #: controllers/log.php:136 views/log/_filter.php:22
-msgid "Daten ändern"
+msgid "Daten Ã¤ndern"
 msgstr "Change data"
 
 #: controllers/log.php:138 views/companies/load_companies.php:97
 #: views/log/_filter.php:23 views/skills/load_skills.php:61
 #: views/skills/load_skills.php:78 views/tags/load_tags.php:64
 #: views/tags/load_tags.php:81
-msgid "Löschen"
+msgid "LÃ¶schen"
 msgstr "Delete"
 
 #: controllers/log.php:140 views/log/_filter.php:24
@@ -210,11 +210,11 @@ msgid "Betreff"
 msgstr "Subject"
 
 #: controllers/persons.php:64
-msgid "Personenübersicht"
+msgid "PersonenÃ¼bersicht"
 msgstr "Person overview"
 
 #: controllers/persons.php:81
-msgid "Person hinzufügen"
+msgid "Person hinzufÃ¼gen"
 msgstr "Add person"
 
 #: controllers/persons.php:161 controllers/persons.php:173
@@ -250,17 +250,17 @@ msgstr "The person data of %s could not be saved."
 
 #: controllers/persons.php:468
 #, php-format
-msgid "%s wurde gelöscht."
+msgid "%s wurde gelÃ¶scht."
 msgstr "%s has been deleted."
 
 #: controllers/persons.php:470
 #, php-format
-msgid "%s konnte nicht gelöscht werden."
+msgid "%s konnte nicht gelÃ¶scht werden."
 msgstr "%s could not be deleted."
 
 #: controllers/persons.php:507
 #, php-format
-msgid "Die Datei %s wurde gelöscht."
+msgid "Die Datei %s wurde gelÃ¶scht."
 msgstr "The file %s has been deleted."
 
 #: controllers/persons.php:608
@@ -293,7 +293,7 @@ msgstr "Save search preset"
 
 #: controllers/search.php:98
 #, php-format
-msgid "Die Suchvorlage \"%s\" wurde gelöscht."
+msgid "Die Suchvorlage \"%s\" wurde gelÃ¶scht."
 msgstr "The search preset \"%s\" has been deleted."
 
 #: controllers/search.php:119
@@ -314,7 +314,7 @@ msgid "Kompetenzen"
 msgstr "Skills"
 
 #: controllers/skills.php:68
-msgid "Kompetenz hinzufügen"
+msgid "Kompetenz hinzufÃ¼gen"
 msgstr "Add skill"
 
 #: controllers/skills.php:102
@@ -343,12 +343,12 @@ msgstr "The skill %s could not be saved."
 
 #: controllers/skills.php:181
 #, php-format
-msgid "Die Kompetenz \"%s\" wurde gelöscht."
+msgid "Die Kompetenz \"%s\" wurde gelÃ¶scht."
 msgstr "The skill \"%s\" has been deleted."
 
 #: controllers/skills.php:183
 #, php-format
-msgid "Die Kompetenz \"%s\" konnte nicht gelöscht werden."
+msgid "Die Kompetenz \"%s\" konnte nicht gelÃ¶scht werden."
 msgstr "The skill \"%s\" could not be deleted."
 
 #: controllers/skills.php:206
@@ -358,11 +358,11 @@ msgstr "Assigned to skill %s"
 
 #: controllers/tags.php:64 LunaPlugin.class.php:58 views/tags/load_tags.php:5
 #: views/tags/load_tags.php:116
-msgid "Schlagwörter"
+msgid "SchlagwÃ¶rter"
 msgstr "Tags"
 
 #: controllers/tags.php:68
-msgid "Schlagwort hinzufügen"
+msgid "Schlagwort hinzufÃ¼gen"
 msgstr "Add tag"
 
 #: controllers/tags.php:94
@@ -394,12 +394,12 @@ msgstr "The tag %s could not be saved."
 
 #: controllers/tags.php:190
 #, php-format
-msgid "Das Schlagwort \"%s\" wurde gelöscht."
+msgid "Das Schlagwort \"%s\" wurde gelÃ¶scht."
 msgstr "The tag \"%s\" has been deleted."
 
 #: controllers/tags.php:192
 #, php-format
-msgid "Das Schlagwort \"%s\" konnte nicht gelöscht werden."
+msgid "Das Schlagwort \"%s\" konnte nicht gelÃ¶scht werden."
 msgstr "The tag \"%s\" could not be deleted."
 
 #: controllers/tags.php:215
@@ -528,7 +528,7 @@ msgstr "unknown"
 
 #: models/LunaUserFilter.php:46 views/persons/edit.php:56
 #: views/persons/info.php:32
-msgid "männlich"
+msgid "mÃ¤nnlich"
 msgstr "male"
 
 #: models/LunaUserFilter.php:47 views/persons/edit.php:61
@@ -555,15 +555,15 @@ msgid "Notizen"
 msgstr "Notes"
 
 #: models/LunaUserFilter.php:207
-msgid "enthält"
+msgid "enthÃ¤lt"
 msgstr "contains"
 
 #: models/LunaUserFilter.php:208
-msgid "enthält nicht"
+msgid "enthÃ¤lt nicht"
 msgstr "does not contain"
 
 #: views/clients/edit.php:21 views/clients/index.php:19
-msgid "Absender für E-Mails"
+msgid "Absender fÃ¼r E-Mails"
 msgstr "E-Mail sender address"
 
 #: views/clients/edit.php:29 views/clients/permissions.php:33
@@ -589,9 +589,9 @@ msgstr "Actions"
 
 #: views/clients/index.php:45
 msgid ""
-"Wollen Sie den Mandanten wirklich löschen? Damit werden alle Personen, "
-"Unternehmen, Kompetenzen und Schlagwörter dieses Mandanten ebenfalls "
-"gelöscht!"
+"Wollen Sie den Mandanten wirklich lÃ¶schen? Damit werden alle Personen, "
+"Unternehmen, Kompetenzen und SchlagwÃ¶rter dieses Mandanten ebenfalls "
+"gelÃ¶scht!"
 msgstr ""
 "Do you really want to delete the client? All persons, companies, skills and "
 "tags will be deleted as well!"
@@ -602,11 +602,11 @@ msgstr "No clients found."
 
 #: views/clients/permissions.php:4
 #, php-format
-msgid "Berechtigungen für Mandant \"%s\" bearbeiten"
+msgid "Berechtigungen fÃ¼r Mandant \"%s\" bearbeiten"
 msgstr "Edit permissions for client \"%s\""
 
 #: views/clients/permissions.php:9
-msgid "Berechtigte Person hinzufügen"
+msgid "Berechtigte Person hinzufÃ¼gen"
 msgstr "Allow access for person"
 
 #: views/companies/_filter.php:3 views/log/_filter.php:3
@@ -621,7 +621,7 @@ msgstr "Edit existing search preset"
 #: views/companies/_filter.php:12 views/companies/_filter.php:30
 #: views/message/write.php:62 views/persons/_filter.php:12
 #: views/persons/_filter.php:30
-msgid "bitte auswählen"
+msgid "bitte auswÃ¤hlen"
 msgstr "please choose"
 
 #: views/companies/_filter.php:19 views/companies/edit.php:71
@@ -634,11 +634,11 @@ msgid "Suchbegriff eingeben"
 msgstr "Enter search term"
 
 #: views/companies/_filter.php:25 views/persons/_filter.php:25
-msgid "Filter hinzufügen"
+msgid "Filter hinzufÃ¼gen"
 msgstr "Add filter"
 
 #: views/companies/_filter.php:33 views/persons/_filter.php:33
-msgid "Übernehmen"
+msgid "Ãœbernehmen"
 msgstr "Save"
 
 #: views/companies/_filter.php:46 views/persons/_filter.php:46
@@ -676,11 +676,11 @@ msgid "Aktuell: %s"
 msgstr "Current: %s"
 
 #: views/companies/edit.php:72
-msgid "Neue Person hinzufügen"
+msgid "Neue Person hinzufÃ¼gen"
 msgstr "Add person"
 
 #: views/companies/edit.php:110 views/persons/edit.php:257
-msgid "Fügen Sie eine Kompetenz hinzu"
+msgid "FÃ¼gen Sie eine Kompetenz hinzu"
 msgstr "Add a skill"
 
 #: views/companies/edit.php:134 views/companies/info.php:107
@@ -690,7 +690,7 @@ msgid "Schlagworte"
 msgstr "Tags"
 
 #: views/companies/edit.php:138 views/persons/edit.php:285
-msgid "Fügen Sie ein Schlagwort hinzu"
+msgid "FÃ¼gen Sie ein Schlagwort hinzu"
 msgstr "Add a tag"
 
 #: views/companies/info.php:43 views/companies/load_companies.php:41
@@ -710,13 +710,13 @@ msgstr "Contact person"
 #: views/tags/load_tags.php:9
 #, php-format
 msgid "(%u Eintrag gefunden)"
-msgid_plural "(%u Einträge gefunden)"
+msgid_plural "(%u EintrÃ¤ge gefunden)"
 msgstr[0] "(%u entry found)"
 msgstr[1] "(%u entries found)"
 
 #: views/companies/load_companies.php:34
 #, php-format
-msgid "Alle Unternehmen auswählen"
+msgid "Alle Unternehmen auswÃ¤hlen"
 msgstr "Select all companies"
 
 #: views/companies/load_companies.php:79
@@ -739,7 +739,7 @@ msgid "Daten anzeigen/bearbeiten"
 msgstr "Show/edit data"
 
 #: views/companies/load_companies.php:96
-msgid "Wollen Sie das Unternehmen wirklich löschen?"
+msgid "Wollen Sie das Unternehmen wirklich lÃ¶schen?"
 msgstr "Do you really want to delete the company?"
 
 #: views/companies/load_companies.php:102
@@ -747,7 +747,7 @@ msgid "Daten anzeigen"
 msgstr "Show data"
 
 #: views/companies/load_companies.php:114
-msgid "Aktion für ausgewählte Unternehmen"
+msgid "Aktion fÃ¼r ausgewÃ¤hlte Unternehmen"
 msgstr "Operation for chosen companies"
 
 #: views/companies/load_companies.php:122 views/persons/load_persons.php:104
@@ -756,14 +756,14 @@ msgstr "Export to Excel"
 
 #: views/companies/load_companies.php:129
 msgid ""
-"Wenn Sie niemanden auswählen, wird die Aktion auf alle gefundenen "
+"Wenn Sie niemanden auswÃ¤hlen, wird die Aktion auf alle gefundenen "
 "Unternehmen angewendet."
 msgstr ""
 "If there are no selected entries, the chosen operation will be applied to "
 "all found companies."
 
 #: views/companies/load_companies.php:133 views/persons/load_persons.php:121
-msgid "Ausführen"
+msgid "AusfÃ¼hren"
 msgstr "Execute"
 
 #: views/companies/load_companies.php:138 views/log/load_log_entries.php:171
@@ -775,7 +775,7 @@ msgstr "Page "
 #: views/companies/load_companies.php:160 views/log/load_log_entries.php:193
 #: views/persons/load_persons.php:147 views/skills/load_skills.php:105
 #: views/tags/load_tags.php:108
-msgid "Einträge pro Seite"
+msgid "EintrÃ¤ge pro Seite"
 msgstr "Entries per page"
 
 #: views/companies/load_companies.php:171
@@ -788,7 +788,7 @@ msgid "Mitglieder des Unternehmens %s"
 msgstr "Members of company %s"
 
 #: views/companies/members.php:26
-msgid "Zuordnung löschen"
+msgid "Zuordnung lÃ¶schen"
 msgstr "Remove assigment"
 
 #: views/export/csv.php:7
@@ -828,7 +828,7 @@ msgid "Datum"
 msgstr "Date"
 
 #: views/log/load_log_entries.php:23
-msgid "Ausgeführt von"
+msgid "AusgefÃ¼hrt von"
 msgstr "Executed by"
 
 #: views/log/load_log_entries.php:24
@@ -848,11 +848,11 @@ msgid "Person wurde angelegt."
 msgstr "Created person."
 
 #: views/log/load_log_entries.php:50
-msgid "E-Mailadresse wurde hinzugefügt."
+msgid "E-Mailadresse wurde hinzugefÃ¼gt."
 msgstr "Added e-mail address."
 
 #: views/log/load_log_entries.php:53
-msgid "Telefonnummer wurde hinzugefügt."
+msgid "Telefonnummer wurde hinzugefÃ¼gt."
 msgstr "Added phone number."
 
 #: views/log/load_log_entries.php:56
@@ -864,27 +864,27 @@ msgid "Mandant wurde angelegt."
 msgstr "Created client."
 
 #: views/log/load_log_entries.php:65
-msgid "Personendaten wurden verändert."
+msgid "Personendaten wurden verÃ¤ndert."
 msgstr "Edited person."
 
 #: views/log/load_log_entries.php:68
-msgid "E-Mailadresse wurde verändert."
+msgid "E-Mailadresse wurde verÃ¤ndert."
 msgstr "Edited e-mail address."
 
 #: views/log/load_log_entries.php:71
-msgid "Telefonnummer wurde verändert."
+msgid "Telefonnummer wurde verÃ¤ndert."
 msgstr "Edited phone number."
 
 #: views/log/load_log_entries.php:74
-msgid "Unternehmensdaten wurden verändert."
+msgid "Unternehmensdaten wurden verÃ¤ndert."
 msgstr "Edited company."
 
 #: views/log/load_log_entries.php:77
-msgid "Mandantendaten wurden verändert."
+msgid "Mandantendaten wurden verÃ¤ndert."
 msgstr "Edited client."
 
 #: views/log/load_log_entries.php:83
-msgid "Person wurde gelöscht."
+msgid "Person wurde gelÃ¶scht."
 msgstr "Deleted person."
 
 #: views/log/load_log_entries.php:86
@@ -896,11 +896,11 @@ msgid "Telefonnummer wurde entfernt."
 msgstr "Removed phone number."
 
 #: views/log/load_log_entries.php:92
-msgid "Unternehmen wurde gelöscht."
+msgid "Unternehmen wurde gelÃ¶scht."
 msgstr "Deleted company."
 
 #: views/log/load_log_entries.php:95
-msgid "Mandant wurde gelöscht."
+msgid "Mandant wurde gelÃ¶scht."
 msgstr "Deleted client."
 
 #: views/log/load_log_entries.php:101
@@ -913,7 +913,7 @@ msgid "Serienmail an ein Unternehmen wurde verschickt."
 msgstr "Sent serial mail to company."
 
 #: views/log/load_log_entries.php:203
-msgid "Es wurden keine Einträge gefunden."
+msgid "Es wurden keine EintrÃ¤ge gefunden."
 msgstr "No entries found."
 
 #: views/message/write.php:5
@@ -925,21 +925,21 @@ msgid "Kopie der Nachricht an diese Adresse senden"
 msgstr "Sent message copy to this address"
 
 #: views/message/write.php:16
-msgid "Empfänger"
+msgid "EmpfÃ¤nger"
 msgstr "Recipient(s)"
 
 #: views/message/write.php:27
 #, php-format
-msgid "%u Empfänger anzeigen/ausblenden"
+msgid "%u EmpfÃ¤nger anzeigen/ausblenden"
 msgstr "Show/hide %u recipient(s)"
 
 #: views/message/write.php:40
-msgid "Weitere Empfänger in CC, durch Komma getrennt"
+msgid "Weitere EmpfÃ¤nger in CC, durch Komma getrennt"
 msgstr "CC to recipients, separated by comma"
 
 #: views/message/write.php:43
 msgid ""
-"Bitte beachten Sie: Serienmails werden an diese Empfänger ohne "
+"Bitte beachten Sie: Serienmails werden an diese EmpfÃ¤nger ohne "
 "Textersetzungen verschickt!"
 msgstr ""
 "Please note: serial mails to these recipients will be sent without text "
@@ -950,7 +950,7 @@ msgid "Geben Sie hier den Betreff Ihrer E-Mail ein."
 msgstr "Enter e-mail subject here"
 
 #: views/message/write.php:60
-msgid "Feld für Serienmail einfügen"
+msgid "Feld fÃ¼r Serienmail einfÃ¼gen"
 msgstr "Insert serial mail field"
 
 #: views/message/write.php:67
@@ -966,7 +966,7 @@ msgid "Geben Sie hier den Inhalt Ihrer E-Mail ein."
 msgstr "Enter your message here."
 
 #: views/message/write.php:80
-msgid "Dateianhänge"
+msgid "DateianhÃ¤nge"
 msgstr "Attachment(s)"
 
 #: views/message/write.php:83 views/message/write.php:84
@@ -1001,7 +1001,7 @@ msgid "Personendaten von %s"
 msgstr "Person data of %s"
 
 #: views/persons/edit.php:11
-msgid "Persönliche Daten"
+msgid "PersÃ¶nliche Daten"
 msgstr "Personal data"
 
 #: views/persons/edit.php:39
@@ -1034,7 +1034,7 @@ msgstr "Private"
 #: views/persons/edit.php:115 views/persons/edit.php:136
 #: views/persons/edit.php:170 views/persons/edit.php:195
 #: views/persons/info.php:61 views/persons/info.php:80
-msgid "Geschäftlich"
+msgid "GeschÃ¤ftlich"
 msgstr "Business"
 
 #: views/persons/edit.php:120 views/persons/edit.php:142
@@ -1042,7 +1042,7 @@ msgid "Standardadresse"
 msgstr "Default address"
 
 #: views/persons/edit.php:147
-msgid "E-Mailadresse hinzufügen"
+msgid "E-Mailadresse hinzufÃ¼gen"
 msgstr "Add e-mail address"
 
 #: views/persons/edit.php:152 views/persons/info.php:72
@@ -1063,7 +1063,7 @@ msgid "Standardnummer"
 msgstr "Default number"
 
 #: views/persons/edit.php:206
-msgid "Telefonnummer hinzufügen"
+msgid "Telefonnummer hinzufÃ¼gen"
 msgstr "Add phone number"
 
 #: views/persons/edit.php:211
@@ -1071,15 +1071,15 @@ msgid "Weitere Kontaktdaten"
 msgstr "Other contact data"
 
 #: views/persons/edit.php:235
-msgid "Bestehendes Unternehmen auswählen"
+msgid "Bestehendes Unternehmen auswÃ¤hlen"
 msgstr "Choose existing company"
 
 #: views/persons/edit.php:237
-msgid "Kein Unternehmen auswählen"
+msgid "Kein Unternehmen auswÃ¤hlen"
 msgstr "No company"
 
 #: views/persons/edit.php:246
-msgid "Neues Unternehmen hinzufügen"
+msgid "Neues Unternehmen hinzufÃ¼gen"
 msgstr "Add new company"
 
 #: views/persons/edit.php:309
@@ -1099,11 +1099,11 @@ msgid "Vorhandene Dateien"
 msgstr "Existing files"
 
 #: views/persons/edit.php:358
-msgid "Verknüpfung mit Stud.IP"
+msgid "VerknÃ¼pfung mit Stud.IP"
 msgstr "Link with Stud.IP"
 
 #: views/persons/edit.php:362
-msgid "Mit einer Stud.IP-Kennung verknüpfen"
+msgid "Mit einer Stud.IP-Kennung verknÃ¼pfen"
 msgstr "Link to a Stud.IP account"
 
 #: views/persons/info.php:62 views/persons/info.php:83
@@ -1116,7 +1116,7 @@ msgstr "Which data columns shall be visible?"
 
 #: views/persons/load_persons.php:35
 #, php-format
-msgid "Alle Personen auswählen"
+msgid "Alle Personen auswÃ¤hlen"
 msgstr "Select all persons"
 
 #: views/persons/load_persons.php:71
@@ -1135,12 +1135,12 @@ msgid "Daten von %s anzeigen/bearbeiten"
 msgstr "Show/edit data of %s"
 
 #: views/persons/load_persons.php:82
-msgid "Wollen Sie die Person wirklich löschen?"
+msgid "Wollen Sie die Person wirklich lÃ¶schen?"
 msgstr "Do you really want to delete the person entry?"
 
 #: views/persons/load_persons.php:82
 #, php-format
-msgid "%s löschen"
+msgid "%s lÃ¶schen"
 msgstr "Delete %s"
 
 #: views/persons/load_persons.php:86
@@ -1149,11 +1149,11 @@ msgid "Daten von %s anzeigen"
 msgstr "Show data of %s"
 
 #: views/persons/load_persons.php:98
-msgid "Aktion für ausgewählte Personen"
+msgid "Aktion fÃ¼r ausgewÃ¤hlte Personen"
 msgstr "Operation for selected persons"
 
 #: views/persons/load_persons.php:107
-msgid "Export für Word-Serienbrief"
+msgid "Export fÃ¼r Word-Serienbrief"
 msgstr "Export for serial letter"
 
 #: views/persons/load_persons.php:110
@@ -1162,7 +1162,7 @@ msgstr "Export contacts"
 
 #: views/persons/load_persons.php:117
 msgid ""
-"Wenn Sie niemanden auswählen, wird die Aktion auf alle gefundenen Personen "
+"Wenn Sie niemanden auswÃ¤hlen, wird die Aktion auf alle gefundenen Personen "
 "angewendet."
 msgstr ""
 "If there are no selected entries, the chosen operation will be applied to "
@@ -1178,7 +1178,7 @@ msgstr "Name for search preset"
 
 #: views/search/index.php:8
 #, php-format
-msgid "Suchvorlagen für %s"
+msgid "Suchvorlagen fÃ¼r %s"
 msgstr "Search presets for %s"
 
 #: views/search/index.php:18
@@ -1186,12 +1186,12 @@ msgid "Filter"
 msgstr "Filter"
 
 #: views/search/index.php:42
-msgid "Wollen Sie die Suchvorlage wirklich löschen?"
+msgid "Wollen Sie die Suchvorlage wirklich lÃ¶schen?"
 msgstr "Do you really want to delete the search preset?"
 
 #: views/search/index.php:52
 #, php-format
-msgid "Es wurden keine Suchvorlagen für %s gefunden."
+msgid "Es wurden keine Suchvorlagen fÃ¼r %s gefunden."
 msgstr "No search presets found for %s."
 
 #: views/skills/assigned_to.php:4 views/tags/assigned_to.php:4
@@ -1204,7 +1204,7 @@ msgstr "Edit skill data"
 
 #: views/skills/load_skills.php:29
 #, php-format
-msgid "Alle Kompetenzen auswählen"
+msgid "Alle Kompetenzen auswÃ¤hlen"
 msgstr "Select all skills"
 
 #: views/skills/load_skills.php:49 views/tags/load_tags.php:49
@@ -1215,12 +1215,12 @@ msgstr[0] "%u assigned person"
 msgstr[1] "%u assigned persons"
 
 #: views/skills/load_skills.php:60
-msgid "Wollen Sie die Kompetenz wirklich löschen?"
+msgid "Wollen Sie die Kompetenz wirklich lÃ¶schen?"
 msgstr "Do you really want to delete the skill?"
 
 #: views/skills/load_skills.php:74
 msgid ""
-"Wenn Sie keinen Eintrag auswählen, wird die Aktion auf alle gefundenen "
+"Wenn Sie keinen Eintrag auswÃ¤hlen, wird die Aktion auf alle gefundenen "
 "Kompetenzen angewendet."
 msgstr ""
 "If there are no selected entries, the chosen operation will be applied to "
@@ -1236,7 +1236,7 @@ msgstr "Assigned companies"
 
 #: views/tags/load_tags.php:29
 #, php-format
-msgid "Alle Schlagwörter auswählen"
+msgid "Alle SchlagwÃ¶rter auswÃ¤hlen"
 msgstr "Select all tags"
 
 #: views/tags/load_tags.php:52
@@ -1247,17 +1247,17 @@ msgstr[0] "%u assigned company"
 msgstr[1] "%u assigned companies"
 
 #: views/tags/load_tags.php:63
-msgid "Wollen Sie das Schlagwort wirklich löschen?"
+msgid "Wollen Sie das Schlagwort wirklich lÃ¶schen?"
 msgstr "Do you really want to delete the tag?"
 
 #: views/tags/load_tags.php:77
 msgid ""
-"Wenn Sie keinen Eintrag auswählen, wird die Aktion auf alle gefundenen "
-"Schlagwörter angewendet."
+"Wenn Sie keinen Eintrag auswÃ¤hlen, wird die Aktion auf alle gefundenen "
+"SchlagwÃ¶rter angewendet."
 msgstr ""
 "If there are no selected entries, the chosen operation will be applied to "
 "all found tags."
 
 #: views/tags/load_tags.php:119
-msgid "Es wurden keine Schlagwörter gefunden."
+msgid "Es wurden keine SchlagwÃ¶rter gefunden."
 msgstr "No tags found."

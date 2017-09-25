@@ -43,7 +43,7 @@ class LunaUserFilter
                 'dbvalues' => 'gender',
                 'values' => array(
                     0 => _('unbekannt'),
-                    1 => _('männlich'),
+                    1 => _('mÃ¤nnlich'),
                     2 => _('weiblich')
                 ),
                 'class' => 'LunaUser',
@@ -204,8 +204,8 @@ class LunaUserFilter
             'compare' => array(
                 '=' => dgettext('luna', 'ist'),
                 '!=' => dgettext('luna', 'ist nicht'),
-                'LIKE' => dgettext('luna', 'enthält'),
-                'NOT LIKE' => dgettext('luna', 'enthält nicht'),
+                'LIKE' => dgettext('luna', 'enthÃ¤lt'),
+                'NOT LIKE' => dgettext('luna', 'enthÃ¤lt nicht'),
             ),
             'values' => []
         );

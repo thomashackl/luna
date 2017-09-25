@@ -6,7 +6,7 @@
                 <br>
                 <span class="luna-smaller-text">
                     <?= sprintf(
-                        dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $personcount),
+                        dngettext('luna', '(%u Eintrag gefunden)', '(%u EintrÃ¤ge gefunden)', $personcount),
                         $personcount) ?>
                 </span>
                 <span class="actions">
@@ -32,7 +32,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input aria-label="<?= sprintf(_('Alle Personen auswählen')) ?>"
+                        <input aria-label="<?= sprintf(_('Alle Personen auswÃ¤hlen')) ?>"
                                type="checkbox" name="all" value="1"
                                data-proxyfor=":checkbox[name='persons[]']">
                     </th>
@@ -88,7 +88,7 @@
                                 </a>
                             <?php endif ?>
                             <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
-                                    dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>" title="<?= sprintf(dgettext('luna', '%s löschen'), $p->getFullname('full')) ?>">
+                                    dgettext('luna', 'Wollen Sie die Person wirklich lÃ¶schen?')?>" title="<?= sprintf(dgettext('luna', '%s lÃ¶schen'), $p->getFullname('full')) ?>">
                                 <?= Icon::create('trash', 'clickable')->asImg() ?>
                             </a>
                         <?php else : ?>
@@ -109,7 +109,7 @@
                 <tr>
                     <td colspan="<?= count($columns) + 2 ?>">
                         <label>
-                            <?= dgettext('luna', 'Aktion für ausgewählte Personen') ?>
+                            <?= dgettext('luna', 'Aktion fÃ¼r ausgewÃ¤hlte Personen') ?>
                             <select name="bulkaction">
                                 <option value="message">
                                     <?= dgettext('luna', 'Nachricht schreiben') ?>
@@ -118,7 +118,7 @@
                                     <?= dgettext('luna', 'Excel-Export') ?>
                                 </option>
                                 <option value="serialmail">
-                                    <?= dgettext('luna', 'Export für Word-Serienbrief') ?>
+                                    <?= dgettext('luna', 'Export fÃ¼r Word-Serienbrief') ?>
                                 </option>
                                 <option value="vcard">
                                     <?= dgettext('luna', 'Kontakte exportieren') ?>
@@ -128,11 +128,11 @@
                         <br>
                         <i>
                             <?= dgettext('luna',
-                            'Wenn Sie niemanden auswählen, wird die Aktion auf alle gefundenen Personen angewendet.') ?>
+                            'Wenn Sie niemanden auswÃ¤hlen, wird die Aktion auf alle gefundenen Personen angewendet.') ?>
                         </i>
                     </td>
                     <td>
-                        <?= Studip\Button::createAccept(dgettext('luna', 'Ausführen'), 'do-action') ?>
+                        <?= Studip\Button::createAccept(dgettext('luna', 'AusfÃ¼hren'), 'do-action') ?>
                     </td>
                 </tr>
                 <tr>
@@ -158,7 +158,7 @@
                             <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
                             <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
                         </select>
-                        <?= dgettext('luna', 'Einträge pro Seite') ?>
+                        <?= dgettext('luna', 'EintrÃ¤ge pro Seite') ?>
                     </td>
                 </tr>
             </tfoot>

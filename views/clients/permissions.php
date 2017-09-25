@@ -1,12 +1,12 @@
 <form class="default" action="<?= $controller->url_for('clients/save_permissions', $client->id) ?>" method="post">
     <header>
         <h1>
-            <?= sprintf(dgettext('luna', 'Berechtigungen für Mandant "%s" bearbeiten'), $client->name) ?>
+            <?= sprintf(dgettext('luna', 'Berechtigungen fÃ¼r Mandant "%s" bearbeiten'), $client->name) ?>
         </h1>
     </header>
     <section>
         <label>
-            <?= dgettext('luna', 'Berechtigte Person hinzufügen') ?>
+            <?= dgettext('luna', 'Berechtigte Person hinzufÃ¼gen') ?>
             <?= $search ?>
         </label>
         <ul id="luna-beneficiaries" data-levels='<?= studip_json_encode($levels) ?>'>

@@ -6,7 +6,7 @@
                 <br>
                 <span class="luna-smaller-text">
                     <?= sprintf(
-                        dngettext('luna', '(%u Eintrag gefunden)', '(%u Einträge gefunden)', $companycount),
+                        dngettext('luna', '(%u Eintrag gefunden)', '(%u EintrÃ¤ge gefunden)', $companycount),
                         $companycount) ?>
                 </span>
                 <?php if ($hasWriteAccess) : ?>
@@ -31,7 +31,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input aria-label="<?= sprintf(_('Alle Unternehmen auswählen')) ?>"
+                        <input aria-label="<?= sprintf(_('Alle Unternehmen auswÃ¤hlen')) ?>"
                                type="checkbox" name="all" value="1"
                                data-proxyfor=":checkbox[name='companies[]']">
                     </th>
@@ -93,8 +93,8 @@
                                     <?= Icon::create('edit', 'clickable')->asImg() ?>
                                 </a>
                                 <a href="<?= $controller->url_for('companies/delete', $c->id) ?>" data-confirm="<?=
-                                        dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')?>"
-                                        title="<?= dgettext('luna', 'Löschen') ?>">
+                                        dgettext('luna', 'Wollen Sie das Unternehmen wirklich lÃ¶schen?')?>"
+                                        title="<?= dgettext('luna', 'LÃ¶schen') ?>">
                                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                                 </a>
                             <?php else : ?>
@@ -111,7 +111,7 @@
             <tr>
                 <td colspan="8">
                     <label>
-                        <?= dgettext('luna', 'Aktion für ausgewählte Unternehmen') ?>
+                        <?= dgettext('luna', 'Aktion fÃ¼r ausgewÃ¤hlte Unternehmen') ?>
                         <select name="bulkaction">
                             <?php if (count($c->members) > 0 || $c->contact_person) : ?>
                                 <option value="message">
@@ -126,11 +126,11 @@
                     <br>
                     <i>
                         <?= dgettext('luna',
-                            'Wenn Sie niemanden auswählen, wird die Aktion auf alle gefundenen Unternehmen angewendet.') ?>
+                            'Wenn Sie niemanden auswÃ¤hlen, wird die Aktion auf alle gefundenen Unternehmen angewendet.') ?>
                     </i>
                 </td>
                 <td>
-                    <?= Studip\Button::createAccept(dgettext('luna', 'Ausführen'), 'do-action') ?>
+                    <?= Studip\Button::createAccept(dgettext('luna', 'AusfÃ¼hren'), 'do-action') ?>
                 </td>
             </tr>
                 <tr>
@@ -157,7 +157,7 @@
                             <option value="100"<?= $entries_per_page == 100 ? ' selected' : ''?>>100</option>
                             <option value="250"<?= $entries_per_page == 250 ? ' selected' : ''?>>250</option>
                         </select>
-                        <?= dgettext('luna', 'Einträge pro Seite') ?>
+                        <?= dgettext('luna', 'EintrÃ¤ge pro Seite') ?>
                     </td>
                 </tr>
             </tfoot>

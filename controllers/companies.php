@@ -87,7 +87,7 @@ class CompaniesController extends AuthenticatedController {
 
         $this->allfilters = LunaCompanyFilter::getFilterFields(true);
         $this->filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->client->id);
-        $this->searchtext = studip_utf8decode($searchtext);
+        $this->searchtext = $searchtext;
 
         $this->companies = $this->client->getFilteredCompanies($start, 0, $this->searchtext);
         $this->companycount = $this->client->getFilteredCompaniesCount($this->searchtext);

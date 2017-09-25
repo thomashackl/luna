@@ -117,7 +117,7 @@ class MessageController extends AuthenticatedController {
                 // Attachments
                 foreach ($_FILES['docs']['name'] as $index => $filename) {
                     if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                        $file = studip_utf8decode($filename);
+                        $file = $filename;
                         $mail->addFileAttachment(
                             $_FILES['docs']['tmp_name'][$index],
                             $file,
@@ -155,7 +155,7 @@ class MessageController extends AuthenticatedController {
                 // Attachments
                 foreach ($_FILES['docs']['name'] as $index => $filename) {
                     if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                        $file = studip_utf8decode($filename);
+                        $file = $filename;
                         $mail->addFileAttachment(
                             $_FILES['docs']['tmp_name'][$index],
                             $file,
@@ -201,7 +201,7 @@ class MessageController extends AuthenticatedController {
             if (count($_FILES['docs']['name']) > 0) {
                 foreach ($_FILES['docs']['name'] as $index => $filename) {
                     if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                        $file = studip_utf8decode($filename);
+                        $file = $filename;
                         $mail->addFileAttachment(
                             $_FILES['docs']['tmp_name'][$index],
                             $file,

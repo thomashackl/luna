@@ -89,15 +89,15 @@ class ExportController extends AuthenticatedController {
                 $this->client->$getEntriesFunction(0, -1);
             $csv = [];
             $csv[] = array_map(function($entry) {
-                return studip_utf8encode($entry['name']);
+                return $entry['name'];
             }, array_intersect_key($this->fields, array_flip(Request::getArray('fields'))));
             foreach ($entries as $one) {
                 $entry = [];
                 foreach (Request::getArray('fields') as $field) {
                     if ($one->$field instanceof SimpleORMapCollection) {
-                        $entry[] = implode("\n", studip_utf8encode($one->$field->pluck('name')));
+                        $entry[] = implode("\n", $one->$field->pluck('name'));
                     } else {
-                        $entry[] = studip_utf8encode($one->$field);
+                        $entry[] = $one->$field;
                     }
                 }
                 $csv[] = $entry;

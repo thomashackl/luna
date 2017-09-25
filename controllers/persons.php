@@ -87,7 +87,7 @@ class PersonsController extends AuthenticatedController {
 
         $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
-        $this->searchtext = studip_utf8decode($searchtext);
+        $this->searchtext = $searchtext;
 
         $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
         $this->columns = $config[$this->client->id];
@@ -389,7 +389,7 @@ class PersonsController extends AuthenticatedController {
 
             foreach ($_FILES['docs']['name'] as $index => $filename) {
                 if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                    $file = studip_utf8decode($filename);
+                    $file = $filename;
                     $doc = StudipDocument::createWithFile($_FILES['docs']['tmp_name'][$index], array(
                         'range_id' => $this->client->id,
                         'user_id' => $GLOBALS['user']->id,

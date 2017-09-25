@@ -129,7 +129,7 @@ class SearchController extends AuthenticatedController {
         }
 
         if (Request::isXhr()) {
-            $name = studip_utf8decode($name);
+            $name = $name;
         }
 
         $presets = $class::getFilterPresets($this->client->id);

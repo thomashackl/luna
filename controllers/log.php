@@ -29,7 +29,7 @@ class LogController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/log-sidebar.png');
 
-        $this->client = LunaClient::getCurrentClient();
+        $this->client = LunaClient::findCurrent();
 
         if (Studip\ENV == 'development') {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
@@ -42,9 +42,6 @@ class LogController extends AuthenticatedController {
         PageLayout::addScript($js);
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.insert-at-caret.min.js');
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
-        // select2
-        PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/stylesheets/select2.min.css');
-        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/select2.min.js');
     }
 
     /**
@@ -202,7 +199,7 @@ class LogController extends AuthenticatedController {
     /**
      * customized #url_for for plugins
      */
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

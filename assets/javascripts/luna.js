@@ -288,21 +288,7 @@
                     attr('name', 'newdocs[]').
                     attr('value', input.files[i].name)
                 var text = $(document.createTextNode(input.files[i].name));
-                var a = $('<a>').
-                    on('click', function(event) {
-                        $(this).parent().remove();
-                    });
-                var img = $('<img>').
-                    attr('src', STUDIP.ASSETS_URL + 'images/icons/blue/trash.svg').
-                    attr('width', '16').
-                    attr('height', '16').
-                    addClass('icon-role-clickable').
-                    addClass('icon-role-trash');
-                ul.append(
-                    li.append(newdoc).append(text).append(
-                        a.append(img)
-                    )
-                );
+                ul.append(li.append(newdoc).append(text));
             }
         },
 

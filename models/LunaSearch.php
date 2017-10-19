@@ -85,7 +85,7 @@ class LunaSearch extends StandardSearch
      */
     private function getSQL()
     {
-        $client = LunaClient::getCurrentClient();
+        $client = LunaClient::findCurrent();
         switch ($this->search) {
             case 'user_id':
                 return "SELECT DISTINCT `user_id`,

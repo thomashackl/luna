@@ -52,7 +52,7 @@ class LunaPhoneNumber extends SimpleORMap
     {
         if ($type == 'before_delete' || $type == 'after_create' || ($type == 'before_store' && !$this->isNew() && $this->isDirty())) {
             $log = new LunaLogEntry();
-            $log->client_id = LunaClient::getCurrentClient()->id;
+            $log->client_id = LunaClient::findCurrent()->id;
             $log->user_id = $GLOBALS['user']->id;
             $log->affected = array($this->user->id);
             $log->affected_type = 'phone';

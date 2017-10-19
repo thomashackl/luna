@@ -28,7 +28,7 @@ class LunaPlugin extends StudIPPlugin implements SystemPlugin {
         // Plugin only available for roots or role.
         $clients = LunaClientUser::findByUser_id($GLOBALS['user']->id);
         if ($GLOBALS['perm']->have_perm('root') || count($clients) > 0) {
-            $currentClient = LunaClient::getCurrentClient();
+            $currentClient = LunaClient::findCurrent();
             $target = 'persons';
 
             if (!$currentClient) {

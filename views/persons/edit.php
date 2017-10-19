@@ -1,4 +1,4 @@
-<form class="default" action="<?= $controller->url_for('persons/save', $pid ?: null) ?>" method="post" enctype="multipart/form-data" data-dialog="reload-on-close">
+<form class="default" action="<?= $controller->url_for('persons/save', $pid ?: null) ?>" method="post" enctype="multipart/form-data">
     <header>
         <h1>
             <?= $person->isNew() ?
@@ -333,15 +333,15 @@
             </label>
             <ul id="luna-newdocs"></ul>
         </section>
-        <?php if (count($person->documents) > 0) : ?>
+        <?php if (count($documents) > 0) : ?>
             <section>
                 <h3><?= dgettext('luna', 'Vorhandene Dateien') ?></h3>
                 <ul id="luna-userdocs">
-                    <?php foreach ($person->documents as $d) : ?>
+                    <?php foreach ($documents as $d) : ?>
                         <li>
                             <input type="hidden" name="userdocs[]" value="<?= $d->id ?>">
-                            <a href="<?= $controller->url_for('persons/download', $d->id) ?>">
-                                <?= GetFileIcon(getFileExtension($d->filename))->asImg(['class' => "text-bottom"]) ?>
+                            <a href="<?= $d->getDownloadURL() ?>" target="_blank">
+                                <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
                                 <?= htmlReady($d->name) ?>
                             </a>
                             <a href="<?= $controller->url_for('persons/delete_doc', $person->id, $d->id) ?>">

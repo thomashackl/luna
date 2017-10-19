@@ -36,7 +36,7 @@
  * @property LunaTag tags has_and_belongs_to_many LunaTag
  * @property LunaEMail emails has_many LunaEMail
  * @property LunaPhoneNumber phonenumbers has_many LunaPhoneNumber
- * @property StudipDocument documents has_many StudipDocument
+ * @property LunaFolder documents has_one LunaFolder
  * @property User studip_user has_one User
  */
 class LunaUser extends SimpleORMap
@@ -83,13 +83,6 @@ class LunaUser extends SimpleORMap
             'class_name' => 'LunaPhoneNumber',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id',
-            'on_delete' => 'delete',
-            'on_store' => 'store'
-        );
-        $config['has_many']['documents'] = array(
-            'class_name' => 'StudipDocument',
-            'foreign_key' => 'user_id',
-            'assoc_foreign_key' => 'seminar_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
@@ -159,7 +152,7 @@ class LunaUser extends SimpleORMap
             return LunaUser::find($value)->$field;
         } else {
             return LunaUser::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value))->$field;
+                array('client' => LunaClient::findCurrent()->id, 'value' => $value))->$field;
         }
     }
 
@@ -170,7 +163,7 @@ class LunaUser extends SimpleORMap
     {
         if ($type == 'before_delete' || $type == 'after_create' || ($type == 'before_store' && !$this->isNew() && $this->isDirty())) {
             $log = new LunaLogEntry();
-            $log->client_id = LunaClient::getCurrentClient()->id;
+            $log->client_id = LunaClient::findCurrent()->id;
             $log->user_id = $GLOBALS['user']->id;
             $log->affected = array($this->id);
             $log->affected_type = 'user';

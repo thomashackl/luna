@@ -18,7 +18,7 @@
  * @property string sender_address database column
  * @property string mkdate database column
  * @property string chdate database column
- * @property LuneClientUser beneficiaries has_and_belongs_to_many LunaClientUser
+ * @property LunaClientUser beneficiaries has_and_belongs_to_many LunaClientUser
  * @property LunaUser users has_many LunaUser
  * @property LunaCompany companies has_many LunaCompany
  * @property LunaSkill skills has_many LunaSkill
@@ -72,7 +72,7 @@ class LunaClient extends SimpleORMap
         parent::__construct($id);
     }
 
-    public static function getCurrentClient()
+    public static function findCurrent()
     {
         $client = LunaClient::find($GLOBALS['user']->cfg->LUNA_CURRENT_CLIENT);
 

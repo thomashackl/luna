@@ -30,11 +30,8 @@ class ClientsController extends AuthenticatedController {
 
         $this->isRoot = $GLOBALS['perm']->have_perm('root');
 
-        $this->currentClient = LunaClient::getCurrentClient();
+        $this->currentClient = LunaClient::findCurrent();
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
-        // select2
-        PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/stylesheets/select2.min.css');
-        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/select2.min.js');
     }
 
     /**
@@ -210,7 +207,7 @@ class ClientsController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

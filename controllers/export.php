@@ -29,7 +29,7 @@ class ExportController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/export-sidebar.png');
 
-        $this->client = LunaClient::getCurrentClient();
+        $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
         $this->hasWriteAccess = in_array($access, array('admin', 'write'));
@@ -214,7 +214,7 @@ class ExportController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

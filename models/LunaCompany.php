@@ -107,7 +107,7 @@ class LunaCompany extends SimpleORMap
             return self::find($value)->$field;
         } else {
             $company = self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::getCurrentClient()->id, 'value' => $value));
+                array('client' => LunaClient::findCurrent()->id, 'value' => $value));
             return $company->$field;
         }
     }
@@ -119,7 +119,7 @@ class LunaCompany extends SimpleORMap
     {
         if ($type == 'before_delete' || $type == 'after_create' || ($type == 'before_store' && !$this->isNew() && $this->isDirty())) {
             $log = new LunaLogEntry();
-            $log->client_id = LunaClient::getCurrentClient()->id;
+            $log->client_id = LunaClient::findCurrent()->id;
             $log->user_id = $GLOBALS['user']->id;
             $log->affected = array($this->id);
             $log->affected_type = 'company';

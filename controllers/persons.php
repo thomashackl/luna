@@ -29,10 +29,9 @@ class PersonsController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/person-sidebar.png');
 
-        $this->client = LunaClient::getCurrentClient();
-        $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
-            $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->client = LunaClient::findCurrent();
+        $this->hasReadAccess = $this->client->hasReadAccess(User::findCurrent()->id);
+        $this->hasWriteAccess = $this->client->hasWriteAccess(User::findCurrent()->id);
 
         if (Studip\ENV == 'development') {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';
@@ -45,10 +44,6 @@ class PersonsController extends AuthenticatedController {
         PageLayout::addScript($js);
 
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
-
-        // select2
-        PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/stylesheets/select2.min.css');
-        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/select2.min.js');
     }
 
     /**
@@ -141,6 +136,9 @@ class PersonsController extends AuthenticatedController {
         $this->skills = $this->client->skills;
         $this->companies = $this->client->companies;
         $this->tags = $this->client->tags;
+
+        $f = new LunaFolder(Folder::findOneByRange_id($this->person->id));
+        $this->documents = $f->getFiles();
 
         $search = new PermissionSearch(
             'user',
@@ -381,37 +379,54 @@ class PersonsController extends AuthenticatedController {
             }
             $user->tags = SimpleORMapCollection::createFromArray($tags);
 
-            if (Request::getArray('userdocs')) {
-                $docs = StudipDocument::findMany(Request::getArray('userdocs'));
-            } else {
-                $docs = [];
-            }
-
-            foreach ($_FILES['docs']['name'] as $index => $filename) {
-                if ($_FILES['docs']['error'][$index] === UPLOAD_ERR_OK && in_array($filename, Request::getArray('newdocs'))) {
-                    $file = $filename;
-                    $doc = StudipDocument::createWithFile($_FILES['docs']['tmp_name'][$index], array(
-                        'range_id' => $this->client->id,
-                        'user_id' => $GLOBALS['user']->id,
-                        'name' => $file,
-                        'filename' => $file,
-                        'filesize' => $_FILES['docs']['size'][$index]
-                    ));
-                    if ($doc) {
-                        $docs[] = $doc;
-                    }
-                }
-            }
-            $user->documents = SimpleORMapCollection::createFromArray($docs);
-
             $user->status = Request::get('status');
             $user->graduation = Request::get('graduation');
             $user->notes = Request::get('notes');
 
             if ($user->store()) {
-                PageLayout::postSuccess(sprintf(
-                    dgettext('luna', 'Die Personendaten von %s wurden gespeichert.'),
-                    $user->getFullname('full')));
+
+                if ($_FILES['docs']) {
+                    $folder = Folder::findOneByRange_id($user->id);
+                    if (!$folder) {
+                        $folder = new LunaFolder([
+                            'user_id' => $GLOBALS['user']->id,
+                            'parent_id' => '',
+                            'range_id' => $user->id,
+                            'range_type' => 'luna',
+                            'folder_type' => 'LunaFolder',
+                            'name' => $user->getFullname(),
+                            'data_content' => ['client_id' => LunaClient::findCurrent()->id],
+                            'description' => ''
+                        ]);
+                        $folder->store();
+                    }
+                    $folder = $folder->getTypedFolder();
+
+                    $uploaded = FileManager::handleFileUpload($_FILES['docs'], $folder, $GLOBALS['user']->id);
+
+                    if ($uploaded['error']) {
+                        PageLayout::postError(
+                            dgettext('luna', 'Es ist ein Fehler beim Dateiupload aufgetreten.'),
+                            $uploaded['error']
+                        );
+                    } else {
+                        foreach ($uploaded['files'] as $file) {
+                            if ($fileref = $folder->createFile($file)) {
+                                $storedFiles[] = $fileref;
+                            } else {
+                                $this->render_json(['message' => MessageBox::error(
+                                    _('Die hochgeladene Datei konnte nicht dem Ordner zugeordnet werden!')
+                                )]);
+
+                                return;
+                            }
+                        }
+                        PageLayout::postSuccess(sprintf(
+                            dgettext('luna', 'Die Personendaten von %s wurden gespeichert.'),
+                            $user->getFullname('full')));
+                    }
+
+                }
             } else {
                 PageLayout::postError(sprintf(
                     dgettext('luna', 'Die Personendaten von %s konnten nicht gespeichert werden.'),
@@ -500,99 +515,21 @@ class PersonsController extends AuthenticatedController {
     /**
      * Deletes the given document which is assigned to the given person.
      * @param $person_id
-     * @param $doc_id
+     * @param $fileref_id
      */
-    public function delete_doc_action($person_id, $doc_id)
+    public function delete_doc_action($person_id, $fileref_id)
     {
         if ($this->hasWriteAccess) {
-            $doc = StudipDocument::find($doc_id);
-            $docname = $doc->name;
-            if ($doc->delete()) {
-                @unlink(get_upload_file_path($doc_id));
-                PageLayout::postSuccess(sprintf(dgettext('luna', 'Die Datei %s wurde gelöscht.'), $docname));
+            $folder = Folder::findOneByRange_id($person_id);
+            if ($folder->unlinkFileRef($fileref_id)) {
+                PageLayout::postSuccess(dgettext('luna', 'Die Datei wurde gelöscht.'));
+            } else {
+                PageLayout::postError(dgettext('luna', 'Die Datei konnte nicht gelöscht werden.'));
             }
             $this->relocate('persons/edit', $person_id);
         } else {
             throw new AccessDeniedException();
         }
-    }
-
-    /**
-     * As the normal sendfile.php has several permission checks which cannot
-     * be satisfied here, an extra download action is provided.
-     *
-     * @param $doc_id the file to download
-     */
-    public function download_action($doc_id)
-    {
-        $path = get_upload_file_path($doc_id);
-        $doc = StudipDocument::find($doc_id);
-        //replace bad charakters to avoid problems when saving the file
-        $file_name = prepareFilename(basename($doc->filename));
-        $content_type = get_mime_type($file_name);
-
-        if (Request::int('force_download') || $content_type == "application/octet-stream") {
-            $content_disposition = "attachment";
-        } else {
-            $content_disposition = "inline";
-        }
-
-        $filesize = @filesize($path);
-        $start = $end = null;
-
-        if ($filesize) {
-            header('Accept-Ranges: bytes');
-            $start = 0;
-            $end = $filesize - 1;
-            $length = $filesize;
-            if (isset($_SERVER['HTTP_RANGE'])) {
-                $c_start = $start;
-                $c_end   = $end;
-                list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
-                if (strpos($range, ',') !== false) {
-                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
-                    header('Content-Range: bytes $start-$end/$filesize');
-                    exit;
-                }
-                if ($range == '-') {
-                    $c_start = $filesize - substr($range, 1);
-                } else {
-                    $range  = explode('-', $range);
-                    $c_start = $range[0];
-                    $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $filesize;
-                }
-                $c_end = ($c_end > $end) ? $end : $c_end;
-                if ($c_start > $c_end || $c_start > $filesize - 1 || $c_end >= $filesize) {
-                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
-                    header('Content-Range: bytes $start-$end/$filesize');
-                    exit;
-                }
-                $start  = $c_start;
-                $end    = $c_end;
-                $length = $end - $start + 1;
-                header('HTTP/1.1 206 Partial Content');
-            }
-            header('Content-Range: bytes ' . ($start-$end/$filesize));
-            header('Content-Length: ' . $length);
-        }
-
-        header('Expires: Mon, 12 Dec 2001 08:00:00 GMT');
-        header('Last-Modified: ' . gmdate ('D, d M Y H:i:s') . ' GMT');
-        if ($_SERVER['HTTPS'] == 'on'){
-            header('Pragma: public');
-            header('Cache-Control: private');
-        } else {
-            header('Pragma: no-cache');
-            header('Cache-Control: no-store, no-cache, must-revalidate');   // HTTP/1.1
-        }
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Content-Type: $content_type');
-        header('Content-Disposition: $content_disposition; filename="' . $file_name . '"');
-
-
-        @readfile_chunked($path, $start, $end);
-
-        $this->render_nothing();
     }
 
     public function get_status_action()
@@ -650,7 +587,7 @@ class PersonsController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

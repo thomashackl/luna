@@ -41,11 +41,7 @@ class CompaniesController extends AuthenticatedController {
 
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
 
-        // select2
-        PageLayout::addStylesheet($this->plugin->getPluginURL().'/assets/stylesheets/select2.min.css');
-        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/select2.min.js');
-
-        $this->client = LunaClient::getCurrentClient();
+        $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
         $this->hasWriteAccess = in_array($access, array('admin', 'write'));
@@ -326,7 +322,7 @@ class CompaniesController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    public function url_for($to)
+    public function url_for($to = '')
     {
         $args = func_get_args();
 

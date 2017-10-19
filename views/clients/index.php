@@ -26,28 +26,44 @@
                 <td><?= htmlReady($c->name) ?></td>
                 <td><?= htmlReady($c->sender_address) ?></td>
                 <td>
+                    <?php $actionMenu = ActionMenu::get() ?>
                     <?php if ($currentClient->client_id != $c->id) : ?>
-                        <a href="<?= $controller->url_for('clients/select', $c->id) ?>">
-                            <?= Icon::create('accept', 'clickable')->asImg() ?>
-                        </a>
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('clients/select', $c->id),
+                            dgettext('luna', 'Mandant auswählen'),
+                            Icon::create('accept', 'clickable',['title' =>
+                                dgettext('luna', 'Mandant auswählen')])
+                        ) ?>
                     <?php endif ?>
                     <?php if ($isRoot || ($c->beneficiaries &&
                             $c->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status == 'admin')) : ?>
-                        <a href="<?= $controller->url_for('clients/permissions', $c->id) ?>" data-dialog="size=auto">
-                            <?= Icon::create('community', 'clickable')->asImg() ?>
-                        </a>
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('clients/permissions', $c->id),
+                            dgettext('luna', 'Berechtigungen bearbeiten'),
+                            Icon::create('community', 'clickable',['title' =>
+                                dgettext('luna', 'Berechtigungen bearbeiten')]),
+                            ['data-dialog' => 'size=auto']
+                        ) ?>
                     <?php endif ?>
                     <?php if ($isRoot) : ?>
-                        <a href="<?= $controller->url_for('clients/edit', $c->id) ?>" data-dialog="size=auto">
-                            <?= Icon::create('edit', 'clickable')->asImg() ?>
-                        </a>
-                        <a href="<?= $controller->url_for('clients/delete', $c->id) ?>" data-confirm="<?=
-                            dgettext('luna', 'Wollen Sie den Mandanten wirklich löschen? Damit '.
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('clients/edit', $c->id),
+                            dgettext('luna', 'Daten anzeigen/bearbeiten'),
+                            Icon::create('edit', 'clickable',['title' =>
+                                dgettext('luna', 'Daten anzeigen/bearbeiten')]),
+                            ['data-dialog' => 'size=auto']
+                        ) ?>
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('clients/delete', $c->id),
+                            dgettext('luna', 'Löschen'),
+                            Icon::create('trash', 'clickable',['title' =>
+                                dgettext('luna', 'Löschen')]),
+                            ['data-confirm' =>  dgettext('luna', 'Wollen Sie den Mandanten wirklich löschen? Damit '.
                                 'werden alle Personen, Unternehmen, Kompetenzen und Schlagwörter dieses Mandanten '.
-                                'ebenfalls gelöscht!')?>">
-                            <?= Icon::create('trash', 'clickable')->asImg() ?>
-                        </a>
+                                'ebenfalls gelöscht!')]
+                        ) ?>
                     <?php endif ?>
+                    <?= $actionMenu->render() ?>
                 </td>
             </tr>
         <?php endforeach ?>

@@ -42,29 +42,38 @@
                     </td>
                     <td colspan="2"><?= htmlReady($t->name) ?></td>
                     <td class="actions">
+                        <?php $actionMenu = ActionMenu::get() ?>
                         <?php if (count($t->users) > 0 || count($t->companies) > 0) : ?>
-                            <a href="<?= $controller->url_for('tags/assigned_to', $t->id) ?>" data-dialog>
-                                <?= Icon::create('community', 'clickable',
-                                    ['title' => sprintf(
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('tags/assigned_to', $t->id),
+                                dgettext('luna', 'Zugeordnete Personen/Unternehmen anzeigen'),
+                                Icon::create('community', 'clickable',['title' =>
+                                    sprintf(
                                         dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
                                             count($t->users)), count($t->users)) . '/' .
-                                        sprintf(
-                                            dngettext('luna', '%u zugeordnete Unternehmen', '%u zugeordnete Unternehmen',
-                                                count($t->companies)), count($t->companies))
-                                    ])->asImg() ?>
-                            </a>
+                                    sprintf(
+                                        dngettext('luna', '%u zugeordnete Unternehmen', '%u zugeordnete Unternehmen',
+                                            count($t->companies)), count($t->companies))]),
+                                ['data-dialog' => '']
+                            ) ?>
                         <?php endif ?>
                         <?php if ($hasWriteAccess) : ?>
-                            <a href="<?= $controller->url_for('tags/edit', $t->id) ?>" data-dialog="size=auto"
-                               title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">
-                                <?= Icon::create('edit', 'clickable')->asImg() ?>
-                            </a>
-                            <a href="<?= $controller->url_for('tags/delete', $t->id) ?>" data-confirm="<?=
-                            dgettext('luna', 'Wollen Sie das Schlagwort wirklich löschen?')?>"
-                               title="<?= dgettext('luna', 'Löschen') ?>">
-                                <?= Icon::create('trash', 'clickable')->asImg() ?>
-                            </a>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('tags/edit', $t->id),
+                                dgettext('luna', 'Daten anzeigen/bearbeiten'),
+                                Icon::create('edit', 'clickable',['title' =>
+                                    dgettext('luna', 'Daten anzeigen/bearbeiten')]),
+                                ['data-dialog' => 'size=auto']
+                            ) ?>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('tags/delete', $t->id),
+                                dgettext('luna', 'Löschen'),
+                                Icon::create('trash', 'clickable',['title' =>
+                                    dgettext('luna', 'Löschen')]),
+                                ['data-confirm' => dgettext('luna', 'Wollen Sie das Schlagwort wirklich löschen?')]
+                            ) ?>
                         <?php endif ?>
+                        <?= $actionMenu->render() ?>
                     </td>
                 </tr>
             <?php endforeach ?>

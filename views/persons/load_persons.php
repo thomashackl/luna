@@ -72,35 +72,59 @@
                         </td>
                     <?php endforeach ?>
                     <td>
-                        <a href="<?= $controller->url_for('message/write/user', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Nachricht an %s schreiben'), $p->getFullname('full')) ?>">
-                            <?= Icon::create('mail', 'clickable')->asImg() ?>
-                        </a>
-                        <a href="<?= $controller->url_for('export/vcard', 'persons', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Kontakt %s exportieren'), $p->getFullname('full')) ?>">
-                            <?= Icon::create('vcard', 'clickable')->asImg() ?>
-                        </a>
+                        <?php $actionMenu = ActionMenu::get() ?>
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('message/write/user', $p->id),
+                            dgettext('luna', 'Nachricht schreiben'),
+                            Icon::create('mail', 'clickable',['title' =>
+                                dgettext('luna', 'Nachricht schreiben')])
+                        ) ?>
+                        <?php $actionMenu->addLink(
+                            $controller->url_for('export/vcard', 'persons', $p->id),
+                            dgettext('luna', 'Kontakt exportieren'),
+                            Icon::create('vcard', 'clickable', ['title' =>
+                                dgettext('luna', 'Kontakt exportieren')])
+                        ) ?>
                         <?php if ($hasWriteAccess) : ?>
-                            <a href="<?= $controller->url_for('persons/edit', $p->id) ?>" title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen/bearbeiten'), $p->getFullname('full')) ?>">
-                                <?= Icon::create('edit', 'clickable')->asImg() ?>
-                            </a>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('persons/edit', $p->id),
+                                dgettext('luna', 'Daten anzeigen/bearbeiten'),
+                                Icon::create('edit', 'clickable', ['title' =>
+                                    dgettext('luna', 'Daten anzeigen/bearbeiten')])
+                            ) ?>
                             <?php if ($p->studip_user_id) : ?>
-                                <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>"  title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
-                                    <?= Icon::create('seminar', 'clickable')->asImg() ?>
-                                </a>
+                                <? $actionMenu->addLink(
+                                    URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]),
+                                    dgettext('luna', 'Zum Stud.IP-Profil'),
+                                    Icon::create('seminar', 'clickable', ['title' =>
+                                        dgettext('luna', 'Zum Stud.IP-Profil')]),
+                                    ['target' => '_blank']
+                                ) ?>
                             <?php endif ?>
-                            <a href="<?= $controller->url_for('persons/delete', $p->id) ?>" data-confirm="<?=
-                                    dgettext('luna', 'Wollen Sie die Person wirklich löschen?')?>" title="<?= sprintf(dgettext('luna', '%s löschen'), $p->getFullname('full')) ?>">
-                                <?= Icon::create('trash', 'clickable')->asImg() ?>
-                            </a>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('persons/delete', $p->id),
+                                dgettext('luna', 'Person löschen'),
+                                Icon::create('trash', 'clickable', ['title' => dgettext('luna', 'Person löschen')]),
+                                ['data-confirm' => dgettext('luna', 'Wollen Sie die Person wirklich löschen?')]
+                            ) ?>
                         <?php else : ?>
-                            <a href="<?= $controller->url_for('persons/info', $p->id) ?>"  title="<?= sprintf(dgettext('luna', 'Daten von %s anzeigen'), $p->getFullname('full')) ?>" data-dialog>
-                                <?= Icon::create('info', 'clickable')->asImg() ?>
-                            </a>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('persons/info', $p->id),
+                                dgettext('luna', 'Daten anzeigen'),
+                                Icon::create('info', 'clickable', ['title' => dgettext('luna', 'Daten anzeigen')]),
+                                ['target' => '_blank']
+                            ) ?>
                             <?php if ($p->studip_user_id) : ?>
-                                <a href="<?= URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]) ?>"  title="<?= dgettext('luna', 'Zum Stud.IP-Profil') ?>" target="_blank">
-                                    <?= Icon::create('seminar', 'clickable')->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    URLHelper::getURL('dispatch.php/profile', ['username' => $p->studip_user->username]),
+                                    dgettext('luna', 'Zum Stud.IP-Profil'),
+                                    Icon::create('seminar', 'clickable', ['title' =>
+                                        dgettext('luna', 'Zum Stud.IP-Profil')]),
+                                    ['target' => '_blank']
+                                ) ?>
                             <?php endif ?>
                         <?php endif ?>
+                        <?= $actionMenu->render() ?>
                     </td>
                 </tr>
             <?php endforeach ?>

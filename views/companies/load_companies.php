@@ -74,35 +74,51 @@
                             <?php endif ?>
                         </td>
                         <td>
+                            <?php $actionMenu = ActionMenu::get() ?>
                             <?php if (count($c->members) > 0) : ?>
-                                <a href="<?= $controller->url_for('companies/members', $c->id) ?>" data-dialog="size=auto"
-                                        title="<?= dgettext('luna', 'Mitglieder anzeigen') ?>">
-                                    <?= Icon::create('community', 'clickable')->asImg() ?>
-                                </a>
-                                <a href="<?= $controller->url_for('message/write/company', $c->id) ?>"
-                                        title="<?= dgettext('luna', 'Nachricht schreiben') ?>">
-                                    <?= Icon::create('mail', 'clickable')->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('companies/members', $c->id),
+                                    dgettext('luna', 'Mitglieder anzeigen'),
+                                    Icon::create('community', 'clickable',['title' =>
+                                        dgettext('luna', 'Mitglieder anzeigen')]),
+                                    ['data-dialog' => 'size=auto']
+                                ) ?>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('message/write/company', $c->id),
+                                    dgettext('luna', 'Nachricht schreiben'),
+                                    Icon::create('mail', 'clickable',['title' =>
+                                        dgettext('luna', 'Nachricht schreiben')])
+                                ) ?>
                             <?php endif ?>
-                            <a href="<?= $controller->url_for('export/vcard', 'companies', $c->id) ?>" title="<?= sprintf(dgettext('luna', 'Visitenkarte %s exportieren'), $c->name) ?>">
-                                <?= Icon::create('vcard', 'clickable')->asImg() ?>
-                            </a>
+                            <?php $actionMenu->addLink(
+                                $controller->url_for('export/vcard', 'companies', $c->id),
+                                dgettext('luna', 'Visitenkarte exportieren'),
+                                Icon::create('vcard', 'clickable', ['title' =>
+                                    dgettext('luna', 'Visitenkarte exportieren')])
+                            ) ?>
                             <?php if ($hasWriteAccess) : ?>
-                                <a href="<?= $controller->url_for('companies/edit', $c->id) ?>" data-dialog="size=auto"
-                                        title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">
-                                    <?= Icon::create('edit', 'clickable')->asImg() ?>
-                                </a>
-                                <a href="<?= $controller->url_for('companies/delete', $c->id) ?>" data-confirm="<?=
-                                        dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')?>"
-                                        title="<?= dgettext('luna', 'Löschen') ?>">
-                                    <?= Icon::create('trash', 'clickable')->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('companies/edit', $c->id),
+                                    dgettext('luna', 'Daten anzeigen/bearbeiten'),
+                                    Icon::create('edit', 'clickable', ['title' =>
+                                        dgettext('luna', 'Daten anzeigen/bearbeiten')]),
+                                   ['data-dialog' => 'size=auto']
+                                ) ?>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('companies/delete', $c->id),
+                                    dgettext('luna', 'Löschen'),
+                                    Icon::create('trash', 'clickable', ['title' => dgettext('luna', 'Löschen')]),
+                                    ['data-confirm' => dgettext('luna', 'Wollen Sie das Unternehmen wirklich löschen?')]
+                                ) ?>
                             <?php else : ?>
-                                <a href="<?= $controller->url_for('companies/info', $c->id) ?>" data-dialog
-                                        title="<?= dgettext('luna', 'Daten anzeigen') ?>">
-                                    <?= Icon::create('info', 'clickable')->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('companies/info', $c->id),
+                                    dgettext('luna', 'Daten anzeigen'),
+                                    Icon::create('info', 'clickable', ['title' => dgettext('luna', 'Daten anzeigen')]),
+                                    ['data-dialog' => '']
+                                ) ?>
                             <?php endif ?>
+                            <?= $actionMenu->render() ?>
                         </td>
                     </tr>
                 <?php endforeach ?>

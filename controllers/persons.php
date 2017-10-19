@@ -276,7 +276,7 @@ class PersonsController extends AuthenticatedController {
             $user->fax = Request::get('fax');
             $user->homepage = Request::get('homepage');
 
-            $user->studip_user_id = Request::option('studip_user_id', null);
+            $user->studip_user_id = Request::option('studip_user_id') ?: Request::option('currentstudipuser', null);
 
             $skills = [];
             foreach (Request::getArray('skills') as $skill) {
@@ -385,7 +385,7 @@ class PersonsController extends AuthenticatedController {
 
             if ($user->store()) {
 
-                if ($_FILES['docs']) {
+                if ($_FILES['docs']['error'][0] != 4) {
                     $folder = Folder::findOneByRange_id($user->id);
                     if (!$folder) {
                         $folder = new LunaFolder([

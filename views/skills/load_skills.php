@@ -42,26 +42,33 @@
                         </td>
                         <td colspan="2"><?= htmlReady($s->name) ?></td>
                         <td>
+                            <?php $actionMenu = ActionMenu::get() ?>
                             <?php if (count($s->users) > 0) : ?>
-                                <a href="<?= $controller->url_for('skills/assigned_to', $s->id) ?>" data-dialog>
-                                    <?= Icon::create('community', 'clickable',
-                                        ['title' => sprintf(
-                                                dngettext('luna', '%u zugeordnete Person', '%u zugeordnete Personen',
-                                                    count($s->users)), count($s->users))
-                                        ])->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('skills/assigned_to', $s->id),
+                                    dgettext('luna', 'Zugeordnete Personen anzeigen'),
+                                    Icon::create('community', 'clickable',['title' =>
+                                        dgettext('luna', 'Zugeordnete Personen anzeigen')]),
+                                    ['data-dialog' => '']
+                                ) ?>
                             <?php endif ?>
                             <?php if ($hasWriteAccess) : ?>
-                                <a href="<?= $controller->url_for('skills/edit', $s->id) ?>" data-dialog="size=auto"
-                                        title="<?= dgettext('luna', 'Daten anzeigen/bearbeiten') ?>">
-                                    <?= Icon::create('edit', 'clickable')->asImg() ?>
-                                </a>
-                                <a href="<?= $controller->url_for('skills/delete', $s->id) ?>" data-confirm="<?=
-                                        dgettext('luna', 'Wollen Sie die Kompetenz wirklich löschen?')?>"
-                                        title="<?= dgettext('luna', 'Löschen') ?>">
-                                    <?= Icon::create('trash', 'clickable')->asImg() ?>
-                                </a>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('skills/edit', $s->id),
+                                    dgettext('luna', 'Daten anzeigen/bearbeiten'),
+                                    Icon::create('edit', 'clickable',['title' =>
+                                        dgettext('luna', 'Daten anzeigen/bearbeiten')]),
+                                    ['data-dialog' => 'size=auto']
+                                ) ?>
+                                <?php $actionMenu->addLink(
+                                    $controller->url_for('skills/delete', $s->id),
+                                    dgettext('luna', 'Löschen'),
+                                    Icon::create('trash', 'clickable',['title' =>
+                                        dgettext('luna', 'Löschen')]),
+                                    ['data-confirm' => dgettext('luna', 'Wollen Sie die Kompetenz wirklich löschen?')]
+                                ) ?>
                             <?php endif ?>
+                            <?= $actionMenu->render() ?>
                         </td>
                     </tr>
                 <?php endforeach ?>

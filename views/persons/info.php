@@ -151,19 +151,23 @@
                 </td>
             </tr>
         <?php endif ?>
-        <?php if (count($person->documents) > 0) : ?>
+        <?php if (count($documents) > 0) : ?>
             <tr>
                 <td class="luna-label">
                     <?= dgettext('luna', 'Dateien') ?>
                 </td>
                 <td>
-                    <?php foreach ($person->documents as $d) : ?>
-                        <div>
-                            <a href="<?= $controller->url_for('persons/download', $d->id) ?>">
-                                <?= GetFileIcon(getFileExtension($d->filename))->asImg(['class' => "text-bottom"]) ?>
+                    <?php foreach ($documents as $d) : ?>
+                        <li>
+                            <input type="hidden" name="userdocs[]" value="<?= $d->id ?>">
+                            <a href="<?= $d->getDownloadURL() ?>" target="_blank">
+                                <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
                                 <?= htmlReady($d->name) ?>
                             </a>
-                        </div>
+                            <a href="<?= $controller->url_for('persons/delete_doc', $person->id, $d->id) ?>">
+                                <?= Icon::create('trash', 'clickable', array('class' => 'text-bottom')) ?>
+                            </a>
+                        </li>
                     <?php endforeach ?>
                 </td>
             </tr>

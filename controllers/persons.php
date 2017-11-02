@@ -189,6 +189,9 @@ class PersonsController extends AuthenticatedController {
 
         $this->person = LunaUser::find($id);
 
+        $f = new LunaFolder(Folder::findOneByRange_id($this->person->id));
+        $this->documents = $f->getFiles();
+
         $title = sprintf(dgettext('luna', 'Daten von %s'), $this->person->getFullname('full'));
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);

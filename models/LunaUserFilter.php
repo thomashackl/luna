@@ -222,13 +222,15 @@ class LunaUserFilter
     public static function getFilters($user_id, $client = '')
     {
         $filters = studip_json_decode(UserConfig::get($user_id)->LUNA_USER_FILTER);
-        if ($client) {
-            $filters = $filters[$client];
-            foreach ($filters as $index => $filter) {
+        foreach ($filters as $clientId => $clientFilters) {
+            foreach ($clientFilters as $index => $filter) {
                 if (!$filter['column'] || !$filter['compare']) {
-                    unset($filters[$index]);
+                    unset($filters[$clientId][$index]);
                 }
             }
+        }
+        if ($client) {
+            $filters = $filters[$client];
         }
         return $filters;
     }

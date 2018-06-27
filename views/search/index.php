@@ -29,16 +29,15 @@
                                 <li>
                                     <?= htmlReady($data['allfilters'][$filter['column']]['name']) ?>
                                     <?= htmlReady($filter['compare']) ?>
-                                    <?= htmlReady(
-                                        $data['allfilters'][$filter['column']]['class']::getDisplayValue($filter['value'],
-                                            $data['allfilters'][$filter['column']]['dbvalues'],
-                                            $allfilters[$filter['column']]['is_id'])) ?>
+                                    <?= htmlReady($data['allfilters'][$filter['column']]['class']::getDisplayValue(
+                                            trim($filter['value']), $data['allfilters'][$filter['column']]['dbvalues'],
+                                            $data['allfilters'][$filter['column']]['is_id'])) ?>
                                 </li>
                             <?php endforeach ?>
                         </ul>
                     </td>
                     <td>
-                        <a href="<?= $controller->url_for('search/delete_preset', $type, $name) ?>" data-confirm="<?=
+                        <a href="<?= $controller->url_for('search/delete_preset', $type, urlencode($name)) ?>" data-confirm="<?=
                                 dgettext('luna', 'Wollen Sie die Suchvorlage wirklich löschen?')?>">
                             <?= Icon::create('trash', 'clickable')->asImg() ?>
                         </a>

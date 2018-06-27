@@ -117,9 +117,9 @@ class SearchController extends AuthenticatedController {
         $this->relocate($type);
     }
 
-    public function load_preset_action($type, $name)
+    public function load_preset_action()
     {
-        switch ($type) {
+        switch (Request::get('type')) {
             case 'persons':
                 $class = 'LunaUserFilter';
                 break;
@@ -128,14 +128,10 @@ class SearchController extends AuthenticatedController {
                 break;
         }
 
-        if (Request::isXhr()) {
-            $name = $name;
-        }
-
         $presets = $class::getFilterPresets($this->client->id);
-        $class::setFilters($this->client->id, $presets[$name]);
+        $class::setFilters($this->client->id, $presets[Request::get('name')]);
         $this->allfilters = $class::getFilterFields();
-        $this->filters = $presets[$name];
+        $this->filters = $presets[Request::get('name')];
     }
 
     // customized #url_for for plugins

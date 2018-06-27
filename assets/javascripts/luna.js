@@ -119,17 +119,18 @@
         },
 
         loadFilterPreset: function() {
-            var element = $('#luna-userfilter-preset');
+            var element = $('#luna-filter-presets');
 
             if (element.children('option:selected').attr('value') != '') {
                 var fullUrl = element.data('update-url').split('?');
-                var url = fullUrl[0] + '/' + element.children('option:selected').attr('value');
-                if (fullUrl[1] != '') {
-                    url += '?' + fullUrl[1];
-                }
-                $.ajax({
+                var url = fullUrl[0]
+                $.post({
                     url: url,
                     dataType: 'html',
+                    data: {
+                        type: element.data('filter-type'),
+                        name: element.children('option:selected').attr('value')
+                    },
                     beforeSend: function (xhr, settings) {
                         $('div#luna-applied-filters').
                             html($('<img>').
@@ -485,7 +486,7 @@
                 return false;
             });
 
-            $('#luna-userfilter-preset').on('change', function() {
+            $('#luna-filter-presets').on('change', function() {
                 STUDIP.Luna.loadFilterPreset();
                 return false;
             });

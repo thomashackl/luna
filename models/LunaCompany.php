@@ -106,9 +106,8 @@ class LunaCompany extends SimpleORMap
         if ($is_id) {
             return self::find($value)->$field;
         } else {
-            $company = self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::findCurrent()->id, 'value' => $value));
-            return $company->$field;
+            return self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
+                array('client' => LunaClient::findCurrent()->id, 'value' => $value))->$field;
         }
     }
 

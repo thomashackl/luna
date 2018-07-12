@@ -113,5 +113,24 @@
                 </td>
             </tr>
         <?php endif ?>
+        <?php if (count($company->last_contacts) > 0) : ?>
+            <tr>
+                <td class="luna-label">
+                    <?= dgettext('luna', 'Letzte Kontakte') ?>
+                </td>
+                <td>
+                    <?php foreach ($company->last_contacts as $contact) : ?>
+                        <div class="hgroup">
+                            <div>
+                                <?= date('d.m.Y', $contact->date) ?>
+                                <?= htmlReady($contact->user->getFullname()) ?>:
+                                <?= htmlReady($contact->contact) ?>
+                            </div>
+                            <div><?= htmlReady($contact->notes) ?></div>
+                        </div>
+                    <?php endforeach ?>
+                </td>
+            </tr>
+        <?php endif ?>
     </tbody>
 </table>

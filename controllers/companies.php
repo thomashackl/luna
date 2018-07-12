@@ -316,6 +316,17 @@ class CompaniesController extends AuthenticatedController {
         }
     }
 
+    public function delete_last_contact_action($user_id, $company_id, $date)
+    {
+        $contact = LunaCompanyLastContact::find([$user_id, $company_id, $date]);
+        if ($contact->delete()) {
+            PageLayout::postSuccess(dgettext('luna', 'Der Eintrag wurde gelöscht.'));
+        } else {
+            PageLayout::postError(dgettext('luna', 'Der Eintrag konnte nicht gelöscht werden.'));
+        }
+        $this->relocate('companies/edit', $company_id);
+    }
+
     /**
      * Delete a company.
      *

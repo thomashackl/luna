@@ -157,72 +157,78 @@
             </div>
         </section>
     </fieldset>
-    <?php if (count($company->last_contacts) > 0) : ?>
-        <table class="default">
-            <caption>
-                <?= dgettext('luna', 'Letzte Kontakte') ?>
-                <span class="actions" id="luna-add-last-contact-container">
-                    <a href="" id="luna-add-last-contact">
-                        <?= Icon::create('add') ?>
-                        <?= dgettext('luna', 'hinzufügen') ?>
-                    </a>
-                </span>
-            </caption>
-            <colgroup>
-                <col width="150">
-                <col width="200">
-                <col width="200">
-                <col>
-            </colgroup>
-            <thead>
-                <tr>
-                    <th id="luna-last-contact-date"><?= dgettext('luna', 'Wann?') ?></th>
-                    <th id="luna-last-contact-who"><?= dgettext('luna', 'Wer?') ?></th>
-                    <th id="luna-last-contact-contact"><?= dgettext('luna', 'Mit wem?') ?></th>
-                    <th id="luna-last-contact-notes"><?= dgettext('luna', 'Notizen') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="luna-new-last-contact" class="hidden-js">
-                    <td>
-                        <input type="text" name="last_contact_date" placeholder="<?= date('d.m.Y') ?>"
-                               readonly data-date-picker
-                               aria-labelledby="luna-last-contact-legend luna-last-contact-date">
-                    </td>
-                    <td>
-                        <select name="last_contact_person" size="1"
-                                aria-labelledby="luna-last-contact-legend luna-last-contact-who">
-                            <option value="">
-                                -- <?= dgettext('luna', 'bitte auswählen') ?> --
+    <table class="default">
+        <caption>
+            <?= dgettext('luna', 'Letzte Kontakte') ?>
+            <span class="actions" id="luna-add-last-contact-container">
+                <a href="" id="luna-add-last-contact">
+                    <?= Icon::create('add') ?>
+                    <?= dgettext('luna', 'hinzufügen') ?>
+                </a>
+            </span>
+        </caption>
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col width="200">
+            <col>
+            <col width="16">
+        </colgroup>
+        <thead id="luna-last-contacts-thead"<?= count($company->last_contacts) < 1 ? ' class="hidden-js"' : '' ?>>
+            <tr>
+                <th id="luna-last-contact-date"><?= dgettext('luna', 'Wann?') ?></th>
+                <th id="luna-last-contact-who"><?= dgettext('luna', 'Wer?') ?></th>
+                <th id="luna-last-contact-contact"><?= dgettext('luna', 'Mit wem?') ?></th>
+                <th id="luna-last-contact-notes"><?= dgettext('luna', 'Notizen') ?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="luna-new-last-contact" class="hidden-js">
+                <td>
+                    <input type="text" name="last_contact_date" placeholder="<?= date('d.m.Y') ?>"
+                           readonly data-date-picker
+                           aria-labelledby="luna-last-contact-legend luna-last-contact-date">
+                </td>
+                <td>
+                    <select name="last_contact_person" size="1"
+                            aria-labelledby="luna-last-contact-legend luna-last-contact-who">
+                        <option value="">
+                            -- <?= dgettext('luna', 'bitte auswählen') ?> --
+                        </option>
+                        <?php foreach ($clientUsers as $u) : ?>
+                            <option value="<?= $u->user_id ?>">
+                                <?= htmlReady($u->getFullname('full')) ?>
                             </option>
-                            <?php foreach ($clientUsers as $u) : ?>
-                                <option value="<?= $u->user_id ?>">
-                                    <?= htmlReady($u->getFullname('full')) ?>
-                                </option>
-                            <?php endforeach ?>
-                        </select>
-                    </td>
+                        <?php endforeach ?>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="last_contact_contact" size="30" maxlength="255"
+                           placeholder="<?= dgettext('luna', 'Ansprechpartner') ?>"
+                           aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
+                </td>
+                <td colspan="2">
+                    <textarea name="last_contact_notes" cols="50" rows="3"
+                              aria-labelledby="luna-last-contact-legend luna-last-contact-notes"></textarea>
+                </td>
+            </tr>
+            <?php foreach ($company->last_contacts as $lc) : ?>
+                <tr>
+                    <td><?= date('d.m.Y', $lc->date) ?></td>
+                    <td><?= htmlReady($lc->user->getFullname()) ?></td>
+                    <td><?= htmlReady($lc->contact) ?></td>
+                    <td><?= htmlReady($lc->notes) ?></td>
                     <td>
-                        <input type="text" name="last_contact_contact" size="30" maxlength="255"
-                               placeholder="<?= dgettext('luna', 'Ansprechpartner') ?>"
-                               aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
-                    </td>
-                    <td>
-                        <textarea name="last_contact_notes" cols="50" rows="3"
-                                  aria-labelledby="luna-last-contact-legend luna-last-contact-notes"></textarea>
+                        <a href="<?= $controller->url_for('companies/delete_last_contact', $lc->user_id, $lc->company_id, $lc->date) ?>"
+                           data-confirm="<?= dgettext('luna', 'Soll der Eintrag wirklich gelöscht werden?') ?>">
+                            <?= Icon::create('trash') ?>
+                        </a>
                     </td>
                 </tr>
-                <?php foreach ($company->last_contacts as $lc) : ?>
-                    <tr>
-                        <td><?= date('d.m.Y', $lc->date) ?></td>
-                        <td><?= htmlReady($lc->user->getFullname()) ?></td>
-                        <td><?= htmlReady($lc->contact) ?></td>
-                        <td><?= htmlReady($lc->notes) ?></td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    <?php endif ?>
+            <?php endforeach ?>
+        </tbody>
+    </table>
     <footer data-dialog-button>
         <?php foreach ($flash->flash as $key => $value) : ?>
             <?php if (is_array($value)) : ?>

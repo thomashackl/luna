@@ -618,6 +618,7 @@
             // Show "add last contact" fields
             $('#luna-add-last-contact').on('click', function() {
                 $('#luna-add-last-contact-container').addClass('hidden-js');
+                $('#luna-last-contacts-thead').removeClass('hidden-js');
                 $('#luna-new-last-contact').removeClass('hidden-js');
                 return false;
             });

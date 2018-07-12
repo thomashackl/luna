@@ -1,4 +1,5 @@
 @import url('../../../studip-passau/public/assets/stylesheets/mixins/colors.less');
+@import url('../../../studip-passau/public/assets/stylesheets/mixins/flex.less');
 
 div.luna-defaultentry {
   font-style: italic;
@@ -46,14 +47,14 @@ table.default {
   }
 }
 
-section#luna-data-filters {
-  div#luna-newfilter {
+#luna-data-filters {
+  #luna-newfilter {
     border: 1px solid @light-gray-color-60;
     background-color: @light-gray-color-20;
     padding: 5px;
   }
 
-  div#luna-applied-filters {
+  #luna-applied-filters {
     border: 1px solid @light-gray-color-60;
     margin-bottom: 10px;
     padding: 10px;
@@ -102,7 +103,7 @@ form.default {
       }
     }
 
-    div#luna-person-skills, div#luna-person-tags, div#luna-company-tags, div#luna-company-skills {
+    #luna-person-skills, #luna-person-tags, #luna-company-tags, #luna-company-skills {
       margin-top: 10px;
 
       div {
@@ -121,14 +122,14 @@ form.default {
       cursor: pointer;
     }
 
-    div#luna-recipients {
+    #luna-recipients {
       margin-left: 5px;
       border: 1px solid @light-gray-color-20;
     }
 
     &#luna-message {
 
-      label#luna-markers {
+      #luna-markers {
         background: #e2e3e5;
         border: 1px solid #d8dadc;
         left: 0;
@@ -143,7 +144,7 @@ form.default {
           width: auto !important;
         }
 
-        div#luna-marker-description {
+        #luna-marker-description {
           font-style: italic;
           padding-top: 2px;
         }

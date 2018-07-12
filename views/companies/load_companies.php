@@ -51,7 +51,12 @@
                         <td>
                             <input type="checkbox" name="companies[]" value="<?= $c->id ?>">
                         </td>
-                        <td><?= htmlReady($c->name) ?></td>
+                        <td>
+                            <a href="<?= $controller->url_for(($hasWriteAccess ? 'companies/edit' : 'companies/info'),
+                                    $c->id) ?>">
+                                <?= htmlReady($c->name) ?>
+                            </a>
+                        </td>
                         <td>
                             <?= nl2br(htmlReady($c->address)) ?>
                             <br>
@@ -101,8 +106,7 @@
                                     $controller->url_for('companies/edit', $c->id),
                                     dgettext('luna', 'Daten anzeigen/bearbeiten'),
                                     Icon::create('edit', 'clickable', ['title' =>
-                                        dgettext('luna', 'Daten anzeigen/bearbeiten')]),
-                                   ['data-dialog' => 'size=auto']
+                                        dgettext('luna', 'Daten anzeigen/bearbeiten')])
                                 ) ?>
                                 <?php $actionMenu->addLink(
                                     $controller->url_for('companies/delete', $c->id),

@@ -77,6 +77,12 @@ class CompaniesController extends AuthenticatedController {
         }
     }
 
+    /**
+     * AJAX endpoint for loading companies.
+     *
+     * @param int $start start from entry $start
+     * @param string $searchtext filter by given search text
+     */
     public function load_companies_action($start = 0, $searchtext = '')
     {
         LunaCompanyFilter::setFilters($this->client->id, Request::getArray('filters'));
@@ -181,8 +187,17 @@ class CompaniesController extends AuthenticatedController {
 
         $this->usersearch = QuickSearch::get('contact', new LunaSearch('user_id'))
             ->setInputStyle('width: 240px');
+
+        $this->clientUsers = SimpleCollection::createFromArray(array_map(function ($u) {
+            return $u->user;
+        }, LunaClientUser::findByClient_id($this->client->id)))->orderBy('nachname, vorname');
     }
 
+    /**
+     * Save company data.
+     *
+     * @param string $id the company to save.
+     */
     public function save_action($id = '')
     {
 
@@ -243,6 +258,21 @@ class CompaniesController extends AuthenticatedController {
             }
             $company->tags = SimpleORMapCollection::createFromArray($tags);
 
+            if (Request::get('last_contact_date') && Request::option('last_contact_person') &&
+                    Request::get('last_contact_contact')) {
+                if (count($company->last_contacts) < 1) {
+                    $company->last_contacts = new SimpleCollection();
+                }
+
+                $lastContact = new LunaCompanyLastContact();
+                $lastContact->user_id = Request::option('last_contact_person');
+                $lastContact->date = strtotime(Request::get('last_contact_date'));
+                $lastContact->contact = Request::get('last_contact_contact');
+                $lastContact->notes = Request::get('last_contact_notes');
+
+                $company->last_contacts->append($lastContact);
+            }
+
             if ($company->store()) {
                 PageLayout::postSuccess(sprintf(
                     dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
@@ -286,6 +316,11 @@ class CompaniesController extends AuthenticatedController {
         }
     }
 
+    /**
+     * Delete a company.
+     *
+     * @param $id the company to delete
+     */
     public function delete_action($id)
     {
         $company = LunaCompany::find($id);
@@ -300,6 +335,9 @@ class CompaniesController extends AuthenticatedController {
         $this->relocate('companies');
     }
 
+    /**
+     * Do some action on several companies at once.
+     */
     public function bulk_action()
     {
         $this->flash['bulkcompanies'] = Request::optionArray('companies');

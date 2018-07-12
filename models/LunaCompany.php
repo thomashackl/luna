@@ -38,7 +38,7 @@ class LunaCompany extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_companies';
-        $config['has_and_belongs_to_many']['members'] = array(
+        $config['has_and_belongs_to_many']['members'] = [
             'class_name' => 'LunaUser',
             'thru_table' => 'luna_user_company',
             'thru_key' => 'company_id',
@@ -46,24 +46,24 @@ class LunaCompany extends SimpleORMap
             'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_store' => 'store',
             'on_delete' => 'delete'
-        );
-        $config['has_one']['contact'] = array(
+        ];
+        $config['has_one']['contact'] = [
             'class_name' => 'LunaUser',
             'foreign_key' => 'contact_person',
             'assoc_foreign_key' => 'user_id',
             'on_store' => 'store',
             'on_delete' => 'delete'
-        );
-        $config['has_and_belongs_to_many']['skills'] = array(
+        ];
+        $config['has_and_belongs_to_many']['skills'] = [
             'class_name' => 'LunaSkill',
             'thru_table' => 'luna_company_skill',
             'thru_key' => 'company_id',
             'thru_assoc_key' => 'skill_id',
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete',
-            'on_store' => 'store',
-        );
-        $config['has_and_belongs_to_many']['tags'] = array(
+            'on_store' => 'store'
+        ];
+        $config['has_and_belongs_to_many']['tags'] = [
             'class_name' => 'LunaTag',
             'thru_table' => 'luna_company_tag',
             'thru_key' => 'company_id',
@@ -71,7 +71,15 @@ class LunaCompany extends SimpleORMap
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete',
             'on_store' => 'store',
-        );
+        ];
+        $config['has_many']['last_contacts'] = [
+            'class_name' => 'LunaCompanyLastContact',
+            'foreign_key' => 'company_id',
+            'assoc_foreign_key' => 'company_id',
+            'order_by' => 'ORDER BY `date` DESC',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        ];
 
         $config['registered_callbacks']['after_create'][] = 'cbLog';
         $config['registered_callbacks']['before_store'][] = 'cbLog';

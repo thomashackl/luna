@@ -69,6 +69,17 @@
     </fieldset>
     <fieldset>
         <legend>
+            <?= dgettext('luna', 'Anrede') ?>
+        </legend>
+        <section>
+            <label>
+                <input type="checkbox" name="informal" value="1"<?= $person->informal ? ' checked' : '' ?>>
+                <?= dgettext('luna', 'Anrede per du') ?>
+            </label>
+        </section>
+    </fieldset>
+    <fieldset>
+        <legend>
             <?= dgettext('luna', 'Adresse') ?>
         </legend>
         <section>

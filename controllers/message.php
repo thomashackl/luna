@@ -101,7 +101,7 @@ class MessageController extends AuthenticatedController {
 
         if (LunaMarker::hasMarkers(Request::get('message'))) {
             foreach ($users as $u) {
-                $message = LunaMarker::replaceMarkers(Request::get('message'), $u);
+                $message = LunaMarker::replaceMarkers(Request::get('message'), $u, true);
 
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))

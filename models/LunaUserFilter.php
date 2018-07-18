@@ -49,6 +49,18 @@ class LunaUserFilter
                 'class' => 'LunaUser',
                 'is_id' => false
             ),
+            'informal' => array(
+                'name' => dgettext('luna', 'Anrede per du'),
+                'table' => 'luna_users',
+                'ids' => 'informal',
+                'dbvalues' => 'informal',
+                'values' => array(
+                    1 => _('ja'),
+                    0 => _('nein')
+                ),
+                'class' => 'LunaUser',
+                'is_id' => false
+            ),
             'address' => array(
                 'name' => dgettext('luna', 'Anschrift'),
                 'table' => 'luna_users',

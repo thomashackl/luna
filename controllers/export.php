@@ -205,7 +205,7 @@ class ExportController extends AuthenticatedController {
         foreach ($persons as $person) {
             $entry = [];
             foreach ($markers as $marker) {
-                $entry[] = trim($marker->getMarkerReplacement($person));
+                $entry[] = trim($marker->getMarkerReplacement($person, true));
             }
             $csv[] = $entry;
         }

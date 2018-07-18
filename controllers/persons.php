@@ -272,6 +272,7 @@ class PersonsController extends AuthenticatedController {
             $user->title_front = Request::get('title_front');
             $user->title_rear = Request::get('title_rear');
             $user->gender = Request::int('gender');
+            $user->informal = Request::int('informal', 0);
             $user->address = Request::get('address');
             $user->zip = Request::get('zip');
             $user->city = Request::get('city');

@@ -117,6 +117,7 @@ class ClientsController extends AuthenticatedController {
         }
         $client->name = Request::get('name');
         $client->sender_address = Request::get('sender_address');
+        $client->configuration = Request::getArray('configuration');
 
         if ($client->store()) {
             PageLayout::postSuccess(sprintf(

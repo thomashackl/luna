@@ -24,6 +24,14 @@
                    value="<?= htmlReady($client->sender_address) ?>" required>
         </label>
     </section>
+    <?php if (is_array($client->configuration) && count($client->configuration) > 0) : ?>
+        <?php foreach ($client->config_entries as $entry) : ?>
+            <section>
+                <label>
+                </label>
+            </section>
+        <?php endforeach ?>
+    <?php endif ?>
     <footer data-dialog-button>
         <?= CSRFProtection::tokenTag() ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Speichern'), 'store') ?>

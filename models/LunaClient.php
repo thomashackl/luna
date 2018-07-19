@@ -16,6 +16,7 @@
  * @property string id alias column for client_id
  * @property string name database column
  * @property string sender_address database column
+ * @property string config database column
  * @property string mkdate database column
  * @property string chdate database column
  * @property LunaClientUser beneficiaries has_and_belongs_to_many LunaClientUser
@@ -61,14 +62,23 @@ class LunaClient extends SimpleORMap
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
         );
+        $config['has_many']['config_entries'] = [
+            'class_name' => 'LunaClientConfigEntry',
+            'assoc_foreign_key' => 'client_id',
+            'order_by' => 'ORDER BY `key`',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        ];
+
+        $config['registered_callbacks']['before_delete'][] = 'cbLog';
+        $config['registered_callbacks']['before_store'][] = 'cbLog';
+        $config['registered_callbacks']['after_create'][] = 'cbLog';
 
         parent::configure($config);
     }
 
     public function __construct($id = null)
     {
-        $this->registerCallback('after_create before_store before_delete', 'cbLog');
-
         parent::__construct($id);
     }
 
@@ -250,6 +260,11 @@ class LunaClient extends SimpleORMap
             }
         }
         return $access;
+    }
+
+    public function getConfigValue($key)
+    {
+        return $this->config_entries->findOneBy('key', $key)->value;
     }
 
     /**

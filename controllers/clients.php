@@ -117,7 +117,10 @@ class ClientsController extends AuthenticatedController {
         }
         $client->name = Request::get('name');
         $client->sender_address = Request::get('sender_address');
-        $client->configuration = Request::getArray('configuration');
+
+        foreach (Request::getArray('configuration') as $entry => $value) {
+            $client->config_entries->findOneBy('key', $entry)->value = $value;
+        }
 
         if ($client->store()) {
             PageLayout::postSuccess(sprintf(

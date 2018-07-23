@@ -37,7 +37,9 @@
             <section>
                 <label>
                     <?php if ($entry->config->type === 'bool') : ?>
-                        <input type="checkbox" name="<?= htmlReady($entry->key) ?>"
+                        <input type="hidden" name="configuration[<?= htmlReady($entry->key) ?>]"
+                               value="0">
+                        <input type="checkbox" name="configuration[<?= htmlReady($entry->key) ?>]"
                                value="1"<?= $entry->value == 1 ? ' checked' : ''?>
                     <?php endif ?>
                     <?= htmlReady($entry->config->description) ?>

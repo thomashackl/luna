@@ -292,27 +292,43 @@
             <?= dgettext('luna', 'Schlagworte') ?>
         </legend>
         <section>
-            <label>
-                <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
-                <br>
-                <input type="text" name="tag" size="40" class="luna-new-tag" data-available-tags="<?= $controller->url_for('tags/search') ?>">
-                <a class="luna-tag-add" href="">
-                    <?= Icon::create('add', 'clickable')->asImg(24) ?>
-                </a>
-            </label>
-            <div id="luna-person-tags">
-                <?php if (count($person->tags) > 0) : ?>
-                    <?php foreach ($person->tags as $tag) : ?>
-                        <div class="luna-tag" id="luna-tag-<?= htmlReady(str_replace(' ', '-', $tag->name)) ?>">
-                            <?= htmlReady($tag->name) ?>
-                            <input type="hidden" name="tags[]" value="<?= htmlReady($tag->name) ?>">
-                            <a class="luna-tag-remove" href="">
-                                <?= Icon::create('trash', 'clickable')->asImg() ?>
-                            </a>
-                        </div>
-                    <?php endforeach ?>
-                <?php endif ?>
-            </div>
+            <?php if ($client->getConfigValue('auto_create_tags')) : ?>
+                <label>
+                    <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
+                    <br>
+                    <input type="text" name="tag" size="40" class="luna-new-tag" data-available-tags="<?= $controller->url_for('tags/search') ?>">
+                    <a class="luna-tag-add" href="">
+                        <?= Icon::create('add', 'clickable')->asImg(24) ?>
+                    </a>
+                </label>
+                <div id="luna-person-tags">
+                    <?php if (count($person->tags) > 0) : ?>
+                        <?php foreach ($person->tags as $tag) : ?>
+                            <div class="luna-tag" id="luna-tag-<?= htmlReady(str_replace(' ', '-', $tag->name)) ?>">
+                                <?= htmlReady($tag->name) ?>
+                                <input type="hidden" name="tags[]" value="<?= htmlReady($tag->name) ?>">
+                                <a class="luna-tag-remove" href="">
+                                    <?= Icon::create('trash', 'clickable')->asImg() ?>
+                                </a>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                </div>
+            <?php else : ?>
+                <label>
+                    <?= dgettext('luna', 'Fügen Sie ein Schlagwort hinzu') ?>:
+                    <br>
+                    <select name="tags[]" size="40" class="nested-select" multiple>
+                        <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
+                        <?php foreach ($client->tags as $tag) : ?>
+                            <option value="<?= htmlReady($tag->name) ?>"
+                                <?= $person->tags->findOneBy('name', $tag->name) ? ' selected' : '' ?>>
+                                <?= htmlReady($tag->name) ?>
+                            </option>
+                        <?php endforeach ?>
+                    </select>
+                </label>
+            <?php endif ?>
         </section>
     </fieldset>
     <fieldset>

@@ -33,7 +33,7 @@ class CustomClientConfiguration extends Migration {
         DBManager::get()->exec("INSERT INTO `luna_client_config`
             (`key`, `description`, `type`, `mkdate`, `chdate`)
             VALUES
-            ('auto_create_tags', 'Sollen Sschlagwörter automatisch erzeugt werden?', 'bool', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())"
+            ('auto_create_tags', 'Sollen Schlagwörter automatisch erzeugt werden?', 'bool', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())"
         );
 
         DBManager::get()->exec("INSERT INTO `luna_client_config_client`

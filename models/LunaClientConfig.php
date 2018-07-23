@@ -21,7 +21,7 @@
  * @property string chdate database column
  * @property LunaClient client belongs_to LunaClient
  */
-class LunaClientUser extends SimpleORMap
+class LunaClientConfig extends SimpleORMap
 {
 
     protected static function configure($config = [])

@@ -24,6 +24,7 @@
  * @property LunaCompany companies has_many LunaCompany
  * @property LunaSkill skills has_many LunaSkill
  * @property LunaTags tags has_many LunaTag
+ * @property LunaClientConfigEntry config_entries has_many LunaClientConfigEntry
  */
 class LunaClient extends SimpleORMap
 {

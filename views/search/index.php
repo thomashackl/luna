@@ -10,12 +10,14 @@
             <colgroup>
                 <col>
                 <col>
+                <col>
                 <col width="25">
             </colgroup>
             <thead>
             <tr>
                 <th><?= dgettext('luna', 'Name') ?></th>
                 <th><?= dgettext('luna', 'Filter') ?></th>
+                <th><?= dgettext('luna', 'Verknüpfung') ?></th>
                 <th><?= dgettext('luna', 'Aktionen') ?></th>
             </tr>
             </thead>
@@ -25,7 +27,7 @@
                     <td><?= htmlReady($name) ?></td>
                     <td>
                         <ul>
-                            <?php foreach ($filters as $filter) : ?>
+                            <?php foreach ($filters['filters'] as $filter) : ?>
                                 <li>
                                     <?= htmlReady($data['allfilters'][$filter['column']]['name']) ?>
                                     <?= htmlReady($filter['compare']) ?>
@@ -35,6 +37,13 @@
                                 </li>
                             <?php endforeach ?>
                         </ul>
+                    </td>
+                    <td>
+                        <?php if ($filters['disjunction'] == 1) : ?>
+                            <?= dgettext('luna', 'Nur eines der Filterfelder muss erfüllt sein') ?>
+                        <?php else : ?>
+                            <?= dgettext('luna', 'Alle Filterfelder müssen erfüllt sein') ?>
+                        <?php endif ?>
                     </td>
                     <td>
                         <a href="<?= $controller->url_for('search/delete_preset', $type, urlencode($name)) ?>" data-confirm="<?=

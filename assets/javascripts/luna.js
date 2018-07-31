@@ -127,7 +127,7 @@
 
             if (element.children('option:selected').attr('value') != '') {
                 var fullUrl = element.data('update-url').split('?');
-                var url = fullUrl[0]
+                var url = fullUrl[0];
                 $.post({
                     url: url,
                     dataType: 'html',

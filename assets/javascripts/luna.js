@@ -115,7 +115,11 @@
                 filtersEl.addClass('hidden-js');
                 $('section#luna-save-filters').addClass('hidden-js');
             }
-            STUDIP.Luna.loadPersons();
+            if ($('#luna-data').data('type') === 'persons') {
+                STUDIP.Luna.loadPersons();
+            } else if ($('#luna-data').data('type') === 'companies') {
+                STUDIP.Luna.loadCompanies();
+            }
         },
 
         loadFilterPreset: function() {
@@ -158,9 +162,11 @@
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
+            var params = $('input[type="hidden"][name*="filters["]').serialize() +
+                '&disjunction=' + ($('input[name="disjunction"]').prop('checked') ? 1 : 0);
             $.ajax({
                 url: url,
-                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                data: params,
                 dataType: 'html',
                 beforeSend: function (xhr, settings) {
                     dataEl.html($('<img>').
@@ -303,9 +309,11 @@
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
+            var params = $('input[type="hidden"][name*="filters["]').serialize() +
+                '&disjunction=' + ($('input[name="disjunction"]').prop('checked') ? 1 : 0);
             $.ajax({
                 url: url,
-                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                data: params,
                 dataType: 'html',
                 beforeSend: function (xhr, settings) {
                     dataEl.html($('<img>').

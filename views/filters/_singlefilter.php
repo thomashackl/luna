@@ -9,5 +9,5 @@
     <input type="hidden" name="filters[<?= $i ?>][column]" value="<?= htmlReady($filter['column']) ?>">
     <input type="hidden" name="filters[<?= $i ?>][compare]" value="<?= htmlReady($filter['compare']) ?>">
     <input type="hidden" name="filters[<?= $i ?>][value]" value="<?= htmlReady($filter['value']) ?>">
-    <?= Icon::create('decline', 'clickable', array('class' => 'luna-remove-filter', 'onclick' => 'STUDIP.Luna.removeFilter(this)')) ?>
+    <?= Icon::create('decline', array('class' => 'luna-remove-filter', 'onclick' => 'STUDIP.Luna.removeFilter(this)')) ?>
 </span>

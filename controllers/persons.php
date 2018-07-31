@@ -76,9 +76,19 @@ class PersonsController extends AuthenticatedController {
         }
     }
 
+    /**
+     * AJAX endpoint for loading persons.
+     *
+     * @param int $start start from entry $start
+     * @param string $searchtext filter by given search text
+     */
     public function load_persons_action($start = 0, $searchtext = '')
     {
-        LunaUserFilter::setFilters($this->client->id, Request::getArray('filters'));
+        $filterSettings = [
+            'disjunction' => Request::int('disjunction', 0),
+            'filters' => Request::getArray('filters')
+        ];
+        LunaUserFilter::setFilters($this->client->id, $filterSettings);
 
         $this->allfilters = LunaUserFilter::getFilterFields(true);
         $this->filters = LunaUserFilter::getFilters($GLOBALS['user']->id, $this->client->id);
@@ -94,7 +104,7 @@ class PersonsController extends AuthenticatedController {
         $this->personcount = $this->client->getFilteredUsersCount($this->searchtext);
         $this->entries_per_page = $this->client->getListMaxEntries('persons');
         $this->pagecount = ceil($this->personcount / $this->entries_per_page);
-        $this->activepage = $start + 1;
+        $this->activepage = (int) $start + 1;
     }
 
     /**

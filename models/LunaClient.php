@@ -329,8 +329,8 @@ class LunaClient extends SimpleORMap
         $tables = [];
         $counter = 0;
 
-        if ($filters) {
-            foreach ($filters as $filter) {
+        if (count($filters['filters']) > 0) {
+            foreach ($filters['filters'] as $filter) {
                 if ($all[$filter['column']]['table'] != $tablename) {
                     $counter++;
                     $alias = 't' . $counter;
@@ -397,11 +397,11 @@ class LunaClient extends SimpleORMap
         }
 
         $sql .= " WHERE t.`client_id` = ?" .
-            ($where ? " AND (".implode(" AND ", $where) . ")" : "");
+            ($where ? " AND (".implode($filters['disjunction'] == '1' ? " OR " : " AND ", $where) . ")" : "");
 
         if ($where2) {
             foreach ($where2 as $sub) {
-                $sql .= " AND (" . implode(" OR ", $sub) . ")";
+                $sql .= ($filters['disjunction'] == '1' ? " OR (" : " AND (") . implode(" OR ", $sub) . ")";
             }
         }
 
@@ -417,7 +417,7 @@ class LunaClient extends SimpleORMap
             } else {
                 $sql .= " LIMIT ?, ?";
                 $count_per_page = $this->getListMaxEntries($type);
-                $data = DBManager::get()->fetchFirst($sql, array($this->id, $start * $count_per_page, $count_per_page));
+                $data = DBManager::get()->fetchFirst($sql, array($this->id, (int) $start * $count_per_page, $count_per_page));
             }
             return $data;
         }

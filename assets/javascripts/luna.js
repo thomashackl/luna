@@ -110,12 +110,16 @@
         removeFilter: function(element) {
             $(element).parent().remove();
             var filtersEl = $('#luna-applied-filters');
-            filtersEl.data('filter-count', filtersEl.data('filter-count') - 1);
+            filtersEl.data('filter-count', parseInt(filtersEl.data('filter-count')) - 1);
             if (filtersEl.children('span.luna-filter').length == 0) {
                 filtersEl.addClass('hidden-js');
                 $('section#luna-save-filters').addClass('hidden-js');
             }
-            STUDIP.Luna.loadPersons();
+            if ($('#luna-data').data('type') === 'persons') {
+                STUDIP.Luna.loadPersons();
+            } else if ($('#luna-data').data('type') === 'companies') {
+                STUDIP.Luna.loadCompanies();
+            }
         },
 
         loadFilterPreset: function() {
@@ -123,7 +127,7 @@
 
             if (element.children('option:selected').attr('value') != '') {
                 var fullUrl = element.data('update-url').split('?');
-                var url = fullUrl[0]
+                var url = fullUrl[0];
                 $.post({
                     url: url,
                     dataType: 'html',
@@ -158,9 +162,11 @@
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
+            var params = $('input[type="hidden"][name*="filters["]').serialize() +
+                '&disjunction=' + ($('input[name="disjunction"]').prop('checked') ? 1 : 0);
             $.ajax({
                 url: url,
-                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                data: params,
                 dataType: 'html',
                 beforeSend: function (xhr, settings) {
                     dataEl.html($('<img>').
@@ -303,9 +309,11 @@
             if (fullUrl[1] != '') {
                 url += '?' + fullUrl[1];
             }
+            var params = $('input[type="hidden"][name*="filters["]').serialize() +
+                '&disjunction=' + ($('input[name="disjunction"]').prop('checked') ? 1 : 0);
             $.ajax({
                 url: url,
-                data: $('input[type="hidden"][name*="filters["]').serialize(),
+                data: params,
                 dataType: 'html',
                 beforeSend: function (xhr, settings) {
                     dataEl.html($('<img>').

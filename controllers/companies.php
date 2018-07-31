@@ -85,17 +85,21 @@ class CompaniesController extends AuthenticatedController {
      */
     public function load_companies_action($start = 0, $searchtext = '')
     {
-        LunaCompanyFilter::setFilters($this->client->id, Request::getArray('filters'));
+        $filterSettings = [
+            'disjunction' => Request::int('disjunction', 0),
+            'filters' => Request::getArray('filters')
+        ];
+        LunaCompanyFilter::setFilters($this->client->id, $filterSettings);
 
         $this->allfilters = LunaCompanyFilter::getFilterFields(true);
-        $this->filters = LunaCompanyFilter::getFilters($GLOBALS['user']->id, $this->client->id);
+        $this->filters = $filterSettings;
         $this->searchtext = $searchtext;
 
         $this->companies = $this->client->getFilteredCompanies($start, 0, $this->searchtext);
         $this->companycount = $this->client->getFilteredCompaniesCount($this->searchtext);
         $this->entries_per_page = $this->client->getListMaxEntries('companies');
         $this->pagecount = ceil($this->companycount / $this->entries_per_page);
-        $this->activepage = $start + 1;
+        $this->activepage = (int) $start + 1;
     }
 
     /**

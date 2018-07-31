@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form id="luna-filter-form" action="" method="post">
     <header>
         <h1><?= dgettext('luna', 'Daten filtern') ?></h1>
     </header>
@@ -33,16 +33,19 @@
             <span id="luna-newfilter-config"></span>
             <?= Studip\Button::create(_('Übernehmen'), 'apply', array('class' => 'hidden-js')) ?>
         </div>
-        <div id="luna-applied-filters"<?= count($filters) == 0 ? ' class="hidden-js"' : '' ?> data-filter-count="<?= count($filters) ?>">
+        <div id="luna-applied-filters"<?= count($filters['filters']) == 0 ? ' class="hidden-js"' : '' ?>
+             data-filter-count="<?= count($filters['filters']) ?>">
             <?php if (count($filters) > 0) : $i = 0; ?>
-                <?php foreach ($filters as $filter) : ?>
+                <?php foreach ($filters['filters'] as $filter) : ?>
                     <?= $this->render_partial('filters/_singlefilter',
                         array('allfilters' => $allfilters, 'filter' => $filter, 'i' => $i)) ?>
                 <?php $i++; endforeach ?>
             <?php endif ?>
+            <?= $this->render_partial('filters/_disjunction',
+                ['count' => count($filters['filters']), 'disjunction' => $filters['disjunction']]) ?>
         </div>
     </section>
-    <?php if (count($filters) > 0) : ?>
+    <?php if (count($filters['filters']) > 0) : ?>
         <section id="luna-save-filters">
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
                 $controller->url_for('search/filter_preset/persons'), array('data-dialog' => 'size=auto')) ?>

@@ -169,9 +169,10 @@ class LunaCompanyFilter
     {
         $filters = studip_json_decode(UserConfig::get($user_id)->LUNA_COMPANY_FILTER);
         foreach ($filters as $clientId => $clientFilters) {
-            foreach ($clientFilters as $index => $filter) {
+            $actualFilters = is_array($clientFilters['filters']) ? $clientFilters['filters'] : [];
+            foreach ($actualFilters as $index => $filter) {
                 if (!$filter['column'] || !$filter['compare']) {
-                    unset($filters[$clientId][$index]);
+                    unset($filters[$clientId]['filters'][$index]);
                 }
             }
         }
@@ -192,11 +193,11 @@ class LunaCompanyFilter
     {
         $filters = self::getFilters($GLOBALS['user']->id);
         if ($column && $compare) {
-            $filters[$client][] = array(
+            $filters[$client]['filters'][] = [
                 'column' => $column,
                 'compare' => $compare,
                 'value' => $value
-            );
+            ];
         }
         return $GLOBALS['user']->cfg->store('LUNA_COMPANY_FILTER', studip_json_encode($filters));
     }

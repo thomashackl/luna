@@ -110,7 +110,7 @@
         removeFilter: function(element) {
             $(element).parent().remove();
             var filtersEl = $('#luna-applied-filters');
-            filtersEl.data('filter-count', filtersEl.data('filter-count') - 1);
+            filtersEl.data('filter-count', parseInt(filtersEl.data('filter-count')) - 1);
             if (filtersEl.children('span.luna-filter').length == 0) {
                 filtersEl.addClass('hidden-js');
                 $('section#luna-save-filters').addClass('hidden-js');

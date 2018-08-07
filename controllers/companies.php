@@ -44,7 +44,7 @@ class CompaniesController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
     }
 
     /**
@@ -146,7 +146,7 @@ class CompaniesController extends AuthenticatedController {
     public function delete_member_action($company, $user)
     {
         DBManager::get()->execute("DELETE FROM `luna_user_company` WHERE `company_id` = ? AND `user_id` = ?",
-            array($company, $user));
+            [$company, $user]);
         $this->render_nothing();
     }
 
@@ -235,7 +235,7 @@ class CompaniesController extends AuthenticatedController {
                     $data->name = trim($skill);
                 }
                 if (count($data->companies) == 0) {
-                    $data->companies = array($company);
+                    $data->companies = [$company];
                 } else if (!$data->companies->findByCompany_id($company->company_id)) {
                     $data->companies->append($company);
                 }
@@ -253,7 +253,7 @@ class CompaniesController extends AuthenticatedController {
                     $data->name = trim($tag);
                 }
                 if (count($data->companies) == 0) {
-                    $data->companies = array($company);
+                    $data->companies = [$company];
                 } else if (!$data->companies->findByCompany_id($company->company_id)) {
                     $data->companies->append($company);
                 }
@@ -370,7 +370,7 @@ class CompaniesController extends AuthenticatedController {
     {
         $values = DBManager::get()->fetchFirst(
             "SELECT DISTINCT `sector` FROM `luna_companies` WHERE `client_id` = ? AND `sector` LIKE ? ORDER BY `sector`",
-            array($this->client->id, '%' . Request::quoted('term') . '%'));
+            [$this->client->id, '%' . Request::quoted('term') . '%']);
         $this->render_text(studip_json_encode($values));
     }
 

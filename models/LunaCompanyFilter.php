@@ -19,100 +19,100 @@ class LunaCompanyFilter
 
     public static function getFilterFields($all = false)
     {
-        $fields = array(
-            'name' => array(
+        $fields = [
+            'name' => [
                 'name' => dgettext('luna', 'Name'),
                 'table' => 'luna_companies',
                 'ids' => 'name',
                 'dbvalues' => 'name',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            )
-        );
+            ]
+        ];
         if ($all) {
-            $fields = $fields + array(
-                'address' => array(
+            $fields = $fields + [
+                'address' => [
                     'name' => dgettext('luna', 'Anschrift'),
                     'table' => 'luna_companies',
                     'ids' => 'address',
                     'dbvalues' => 'address',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                ),
-                'zip' => array(
+                ],
+                'zip' => [
                     'name' => dgettext('luna', 'PLZ'),
                     'table' => 'luna_companies',
                     'ids' => 'zip',
                     'dbvalues' => 'zip',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                )
-            );
+                ]
+            ];
         }
-        $fields = $fields + array(
-            'city' => array(
+        $fields = $fields + [
+            'city' => [
                 'name' => dgettext('luna', 'Stadt'),
                 'table' => 'luna_companies',
                 'ids' => 'city',
                 'dbvalues' => 'city',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            ),
-            'country' => array(
+            ],
+            'country' => [
                 'name' => dgettext('luna', 'Land'),
                 'table' => 'luna_companies',
                 'ids' => 'country',
                 'dbvalues' => 'country',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            )
-        );
+            ]
+        ];
         if ($all) {
-            $fields = $fields + array(
-                'email' => array(
+            $fields = $fields + [
+                'email' => [
                     'name' => dgettext('luna', 'E-Mailadresse'),
                     'table' => 'luna_companies',
                     'ids' => 'email',
                     'dbvalues' => 'email',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                ),
-                'phone' => array(
+                ],
+                'phone' => [
                     'name' => dgettext('luna', 'Telefonnummer'),
                     'table' => 'luna_companies',
                     'ids' => 'phone',
                     'dbvalues' => 'phone',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                ),
-                'fax' => array(
+                ],
+                'fax' => [
                     'name' => dgettext('luna', 'Fax'),
                     'table' => 'luna_companies',
                     'ids' => 'fax',
                     'dbvalues' => 'fax',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                ),
-                'homepage' => array(
+                ],
+                'homepage' => [
                     'name' => dgettext('luna', 'Homepage'),
                     'table' => 'luna_companies',
                     'ids' => 'homepage',
                     'dbvalues' => 'homepage',
                     'class' => 'LunaCompany',
                     'is_id' => false
-                )
-            );
+                ]
+            ];
         }
-        $fields = $fields + array(
-            'sector' => array(
+        $fields = $fields + [
+            'sector' => [
                 'name' => dgettext('luna', 'Branche'),
                 'table' => 'luna_companies',
                 'ids' => 'sector',
                 'dbvalues' => 'sector',
                 'class' => 'LunaCompany',
                 'is_id' => false
-            ),
-            'skills' => array(
+            ],
+            'skills' => [
                 'name' => dgettext('luna', 'Kompetenz'),
                 'table' => 'luna_company_skill',
                 'ids' => 'skill_id',
@@ -120,8 +120,8 @@ class LunaCompanyFilter
                 'class' => 'LunaSkill',
                 'is_id' => true,
                 'linked' => 'luna_skills'
-            ),
-            'tags' => array(
+            ],
+            'tags' => [
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_company_tag',
                 'ids' => 'tag_id',
@@ -129,8 +129,8 @@ class LunaCompanyFilter
                 'class' => 'LunaTag',
                 'is_id' => true,
                 'linked' => 'luna_tags'
-            )
-        );
+            ]
+        ];
         return $fields;
     }
 
@@ -148,13 +148,13 @@ class LunaCompanyFilter
         $fields = self::getFilterFields();
         $filter = $fields[$field];
         $values = $filter['class']::getDistinctValues($client, $field, 'company');
-        $result = array(
-            'compare' => array(
+        $result = [
+            'compare' => [
                 '=' => dgettext('luna', 'ist'),
                 '!=' => dgettext('luna', 'ist nicht')
-            ),
+            ],
             'values' => []
-        );
+        ];
         foreach ($values as $v) {
             $current = $v['value'];
             if ($filter['values'] && $filter['values'][$v['id']]) {

@@ -65,7 +65,7 @@ class MessageController extends AuthenticatedController {
         Navigation::activateItem('/tools/luna/persons');
 
         if ($type == 'user' && $id) {
-            $ids = array($id);
+            $ids = [$id];
             $this->type = 'user';
             $this->target_id = $id;
         } else if ($type == 'company' && $id) {
@@ -81,7 +81,7 @@ class MessageController extends AuthenticatedController {
                 $companies = $this->flash['bulkcompanies'];
                 $ids = DBManager::get()->fetchAll(
                     "SELECT DISTINCT `user_id`  FROM `luna_user_company` WHERE `company_id` IN (?)",
-                    array($companies));
+                    [$companies]);
             } else {
                 $this->persons = $this->client->getFilteredUsers()->pluck('id');
             }

@@ -109,7 +109,7 @@ class LogController extends AuthenticatedController {
 
         $users = User::findMany(
             DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` FROM `luna_log` WHERE `client_id` = ?",
-                    array($this->client->id)), "ORDER BY `nachname`, `vorname`");
+                    [$this->client->id] ), "ORDER BY `nachname`, `vorname`");
         foreach ($users as $user) {
             $list->addElement(
                 new SelectElement($user->id, $user->getFullname('full'), $filters['user_id'] == $user->id),
@@ -173,7 +173,7 @@ class LogController extends AuthenticatedController {
             }
             $affected = DBManager::get()->fetchFirst(
                 "SELECT DISTINCT `affected` FROM `luna_log` WHERE `client_id` = ? AND `affected_type` = ?",
-                array($this->client->id, $filters['affected_type']));
+                [$this->client->id, $filters['affected_type']]);
             $ids = [];
             foreach ($affected as $a) {
                 $ids = array_merge($ids, studip_json_decode($a));

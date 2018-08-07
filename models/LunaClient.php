@@ -32,37 +32,37 @@ class LunaClient extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_clients';
-        $config['has_many']['beneficiaries'] = array(
+        $config['has_many']['beneficiaries'] = [
             'class_name' => 'LunaClientUser',
             'assoc_key' => 'client_id',
             'assoc_foreign_key' => 'client_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
-        );
-        $config['has_many']['users'] = array(
+        ];
+        $config['has_many']['users'] = [
             'class_name' => 'LunaUser',
             'assoc_foreign_key' => 'client_id',
             'order_by' => 'ORDER BY `lastname`, `firstname`',
             'on_delete' => 'delete'
-        );
-        $config['has_many']['companies'] = array(
+        ];
+        $config['has_many']['companies'] = [
             'class_name' => 'LunaCompany',
             'assoc_foreign_key' => 'client_id',
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
-        );
-        $config['has_many']['skills'] = array(
+        ];
+        $config['has_many']['skills'] = [
             'class_name' => 'LunaSkill',
             'assoc_foreign_key' => 'client_id',
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
-        );
-        $config['has_many']['tags'] = array(
+        ];
+        $config['has_many']['tags'] = [
             'class_name' => 'LunaTag',
             'assoc_foreign_key' => 'client_id',
             'order_by' => 'ORDER BY `name`',
             'on_delete' => 'delete'
-        );
+        ];
         $config['has_many']['config_entries'] = [
             'class_name' => 'LunaClientConfigEntry',
             'assoc_foreign_key' => 'client_id',
@@ -277,7 +277,7 @@ class LunaClient extends SimpleORMap
             $log = new LunaLogEntry();
             $log->client_id = '';
             $log->user_id = $GLOBALS['user']->id;
-            $log->affected = array($this->id);
+            $log->affected = [$this->id];
             $log->affected_type = 'client';
             if ($type == 'after_create') {
                 $log->action = 'create';
@@ -321,7 +321,7 @@ class LunaClient extends SimpleORMap
         $filters = $filterClass::getFilters($GLOBALS['user']->id, $this->id);
         $all = $filterClass::getFilterFields();
         if ($justcount) {
-            $sql = "SELECT COUNT(DISTINCT t.`" . $joinfield . "`) FROM `" . $tablename . "` t";
+            $sql = "SELECT COUNT(DISTINCT t.`" . $joinfield . "`) AS 'count' FROM `" . $tablename . "` t";
         } else {
             $sql = "SELECT DISTINCT t.`" . $joinfield . "` FROM `" . $tablename . "` t";
         }
@@ -375,7 +375,7 @@ class LunaClient extends SimpleORMap
                         if (!$used[$filter['linked']]) {
                             $counter++;
                             $alias = 't' . $counter;
-                            $tables2['t' . $counter] = array('table' => $filter['linked'], 'join' => $filter['ids']);
+                            $tables2['t' . $counter] = ['table' => $filter['linked'], 'join' => $filter['ids']];
                             $used[$filter['linked']] = $alias;
                         } else {
                             $alias = $used[$filter['linked']];
@@ -389,14 +389,14 @@ class LunaClient extends SimpleORMap
             }
 
             foreach ($tables as $alias => $table) {
-                $sql .= " LEFT JOIN `" . $table . "` " . $alias . " USING (`user_id`)";
+                $sql .= " LEFT JOIN `" . $table . "` " . $alias . " USING (`" . $joinfield . "`)";
             }
             foreach ($tables2 as $alias => $table) {
                 $sql .= " LEFT JOIN `" . $table['table'] . "` " . $alias . " USING (`" . $table['join'] . "`)";
             }
         }
 
-        $sql .= " WHERE t.`client_id` = ?" .
+        $sql .= " WHERE t.`client_id` = '" . $this->id . "'" .
             ($where ? " AND (".implode($filters['disjunction'] == '1' ? " OR " : " AND ", $where) . ")" : "");
 
         if ($where2) {
@@ -408,16 +408,15 @@ class LunaClient extends SimpleORMap
         $sql .= " ORDER BY " . $order;
 
         if ($justcount) {
-            $data = DBManager::get()->fetchFirst($sql, array($this->id));
+            $data = DBManager::get()->fetchFirst($sql);
             return $data[0];
         } else {
             if ($start == 0 && $limit == -1) {
-                $count_per_page = $limit;
-                $data = DBManager::get()->fetchFirst($sql, array($this->id));
+                $data = DBManager::get()->fetchFirst($sql);
             } else {
-                $sql .= " LIMIT ?, ?";
                 $count_per_page = $this->getListMaxEntries($type);
-                $data = DBManager::get()->fetchFirst($sql, array($this->id, (int) $start * $count_per_page, $count_per_page));
+                $sql .= " LIMIT " . ((int) $start * $count_per_page) . ", " . $count_per_page;
+                $data = DBManager::get()->fetchFirst($sql);
             }
             return $data;
         }

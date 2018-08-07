@@ -27,16 +27,16 @@ class LunaClientUser extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_client_user';
-        $config['belongs_to']['client'] = array(
+        $config['belongs_to']['client'] = [
             'class_name' => 'LunaClient',
             'foreign_key' => 'client_id',
             'assoc_foreign_key' => 'client_id'
-        );
-        $config['belongs_to']['user'] = array(
+        ];
+        $config['belongs_to']['user'] = [
             'class_name' => 'User',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id'
-        );
+        ];
 
         parent::configure($config);
     }
@@ -44,31 +44,31 @@ class LunaClientUser extends SimpleORMap
     public static function findByClientAndStatus($client_id, $status)
     {
         return self::findBySQL("`client_id` = ? AND `status` IN (?)",
-            array($client_id, is_array($status) ? $status : words($status)));
+            [$client_id, is_array($status) ? $status : words($status)]);
     }
 
     public static function findByUserAndStatus($user_id, $status)
     {
         return self::findBySQL("`user_id` = ? AND `status` IN (?)",
-            array($user_id, is_array($status) ? $status : words($status)));
+            [$user_id, is_array($status) ? $status : words($status)]);
     }
 
     public static function getPermissionLevels()
     {
-        return array(
-            array(
+        return [
+            [
                 'name' => dgettext('luna', 'Lesezugriff'),
                 'value' => 'read'
-            ),
-            array(
+            ],
+            [
                 'name' => dgettext('luna', 'Schreibzugriff'),
                 'value' => 'write'
-            ),
-            array(
+            ],
+            [
                 'name' => dgettext('luna', 'Administration'),
                 'value' => 'admin'
-            )
-        );
+            ]
+        ];
     }
 
 }

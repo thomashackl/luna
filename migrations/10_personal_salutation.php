@@ -15,7 +15,7 @@ class PersonalSalutation extends Migration {
         }
 
         LunaMarker::create(
-            array(
+            [
                 'marker' => 'PERSONAL_SALUTATION',
                 'name' => 'Persönliche Anrede mit Vorname',
                 'priority' => 2,
@@ -24,7 +24,7 @@ class PersonalSalutation extends Migration {
                 'replacement' => 'Liebe/r {FIRSTNAME}',
                 'replacement_male' => 'Lieber {FIRSTNAME}',
                 'replacement_female' => 'Liebe {FIRSTNAME}'
-            )
+            ]
         );
 
     }

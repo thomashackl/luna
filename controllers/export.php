@@ -32,7 +32,7 @@ class ExportController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
 
         if (Studip\ENV == 'development') {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.css';

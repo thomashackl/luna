@@ -97,7 +97,7 @@ class PersonsController extends AuthenticatedController {
         $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
         $this->columns = $config[$this->client->id];
         if (!$this->columns) {
-            $this->columns = array('address', 'companies', 'skills');
+            $this->columns = ['address', 'companies', 'skills'];
         }
 
         $this->persons = $this->client->getFilteredUsers($start, 0, $this->searchtext);
@@ -154,10 +154,10 @@ class PersonsController extends AuthenticatedController {
             'user',
             '',
             'user_id',
-            array(
-                'permission' => array('user', 'autor', 'tutor', 'dozent'),
+            [
+                'permission' => ['user', 'autor', 'tutor', 'dozent'],
                 'exclude_user' => []
-            )
+            ]
         );
         $this->usersearch = QuickSearch::get('studip_user_id', $search);
 
@@ -242,7 +242,7 @@ class PersonsController extends AuthenticatedController {
             if (count($lecturedcourses) > 0) {
                 $courses = Course::findBySQL(
                     "`Seminar_id` IN (?) ORDER BY `start_time`, `VeranstaltungsNummer`, `Name`",
-                    array($lecturedcourses->pluck('seminar_id')));
+                    [$lecturedcourses->pluck('seminar_id')]);
 
                 foreach ($courses as $course) {
                     $this->courses[$course->start_semester->description][] = $course;
@@ -301,7 +301,7 @@ class PersonsController extends AuthenticatedController {
                     $data->name = trim($skill);
                 }
                 if (!$data->users) {
-                    $data->users = array($user);
+                    $data->users = [$user];
                 } else if (!$data->users->findByUser_id($user->user_id)) {
                     $data->users->append($user);
                 }
@@ -384,7 +384,7 @@ class PersonsController extends AuthenticatedController {
                     $data->name = trim($tag);
                 }
                 if (!$data->users) {
-                    $data->users = array($user);
+                    $data->users = [$user];
                 } else if (!$data->users->findByUser_id($user->user_id)) {
                     $data->users->append($user);
                 }
@@ -550,7 +550,7 @@ class PersonsController extends AuthenticatedController {
     {
         $values = DBManager::get()->fetchFirst(
             "SELECT DISTINCT `status` FROM `luna_users` WHERE `client_id` = ? AND `status` LIKE ? ORDER BY `status`",
-            array($this->client->id, '%' . Request::quoted('term') . '%'));
+            [$this->client->id, '%' . Request::quoted('term') . '%']);
         $this->render_text(studip_json_encode($values));
     }
 
@@ -574,13 +574,13 @@ class PersonsController extends AuthenticatedController {
                 unset($this->fields[$entry]);
             }
 
-            $address = array('address' => array('name' => dgettext('luna', 'Adresse')));
+            $address = ['address' => ['name' => dgettext('luna', 'Adresse')]];
             $this->fields = $address + $this->fields;
 
             $config = studip_json_decode($GLOBALS['user']->cfg->LUNA_PERSON_LIST_COLUMNS);
             $this->selected = $config[$this->client->id];
             if (!$this->selected) {
-                $this->selected = array('address', 'companies', 'skills');
+                $this->selected = ['address', 'companies', 'skills'];
             }
         }
     }
@@ -596,7 +596,7 @@ class PersonsController extends AuthenticatedController {
                         OR CONCAT_WS(' ', `firstname`, `lastname`) LIKE :term
                         OR CONCAT_WS(' ', `lastname`, `firstname`) LIKE :term)
                 ORDER BY `lastname`, `firstname`",
-            array('client' => $this->client->id, 'term' => '%' . Request::quoted('term') . '%'));
+            ['client' => $this->client->id, 'term' => '%' . Request::quoted('term') . '%']);
         $this->render_text(studip_json_encode($values));
     }
 

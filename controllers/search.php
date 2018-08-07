@@ -32,7 +32,7 @@ class SearchController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
     }
 
     /**
@@ -48,18 +48,18 @@ class SearchController extends AuthenticatedController {
         $company_presets = LunaCompanyFilter::getFilterPresets($this->client->id);
         ksort($company_presets);
 
-        $this->presets = array(
-            'persons' => array(
+        $this->presets = [
+            'persons' => [
                 'name' => dgettext('luna', 'Personen'),
                 'presets' => $user_presets,
                 'allfilters' => LunaUserFilter::getFilterFields()
-            ),
-            'companies' => array(
+            ],
+            'companies' => [
                 'name' => dgettext('luna', 'Unternehmen'),
                 'presets' => $company_presets,
                 'allfilters' => LunaCompanyFilter::getFilterFields()
-            ),
-        );
+            ]
+        ];
     }
 
     public function filter_preset_action($type)

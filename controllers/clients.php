@@ -169,10 +169,10 @@ class ClientsController extends AuthenticatedController {
             'user',
             '',
             'user_id',
-            array(
-                'permission' => array('user', 'autor', 'tutor', 'dozent', 'admin'),
+            [
+                'permission' => ['user', 'autor', 'tutor', 'dozent', 'admin'],
                 'exclude_user' => []
-            )
+            ]
         );
         $this->search = QuickSearch::get('user_id', $search)
             ->fireJSFunctionOnSelect('STUDIP.Luna.addBeneficiary')
@@ -188,7 +188,7 @@ class ClientsController extends AuthenticatedController {
         $beneficiaries = new SimpleORMapCollection();
 
         foreach (Request::getArray('users') as $user_id => $status) {
-            $l = LunaClientUser::find(array($client_id, $user_id));
+            $l = LunaClientUser::find([$client_id, $user_id]);
             if (!$l) {
                 $l = new LunaClientUser();
                 $l->client_id = $client_id;

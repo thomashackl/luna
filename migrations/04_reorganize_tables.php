@@ -20,13 +20,13 @@ class ReorganizeTables extends Migration {
             WHERE `user_id` = :uid");
 
         foreach (DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` FROM `luna_users` ORDER BY `user_id`") as $u) {
-            $info = DBManager::get()->fetchOne("SELECT * FROM `luna_user_info` WHERE `user_id` = ?", array($u));
-            $stmt->execute(array(
+            $info = DBManager::get()->fetchOne("SELECT * FROM `luna_user_info` WHERE `user_id` = ?", [$u]);
+            $stmt->execute([
                 'uid' => $u,
                 'status' => $info['status'],
                 'graduation' => $info['graduation'],
                 'notes' => $info['notes']
-            ));
+            ]);
         }
 
         DBManager::get()->exec("DROP TABLE IF EXISTS `luna_user_info`");

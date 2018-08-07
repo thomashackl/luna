@@ -25,8 +25,8 @@ class SerialMails extends Migration {
         ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC");
 
         // Fill with available entries.
-        $markers = array(
-            array(
+        $markers = [
+            [
                 'marker' => 'SALUTATION',
                 'name' => 'Anrede',
                 'priority' => 1,
@@ -35,56 +35,56 @@ class SerialMails extends Migration {
                 'replacement' => 'Sehr geehrte/r {FULLNAME}',
                 'replacement_male' => 'Sehr geehrter Herr {FULLNAME}',
                 'replacement_female' => 'Sehr geehrte Frau {FULLNAME}',
-            ),
-            array(
+            ],
+            [
                 'marker' => 'FULLNAME',
                 'name' => 'Name ohne Titel',
                 'priority' => 2,
                 'type' => 'database',
                 'description' => 'Setzt den vollen Namen der jeweiligen Person ein, z.B. "Max Mustermann".',
                 'replacement' => '{FIRSTNAME} {LASTNAME}'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'FULLNAME_WITH_TITLE',
                 'name' => 'Name mit Titeln',
                 'priority' => 3,
                 'type' => 'database',
                 'description' => 'Setzt den vollen Namen der jeweiligen Person mit Titeln ein, z.B. "Prof. Dr. Max Mustermann, PhD".',
                 'replacement' => 'luna_users.title_front {FULLNAME} luna_users.title_rear'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'FIRSTNAME',
                 'name' => 'Vorname',
                 'priority' => 5,
                 'type' => 'database',
                 'description' => 'Setzt den Vornamen der jeweiligen Person ein.',
                 'replacement' => 'luna_users.firstname'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'LASTNAME',
                 'name' => 'Nachname',
                 'priority' => 6,
                 'type' => 'database',
                 'description' => 'Setzt den Nachnamen der jeweiligen Person ein.',
                 'replacement' => 'luna_users.lastname'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'STREET',
                 'name' => 'Straße',
                 'priority' => 7,
                 'type' => 'database',
                 'description' => 'Setzt die Straße ein.',
                 'replacement' => 'luna_users.street'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'CITY',
                 'name' => 'PLZ + Stadt',
                 'priority' => 8,
                 'type' => 'database',
                 'description' => 'Setzt den Wohnort inkl. PLZ ein.',
                 'replacement' => 'luna_users.zip luna_users.city'
-            ),
-            array(
+            ],
+            [
                 'marker' => 'ADDRESS',
                 'name' => 'Anschrift',
                 'priority' => 4,
@@ -94,16 +94,16 @@ class SerialMails extends Migration {
                     Musterstraße 47
                     12345 Musterstadt',
                 'replacement' => "{FULLNAME_WITH_TITLE}\r\n{STREET}\r\n{CITY}"
-            ),
-            array(
+            ],
+            [
                 'marker' => 'COMPANY',
                 'name' => 'Unternehmen',
                 'priority' => 9,
                 'type' => 'database-relation',
                 'description' => 'Setzt den Namen der Firma ein, der die Person zugeordnet ist.',
                 'replacement' => 'luna_user_company->company_id->luna_companies->name'
-            ),
-        );
+            ]
+        ];
 
         foreach ($markers as $data) {
             LunaMarker::create($data);

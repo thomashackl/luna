@@ -43,7 +43,7 @@ class SkillsController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
     }
 
     /**
@@ -108,7 +108,7 @@ class SkillsController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
     }
 
     public function save_action($id = '')
@@ -180,7 +180,7 @@ class SkillsController extends AuthenticatedController {
     public function search_action()
     {
         $results = LunaSkill::findBySQL("`client_id` = ?  AND `name` LIKE ? ORDER BY `name`",
-            array($this->client->id, '%' . Request::quoted('term') . '%'));
+            [$this->client->id, '%' . Request::quoted('term') . '%']);
         if (count($results) > 0) {
             $skills = array_map(function($t) { return $t->name; }, $results);
         } else {

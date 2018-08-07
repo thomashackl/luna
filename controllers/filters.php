@@ -29,7 +29,7 @@ class FiltersController extends AuthenticatedController {
         $this->client = LunaClient::findCurrent();
         $access = $GLOBALS['perm']->have_perm('root') ? 'admin' :
             $this->client->beneficiaries->findOneBy('user_id', $GLOBALS['user']->id)->status;
-        $this->hasWriteAccess = in_array($access, array('admin', 'write'));
+        $this->hasWriteAccess = in_array($access, ['admin', 'write']);
     }
 
     public function get_filternames_action($type)
@@ -63,7 +63,7 @@ class FiltersController extends AuthenticatedController {
         $type = Request::option('type');
         $count = Request::int('count');
         $this->client->setListMaxEntries($type, $count);
-        $this->render_text(studip_json_encode(array('OK')));
+        $this->render_text(studip_json_encode(['OK']));
     }
 
     // customized #url_for for plugins

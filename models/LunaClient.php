@@ -344,7 +344,7 @@ class LunaClient extends SimpleORMap
                 $where[] = $alias .
                     ".`" . $all[$filter['column']]['ids'] . "`" .
                     $filter['compare'] .
-                    "'" . $filter['value'] . "'";
+                    DBManager::get()->quote($filter['value']);
             }
             foreach ($tables as $alias => $table) {
                 $sql .= " JOIN `" . $table . "` " . $alias . " USING (`" . $joinfield . "`)";
@@ -380,9 +380,9 @@ class LunaClient extends SimpleORMap
                         } else {
                             $alias = $used[$filter['linked']];
                         }
-                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $word . "%'";
+                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE " . DBManager::get()->quote('%' . $word . '%');
                     } else {
-                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE '%" . $word . "%'";
+                        $subwhere[] = $alias . ".`" . $filter['dbvalues'] . "` LIKE " . DBManager::get()->quote('%' . $word . '%') . "";
                     }
                 }
                 $where2[] = $subwhere;

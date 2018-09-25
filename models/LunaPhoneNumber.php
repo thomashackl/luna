@@ -34,15 +34,11 @@ class LunaPhoneNumber extends SimpleORMap
             'on_store' => 'store'
         );
         $config['alias_fields']['name'] = 'number';
+        $config['registered_callbacks']['after_create'][] = 'cbLog';
+        $config['registered_callbacks']['before_store'][] = 'cbLog';
+        $config['registered_callbacks']['before_delete'][] = 'cbLog';
 
         parent::configure($config);
-    }
-
-    public function __construct($id = null)
-    {
-        $this->registerCallback('after_create before_store before_delete', 'cbLog');
-
-        parent::__construct($id);
     }
 
     /**

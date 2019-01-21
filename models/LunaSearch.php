@@ -28,18 +28,6 @@ class LunaSearch extends StandardSearch
     }
 
     /**
-     * returns an object of type SQLSearch with parameters to constructor
-     *
-     * @param string $search
-     *
-     * @return SQLSearch
-     */
-    static public function get($search)
-    {
-        return new LunaSearch($search);
-    }
-
-    /**
      * returns the title/description of the searchfield
      *
      * @return string title/description

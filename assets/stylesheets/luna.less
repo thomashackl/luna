@@ -1,5 +1,5 @@
-@import url('../../../studip-passau/public/assets/stylesheets/mixins/colors.less');
-@import url('../../../studip-passau/public/assets/stylesheets/mixins/flex.less');
+@import url('../../../studip-passau/resources/assets/stylesheets/mixins/colors.less');
+@import url('../../../studip-passau/resources/assets/stylesheets/mixins/flex.less');
 
 div.luna-defaultentry {
   font-style: italic;
@@ -125,6 +125,25 @@ form.default {
     #luna-recipients {
       margin-left: 5px;
       border: 1px solid @light-gray-color-20;
+
+      div.email {
+        background-color: @light-gray-color-20;
+        display: inline-block;
+        margin: 2px;
+        padding: 2px;
+
+        img {
+          display: none;
+          position: relative;
+          top: 1px;
+        }
+
+        &:hover {
+          img {
+            display: inline;
+          }
+        }
+      }
     }
 
     &#luna-message {

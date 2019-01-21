@@ -88,7 +88,9 @@ class MessageController extends AuthenticatedController {
         } else {
             $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
         }
-        $this->users = LunaUser::findMany($ids, "ORDER BY `lastname`, `firstname`");
+        $this->users = array_filter(LunaUser::findMany($ids, "ORDER BY `lastname`, `firstname`"), function ($u) {
+            return ($u->getDefaultEmail() !== null && $u->getDefaultEmail() !== '');
+        });
         $this->markers = LunaMarker::findBySQL("1 ORDER BY `priority`");
     }
 

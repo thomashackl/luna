@@ -104,6 +104,20 @@ form.default section #luna-recipients {
   margin-left: 5px;
   border: 1px solid #e2e3e4;
 }
+form.default section #luna-recipients div.email {
+  background-color: #e2e3e4;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px;
+}
+form.default section #luna-recipients div.email img {
+  display: none;
+  position: relative;
+  top: 1px;
+}
+form.default section #luna-recipients div.email:hover img {
+  display: inline;
+}
 form.default section#luna-message #luna-markers {
   background: #e2e3e5;
   border: 1px solid #d8dadc;

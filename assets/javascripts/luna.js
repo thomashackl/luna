@@ -631,6 +631,13 @@
                 return false;
             });
 
+            // Allow removing of recipients for serial mails.
+            $('#luna-recipients div.email img').on('click', function () {
+                $(this).closest('div.email').remove();
+                $('#luna-num-recipients').html($('#luna-recipients div.email').length);
+                return false;
+            })
+
         }
     };
 

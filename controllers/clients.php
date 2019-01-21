@@ -58,11 +58,13 @@ class ClientsController extends AuthenticatedController {
             }
         }
 
-        $actions = new ActionsWidget();
-        $actions->addLink(dgettext('luna', 'Mandant hinzufügen'),
-            $this->url_for('clients/edit'),
-            Icon::create('category+add', 'clickable'))->asDialog('size=auto');
-        $this->sidebar->addWidget($actions);
+        if ($this->isRoot) {
+            $actions = new ActionsWidget();
+            $actions->addLink(dgettext('luna', 'Mandant hinzufügen'),
+                $this->url_for('clients/edit'),
+                Icon::create('category+add', 'clickable'))->asDialog('size=auto');
+            $this->sidebar->addWidget($actions);
+        }
     }
 
     /**

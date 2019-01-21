@@ -167,7 +167,11 @@ class LunaCompanyFilter
 
     public static function getFilters($user_id, $client = '')
     {
-        $filters = studip_json_decode(UserConfig::get($user_id)->LUNA_COMPANY_FILTER);
+        $config = UserConfig::get($user_id)->LUNA_COMPANY_FILTER;
+        if ($config === null || $config === '') {
+            $config = [];
+        }
+        $filters = studip_json_decode($config);
         foreach ($filters as $clientId => $clientFilters) {
             $actualFilters = is_array($clientFilters['filters']) ? $clientFilters['filters'] : [];
             foreach ($actualFilters as $index => $filter) {

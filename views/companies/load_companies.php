@@ -141,6 +141,9 @@
                             <option value="export">
                                 <?= dgettext('luna', 'Excel-Export') ?>
                             </option>
+                            <option value="vcard">
+		                        <?= dgettext('luna', 'Visitenkarten exportieren') ?>
+                            </option>
                         </select>
                     </label>
                     <br>

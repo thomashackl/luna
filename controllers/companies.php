@@ -363,6 +363,9 @@ class CompaniesController extends AuthenticatedController {
             case 'export':
                 $this->redirect($this->url_for('export/csv', 'companies'));
                 break;
+	        case 'vcard':
+		        $this->relocate('export/vcard', 'companies');
+		        break;
         }
     }
 

@@ -120,11 +120,10 @@ form.default section #luna-recipients div.email:hover img {
 }
 form.default section#luna-message #luna-markers {
   background: #e2e3e5;
-  border: 1px solid #d8dadc;
-  left: 0;
-  margin-left: 2px;
-  margin-right: 1px;
-  margin-top: 2px;
+  border: 1px solid #c5c5c5;
+  display: none;
+  padding-left: 5px;
+  vertical-align: baseline;
 }
 form.default section#luna-message #luna-markers select {
   display: inline-block;
@@ -135,6 +134,11 @@ form.default section#luna-message #luna-markers select {
 form.default section#luna-message #luna-markers #luna-marker-description {
   font-style: italic;
   padding-top: 2px;
+}
+form.default section#luna-message #luna-markers.wysiwyg-markers {
+  background: transparent;
+  border: 1px solid #878787;
+  margin: 0;
 }
 form.default section span.luna-company-contact {
   font-style: italic;

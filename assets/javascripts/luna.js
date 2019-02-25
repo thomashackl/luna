@@ -168,14 +168,17 @@
                 url: url,
                 data: params,
                 dataType: 'html',
-                beforeSend: function (xhr, settings) {
+                beforeSend: function(xhr, settings) {
                     dataEl.html($('<img>').
                         attr('width', 64).
                         attr('height', 64).
                         attr('src', STUDIP.ASSETS_URL + 'images/ajax-indicator-black.svg'));
                 },
-                success: function (html) {
+                success: function(html) {
                     dataEl.html(html);
+                },
+                error: function(message) {
+                    alert(dataEl.data('error-message'));
                 }
             });
             return false;
@@ -323,6 +326,9 @@
                 },
                 success: function (html) {
                     dataEl.html(html);
+                },
+                error: function(message) {
+                    alert(dataEl.data('error-message'));
                 }
             });
             return false;
@@ -347,6 +353,9 @@
                 },
                 success: function (html) {
                     dataEl.html(html);
+                },
+                error: function(message) {
+                    alert(dataEl.data('error-message'));
                 }
             });
             return false;
@@ -370,6 +379,9 @@
                 },
                 success: function (html) {
                     dataEl.html(html);
+                },
+                error: function(message) {
+                    alert(dataEl.data('error-message'));
                 }
             });
             return false;
@@ -393,6 +405,9 @@
                 },
                 success: function (html) {
                     dataEl.html(html);
+                },
+                error: function(message) {
+                    alert(dataEl.data('error-message'));
                 }
             });
             return false;
@@ -598,25 +613,6 @@
                 return false;
             });
 
-            // Serial mail markers for text completion
-            var markers = $('label#luna-markers');
-            var addMarker = $('#luna-add-marker');
-            markers.children('select').on('change', function() {
-                var selected = $(this).children('option:selected');
-                $('#luna-marker-description').html(selected.data('description'));
-                if (selected.attr('value') != '') {
-                    addMarker.removeClass('hidden-js');
-                } else {
-                    addMarker.addClass('hidden-js');
-                }
-            });
-            markers.insertAfter('div.buttons');
-            addMarker.on('click', function() {
-                markers.parent().children('textarea').
-                    insertAtCaret($('label#luna-markers select option:selected').attr('value'));
-                return false;
-            });
-
             // Company member list
             $('a.luna-member-remove').on('click', function() {
                 STUDIP.Luna.removeCompanyMember(this);
@@ -636,14 +632,47 @@
                 $(this).closest('div.email').remove();
                 $('#luna-num-recipients').html($('#luna-recipients div.email').length);
                 return false;
-            })
+            });
 
+            // Add toolbar for serial mail markers in messages.
+            var markers = $('label#luna-markers');
+            var addMarker = $('#luna-add-marker');
+            markers.children('select').on('change', function() {
+                var selected = $(this).children('option:selected');
+                $('#luna-marker-description').html(selected.data('description'));
+                if (selected.attr('value') != '') {
+                    addMarker.removeClass('hidden-js');
+                } else {
+                    addMarker.addClass('hidden-js');
+                }
+            });
+            if (STUDIP.editor_enabled) {
+                markers.addClass('wysiwyg-markers');
+                CKEDITOR.on('instanceReady', function() {
+                    markers.width($('div.cke_inner').width() - 5);
+                    markers.insertBefore('textarea[name="message"]');
+                    markers.css('display', 'block');
+                });
+            } else {
+                markers.insertBefore('textarea[name="message"]');
+                markers.css('display', 'block');
+            }
+            addMarker.on('click', function() {
+                if (STUDIP.editor_enabled) {
+                    CKEDITOR.instances[$('textarea[name="message"]').attr('id')].insertText(
+                        $('label#luna-markers select option:selected').attr('value'));
+                } else {
+                    markers.parent().children('textarea').
+                        insertAtCaret($('label#luna-markers select option:selected').attr('value'));
+                }
+                return false;
+            });
         }
     };
 
     $(document).ready(function () {
         STUDIP.Luna.init();
-        $(document).on('dialog-update', function () {
+        $(document).on('dialog-update', function() {
             STUDIP.Luna.init();
         });
         var dataDiv = $('div#luna-data');

@@ -63,19 +63,23 @@
             <select name="markers">
                 <option value="" data-description="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
                 <?php foreach ($markers as $marker) : ?>
-                    <option value="{<?= $marker['marker'] ?>}" data-description="<?= htmlReady(nl2br($marker['description'])) ?>"><?= htmlReady($marker['name']) ?></option>
+                    <option value="{<?= $marker['marker'] ?>}" data-description="<?= htmlReady(nl2br($marker['description'])) ?>">
+                        <?= htmlReady($marker['name']) ?>
+                    </option>
                 <?php endforeach ?>
             </select>
             <?= Studip\LinkButton::createAccept(_('Einsetzen'), '', array('id' => 'luna-add-marker', 'class' => 'hidden-js')) ?>
             <div id="luna-marker-description"></div>
         </label>
-        <label>
+        <h4>
             <span class="required">
                 <?= dgettext('luna', 'Nachricht') ?>
             </span>
-            <textarea name="message" cols="75" rows="20" class="add_toolbar" required placeholder="<?=
-                dgettext('luna', 'Geben Sie hier den Inhalt Ihrer E-Mail ein.') ?>"></textarea>
-        </label>
+        </h4>
+        <textarea name="message" cols="75" rows="20"
+                  class="<?= Config::get()->WYSIWYG ? 'wysiwyg' : 'add_toolbar' ?>"
+                  required
+                  placeholder="<?= dgettext('luna', 'Geben Sie hier den Inhalt Ihrer E-Mail ein.') ?>"></textarea>
     </section>
     <section>
         <label class="luna-cursor-pointer">

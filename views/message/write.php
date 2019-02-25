@@ -77,7 +77,7 @@
             </span>
         </h4>
         <textarea name="message" cols="75" rows="20"
-                  class="<?= Config::get()->WYSIWYG ? 'wysiwyg' : 'add_toolbar' ?>"
+                  class="<?= $wysiwyg ? 'wysiwyg' : 'add_toolbar' ?>"
                   required
                   placeholder="<?= dgettext('luna', 'Geben Sie hier den Inhalt Ihrer E-Mail ein.') ?>"></textarea>
     </section>

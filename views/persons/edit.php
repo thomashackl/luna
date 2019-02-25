@@ -344,7 +344,7 @@
         <section>
             <label>
                 <?= dgettext('luna', 'Notizen') ?>
-                <textarea name="notes" cols="75" rows="10" class="add_toolbar"><?= htmlReady($person->notes) ?></textarea>
+                <textarea name="notes" cols="75" rows="10" class="<?= $wysiwyg ? 'wysiwyg' : 'add_toolbar' ?>"><?= htmlReady($person->notes) ?></textarea>
             </label>
         </section>
     </fieldset>

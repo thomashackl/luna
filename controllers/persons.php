@@ -40,10 +40,13 @@ class PersonsController extends AuthenticatedController {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
+
+        $this->wysiwyg = Config::get()->WYSIWYG && $GLOBALS['user']->cfg->WYSIWYG_DISABLED != 1;
+
         PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
 
-        PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.typing-0.2.0.min.js');
+        PageLayout::addScript($this->plugin->getPluginURL() . '/assets/javascripts/jquery.typing-0.2.0.min.js');
     }
 
     /**

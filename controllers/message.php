@@ -47,6 +47,9 @@ class MessageController extends AuthenticatedController {
             $style = $this->plugin->getPluginURL().'/assets/stylesheets/luna.min.css';
             $js = $this->plugin->getPluginURL().'/assets/javascripts/luna.min.js';
         }
+
+        $this->wysiwyg = Config::get()->WYSIWYG && $GLOBALS['user']->cfg->WYSIWYG_DISABLED != 1;
+
         PageLayout::addStylesheet($style);
         PageLayout::addScript($js);
         PageLayout::addScript($this->plugin->getPluginURL().'/assets/javascripts/jquery.insert-at-caret.min.js');
@@ -105,13 +108,15 @@ class MessageController extends AuthenticatedController {
             foreach ($users as $u) {
                 $message = LunaMarker::replaceMarkers(Request::get('message'), $u, true);
 
+                $message = $this->wysiwyg ? wysiwygReady($message) : formatReady($message);
+
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))
                     ->setReplyToEmail(Request::get('sender'))
                     ->setBodyText('')
                     ->setSenderEmail(Request::get('sender'))
                     ->addRecipient($u->getDefaultEmail(), $u->getFullname('full'))
-                    ->setBodyHtml(formatReady($message));
+                    ->setBodyHtml($message);
 
                 // Attachments
                 foreach ($_FILES['docs']['name'] as $index => $filename) {
@@ -133,12 +138,14 @@ class MessageController extends AuthenticatedController {
 
             // Send copy to self or other recipients if requested.
             if (Request::int('sendercopy') || Request::get('cc')) {
+                $message = $this->wysiwyg ? wysiwygReady(Request::get('message')) : formatReady(Request::get('message'));
+
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))
                     ->setReplyToEmail(Request::get('sender'))
                     ->setBodyText('')
                     ->setSenderEmail(Request::get('sender'))
-                    ->setBodyHtml(formatReady($message));
+                    ->setBodyHtml($message);
                 if (Request::int('sendercopy')) {
                     $mail->addRecipient(Request::get('sender'));
                 }
@@ -209,7 +216,9 @@ class MessageController extends AuthenticatedController {
                 }
             }
 
-            $mail->setBodyHtml(formatReady(Request::get('message')));
+            $message = $this->wysiwyg ? wysiwygReady(Request::get('message')) : formatReady(Request::get('message'));
+
+            $mail->setBodyHtml(formatReady($message));
 
             if ($mail->send()) {
                 PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));

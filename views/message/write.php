@@ -68,7 +68,7 @@
                     </option>
                 <?php endforeach ?>
             </select>
-            <?= Studip\LinkButton::createAccept(_('Einsetzen'), '', array('id' => 'luna-add-marker', 'class' => 'hidden-js')) ?>
+            <?= Studip\LinkButton::createAccept(_('Einsetzen'), '', ['id' => 'luna-add-marker', 'class' => 'hidden-js']) ?>
             <div id="luna-marker-description"></div>
         </label>
         <h4>
@@ -86,7 +86,7 @@
             <?= dgettext('luna', 'Dateianhänge') ?>
             <br>
             <input type="file" name="docs[]" multiple>
-            <?= Icon::create('upload', 'clickable', array('title' => _('Datei(en) hochladen'), 'class' => 'text-bottom')) ?>
+            <?= Icon::create('upload', 'clickable', ['title' => _('Datei(en) hochladen'), 'class' => 'text-bottom']) ?>
             <?= _('Datei(en) hochladen') ?>
         </label>
         <ul id="luna-newdocs"></ul>

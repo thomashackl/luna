@@ -45,7 +45,7 @@ class LunaUser extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_users';
-        $config['has_and_belongs_to_many']['skills'] = array(
+        $config['has_and_belongs_to_many']['skills'] = [
             'class_name' => 'LunaSkill',
             'thru_table' => 'luna_user_skills',
             'thru_key' => 'user_id',
@@ -53,8 +53,8 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store',
             'order_by' => 'ORDER BY `name`'
-        );
-        $config['has_and_belongs_to_many']['companies'] = array(
+        ];
+        $config['has_and_belongs_to_many']['companies'] = [
             'class_name' => 'LunaCompany',
             'thru_table' => 'luna_user_company',
             'thru_key' => 'user_id',
@@ -62,8 +62,8 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store',
             'order_by' => 'ORDER BY `name`'
-        );
-        $config['has_and_belongs_to_many']['tags'] = array(
+        ];
+        $config['has_and_belongs_to_many']['tags'] = [
             'class_name' => 'LunaTag',
             'thru_table' => 'luna_user_tag',
             'thru_key' => 'user_id',
@@ -71,26 +71,26 @@ class LunaUser extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store',
             'order_by' => 'ORDER BY `name`'
-        );
-        $config['has_many']['emails'] = array(
+        ];
+        $config['has_many']['emails'] = [
             'class_name' => 'LunaEMail',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
-        );
-        $config['has_many']['phonenumbers'] = array(
+        ];
+        $config['has_many']['phonenumbers'] = [
             'class_name' => 'LunaPhoneNumber',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id',
             'on_delete' => 'delete',
             'on_store' => 'store'
-        );
-        $config['has_one']['studip_user'] = array(
+        ];
+        $config['has_one']['studip_user'] = [
             'class_name' => 'User',
             'foreign_key' => 'studip_user_id',
             'assoc_foreign_key' => 'user_id'
-        );
+        ];
 
         $config['registered_callbacks']['after_create'][] = 'cbLog';
         $config['registered_callbacks']['before_store'][] = 'cbLog';
@@ -152,7 +152,7 @@ class LunaUser extends SimpleORMap
             return LunaUser::find($value)->$field;
         } else {
             return LunaUser::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::findCurrent()->id, 'value' => $value))->$field;
+                ['client' => LunaClient::findCurrent()->id, 'value' => $value])->$field;
         }
     }
 
@@ -165,7 +165,7 @@ class LunaUser extends SimpleORMap
             $log = new LunaLogEntry();
             $log->client_id = LunaClient::findCurrent()->id;
             $log->user_id = $GLOBALS['user']->id;
-            $log->affected = array($this->id);
+            $log->affected = [$this->id];
             $log->affected_type = 'user';
             if ($type == 'after_create') {
                 $log->action = 'create';

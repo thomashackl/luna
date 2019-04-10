@@ -25,14 +25,14 @@
                    placeholder="<?= dgettext('luna', 'Suchbegriff eingeben') ?>">
         </div>
         <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
-            $controller->url_for('filters/get_filternames', 'companies'), array('id' => 'luna-add-filter')) ?>
+            $controller->url_for('filters/get_filternames', 'companies'), ['id' => 'luna-add-filter']) ?>
         <div id="luna-newfilter" class="hidden-js"
              data-filternames-url="<?= $controller->url_for('filters/get_filternames', 'companies') ?>"
              data-filterdata-url="<?= $controller->url_for('filters/get_filterdata', 'companies') ?>"
              data-pleasechoose="<?= dgettext('luna', 'bitte auswählen') ?>">
             <span id="luna-newfilter-name"></span>
             <span id="luna-newfilter-config"></span>
-            <?= Studip\Button::create(_('Übernehmen'), 'apply', array('class' => 'hidden-js')) ?>
+            <?= Studip\Button::create(_('Übernehmen'), 'apply', ['class' => 'hidden-js']) ?>
         </div>
         <div id="luna-applied-filters"<?= count($filters['filters']) == 0 ? ' class="hidden-js"' : '' ?>
              data-filter-count="<?= count($filters['filters']) ?>">
@@ -49,7 +49,7 @@
     <?php if (count($filters['filters']) > 0) : ?>
         <section id="luna-save-filters">
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
-                $controller->url_for('search/filter_preset/companies'), array('data-dialog' => 'size=auto')) ?>
+                $controller->url_for('search/filter_preset/companies'), ['data-dialog' => 'size=auto']) ?>
         </section>
     <?php endif ?>
 </form>

@@ -27,12 +27,12 @@ class LunaPhoneNumber extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_phone';
-        $config['belongs_to']['user'] = array(
+        $config['belongs_to']['user'] = [
             'class_name' => 'LunaUser',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id',
             'on_store' => 'store'
-        );
+        ];
         $config['alias_fields']['name'] = 'number';
         $config['registered_callbacks']['after_create'][] = 'cbLog';
         $config['registered_callbacks']['before_store'][] = 'cbLog';
@@ -50,7 +50,7 @@ class LunaPhoneNumber extends SimpleORMap
             $log = new LunaLogEntry();
             $log->client_id = LunaClient::findCurrent()->id;
             $log->user_id = $GLOBALS['user']->id;
-            $log->affected = array($this->user->id);
+            $log->affected = [$this->user->id];
             $log->affected_type = 'phone';
             if ($type == 'after_create') {
                 $log->action = 'create';

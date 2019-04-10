@@ -41,44 +41,44 @@ class MailAndPhoneEntries extends Migration {
             FROM `luna_users` ORDER BY `user_id`");
         foreach ($data as $u) {
             if ($u['email_private']) {
-                $estmt->execute(array(
+                $estmt->execute([
                     'uid' => $u['user_id'],
                     'mail' => $u['email_private'],
                     'type' => 'private',
                     'default' => 1
-                ));
+                ]);
             }
             if ($u['email_office']) {
-                $estmt->execute(array(
+                $estmt->execute([
                     'uid' => $u['user_id'],
                     'mail' => $u['email_office'],
                     'type' => 'office',
                     'default' => $u['email_private'] ? 0 : 1
-                ));
+                ]);
             }
             if ($u['phone_private']) {
-                $pstmt->execute(array(
+                $pstmt->execute([
                     'uid' => $u['user_id'],
                     'number' => $u['phone_private'],
                     'type' => 'private',
                     'default' => 1
-                ));
+                ]);
             }
             if ($u['phone_mobile']) {
-                $pstmt->execute(array(
+                $pstmt->execute([
                     'uid' => $u['user_id'],
                     'number' => $u['phone_mobile'],
                     'type' => 'mobile',
                     'default' => $u['phone_private'] ? 0 : 1
-                ));
+                ]);
             }
             if ($u['phone_office']) {
-                $pstmt->execute(array(
+                $pstmt->execute([
                     'uid' => $u['user_id'],
                     'number' => $u['phone_office'],
                     'type' => 'office',
                     'default' => $u['phone_private'] || $u['phone_mobile'] ? 0 : 1
-                ));
+                ]);
             }
         }
 

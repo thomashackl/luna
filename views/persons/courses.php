@@ -23,7 +23,7 @@
                     <tr>
                         <td><?= htmlReady($c->veranstaltungsnummer) ?></td>
                         <td>
-                            <a href="<?= URLHelper::getURL('dispatch.php/course/details/', array('cid' => $c->id)) ?>">
+                            <a href="<?= URLHelper::getURL('dispatch.php/course/details/', ['cid' => $c->id]) ?>">
                                 <?= htmlReady($c->name) ?>
                             </a>
                         </td>

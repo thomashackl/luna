@@ -19,125 +19,125 @@ class LunaUserFilter
 
     public static function getFilterFields($all = false)
     {
-        $fields = array(
-            'firstname' => array(
+        $fields = [
+            'firstname' => [
                 'name' => dgettext('luna', 'Vorname'),
                 'table' => 'luna_users',
                 'ids' => 'firstname',
                 'dbvalues' => 'firstname',
                 'class' => 'LunaUser',
                 'is_id' => false
-            ),
-            'lastname' => array(
+            ],
+            'lastname' => [
                 'name' => dgettext('luna', 'Nachname'),
                 'table' => 'luna_users',
                 'ids' => 'lastname',
                 'dbvalues' => 'lastname',
                 'class' => 'LunaUser',
                 'is_id' => false
-            ),
-            'gender' => array(
+            ],
+            'gender' => [
                 'name' => dgettext('luna', 'Geschlecht'),
                 'table' => 'luna_users',
                 'ids' => 'gender',
                 'dbvalues' => 'gender',
-                'values' => array(
+                'values' => [
                     0 => _('unbekannt'),
                     1 => _('männlich'),
                     2 => _('weiblich')
-                ),
+                ],
                 'class' => 'LunaUser',
                 'is_id' => false
-            ),
-            'informal' => array(
+            ],
+            'informal' => [
                 'name' => dgettext('luna', 'Anrede per du'),
                 'table' => 'luna_users',
                 'ids' => 'informal',
                 'dbvalues' => 'informal',
-                'values' => array(
+                'values' => [
                     1 => _('ja'),
                     0 => _('nein')
-                ),
+                ],
                 'class' => 'LunaUser',
                 'is_id' => false
-            ),
-            'address' => array(
+            ],
+            'address' => [
                 'name' => dgettext('luna', 'Anschrift'),
                 'table' => 'luna_users',
                 'ids' => 'address',
                 'dbvalues' => 'address',
                 'class' => 'LunaUser',
                 'is_id' => false
-            )
-        );
+            ]
+        ];
         if ($all) {
-            $fields = $fields + array(
-                    'zip' => array(
+            $fields = $fields + [
+                    'zip' => [
                         'name' => dgettext('luna', 'Postleitzahl'),
                         'table' => 'luna_users',
                         'ids' => 'zip',
                         'dbvalues' => 'zip',
                         'class' => 'LunaUser',
                         'is_id' => false
-                    )
-                );
+                    ]
+                ];
         }
-        $fields = $fields + array(
-            'city' => array(
+        $fields = $fields + [
+            'city' => [
                 'name' => dgettext('luna', 'Stadt'),
                 'table' => 'luna_users',
                 'ids' => 'city',
                 'dbvalues' => 'city',
                 'class' => 'LunaUser',
                 'is_id' => false
-            ),
-            'country' => array(
+            ],
+            'country' => [
                 'name' => dgettext('luna', 'Land'),
                 'table' => 'luna_users',
                 'ids' => 'country',
                 'dbvalues' => 'country',
                 'class' => 'LunaUser',
                 'is_id' => false
-            )
-        );
+            ]
+        ];
         if ($all) {
-            $fields = $fields + array(
-                'emails' => array(
+            $fields = $fields + [
+                'emails' => [
                     'name' => dgettext('luna', 'E-Mailadresse'),
                     'table' => 'luna_email',
                     'ids' => 'user_id',
                     'dbvalues' => 'email',
                     'class' => 'LunaEMail',
                     'is_id' => true
-                ),
-                'phonenumbers' => array(
+                ],
+                'phonenumbers' => [
                     'name' => dgettext('luna', 'Telefonnummer'),
                     'table' => 'luna_phone',
                     'ids' => 'user_id',
                     'dbvalues' => 'number',
                     'class' => 'LunaPhone',
                     'is_id' => true
-                ),
-                'fax' => array(
+                ],
+                'fax' => [
                     'name' => dgettext('luna', 'Fax'),
                     'table' => 'luna_users',
                     'ids' => 'fax',
                     'dbvalues' => 'fax',
                     'class' => 'LunaUser',
                     'is_id' => false
-                ),
-                'homepage' => array(
+                ],
+                'homepage' => [
                     'name' => dgettext('luna', 'Homepage'),
                     'table' => 'luna_users',
                     'ids' => 'homepage',
                     'dbvalues' => 'homepage',
                     'class' => 'LunaUser',
                     'is_id' => false
-                )
-            );
+                ]
+            ];
         }
-        $fields = $fields + array(
-            'companies' => array(
+        $fields = $fields + [
+            'companies' => [
                 'name' => dgettext('luna', 'Unternehmen'),
                 'table' => 'luna_user_company',
                 'ids' => 'company_id',
@@ -145,8 +145,8 @@ class LunaUserFilter
                 'class' => 'LunaCompany',
                 'is_id' => true,
                 'linked' => 'luna_companies'
-            ),
-            'skills' => array(
+            ],
+            'skills' => [
                 'name' => dgettext('luna', 'Kompetenz'),
                 'table' => 'luna_user_skills',
                 'ids' => 'skill_id',
@@ -154,8 +154,8 @@ class LunaUserFilter
                 'class' => 'LunaSkill',
                 'is_id' => true,
                 'linked' => 'luna_skills'
-            ),
-            'tags' => array(
+            ],
+            'tags' => [
                 'name' => dgettext('luna', 'Schlagwort'),
                 'table' => 'luna_user_tag',
                 'ids' => 'tag_id',
@@ -163,37 +163,37 @@ class LunaUserFilter
                 'class' => 'LunaTag',
                 'is_id' => true,
                 'linked' => 'luna_tags'
-            )
-        );
-        $fields = $fields + array(
-                'status' => array(
+            ]
+        ];
+        $fields = $fields + [
+                'status' => [
                     'name' => dgettext('luna', 'Status'),
                     'table' => 'luna_users',
                     'ids' => 'status',
                     'dbvalues' => 'status',
                     'class' => 'LunaUser',
                     'is_id' => false
-                )
-            );
+                ]
+            ];
         if ($all) {
-            $fields = $fields + array(
-                'graduation' => array(
+            $fields = $fields + [
+                'graduation' => [
                     'name' => dgettext('luna', 'Hochschulabschluss'),
                     'table' => 'luna_users',
                     'ids' => 'graduation',
                     'dbvalues' => 'graduation',
                     'class' => 'LunaUser',
                     'is_id' => false
-                ),
-                'notes' => array(
+                ],
+                'notes' => [
                     'name' => dgettext('luna', 'Notizen'),
                     'table' => 'luna_users',
                     'ids' => 'notes',
                     'dbvalues' => 'notes',
                     'class' => 'LunaUser',
                     'is_id' => false
-                )
-            );
+                ]
+            ];
         }
         return $fields;
     }
@@ -212,15 +212,15 @@ class LunaUserFilter
         $fields = self::getFilterFields();
         $filter = $fields[$field];
         $values = $filter['class']::getDistinctValues($client, $field, 'user');
-        $result = array(
-            'compare' => array(
+        $result = [
+            'compare' => [
                 '=' => dgettext('luna', 'ist'),
                 '!=' => dgettext('luna', 'ist nicht'),
                 'LIKE' => dgettext('luna', 'enthält'),
                 'NOT LIKE' => dgettext('luna', 'enthält nicht'),
-            ),
+            ],
             'values' => []
-        );
+        ];
         foreach ($values as $v) {
             $current = $v['value'];
             if ($filter['values'] && $filter['values'][$v['id']]) {

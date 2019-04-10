@@ -165,7 +165,7 @@
                                 <?= htmlReady($d->name) ?>
                             </a>
                             <a href="<?= $controller->url_for('persons/delete_doc', $person->id, $d->id) ?>">
-                                <?= Icon::create('trash', 'clickable', array('class' => 'text-bottom')) ?>
+                                <?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?>
                             </a>
                         </li>
                     <?php endforeach ?>

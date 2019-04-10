@@ -3,7 +3,7 @@
         <article class="luna-export-datafields">
             <header>
                 <h1>
-                    <a href="<?= ContentBoxHelper::href('luna-export-datafields', array('contentbox_type' => 'news')) ?>">
+                    <a href="<?= ContentBoxHelper::href('luna-export-datafields', ['contentbox_type' => 'news']) ?>">
                         <?= dgettext('luna', 'Zu exportierende Datenfelder') ?>
                     </a>
                 </h1>

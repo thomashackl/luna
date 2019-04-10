@@ -53,12 +53,12 @@ class ReorganizeTables extends Migration {
         $data = DBManager::get()->fetchAll("SELECT `user_id`, `status`, `graduation`,
             `vita`, `qualifications`, `notes` FROM `luna_users` ORDER BY `user_id`");
         foreach ($data as $d) {
-            $stmt->execute(array(
+            $stmt->execute([
                 'uid' => $data['user_id'],
                 'status' => $data['status'],
                 'graduation' => $data['graduation'],
                 'notes' => $data['notes']
-            ));
+            ]);
         }
 
         DBManager::get()->execute(

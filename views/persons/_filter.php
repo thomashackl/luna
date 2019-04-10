@@ -24,21 +24,21 @@
             <input type="text" size="25" name="searchtext" value="<?= htmlReady($textfilter) ?>" data-type="persons" placeholder="<?= dgettext('luna', 'Suchbegriff eingeben') ?>">
         </div>
         <?= Studip\LinkButton::create(dgettext('luna', 'Filter hinzufügen'),
-            $controller->url_for('filters/get_filternames', 'persons'), array('id' => 'luna-add-filter')) ?>
+            $controller->url_for('filters/get_filternames', 'persons'), ['id' => 'luna-add-filter']) ?>
         <div id="luna-newfilter" class="hidden-js"
                 data-filternames-url="<?= $controller->url_for('filters/get_filternames', 'persons') ?>"
                 data-filterdata-url="<?= $controller->url_for('filters/get_filterdata', 'persons') ?>"
                 data-pleasechoose="<?= dgettext('luna', 'bitte auswählen') ?>">
             <span id="luna-newfilter-name"></span>
             <span id="luna-newfilter-config"></span>
-            <?= Studip\Button::create(_('Übernehmen'), 'apply', array('class' => 'hidden-js')) ?>
+            <?= Studip\Button::create(_('Übernehmen'), 'apply', ['class' => 'hidden-js']) ?>
         </div>
         <div id="luna-applied-filters"<?= count($filters['filters']) == 0 ? ' class="hidden-js"' : '' ?>
              data-filter-count="<?= count($filters['filters']) ?>">
             <?php if (count($filters) > 0) : $i = 0; ?>
                 <?php foreach ($filters['filters'] as $filter) : ?>
                     <?= $this->render_partial('filters/_singlefilter',
-                        array('allfilters' => $allfilters, 'filter' => $filter, 'i' => $i)) ?>
+                        ['allfilters' => $allfilters, 'filter' => $filter, 'i' => $i]) ?>
                 <?php $i++; endforeach ?>
             <?php endif ?>
             <?= $this->render_partial('filters/_disjunction',
@@ -48,7 +48,7 @@
     <?php if (count($filters['filters']) > 0) : ?>
         <section id="luna-save-filters">
             <?= Studip\LinkButton::create(dgettext('luna', 'Suchfilter speichern'),
-                $controller->url_for('search/filter_preset/persons'), array('data-dialog' => 'size=auto')) ?>
+                $controller->url_for('search/filter_preset/persons'), ['data-dialog' => 'size=auto']) ?>
         </section>
     <?php endif ?>
 </form>

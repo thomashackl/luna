@@ -155,7 +155,7 @@
             </section>
         <?php $i++; endforeach ?>
         <a class="luna-email-add" href="">
-            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'E-Mailadresse hinzufügen')))->asImg(24) ?>
+            <?= Icon::create('add', 'clickable', ['title' => dgettext('luna', 'E-Mailadresse hinzufügen')])->asImg(24) ?>
         </a>
     </fieldset>
     <fieldset id="luna-phone">
@@ -214,7 +214,7 @@
             </section>
         <?php $i++; endforeach ?>
         <a class="luna-phone-add" href="">
-            <?= Icon::create('add', 'clickable', array('title' => dgettext('luna', 'Telefonnummer hinzufügen')))->asImg(24) ?>
+            <?= Icon::create('add', 'clickable', ['title' => dgettext('luna', 'Telefonnummer hinzufügen')])->asImg(24) ?>
         </a>
     </fieldset>
     <fieldset>
@@ -255,7 +255,7 @@
                 </label>
                 <?= dgettext('luna', 'oder') ?>
                 <?= Studip\Button::create(dgettext('luna', 'Neues Unternehmen hinzufügen'), 'newcompany',
-                    array('data-dialog' => '')) ?>
+                    ['data-dialog' => '']) ?>
             </section>
         </fieldset>
     <?php endif ?>
@@ -355,7 +355,7 @@
         <section>
             <label class="luna-cursor-pointer">
                 <input type="file" name="docs[]" multiple>
-                <?= Icon::create('upload', 'clickable', array('title' => _('Datei hochladen'), 'class' => 'text-bottom')) ?>
+                <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom']) ?>
                 <?= _('Datei hochladen') ?>
             </label>
             <ul id="luna-newdocs"></ul>
@@ -372,7 +372,7 @@
                                 <?= htmlReady($d->name) ?>
                             </a>
                             <a href="<?= $controller->url_for('persons/delete_doc', $person->id, $d->id) ?>">
-                                <?= Icon::create('trash', 'clickable', array('class' => 'text-bottom')) ?>
+                                <?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?>
                             </a>
                         </li>
                     <?php endforeach ?>

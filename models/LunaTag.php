@@ -27,22 +27,22 @@ class LunaTag extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_tags';
-        $config['has_and_belongs_to_many']['users'] = array(
+        $config['has_and_belongs_to_many']['users'] = [
             'class_name' => 'LunaUser',
             'thru_table' => 'luna_user_tag',
             'thru_key' => 'tag_id',
             'thru_assoc_key' => 'user_id',
             'order_by' => 'ORDER BY lastname, firstname',
             'on_store' => 'store'
-        );
-        $config['has_and_belongs_to_many']['companies'] = array(
+        ];
+        $config['has_and_belongs_to_many']['companies'] = [
             'class_name' => 'LunaCompany',
             'thru_table' => 'luna_company_tag',
             'thru_key' => 'tag_id',
             'thru_assoc_key' => 'company_id',
             'order_by' => 'ORDER BY name',
             'on_store' => 'store'
-        );
+        ];
 
         parent::configure($config);
     }
@@ -72,7 +72,7 @@ class LunaTag extends SimpleORMap
             return self::find($value)->$field;
         } else {
             return self::findOneBySQL("`client_id` = :client AND `".$field."` = :value",
-                array('client' => LunaClient::findCurrent()->id, 'value' => $value))->$field;
+                ['client' => LunaClient::findCurrent()->id, 'value' => $value])->$field;
         }
     }
 

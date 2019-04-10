@@ -17,7 +17,7 @@
                     <?php endif ?>
                     <a href="<?= $controller->url_for('persons/configure_view') ?>" data-dialog="size=auto">
                         <?= Icon::create('checkbox-checked', 'clickable',
-                            array('title' => dgettext('luna', 'Welche Spalten sollen angezeigt werden?')))->asImg() ?>
+                            ['title' => dgettext('luna', 'Welche Spalten sollen angezeigt werden?')])->asImg() ?>
                     </a>
                 </span>
             </caption>
@@ -58,7 +58,7 @@
                     </td>
                     <?php foreach ($columns as $c) : ?>
                         <td>
-                            <?php if (!in_array($c, array('companies', 'skills', 'tags', 'address', 'emails', 'phonenumbers'))) : ?>
+                            <?php if (!in_array($c, ['companies', 'skills', 'tags', 'address', 'emails', 'phonenumbers'])) : ?>
                                 <?= htmlReady($allfilters[$c]['values'] ? $allfilters[$c]['values'][$p->$c] : $p->$c) ?>
                             <?php elseif ($c == 'address') : ?>
                                 <?= nl2br(htmlReady($p->address)) ?>

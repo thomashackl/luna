@@ -324,7 +324,7 @@ class PersonsController extends AuthenticatedController {
             foreach (Request::getArray('email') as $index => $email) {
                 if (trim($email['address'])) {
                     if ($user->id) {
-                        if (!$entry = LunaEMail::find(array($user->id, $email['address']))) {
+                        if (!$entry = LunaEMail::find([$user->id, $email['address']])) {
                             $entry = new LunaEMail();
                         }
                     } else {
@@ -354,7 +354,7 @@ class PersonsController extends AuthenticatedController {
             foreach (Request::getArray('phone') as $index => $phone) {
                 if (trim($phone['number'])) {
                     if ($user->id) {
-                        if (!$entry = LunaPhoneNumber::find(array($user->id, $email['number']))) {
+                        if (!$entry = LunaPhoneNumber::find([$user->id, $email['number']])) {
                             $entry = new LunaPhoneNumber();
                         }
                     } else {

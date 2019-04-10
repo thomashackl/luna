@@ -30,16 +30,16 @@ class LunaLogEntry extends SimpleORMap
     protected static function configure($config = [])
     {
         $config['db_table'] = 'luna_log';
-        $config['belongs_to']['client'] = array(
+        $config['belongs_to']['client'] = [
             'class_name' => 'LunaClient',
             'foreign_key' => 'client_id',
             'assoc_foreign_key' => 'client_id'
-        );
-        $config['belongs_to']['user'] = array(
+        ];
+        $config['belongs_to']['user'] = [
             'class_name' => 'User',
             'foreign_key' => 'user_id',
             'assoc_foreign_key' => 'user_id'
-        );
+        ];
         $config['serialized_fields']['affected'] = "JSONArrayObject";
 
         parent::configure($config);

@@ -71,7 +71,7 @@
             <?php endif ?>
             <?= dgettext('luna', 'oder') ?>
             <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufügen'), 'newperson',
-                array('data-dialog' => '')) ?>
+                ['data-dialog' => '']) ?>
         </section>
         <section>
             <label>

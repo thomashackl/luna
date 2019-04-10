@@ -11,7 +11,7 @@ class PersonalSalutation extends Migration {
     public function up() {
         $stmt = DBManager::get()->prepare("UPDATE `luna_markers` SET `priority` = `priority` + 1 WHERE `marker` = ?");
         foreach (DBManager::get()->fetchAll("SELECT `marker` FROM `luna_markers` WHERE `priority` >= 2 ORDER BY `priority` DESC") as $entry) {
-            $stmt->execute(array($entry['marker']));
+            $stmt->execute([$entry['marker']]);
         }
 
         LunaMarker::create(
@@ -33,7 +33,7 @@ class PersonalSalutation extends Migration {
         DBManager::get()->exec("DELETE FROM  `luna_markers` WHERE `marker` = 'PERSONAL_SALUTATION'");
         $stmt = DBManager::get()->prepare("UPDATE `luna_markers` SET `priority` = `priority` - 1 WHERE `marker` = ?");
         foreach (DBManager::get()->fetchAll("SELECT `marker` FROM `luna_markers` WHERE `priority` > 2 ORDER BY `priority` ASC") as $entry) {
-            $stmt->execute(array($entry['marker']));
+            $stmt->execute([$entry['marker']]);
         }
     }
 

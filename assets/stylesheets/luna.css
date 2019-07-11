@@ -51,15 +51,26 @@ form.default section#luna-email-template,
 form.default section#luna-phone-template {
   display: none;
 }
+form.default section.luna-email,
+form.default section.luna-phone {
+  padding-bottom: 1.5ex;
+}
 form.default section.luna-email label,
 form.default section.luna-phone label {
   display: inline-block !important;
+  margin-top: 0;
+  vertical-align: baseline !important;
 }
 form.default section.luna-email label input,
 form.default section.luna-phone label input,
 form.default section.luna-email label select,
 form.default section.luna-phone label select {
   width: auto !important;
+  max-width: unset !important;
+}
+form.default section.luna-email label select,
+form.default section.luna-phone label select {
+  height: 32px;
 }
 form.default section input.luna-new-skill,
 form.default section input.luna-new-tag {
@@ -143,3 +154,7 @@ form.default section#luna-message #luna-markers.wysiwyg-markers {
 form.default section span.luna-company-contact {
   font-style: italic;
 }
+form.default a.luna-phone-add img {
+  padding-top: 5px;
+}
+/*# sourceMappingURL=luna.css.map */

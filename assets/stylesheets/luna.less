@@ -1,5 +1,5 @@
-@import url('../../../studip-passau/resources/assets/stylesheets/mixins/colors.less');
-@import url('../../../studip-passau/resources/assets/stylesheets/mixins/flex.less');
+@import url('../../../../../../../stud.ip/resources/assets/stylesheets/mixins/colors.less');
+@import url('../../../../../../../stud.ip/resources/assets/stylesheets/mixins/flex.less');
 
 div.luna-defaultentry {
   font-style: italic;
@@ -76,14 +76,25 @@ form.default {
     }
 
     &.luna-email, &.luna-phone {
+      padding-bottom: 1.5ex;
+
       label {
         display: inline-block !important;
+        margin-top: 0;
+        vertical-align: baseline !important;
 
         input, select {
           width: auto !important;
+          max-width: unset !important;
+        }
+
+        select {
+          height: 32px;
         }
       }
     }
+
+
 
     input {
       &.luna-new-skill, &.luna-new-tag {
@@ -108,6 +119,7 @@ form.default {
 
       div {
         &.luna-skill, &.luna-tag {
+
           border: 1px solid @light-gray-color-60;
           background-color: @light-gray-color-20;
           display: inline-block;
@@ -179,5 +191,13 @@ form.default {
       font-style: italic;
     }
 
+  }
+
+  a {
+    &.luna-phone-add {
+      img {
+        padding-top: 5px;
+      }
+    }
   }
 }

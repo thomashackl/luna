@@ -27,7 +27,7 @@
  * @property string sector database column
  * @property string mkdate database column
  * @property string chdate database column
- * @property LunaUser members has_many LunaUser
+ * @property LunaUser members has_and_belongs_to_many LunaUser
  * @property LunaUser contact has_one LunaUser
  * @property LunaTag skills has_and_belongs_to_many LunaSkill
  * @property LunaTag tags has_and_belongs_to_many LunaTag

@@ -264,6 +264,7 @@ class CompaniesController extends AuthenticatedController {
 
             if (Request::get('last_contact_date') && Request::option('last_contact_person') &&
                     Request::get('last_contact_contact')) {
+
                 if (count($company->last_contacts) < 1) {
                     $company->last_contacts = new SimpleCollection();
                 }

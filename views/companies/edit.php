@@ -203,7 +203,7 @@
         <tbody>
             <tr id="luna-new-last-contact" class="hidden-js">
                 <td>
-                    <input type="text" name="last_contact_date" placeholder="<?= date('d.m.Y') ?>"
+                    <input type="text" name="last_contact_date" value="<?= date('d.m.Y') ?>"
                            readonly data-date-picker
                            aria-labelledby="luna-last-contact-legend luna-last-contact-date">
                 </td>

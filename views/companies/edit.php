@@ -221,9 +221,11 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text" name="last_contact_contact" size="30" maxlength="255"
-                           placeholder="<?= dgettext('luna', 'Ansprechpartner') ?>"
-                           aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
+                    <?= QuickSearch::get('last_contact_contact', new StandardSearch('user_id'))
+                        ->withButton()
+                        ->render();
+                    ?>
+
                 </td>
                 <td colspan="2">
                     <textarea name="last_contact_notes" cols="50" rows="3"

@@ -400,21 +400,16 @@ class PersonsController extends AuthenticatedController {
             $user->graduation = Request::get('graduation');
             $user->notes = Request::get('notes');
 
-            if ($user->store()) {
+            if ($user->store() !== false) {
 
                 if ($_FILES['docs']['error'][0] != 4) {
                     $folder = Folder::findOneByRange_id($user->id);
                     if (!$folder) {
-                        $folder = new LunaFolder([
-                            'user_id' => $GLOBALS['user']->id,
-                            'parent_id' => '',
-                            'range_id' => $user->id,
-                            'range_type' => 'luna',
-                            'folder_type' => 'LunaFolder',
-                            'name' => $user->getFullname(),
-                            'data_content' => ['client_id' => LunaClient::findCurrent()->id],
-                            'description' => ''
-                        ]);
+                        $folder = Folder::createTopFolder(
+                            $user->id,
+                            'luna',
+                            'LunaFolder'
+                        );
                         $folder->store();
                     }
                     $folder = $folder->getTypedFolder();
@@ -427,17 +422,6 @@ class PersonsController extends AuthenticatedController {
                             $uploaded['error']
                         );
                     } else {
-                        foreach ($uploaded['files'] as $file) {
-                            if ($fileref = $folder->createFile($file)) {
-                                $storedFiles[] = $fileref;
-                            } else {
-                                $this->render_json(['message' => MessageBox::error(
-                                    _('Die hochgeladene Datei konnte nicht dem Ordner zugeordnet werden!')
-                                )]);
-
-                                return;
-                            }
-                        }
                         PageLayout::postSuccess(sprintf(
                             dgettext('luna', 'Die Personendaten von %s wurden gespeichert.'),
                             $user->getFullname('full')));

@@ -125,6 +125,9 @@ class CompaniesController extends AuthenticatedController {
             $this->url_for('companies/info', $id),
             Icon::create('info', 'clickable'))->setActive(true);
         $this->sidebar->addWidget($views);
+
+        $f = new LunaFolder(Folder::findOneByRange_id($this->company->id));
+        $this->documents = $f->getFiles();
     }
 
     /**
@@ -176,6 +179,9 @@ class CompaniesController extends AuthenticatedController {
             sprintf(dgettext('luna', 'Daten von "%s" bearbeiten'), $this->company->name);
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . $title);
+
+        $f = new LunaFolder(Folder::findOneByRange_id($this->company->id));
+        $this->documents = $f->getFiles();
 
         $views = new ViewsWidget();
         $views->addLink(dgettext('luna', 'Übersicht'),
@@ -278,10 +284,34 @@ class CompaniesController extends AuthenticatedController {
                 $company->last_contacts->append($lastContact);
             }
 
-            if ($company->store()) {
-                PageLayout::postSuccess(sprintf(
-                    dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
-                    $company->name));
+            if ($company->store()!== false) {
+                if (is_array($_FILES['docs']) && $_FILES['docs']['error'][0] != 4) {
+                    $folder = Folder::findOneByRange_id($lastContact->id);
+
+                    if (!$folder) {
+                        $folder = Folder::createTopFolder(
+                            $lastContact->id,
+                            'luna',
+                            'LunaFolder'
+                        );
+                        $folder->store();
+                    }
+                    $folder = $folder->getTypedFolder();
+
+                    $uploaded = FileManager::handleFileUpload($_FILES['docs'], $folder, $GLOBALS['company']->id);
+
+                    if ($uploaded['error']) {
+                        PageLayout::postError(
+                            dgettext('luna', 'Es ist ein Fehler beim Dateiupload aufgetreten.'),
+                            $uploaded['error']
+                        );
+                    } else {
+                        PageLayout::postSuccess(sprintf(
+                            dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
+                            $company->name));
+                    }
+
+                }
             } else {
                 PageLayout::postError(sprintf(
                     dgettext('luna', 'Die Unternehmensdaten von "%s" konnten nicht gespeichert werden.'),
@@ -321,9 +351,10 @@ class CompaniesController extends AuthenticatedController {
         }
     }
 
-    public function delete_last_contact_action($user_id, $company_id, $date)
+    public function delete_last_contact_action($contact_id)
     {
-        $contact = LunaCompanyLastContact::find([$user_id, $company_id, $date]);
+        $contact = LunaCompanyLastContact::find([$contact_id]);
+        $company_id = $contact->company_id;
         if ($contact->delete()) {
             PageLayout::postSuccess(dgettext('luna', 'Der Eintrag wurde gelöscht.'));
         } else {

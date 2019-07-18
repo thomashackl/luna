@@ -120,14 +120,32 @@
                 </td>
                 <td>
                     <?php foreach ($company->last_contacts as $contact) : ?>
-                        <div class="hgroup">
-                            <div>
-                                <?= date('d.m.Y', $contact->date) ?>
-                                <?= htmlReady($contact->user->getFullname()) ?>:
-                                <?= htmlReady($contact->contact) ?>
+                        <?php $folder = LunaFolder::findTopFolder($contact->id)?>
+                        <?php if($folder != NULL) : ?>
+                            <div class="hgroup">
+                                <div>
+                                    <h4><?= date('d.m.Y', $contact->date) ?></h4>
+                                    <h6><?= htmlReady($contact->user->getFullname()) ?>:
+                                        <?= htmlReady(User::find($contact->contact)->getFullname()) ?></h6>
+                                </div>
+                                <div><?= htmlReady($contact->notes) ?></div>
+                                <?php if (count($folder->getFiles()) > 0) : ?>
+                                    <section id="luna-last-contact-doc-list">
+                                        <ul id="luna-last_contact_docs">
+                                            <?php foreach ($folder->getFiles() as $d) : ?>
+                                                <li>
+                                                    <input type="hidden" name="last_contact_docs[]" value="<?= $d->id ?>">
+                                                    <a href="<?= $d->getDownloadURL() ?>" target="_blank">
+                                                        <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
+                                                        <?= htmlReady($d->name) ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </section>
+                                <?php endif ?>
                             </div>
-                            <div><?= htmlReady($contact->notes) ?></div>
-                        </div>
+                        <?php endif ?>
                     <?php endforeach ?>
                 </td>
             </tr>

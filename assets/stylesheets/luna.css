@@ -15,6 +15,26 @@ table.default caption span.luna-smaller-text {
 table.default tr td {
   vertical-align: top;
 }
+table.default div.hgroup {
+  padding-bottom: 15px;
+}
+table.default div.hgroup h4,
+table.default div.hgroup h5,
+table.default div.hgroup h6 {
+  display: inline;
+  padding-right: 10px;
+}
+table.default div.hgroup section ul {
+  padding: 3px 0 0 0;
+  list-style-type: none;
+}
+table.default div.hgroup div:nth-child(2n+1) {
+  margin-bottom: 5px;
+  border-bottom: 1px solid #dadada;
+}
+table.default div.hgroup:first-child {
+  border-top: none;
+}
 table.default tfoot tr td.luna-entries-per-page {
   text-align: right;
 }

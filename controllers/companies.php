@@ -244,7 +244,7 @@ class CompaniesController extends AuthenticatedController {
                 }
                 if (count($data->companies) == 0) {
                     $data->companies = [$company];
-                } else if (!$data->companies->findByCompany_id($company->company_id)) {
+                } else if (!$data->companies->findBy("company_id", $company->company_id)) {
                     $data->companies->append($company);
                 }
                 $data->store();
@@ -262,7 +262,7 @@ class CompaniesController extends AuthenticatedController {
                 }
                 if (count($data->companies) == 0) {
                     $data->companies = [$company];
-                } else if (!$data->companies->findByCompany_id($company->company_id)) {
+                } else if (!$data->companies->findBy("company_id", $company->company_id)) {
                     $data->companies->append($company);
                 }
                 $data->store();

@@ -61,6 +61,12 @@
                             <?= nl2br(htmlReady($c->address)) ?>
                             <br>
                             <?= htmlReady($c->zip) ?> <?= htmlReady($c->city) ?>
+                            <br>
+                            <?= htmlReady($c->region) ?>
+                            <?php if($c->region && $c->state) : ?>
+                                <br>
+                            <?php endif ?>
+                            <?= htmlReady($c->state) ?>
                         </td>
                         <td>
                             <?php if ($c->contact) : ?>

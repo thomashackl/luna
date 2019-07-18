@@ -168,7 +168,7 @@ class CompaniesController extends AuthenticatedController {
             $this->company = new LunaCompany();
         }
 
-        foreach (words('name contact_person address zip city country email phone fax homepage') as $entry) {
+        foreach (words('name contact_person address zip city region state country email phone fax homepage') as $entry) {
             if (isset($this->flash[$entry])) {
                 $this->company->$entry = $this->flash[$entry];
             }
@@ -225,6 +225,8 @@ class CompaniesController extends AuthenticatedController {
             $company->address = Request::get('address');
             $company->zip = Request::get('zip');
             $company->city = Request::get('city');
+            $company->region = Request::get('region');
+            $company->state = Request::get('state');
             $company->country = Request::get('country', 'Deutschland');
             $company->email = Request::get('email');
             $company->phone = Request::get('phone');
@@ -338,6 +340,8 @@ class CompaniesController extends AuthenticatedController {
             $this->flash['address'] = Request::get('address');
             $this->flash['zip'] = Request::get('zip');
             $this->flash['city'] = Request::get('city');
+            $this->flash['region'] = Request::get('region');
+            $this->flash['state'] = Request::get('state');
             $this->flash['country'] = Request::get('country');
             $this->flash['email'] = Request::get('email');
             $this->flash['phone'] = Request::get('phone');

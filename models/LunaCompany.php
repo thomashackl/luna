@@ -18,6 +18,8 @@
  * @property string address database column
  * @property string zip database column
  * @property string city database column
+ * @property string region database column
+ * @property string state database column
  * @property string country database column
  * @property string email database column
  * @property string phone database column

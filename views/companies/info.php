@@ -34,6 +34,12 @@
                 <br>
                 <?= htmlReady($company->zip) ?> <?= htmlReady($company->city) ?>
                 <br>
+                <?php if($company->region) : ?>
+                    <?= htmlReady($company->region) ?>
+                    <br>
+                    <?= htmlReady($company->state) ?>
+                    <br>
+                <?php endif ?>
                 <?= htmlReady($company->country) ?: dgettext('luna', 'Deutschland') ?>
             </td>
         </tr>
@@ -114,6 +120,7 @@
             </tr>
         <?php endif ?>
         <?php if (count($company->last_contacts) > 0) : ?>
+
             <tr>
                 <td class="luna-label">
                     <?= dgettext('luna', 'Letzte Kontakte') ?>

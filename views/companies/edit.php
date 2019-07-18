@@ -47,6 +47,20 @@
         </section>
         <section>
             <label>
+                <?= dgettext('luna', 'Region') ?>
+                <input type="text" name="region" size="75" maxlength="255"
+                       value="<?= htmlReady($company->region) ?>">
+            </label>
+        </section>
+        <section>
+            <label>
+                <?= dgettext('luna', 'Bundesland') ?>
+                <input type="text" name="state" size="75" maxlength="255"
+                       value="<?= htmlReady($company->state) ?>">
+            </label>
+        </section>
+        <section>
+            <label>
                 <?= dgettext('luna', 'Land') ?>
                 <input type="text" name="country" size="75" maxlength="255"
                        value="<?= htmlReady($company->country) ?: dgettext('luna', 'Deutschland') ?>">
@@ -267,7 +281,7 @@
                                     <?php endforeach ?>
                                 </ul>
                             </section>
-                        <?php endif ?>
+                            <?php endif ?>
                         </td>
                         <td>
                             <a href="<?= $controller->url_for('companies/delete_last_contact', $lc->contact_id) ?>"

@@ -95,9 +95,17 @@ form.default section.luna-phone label select {
   width: auto !important;
   max-width: unset !important;
 }
+form.default section.luna-email label input[type="tel"],
+form.default section.luna-phone label input[type="tel"] {
+  width: 100% !important;
+  max-width: 48em !important;
+}
 form.default section.luna-email label select,
 form.default section.luna-phone label select {
   height: 32px;
+}
+form.default section.companies-phone label {
+  width: 100%;
 }
 form.default section input.luna-new-skill,
 form.default section input.luna-new-tag {

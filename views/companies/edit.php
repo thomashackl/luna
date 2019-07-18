@@ -94,18 +94,18 @@
                        value="<?= htmlReady($company->email) ?>">
             </label>
         </section>
-        <section>
+        <section class="luna-phone companies-phone">
             <label>
                 <?= dgettext('luna', 'Telefonnummer') ?>
-                <input type="text" name="phone" size="75" maxlength="255"
-                       value="<?= htmlReady($company->phone) ?>">
+                <input type="tel" pattern="[\+]\d{2}[\(]0[\)]\d{1,10}[\/]\d{1,30}[\-]*\d{1,30}$" name="phone" size="75" maxlength="255"
+                       placeholder="<?= dgettext('luna', 'z.B. +49(0)123/4567-89') ?>" value="<?= htmlReady($company->phone) ?>">
             </label>
         </section>
-        <section>
+        <section class="luna-phone companies-phone">
             <label>
                 <?= dgettext('luna', 'Fax') ?>
-                <input type="text" name="fax" size="75" maxlength="255"
-                       value="<?= htmlReady($company->fax) ?>">
+                <input type="tel" pattern="[\+]\d{2}[\(]0[\)]\d{1,10}[\/]\d{1,30}[\-]*\d{1,30}$" name="fax" size="75" maxlength="255"
+                       placeholder="<?= dgettext('luna', 'z.B. +49(0)123/4567-89') ?>" value="<?= htmlReady($company->fax) ?>">
             </label>
         </section>
         <section>

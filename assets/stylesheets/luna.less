@@ -116,14 +116,27 @@ form.default {
         margin-top: 0;
         vertical-align: baseline !important;
 
+
         input, select {
           width: auto !important;
           max-width: unset !important;
+
+        }
+
+        input[type="tel"]{
+          width: 100% !important;
+          max-width: 48em !important;
         }
 
         select {
           height: 32px;
         }
+      }
+    }
+
+    &.companies-phone {
+      label {
+        width: 100%;
       }
     }
 

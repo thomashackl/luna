@@ -166,7 +166,8 @@
             <label>
                 <?= dgettext('luna', 'Nummer') ?>
                 <br>
-                <input type="tel" name="phone-template-number" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine Telefonnummer ein') ?>">
+                <input type="tel" pattern="[\+]\d{2}[\(]0[\)]\d{1,10}[\/]\d{1,30}[\-]*\d{1,30}$" name="phone-template-number" size="50"
+                       placeholder="<?= dgettext('luna', 'z.B. +49(0)123/4567-89') ?>">
             </label>
             <label>
                 <?= dgettext('luna', 'Art') ?>

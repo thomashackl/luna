@@ -233,6 +233,7 @@ class CompaniesController extends AuthenticatedController {
             $company->fax = Request::get('fax');
             $company->homepage = Request::get('homepage');
             $company->sector = Request::get('sector');
+            $company->subsector = Request::get('subsector');
 
             $skills = [];
             foreach (Request::getArray('skills') as $skill) {
@@ -409,6 +410,14 @@ class CompaniesController extends AuthenticatedController {
     {
         $values = DBManager::get()->fetchFirst(
             "SELECT DISTINCT `sector` FROM `luna_companies` WHERE `client_id` = ? AND `sector` LIKE ? ORDER BY `sector`",
+            [$this->client->id, '%' . Request::quoted('term') . '%']);
+        $this->render_text(studip_json_encode($values));
+    }
+
+    public function get_subsectors_action()
+    {
+        $values = DBManager::get()->fetchFirst(
+            "SELECT DISTINCT `subsector` FROM `luna_companies` WHERE `client_id` = ? AND `subsector` LIKE ? ORDER BY `subsector`",
             [$this->client->id, '%' . Request::quoted('term') . '%']);
         $this->render_text(studip_json_encode($values));
     }

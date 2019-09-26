@@ -22,6 +22,9 @@
                 </td>
                 <td>
                     <?= htmlReady($company->sector) ?>
+                    <?php if ($company->subsector != '') : ?>
+                        <?= htmlReady($company->subsector) ?>
+                    <?php endif ?>
                 </td>
             </tr>
         <?php endif ?>

@@ -28,6 +28,12 @@
         </section>
         <section>
             <label>
+                <?= dgettext('luna', 'Unterbranche') ?>
+                <input type="text" name="subsector" value="<?= htmlReady($company->subsector) ?>" size="75" maxlength="255" data-available-subsectors="<?= $controller->url_for('companies/get_subsectors') ?>">
+            </label>
+        </section>
+        <section>
+            <label>
                 <?= dgettext('luna', 'Anschrift') ?>
                 <textarea name="address" rows="3" rows="3"><?= htmlReady($company->address) ?></textarea>
             </label>

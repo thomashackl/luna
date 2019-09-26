@@ -531,6 +531,13 @@
                 minLength: 2
             });
 
+            // Autocomplete for subsector field of companies
+            var subSectorInput = $('input[name="subsector"]');
+            subSectorInput.autocomplete({
+                source: subSectorInput.data('available-subsectors'),
+                minLength: 2
+            });
+
             // E-Mail address handling
             $('a.luna-email-add').on('click', function() {
                 STUDIP.Luna.addEmail();

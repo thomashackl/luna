@@ -112,6 +112,14 @@ class LunaCompanyFilter
                 'class' => 'LunaCompany',
                 'is_id' => false
             ],
+            'subsector' => [
+                'name' => dgettext('luna', 'Unterbranche'),
+                'table' => 'luna_companies',
+                'ids' => 'subsector',
+                'dbvalues' => 'subsector',
+                'class' => 'LunaCompany',
+                'is_id' => false
+            ],
             'skills' => [
                 'name' => dgettext('luna', 'Kompetenz'),
                 'table' => 'luna_company_skill',

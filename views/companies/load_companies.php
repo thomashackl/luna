@@ -75,7 +75,13 @@
                         </td>
                         <td><?= htmlReady($c->email) ?></td>
                         <td><?= htmlReady($c->phone) ?></td>
-                        <td><?= htmlReady($c->sector) ?></td>
+                        <td>
+                            <?= htmlReady($c->sector) ?>
+                            <?php if ($c->subsector != '') : ?>
+                                <br>
+                                <?= htmlReady($c->subsector) ?>
+                            <?php endif ?>
+                        </td>
                         <td>
                             <?php if (count($c->tags) > 0) : ?>
                                 <?php foreach ($c->tags as $tag) : ?>

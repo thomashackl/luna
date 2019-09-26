@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 16:02+0200\n"
-"PO-Revision-Date: 2017-05-04 09:14+0000\n"
+"PO-Revision-Date: 2019-09-26 14:30+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
-"Language-Team: English <http://develop.intelec.uni-passau.de/weblate/"
-"projects/studip/luna/en/>\n"
+"Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
+"weblate/projects/studip/luna/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: models/LunaCompanyFilter.php:24 views/clients/index.php:18
 #: views/clients/edit.php:16 views/tags/load_tags.php:33 views/tags/edit.php:12
@@ -77,9 +77,8 @@ msgid "Branche"
 msgstr "Line of business"
 
 #: models/LunaCompanyFilter.php:116 views/companies/edit.php:31
-#, fuzzy
 msgid "Unterbranche"
-msgstr "Company"
+msgstr "Sub-sector"
 
 #: models/LunaCompanyFilter.php:124 models/LunaUserFilter.php:150
 msgid "Kompetenz"
@@ -99,28 +98,28 @@ msgstr "is not"
 
 #: models/LunaFolder.php:88
 msgid "Ordner für Luna-Dateien"
-msgstr ""
+msgstr "Folder for Luna files"
 
 #: models/LunaFolder.php:229
 #, php-format
 msgid "Die maximale Größe für einen Upload (%s) wurde überschritten."
-msgstr ""
+msgstr "The maximal allowed upload file size (%s) was exceeded."
 
 #: models/LunaFolder.php:244
 #, php-format
 msgid "Sie dürfen nur die Dateitypen %s hochladen!"
-msgstr ""
+msgstr "You may only upload the file types %s!"
 
 #: models/LunaFolder.php:250
 #, php-format
 msgid "Sie dürfen den Dateityp %s nicht hochladen!"
-msgstr ""
+msgstr "You may not upload the file type %s!"
 
 #: models/LunaFolder.php:269
 msgid ""
 "Datei kann nicht erstellt werden, da kein Ordner angegeben wurde, in dem "
 "diese erstellt werden kann!"
-msgstr ""
+msgstr "Unable to create the file as there was no folder to save it!"
 
 #: models/LunaClientUser.php:60
 msgid "Lesezugriff"
@@ -164,15 +163,15 @@ msgstr "female"
 
 #: models/LunaUserFilter.php:53 views/persons/edit.php:77
 msgid "Anrede per du"
-msgstr ""
+msgstr "FIrst-name basis"
 
 #: models/LunaUserFilter.php:58
 msgid "ja"
-msgstr ""
+msgstr "yes"
 
 #: models/LunaUserFilter.php:59
 msgid "nein"
-msgstr ""
+msgstr "no"
 
 #: models/LunaUserFilter.php:76
 msgid "Postleitzahl"
@@ -322,11 +321,11 @@ msgstr "Courses"
 #: controllers/persons.php:187 controllers/persons.php:223
 #: controllers/persons.php:266
 msgid "Stud.IP-Profil"
-msgstr ""
+msgstr "Stud.IP profile page"
 
 #: controllers/persons.php:421 controllers/companies.php:308
 msgid "Es ist ein Fehler beim Dateiupload aufgetreten."
-msgstr ""
+msgstr "A file upload error has occurred."
 
 #: controllers/persons.php:426
 #, php-format
@@ -349,14 +348,12 @@ msgid "%s konnte nicht gelöscht werden."
 msgstr "%s could not be deleted."
 
 #: controllers/persons.php:526
-#, fuzzy
 msgid "Die Datei wurde gelöscht."
-msgstr "The file %s has been deleted."
+msgstr "The file has been deleted."
 
 #: controllers/persons.php:528
-#, fuzzy
 msgid "Die Datei konnte nicht gelöscht werden."
-msgstr "%s could not be deleted."
+msgstr "The file could not be deleted."
 
 #: controllers/persons.php:551
 msgid "Die anzuzeigenden Daten wurden gespeichert."
@@ -461,14 +458,12 @@ msgid "Die Unternehmensdaten von \"%s\" konnten nicht gespeichert werden."
 msgstr "The company data of \"%s\" could not be saved."
 
 #: controllers/companies.php:364
-#, fuzzy
 msgid "Der Eintrag wurde gelöscht."
-msgstr "Deleted person."
+msgstr "The entry has been deleted."
 
 #: controllers/companies.php:366
-#, fuzzy
 msgid "Der Eintrag konnte nicht gelöscht werden."
-msgstr "The client \"%s\" could not be deleted."
+msgstr "The entry could not be deleted."
 
 #: controllers/companies.php:382
 #, php-format
@@ -632,7 +627,7 @@ msgstr "Permissions"
 
 #: views/filters/_disjunction.php:5 views/search/index.php:43
 msgid "Nur eines der Filterfelder muss erfüllt sein"
-msgstr ""
+msgstr "Only one filter field needs to match"
 
 #: views/clients/index.php:19 views/clients/edit.php:25
 msgid "Absender für E-Mails"
@@ -645,14 +640,12 @@ msgid "Aktionen"
 msgstr "Actions"
 
 #: views/clients/index.php:33 views/clients/index.php:35
-#, fuzzy
 msgid "Mandant auswählen"
-msgstr "please choose"
+msgstr "Choose client"
 
 #: views/clients/index.php:42 views/clients/index.php:44
-#, fuzzy
 msgid "Berechtigungen bearbeiten"
-msgstr "Edit permissions for client \"%s\""
+msgstr "Edit permissions"
 
 #: views/clients/index.php:51 views/clients/index.php:53
 #: views/tags/load_tags.php:63 views/tags/load_tags.php:65
@@ -702,11 +695,11 @@ msgstr "Cancel"
 
 #: views/clients/edit.php:11
 msgid "Allgemeine Einstellungen"
-msgstr ""
+msgstr "General settings"
 
 #: views/clients/edit.php:34
 msgid "Konfiguration"
-msgstr ""
+msgstr "Configuration"
 
 #: views/message/write.php:5
 msgid "Absender"
@@ -721,9 +714,8 @@ msgid "Empfänger"
 msgstr "Recipient(s)"
 
 #: views/message/write.php:28
-#, fuzzy
 msgid "Empfänger anzeigen/ausblenden"
-msgstr "Show/hide %u recipient(s)"
+msgstr "Show/hide recipient(s)"
 
 #: views/message/write.php:42
 msgid "Weitere Empfänger in CC, durch Komma getrennt"
@@ -791,9 +783,8 @@ msgid "Alle Schlagwörter auswählen"
 msgstr "Select all tags"
 
 #: views/tags/load_tags.php:49
-#, fuzzy
 msgid "Zugeordnete Personen/Unternehmen anzeigen"
-msgstr "Assigned companies"
+msgstr "Show assigned persons/companies"
 
 #: views/tags/load_tags.php:52
 #, php-format
@@ -840,7 +831,7 @@ msgstr "No tags found."
 #: views/tags/index.php:2 views/log/index.php:5 views/persons/index.php:5
 #: views/skills/index.php:2 views/companies/index.php:5
 msgid "Es ist ein Fehler aufgetreten."
-msgstr ""
+msgstr "An error has occurred."
 
 #: views/tags/assigned_to.php:4 views/skills/assigned_to.php:4
 msgid "Zugeordnete Personen"
@@ -860,13 +851,12 @@ msgid "Filter"
 msgstr "Filter"
 
 #: views/search/index.php:20
-#, fuzzy
 msgid "Verknüpfung"
-msgstr "Link with Stud.IP"
+msgstr "Link"
 
 #: views/search/index.php:45
 msgid "Alle Filterfelder müssen erfüllt sein"
-msgstr ""
+msgstr "All filter fields must match"
 
 #: views/search/index.php:50
 msgid "Wollen Sie die Suchvorlage wirklich löschen?"
@@ -1101,7 +1091,7 @@ msgstr "Trailing title"
 
 #: views/persons/edit.php:72
 msgid "Anrede"
-msgstr ""
+msgstr "Salutation"
 
 #: views/persons/edit.php:99 views/companies/edit.php:49
 msgid "Ort"
@@ -1127,7 +1117,7 @@ msgstr "Add e-mail address"
 #: views/persons/edit.php:170 views/companies/edit.php:107
 #: views/companies/edit.php:114
 msgid "z.B. +49(0)123/4567-89"
-msgstr ""
+msgstr "e.g. +49(0)123/4567-89"
 
 #: views/persons/edit.php:188 views/persons/edit.php:213
 msgid "Standardnummer"
@@ -1205,19 +1195,17 @@ msgid "Nachricht schreiben"
 msgstr "Write message"
 
 #: views/persons/load_persons.php:84 views/persons/load_persons.php:86
-#, fuzzy
 msgid "Kontakt exportieren"
-msgstr "Export contacts"
+msgstr "Export contact"
 
 #: views/persons/load_persons.php:98 views/persons/load_persons.php:100
 #: views/persons/load_persons.php:120 views/persons/load_persons.php:122
 msgid "Zum Stud.IP-Profil"
-msgstr ""
+msgstr "Show Stud.IP profile"
 
 #: views/persons/load_persons.php:106 views/persons/load_persons.php:107
-#, fuzzy
 msgid "Person löschen"
-msgstr "Search for person"
+msgstr "Delete person"
 
 #: views/persons/load_persons.php:108
 msgid "Wollen Sie die Person wirklich löschen?"
@@ -1267,9 +1255,8 @@ msgid "Alle Kompetenzen auswählen"
 msgstr "Select all skills"
 
 #: views/skills/load_skills.php:49 views/skills/load_skills.php:51
-#, fuzzy
 msgid "Zugeordnete Personen anzeigen"
-msgstr "Assigned persons"
+msgstr "Show assigned persons"
 
 #: views/skills/load_skills.php:68
 msgid "Wollen Sie die Kompetenz wirklich löschen?"
@@ -1320,9 +1307,8 @@ msgid "Ansprechpartner"
 msgstr "Contact person"
 
 #: views/companies/info.php:129 views/companies/edit.php:199
-#, fuzzy
 msgid "Letzte Kontakte"
-msgstr "Other contact data"
+msgstr "Last contacts"
 
 #: views/companies/load_companies.php:34
 #, php-format
@@ -1335,9 +1321,8 @@ msgstr "Show members"
 
 #: views/companies/load_companies.php:112
 #: views/companies/load_companies.php:114
-#, fuzzy
 msgid "Visitenkarte exportieren"
-msgstr "Export VCard %s"
+msgstr "Export VCard"
 
 #: views/companies/load_companies.php:127
 msgid "Wollen Sie das Unternehmen wirklich löschen?"
@@ -1348,9 +1333,8 @@ msgid "Aktion für ausgewählte Unternehmen"
 msgstr "Operation for chosen companies"
 
 #: views/companies/load_companies.php:157
-#, fuzzy
 msgid "Visitenkarten exportieren"
-msgstr "Export VCard %s"
+msgstr "Export VCards"
 
 #: views/companies/load_companies.php:164
 msgid ""
@@ -1383,11 +1367,11 @@ msgstr "Company name"
 
 #: views/companies/edit.php:56
 msgid "Region"
-msgstr ""
+msgstr "Region"
 
 #: views/companies/edit.php:63
 msgid "Bundesland"
-msgstr ""
+msgstr "State"
 
 #: views/companies/edit.php:78
 msgid "Kontaktdaten"
@@ -1402,30 +1386,28 @@ msgid "Neue Person hinzufügen"
 msgstr "Add person"
 
 #: views/companies/edit.php:203
-#, fuzzy
 msgid "hinzufügen"
-msgstr "Add person"
+msgstr "add"
 
 #: views/companies/edit.php:217
 msgid "Wann?"
-msgstr ""
+msgstr "When?"
 
 #: views/companies/edit.php:218
 msgid "Wer?"
-msgstr ""
+msgstr "Who?"
 
 #: views/companies/edit.php:219
 msgid "Mit wem?"
-msgstr ""
+msgstr "With whom?"
 
 #: views/companies/edit.php:221
 msgid "Dokumente"
-msgstr ""
+msgstr "Documents"
 
 #: views/companies/edit.php:294
-#, fuzzy
 msgid "Soll der Eintrag wirklich gelöscht werden?"
-msgstr "Do you really want to delete the search preset?"
+msgstr "Do you really want to delete the entry?"
 
 #~ msgid "Geben Sie eine Telefonnummer ein"
 #~ msgstr "Enter a phone number"

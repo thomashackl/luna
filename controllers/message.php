@@ -147,7 +147,7 @@ class MessageController extends AuthenticatedController {
                     ->setSenderEmail(Request::get('sender'))
                     ->setBodyHtml($message);
                 if (Request::int('sendercopy')) {
-                    $mail->addRecipient(Request::get('sender'));
+                    $mail->addRecipient(Request::get('sender'), '', 'Bcc');
                 }
                 // Extra recipients added in CC
                 if (Request::get('cc')) {

@@ -191,7 +191,7 @@ class MessageController extends AuthenticatedController {
 
             // Send copy to self if requested.
             if (Request::int('sendercopy') && !$mail->isRecipient($u->getDefaultEmail())) {
-                $mail->addRecipient(Request::get('sender'));
+                $mail->addRecipient(Request::get('sender'), '', 'Bcc');
             }
 
             // Extra recipients added in CC

@@ -108,7 +108,7 @@ class MessageController extends AuthenticatedController {
             foreach ($users as $u) {
                 $message = LunaMarker::replaceMarkers(Request::get('message'), $u, true);
 
-                $message = $this->wysiwyg ? wysiwygReady($message) : formatReady($message);
+                $message = $this->wysiwyg ? $message : formatReady($message);
 
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))
@@ -138,7 +138,7 @@ class MessageController extends AuthenticatedController {
 
             // Send copy to self or other recipients if requested.
             if (Request::int('sendercopy') || Request::get('cc')) {
-                $message = $this->wysiwyg ? wysiwygReady(Request::get('message')) : formatReady(Request::get('message'));
+                $message = $this->wysiwyg ? Request::get('message') : formatReady(Request::get('message'));
 
                 $mail = new StudipMail();
                 $mail->setSubject(Request::get('subject'))

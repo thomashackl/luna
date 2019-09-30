@@ -17,7 +17,9 @@
  * @property string  firstname database column
  * @property string  lastname database column
  * @property string  title_front database column
+ * @property string  title_front_full database column
  * @property string  title_rear database column
+ * @property string  title_rear_full database column
  * @property int     gender database column
  * @property string  studip_user_id database column
  * @property string  address database column

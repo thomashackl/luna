@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-30 12:42+0200\n"
-"PO-Revision-Date: 2019-09-26 14:30+0000\n"
+"PO-Revision-Date: 2019-09-30 11:11+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
 "weblate/projects/studip/luna/en/>\n"
@@ -1082,30 +1082,28 @@ msgid "Persönliche Daten"
 msgstr "Personal data"
 
 #: views/persons/edit.php:40
-#, fuzzy
 msgid "Vorangestellter Titel"
-msgstr "Title"
+msgstr "Pre-nominal letters"
 
 #: views/persons/edit.php:43
 msgid "z.B. Prof., Dr., etc."
-msgstr ""
+msgstr "e.g. Prof., Dr., etc."
 
 #: views/persons/edit.php:46
-#, fuzzy
 msgid "Vorangestellter, ausgeschriebener Titel"
-msgstr "Title"
+msgstr "Pre-nominal letters"
 
 #: views/persons/edit.php:49
 msgid "z.B. Professor, Doktor, etc."
-msgstr ""
+msgstr "e.g. Professor, Doctor, etc."
 
 #: views/persons/edit.php:54
 msgid "Nachgestellter Titel"
-msgstr "Trailing title"
+msgstr "Post-nominal letters"
 
 #: views/persons/edit.php:57
 msgid "z.B. LL.M., PhD, etc."
-msgstr ""
+msgstr "e.g. LL.M., PhD, etc."
 
 #: views/persons/edit.php:83
 msgid "Anrede"

@@ -23,13 +23,17 @@
         <section>
             <label>
                 <?= dgettext('luna', 'Branche') ?>
-                <input type="text" name="sector" value="<?= htmlReady($company->sector) ?>" size="75" maxlength="255" data-available-sectors="<?= $controller->url_for('companies/get_sectors') ?>">
+                <input type="text" name="sector" value="<?= htmlReady($company->sector) ?>"
+                       size="75" maxlength="255"
+                       data-available-sectors="<?= $controller->url_for('companies/get_sectors') ?>">
             </label>
         </section>
         <section>
             <label>
                 <?= dgettext('luna', 'Unterbranche') ?>
-                <input type="text" name="subsector" value="<?= htmlReady($company->subsector) ?>" size="75" maxlength="255" data-available-subsectors="<?= $controller->url_for('companies/get_subsectors') ?>">
+                <input type="text" name="subsector" value="<?= htmlReady($company->subsector) ?>"
+                       size="75" maxlength="255"
+                       data-available-subsectors="<?= $controller->url_for('companies/get_subsectors') ?>">
             </label>
         </section>
         <section>
@@ -39,13 +43,12 @@
             </label>
         </section>
         <section>
-            <label>
+            <label class="col-1">
                 <?= dgettext('luna', 'PLZ') ?>
-                <input type="text" name="zip" size="20" class="size-s" maxlength="20" value="<?= htmlReady($company->zip) ?>">
+                <input type="text" name="zip" size="20" class="size-s" maxlength="20"
+                       value="<?= htmlReady($company->zip) ?>">
             </label>
-        </section>
-        <section>
-            <label>
+            <label class="col-5">
                 <?= dgettext('luna', 'Ort') ?>
                 <input type="text" name="city" size="75" maxlength="255"
                        value="<?= htmlReady($company->city) ?>">

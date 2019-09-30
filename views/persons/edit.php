@@ -17,7 +17,7 @@
                        maxlength="255" data-available-status="<?= $controller->url_for('persons/get_status') ?>">
             </label>
         </section>
-        <section>
+        <section class="col-3">
             <label>
                 <span class="required">
                     <?= dgettext('luna', 'Vorname') ?>
@@ -26,7 +26,7 @@
                        value="<?= htmlReady($person->firstname) ?>" required>
             </label>
         </section>
-        <section>
+        <section class="col-3">
             <label>
                 <span class="required">
                     <?= dgettext('luna', 'Nachname') ?>
@@ -36,21 +36,19 @@
             </label>
         </section>
         <section>
-            <label class="col-3">
+            <label class="col-2">
                 <?= dgettext('luna', 'Vorangestellter Titel') ?>
                 <input type="text" name="title_front" size="50" maxlength="255"
                        value="<?= htmlReady($person->title_front) ?>"
                        placeholder="<?= dgettext('luna', 'z.B. Prof., Dr., etc.') ?>">
             </label>
-            <label class="col-3">
+            <label class="col-2">
                 <?= dgettext('luna', 'Vorangestellter, ausgeschriebener Titel') ?>
                 <input type="text" name="title_front_full" size="50" maxlength="255"
                        value="<?= htmlReady($person->title_front_full) ?>"
                        placeholder="<?= dgettext('luna', 'z.B. Professor, Doktor, etc.') ?>">
             </label>
-        </section>
-        <section>
-            <label>
+            <label class="col-2">
                 <?= dgettext('luna', 'Nachgestellter Titel') ?>
                 <input type="text" name="title_rear" size="75" maxlength="255"
                        value="<?= htmlReady($person->title_rear) ?>"
@@ -100,13 +98,11 @@
             </label>
         </section>
         <section>
-            <label>
+            <label class="col-1">
                 <?= dgettext('luna', 'PLZ') ?>
                 <input type="text" name="zip" size="20" class="size-s" maxlength="20" value="<?= htmlReady($person->zip) ?>">
             </label>
-        </section>
-        <section>
-            <label>
+            <label class="col-5">
                 <?= dgettext('luna', 'Ort') ?>
                 <input type="text" name="city" size="75" maxlength="255"
                        value="<?= htmlReady($person->city) ?>">

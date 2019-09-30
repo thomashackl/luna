@@ -114,29 +114,29 @@
             <?= dgettext('luna', 'E-Mailadresse(n)') ?>
         </legend>
         <section id="luna-email-template" class="luna-email" data-number-of-emails="<?= count($person->emails) ?>">
-            <label>
+            <label class="col-3">
                 <?= dgettext('luna', 'Adresse') ?>
                 <br>
                 <input type="email" name="email-template-address" size="50" placeholder="<?= dgettext('luna', 'Geben Sie eine E-Mailadresse ein') ?>">
             </label>
-            <label>
+            <label class="col-1">
                 <?= dgettext('luna', 'Art') ?>
                 <select name="email-template-type">
                     <option value="private"><?= dgettext('luna', 'Privat') ?></option>
-                    <option value="office"><?= dgettext('luna', 'Geschäftlich') ?></option>
+                    <option value="office" selected><?= dgettext('luna', 'Geschäftlich') ?></option>
                 </select>
             </label>
-            <label>
+            <label class="col-2">
                 <input type="radio" name="email-template-default">
                 <?= dgettext('luna', 'Standardadresse') ?>
             </label>
         </section>
         <?php $i = 0; foreach ($person->emails as $m) : ?>
             <section class="luna-email">
-                <label>
+                <label class="col-3">
                     <?= dgettext('luna', 'Adresse') ?>
                     <input type="email" name="email[<?= $i ?>][address]" size="50" value="<?= htmlReady($m->email) ?>">
-                </label>
+                </label class="col-1">
                 <label>
                     <?= dgettext('luna', 'Art') ?>
                     <select name="email[<?= $i ?>][type]">
@@ -148,7 +148,7 @@
                         </option>
                     </select>
                 </label>
-                <label>
+                <label class="col-2">
                     <input type="radio" name="email-default" value="<?= $i ?>"<?= $m->default ? ' checked' : '' ?>>
                     <?= dgettext('luna', 'Standardadresse') ?>
                 </label>
@@ -163,13 +163,13 @@
             <?= dgettext('luna', 'Telefonnummer(n)') ?>
         </legend>
         <section id="luna-phone-template" class="luna-phone" data-number-of-phonenumbers="<?= count($person->phonenumbers) ?>">
-            <label>
+            <label class="col-3">
                 <?= dgettext('luna', 'Nummer') ?>
                 <br>
                 <input type="tel" pattern="[\+]\d{2}[\(]0[\)]\d{1,10}[\/]\d{1,30}[\-]*\d{1,30}$" name="phone-template-number" size="50"
                        placeholder="<?= dgettext('luna', 'z.B. +49(0)123/4567-89') ?>">
             </label>
-            <label>
+            <label class="col-1">
                 <?= dgettext('luna', 'Art') ?>
                 <select name="phone-template-type">
                     <option value="private">
@@ -178,23 +178,23 @@
                     <option value="mobile">
                         <?= dgettext('luna', 'Mobil') ?>
                     </option>
-                    <option value="office">
+                    <option value="office" selected>
                         <?= dgettext('luna', 'Geschäftlich') ?>
                     </option>
                 </select>
             </label>
-            <label>
+            <label class="col-2">
                 <input type="radio" name="phone-template-default">
                 <?= dgettext('luna', 'Standardnummer') ?>
             </label>
         </section>
         <?php $i = 0; foreach ($person->phonenumbers as $p) : ?>
             <section class="luna-phone">
-                <label>
+                <label class="col-3">
                     <?= dgettext('luna', 'Nummer') ?>
                     <input type="tel" name="phone[<?= $i ?>][number]" size="50" value="<?= htmlReady($p->number) ?>">
                 </label>
-                <label>
+                <label class="col-1">
                     <?= dgettext('luna', 'Art') ?>
                     <select name="phone[<?= $i ?>][type]">
                         <option value="private"<?= $p->type == 'private' ? ' selected' : '' ?>>
@@ -208,7 +208,7 @@
                         </option>
                     </select>
                 </label>
-                <label>
+                <label class="col-2">
                     <input type="radio" name="phone-default" value="<?= $i ?>"<?= $p->default ? ' checked' : '' ?>>
                     <?= dgettext('luna', 'Standardnummer') ?>
                 </label>

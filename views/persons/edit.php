@@ -13,7 +13,8 @@
         <section>
             <label>
                 <?= dgettext('luna', 'Status') ?>
-                <input type="text" name="status" value="<?= htmlReady($person->status) ?>" size="75" maxlength="255" data-available-status="<?= $controller->url_for('persons/get_status') ?>">
+                <input type="text" name="status" value="<?= htmlReady($person->status) ?>" size="75"
+                       maxlength="255" data-available-status="<?= $controller->url_for('persons/get_status') ?>">
             </label>
         </section>
         <section>
@@ -35,15 +36,25 @@
             </label>
         </section>
         <section>
-            <label>
-                <?= dgettext('luna', 'Vorgestellter Titel') ?>
-                <input type="text" name="title_front" size="75" maxlength="255" value="<?= htmlReady($person->title_front) ?>">
+            <label class="col-3">
+                <?= dgettext('luna', 'Vorangestellter Titel') ?>
+                <input type="text" name="title_front" size="50" maxlength="255"
+                       value="<?= htmlReady($person->title_front) ?>"
+                       placeholder="<?= dgettext('luna', 'z.B. Prof., Dr., etc.') ?>">
+            </label>
+            <label class="col-3">
+                <?= dgettext('luna', 'Vorangestellter, ausgeschriebener Titel') ?>
+                <input type="text" name="title_front_full" size="50" maxlength="255"
+                       value="<?= htmlReady($person->title_front_full) ?>"
+                       placeholder="<?= dgettext('luna', 'z.B. Professor, Doktor, etc.') ?>">
             </label>
         </section>
         <section>
             <label>
                 <?= dgettext('luna', 'Nachgestellter Titel') ?>
-                <input type="text" name="title_rear" size="75" maxlength="255" value="<?= htmlReady($person->title_rear) ?>">
+                <input type="text" name="title_rear" size="75" maxlength="255"
+                       value="<?= htmlReady($person->title_rear) ?>"
+                       placeholder="<?= dgettext('luna', 'z.B. LL.M., PhD, etc.') ?>">
             </label>
         </section>
         <section>

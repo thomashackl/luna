@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-26 16:02+0200\n"
+"POT-Creation-Date: 2019-09-30 12:42+0200\n"
 "PO-Revision-Date: 2019-09-26 14:30+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
@@ -31,11 +31,11 @@ msgid "Name"
 msgstr "Name"
 
 #: models/LunaCompanyFilter.php:35 models/LunaUserFilter.php:65
-#: views/persons/edit.php:87 views/companies/edit.php:37
+#: views/persons/edit.php:98 views/companies/edit.php:37
 msgid "Anschrift"
 msgstr "Address"
 
-#: models/LunaCompanyFilter.php:43 views/persons/edit.php:93
+#: models/LunaCompanyFilter.php:43 views/persons/edit.php:104
 #: views/companies/edit.php:43
 msgid "PLZ"
 msgstr "ZIP code"
@@ -45,7 +45,7 @@ msgid "Stadt"
 msgstr "City"
 
 #: models/LunaCompanyFilter.php:62 models/LunaUserFilter.php:95
-#: views/persons/edit.php:106 views/companies/edit.php:70
+#: views/persons/edit.php:117 views/companies/edit.php:70
 msgid "Land"
 msgstr "Country"
 
@@ -60,13 +60,13 @@ msgid "Telefonnummer"
 msgstr "Phone number"
 
 #: models/LunaCompanyFilter.php:89 models/LunaUserFilter.php:122
-#: views/persons/info.php:93 views/persons/edit.php:227
+#: views/persons/info.php:93 views/persons/edit.php:238
 #: views/companies/info.php:72 views/companies/edit.php:112
 msgid "Fax"
 msgstr "Fax"
 
 #: models/LunaCompanyFilter.php:97 models/LunaUserFilter.php:130
-#: views/persons/info.php:103 views/persons/edit.php:234
+#: views/persons/info.php:103 views/persons/edit.php:245
 #: views/companies/info.php:82 views/companies/edit.php:119
 msgid "Homepage"
 msgstr "Homepage"
@@ -133,35 +133,35 @@ msgstr "Write access"
 msgid "Administration"
 msgstr "Administration"
 
-#: models/LunaUserFilter.php:24 views/persons/edit.php:22
+#: models/LunaUserFilter.php:24 views/persons/edit.php:23
 msgid "Vorname"
 msgstr "First name"
 
-#: models/LunaUserFilter.php:32 views/persons/edit.php:31
+#: models/LunaUserFilter.php:32 views/persons/edit.php:32
 msgid "Nachname"
 msgstr "Last name"
 
 #: models/LunaUserFilter.php:40 views/persons/info.php:28
-#: views/persons/edit.php:51
+#: views/persons/edit.php:62
 msgid "Geschlecht"
 msgstr "Gender"
 
 #: models/LunaUserFilter.php:45 views/log/load_log_entries.php:39
-#: views/persons/info.php:35 views/persons/edit.php:66
+#: views/persons/info.php:35 views/persons/edit.php:77
 msgid "unbekannt"
 msgstr "unknown"
 
 #: models/LunaUserFilter.php:46 views/persons/info.php:32
-#: views/persons/edit.php:56
+#: views/persons/edit.php:67
 msgid "männlich"
 msgstr "male"
 
 #: models/LunaUserFilter.php:47 views/persons/info.php:34
-#: views/persons/edit.php:61
+#: views/persons/edit.php:72
 msgid "weiblich"
 msgstr "female"
 
-#: models/LunaUserFilter.php:53 views/persons/edit.php:77
+#: models/LunaUserFilter.php:53 views/persons/edit.php:88
 msgid "Anrede per du"
 msgstr "FIrst-name basis"
 
@@ -180,7 +180,7 @@ msgstr "ZIP code"
 #: models/LunaUserFilter.php:141 LunaPlugin.class.php:50
 #: controllers/search.php:58 controllers/log.php:138 controllers/log.php:163
 #: views/log/_filter.php:34 views/persons/info.php:113
-#: views/persons/edit.php:243 views/companies/load_companies.php:5
+#: views/persons/edit.php:254 views/companies/load_companies.php:5
 #: views/companies/load_companies.php:203
 msgid "Unternehmen"
 msgstr "Company"
@@ -190,12 +190,12 @@ msgstr "Company"
 msgid "Status"
 msgstr "Status"
 
-#: models/LunaUserFilter.php:181 views/persons/edit.php:341
+#: models/LunaUserFilter.php:181 views/persons/edit.php:352
 msgid "Hochschulabschluss"
 msgstr "Degree"
 
 #: models/LunaUserFilter.php:189 views/persons/info.php:147
-#: views/persons/edit.php:347 views/companies/edit.php:220
+#: views/persons/edit.php:358 views/companies/edit.php:220
 msgid "Notizen"
 msgstr "Notes"
 
@@ -221,7 +221,7 @@ msgid "Personen"
 msgstr "Persons"
 
 #: LunaPlugin.class.php:53 controllers/skills.php:55 views/persons/info.php:123
-#: views/persons/edit.php:265 views/skills/load_skills.php:5
+#: views/persons/edit.php:276 views/skills/load_skills.php:5
 #: views/skills/load_skills.php:120 views/companies/info.php:104
 #: views/companies/edit.php:127
 msgid "Kompetenzen"
@@ -323,49 +323,49 @@ msgstr "Courses"
 msgid "Stud.IP-Profil"
 msgstr "Stud.IP profile page"
 
-#: controllers/persons.php:421 controllers/companies.php:308
+#: controllers/persons.php:422 controllers/companies.php:308
 msgid "Es ist ein Fehler beim Dateiupload aufgetreten."
 msgstr "A file upload error has occurred."
 
-#: controllers/persons.php:426
+#: controllers/persons.php:427
 #, php-format
 msgid "Die Personendaten von %s wurden gespeichert."
 msgstr "The person data of %s has been saved."
 
-#: controllers/persons.php:433
+#: controllers/persons.php:434
 #, php-format
 msgid "Die Personendaten von %s konnten nicht gespeichert werden."
 msgstr "The person data of %s could not be saved."
 
-#: controllers/persons.php:489
+#: controllers/persons.php:490
 #, php-format
 msgid "%s wurde gelöscht."
 msgstr "%s has been deleted."
 
-#: controllers/persons.php:491
+#: controllers/persons.php:492
 #, php-format
 msgid "%s konnte nicht gelöscht werden."
 msgstr "%s could not be deleted."
 
-#: controllers/persons.php:526
+#: controllers/persons.php:527
 msgid "Die Datei wurde gelöscht."
 msgstr "The file has been deleted."
 
-#: controllers/persons.php:528
+#: controllers/persons.php:529
 msgid "Die Datei konnte nicht gelöscht werden."
 msgstr "The file could not be deleted."
 
-#: controllers/persons.php:551
+#: controllers/persons.php:552
 msgid "Die anzuzeigenden Daten wurden gespeichert."
 msgstr "Data to display has been saved."
 
-#: controllers/persons.php:553
+#: controllers/persons.php:554
 msgid "Die anzuzeigenden Daten konnten nicht gespeichert werden."
 msgstr "The data to display could not be saved."
 
-#: controllers/persons.php:564 views/persons/info.php:40
-#: views/persons/edit.php:83 views/persons/edit.php:118
-#: views/persons/edit.php:137 views/persons/load_persons.php:42
+#: controllers/persons.php:565 views/persons/info.php:40
+#: views/persons/edit.php:94 views/persons/edit.php:129
+#: views/persons/edit.php:148 views/persons/load_persons.php:42
 #: views/companies/info.php:33 views/companies/load_companies.php:39
 msgid "Adresse"
 msgstr "Address"
@@ -680,7 +680,7 @@ msgstr "Allow access for person"
 
 #: views/clients/permissions.php:33 views/clients/edit.php:52
 #: views/tags/edit.php:29 views/search/filter_preset.php:10
-#: views/persons/configure_view.php:17 views/persons/edit.php:414
+#: views/persons/configure_view.php:17 views/persons/edit.php:425
 #: views/skills/edit.php:29 views/companies/edit.php:314
 msgid "Speichern"
 msgstr "Save"
@@ -688,7 +688,7 @@ msgstr "Save"
 #: views/clients/permissions.php:34 views/clients/edit.php:53
 #: views/message/write.php:101 views/tags/edit.php:30
 #: views/search/filter_preset.php:11 views/persons/configure_view.php:18
-#: views/persons/edit.php:415 views/skills/edit.php:30 views/export/csv.php:40
+#: views/persons/edit.php:426 views/skills/edit.php:30 views/export/csv.php:40
 #: views/companies/edit.php:315
 msgid "Abbrechen"
 msgstr "Cancel"
@@ -738,7 +738,7 @@ msgid "Feld für Serienmail einfügen"
 msgstr "Insert serial mail field"
 
 #: views/message/write.php:64 views/persons/_filter.php:13
-#: views/persons/_filter.php:31 views/persons/edit.php:323
+#: views/persons/_filter.php:31 views/persons/edit.php:334
 #: views/companies/_filter.php:13 views/companies/_filter.php:32
 #: views/companies/edit.php:185 views/companies/edit.php:236
 msgid "bitte auswählen"
@@ -990,19 +990,19 @@ msgstr "Apply"
 msgid "Deutschland"
 msgstr "Germany"
 
-#: views/persons/info.php:53 views/persons/edit.php:114
+#: views/persons/info.php:53 views/persons/edit.php:125
 msgid "E-Mailadresse(n)"
 msgstr "E-mail address(es)"
 
 #: views/persons/info.php:59 views/persons/info.php:78
-#: views/persons/edit.php:125 views/persons/edit.php:144
-#: views/persons/edit.php:176 views/persons/edit.php:201
+#: views/persons/edit.php:136 views/persons/edit.php:155
+#: views/persons/edit.php:187 views/persons/edit.php:212
 msgid "Privat"
 msgstr "Private"
 
 #: views/persons/info.php:61 views/persons/info.php:80
-#: views/persons/edit.php:126 views/persons/edit.php:147
-#: views/persons/edit.php:182 views/persons/edit.php:207
+#: views/persons/edit.php:137 views/persons/edit.php:158
+#: views/persons/edit.php:193 views/persons/edit.php:218
 msgid "Geschäftlich"
 msgstr "Business"
 
@@ -1010,22 +1010,22 @@ msgstr "Business"
 msgid "Sonstige"
 msgstr "Other"
 
-#: views/persons/info.php:72 views/persons/edit.php:163
+#: views/persons/info.php:72 views/persons/edit.php:174
 msgid "Telefonnummer(n)"
 msgstr "Phone number(s)"
 
-#: views/persons/info.php:82 views/persons/edit.php:179
-#: views/persons/edit.php:204
+#: views/persons/info.php:82 views/persons/edit.php:190
+#: views/persons/edit.php:215
 msgid "Mobil"
 msgstr "Mobile"
 
-#: views/persons/info.php:135 views/persons/edit.php:293
+#: views/persons/info.php:135 views/persons/edit.php:304
 #: views/companies/info.php:116 views/companies/load_companies.php:44
 #: views/companies/edit.php:155
 msgid "Schlagworte"
 msgstr "Tags"
 
-#: views/persons/info.php:157 views/persons/edit.php:354
+#: views/persons/info.php:157 views/persons/edit.php:365
 msgid "Dateien"
 msgstr "Files"
 
@@ -1034,8 +1034,8 @@ msgstr "Files"
 msgid "Veranstaltungen von %s"
 msgstr "Courses held by %s"
 
-#: views/persons/courses.php:17 views/persons/edit.php:167
-#: views/persons/edit.php:194
+#: views/persons/courses.php:17 views/persons/edit.php:178
+#: views/persons/edit.php:205
 msgid "Nummer"
 msgstr "Number"
 
@@ -1051,7 +1051,7 @@ msgstr "Which data columns should be visible (\"Name\" is always displayed)?"
 msgid "Eine vorhandene Suchvorlage laden"
 msgstr "Edit existing search preset"
 
-#: views/persons/_filter.php:20 views/persons/edit.php:257
+#: views/persons/_filter.php:20 views/persons/edit.php:268
 #: views/companies/_filter.php:20 views/companies/edit.php:92
 msgid "oder"
 msgstr "or"
@@ -1081,99 +1081,117 @@ msgstr "Person data of %s"
 msgid "Persönliche Daten"
 msgstr "Personal data"
 
-#: views/persons/edit.php:39
-msgid "Vorgestellter Titel"
+#: views/persons/edit.php:40
+#, fuzzy
+msgid "Vorangestellter Titel"
 msgstr "Title"
 
-#: views/persons/edit.php:45
+#: views/persons/edit.php:43
+msgid "z.B. Prof., Dr., etc."
+msgstr ""
+
+#: views/persons/edit.php:46
+#, fuzzy
+msgid "Vorangestellter, ausgeschriebener Titel"
+msgstr "Title"
+
+#: views/persons/edit.php:49
+msgid "z.B. Professor, Doktor, etc."
+msgstr ""
+
+#: views/persons/edit.php:54
 msgid "Nachgestellter Titel"
 msgstr "Trailing title"
 
-#: views/persons/edit.php:72
+#: views/persons/edit.php:57
+msgid "z.B. LL.M., PhD, etc."
+msgstr ""
+
+#: views/persons/edit.php:83
 msgid "Anrede"
 msgstr "Salutation"
 
-#: views/persons/edit.php:99 views/companies/edit.php:49
+#: views/persons/edit.php:110 views/companies/edit.php:49
 msgid "Ort"
 msgstr "Place"
 
-#: views/persons/edit.php:120
+#: views/persons/edit.php:131
 msgid "Geben Sie eine E-Mailadresse ein"
 msgstr "Enter an e-mail address"
 
-#: views/persons/edit.php:123 views/persons/edit.php:141
-#: views/persons/edit.php:173 views/persons/edit.php:198
+#: views/persons/edit.php:134 views/persons/edit.php:152
+#: views/persons/edit.php:184 views/persons/edit.php:209
 msgid "Art"
 msgstr "Kind"
 
-#: views/persons/edit.php:131 views/persons/edit.php:153
+#: views/persons/edit.php:142 views/persons/edit.php:164
 msgid "Standardadresse"
 msgstr "Default address"
 
-#: views/persons/edit.php:158
+#: views/persons/edit.php:169
 msgid "E-Mailadresse hinzufügen"
 msgstr "Add e-mail address"
 
-#: views/persons/edit.php:170 views/companies/edit.php:107
+#: views/persons/edit.php:181 views/companies/edit.php:107
 #: views/companies/edit.php:114
 msgid "z.B. +49(0)123/4567-89"
 msgstr "e.g. +49(0)123/4567-89"
 
-#: views/persons/edit.php:188 views/persons/edit.php:213
+#: views/persons/edit.php:199 views/persons/edit.php:224
 msgid "Standardnummer"
 msgstr "Default number"
 
-#: views/persons/edit.php:218
+#: views/persons/edit.php:229
 msgid "Telefonnummer hinzufügen"
 msgstr "Add phone number"
 
-#: views/persons/edit.php:223
+#: views/persons/edit.php:234
 msgid "Weitere Kontaktdaten"
 msgstr "Other contact data"
 
-#: views/persons/edit.php:247
+#: views/persons/edit.php:258
 msgid "Bestehendes Unternehmen auswählen"
 msgstr "Choose existing company"
 
-#: views/persons/edit.php:249
+#: views/persons/edit.php:260
 msgid "Kein Unternehmen auswählen"
 msgstr "No company"
 
-#: views/persons/edit.php:258
+#: views/persons/edit.php:269
 msgid "Neues Unternehmen hinzufügen"
 msgstr "Add new company"
 
-#: views/persons/edit.php:269 views/companies/edit.php:131
+#: views/persons/edit.php:280 views/companies/edit.php:131
 msgid "Fügen Sie eine Kompetenz hinzu"
 msgstr "Add a skill"
 
-#: views/persons/edit.php:298 views/persons/edit.php:320
+#: views/persons/edit.php:309 views/persons/edit.php:331
 #: views/companies/edit.php:160 views/companies/edit.php:182
 msgid "Fügen Sie ein Schlagwort hinzu"
 msgstr "Add a tag"
 
-#: views/persons/edit.php:337
+#: views/persons/edit.php:348
 msgid "Weitere Daten"
 msgstr "Other data"
 
-#: views/persons/edit.php:359 views/persons/edit.php:360
+#: views/persons/edit.php:370 views/persons/edit.php:371
 #: views/companies/edit.php:260 views/companies/edit.php:261
 msgid "Datei hochladen"
 msgstr "Upload files"
 
-#: views/persons/edit.php:366
+#: views/persons/edit.php:377
 msgid "Vorhandene Dateien"
 msgstr "Existing files"
 
-#: views/persons/edit.php:386
+#: views/persons/edit.php:397
 msgid "Verknüpfung mit Stud.IP"
 msgstr "Link with Stud.IP"
 
-#: views/persons/edit.php:390
+#: views/persons/edit.php:401
 msgid "Mit einer Stud.IP-Kennung verknüpfen"
 msgstr "Link to a Stud.IP account"
 
-#: views/persons/edit.php:396 views/companies/edit.php:88
+#: views/persons/edit.php:407 views/companies/edit.php:88
 #, php-format
 msgid "Aktuell: %s"
 msgstr "Current: %s"

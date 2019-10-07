@@ -259,28 +259,29 @@
                 </td>
             </tr>
             <?php foreach ($company->last_contacts as $lc) : ?>
-                <?php $folder = LunaFolder::findTopFolder($lc->id)?>
-                <?php if($folder != NULL) : ?>
+                <?php $folder = LunaFolder::findTopFolder($lc->id) ?>
                     <tr>
                         <td><?= date('d.m.Y', $lc->date) ?></td>
                         <td><?= htmlReady($lc->user->getFullName()) ?></td>
-                        <td><?= htmlReady(User::find($lc->contact)->getFullname()) ?></td>
+                        <td><?= htmlReady($lc->contact) ?></td>
                         <td><?= htmlReady($lc->notes) ?></td>
                         <td>
-                            <?php if (count($folder->getFiles()) > 0) : ?>
-                            <section id="luna-last-contact-doc-list">
-                                <ul id="luna-last_contact_docs">
-                                    <?php foreach ($folder->getFiles() as $d) : ?>
-                                        <li>
-                                            <input type="hidden" name="last_contact_docs[]" value="<?= $d->id ?>">
-                                            <a href="<?= $d->getDownloadURL() ?>" target="_blank">
-                                                <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
-                                                <?= htmlReady($d->name) ?>
-                                            </a>
-                                        </li>
-                                    <?php endforeach ?>
-                                </ul>
-                            </section>
+                            <?php if ($folder != NULL) : ?>
+                                <?php if (count($folder->getFiles()) > 0) : ?>
+                                <section id="luna-last-contact-doc-list">
+                                    <ul id="luna-last_contact_docs">
+                                        <?php foreach ($folder->getFiles() as $d) : ?>
+                                            <li>
+                                                <input type="hidden" name="last_contact_docs[]" value="<?= $d->id ?>">
+                                                <a href="<?= $d->getDownloadURL() ?>" target="_blank">
+                                                    <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
+                                                    <?= htmlReady($d->name) ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach ?>
+                                    </ul>
+                                </section>
+                                <?php endif ?>
                             <?php endif ?>
                         </td>
                         <td>
@@ -290,7 +291,6 @@
                             </a>
                         </td>
                     </tr>
-                <?php endif ?>
             <?php endforeach ?>
         </tbody>
     </table>

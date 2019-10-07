@@ -252,7 +252,7 @@
             <section>
                 <label>
                     <?= dgettext('luna', 'Bestehendes Unternehmen auswählen') ?>
-                    <select name="company">
+                    <select name="company" class="nested-select">
                         <option value="">-- <?= dgettext('luna', 'Kein Unternehmen auswählen') ?> --</option>
                         <?foreach ($companies as $company) : ?>
                             <option value="<?= $company->id ?>"<?= $person->companies->find($company->id) ? ' selected' : ''?>>

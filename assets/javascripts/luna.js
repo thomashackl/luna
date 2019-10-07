@@ -66,21 +66,21 @@
                                 success: function (json) {
                                     var compare = json.compare;
                                     var compSelect = $('<select>').
-                                    attr('name', 'compare');
+                                        attr('name', 'compare');
                                     $.each(compare, function(index, value) {
                                         var compOption = $('<option>').
-                                        attr('value', index).
-                                        html(value);
+                                            attr('value', index).
+                                            html(value);
                                         compSelect.append(compOption);
                                     });
 
                                     var values = json.values;
                                     var valSelect = $('<select>').
-                                    attr('name', 'value');
+                                        attr('name', 'value');
                                     $.each(values, function(index, value) {
                                         var valOption = $('<option>').
-                                        attr('value', index).
-                                        html(value);
+                                            attr('value', index).
+                                            html(value);
                                         valSelect.append(valOption);
                                     });
 
@@ -585,28 +585,30 @@
                 return false;
             });
 
-            var tagInput = $('input[name="tag"]');
-            $('a.luna-tag-add').on('click', function() {
-                STUDIP.Luna.addTag(tagInput.val());
-                tagInput.val('');
-                return false;
-            });
-            tagInput.autocomplete({
-                source: tagInput.data('available-tags'),
-                minLength: 2,
-                select: function(event, ui) {
-                    STUDIP.Luna.addTag(ui.item.value);
-                    tagInput.val('');
-                }
-            });
-            tagInput.on('keypress', function(event) {
-                var keycode = (event.keyCode ? event.keyCode : event.which);
-                if (keycode == '13') {
-                    event.preventDefault();
+            if ($('select[name="tags[]"]').length == 0) {
+                var tagInput = $('input[name="tag"]');
+                $('a.luna-tag-add').on('click', function () {
                     STUDIP.Luna.addTag(tagInput.val());
                     tagInput.val('');
-                }
-            });
+                    return false;
+                });
+                tagInput.autocomplete({
+                    source: tagInput.data('available-tags'),
+                    minLength: 2,
+                    select: function (event, ui) {
+                        STUDIP.Luna.addTag(ui.item.value);
+                        tagInput.val('');
+                    }
+                });
+                tagInput.on('keypress', function (event) {
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                    if (keycode == '13') {
+                        event.preventDefault();
+                        STUDIP.Luna.addTag(tagInput.val());
+                        tagInput.val('');
+                    }
+                });
+            }
 
             // File uploads
             $('input[name="docs[]"]').on('change', function() {

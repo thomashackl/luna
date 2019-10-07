@@ -233,24 +233,15 @@
                            aria-labelledby="luna-last-contact-legend luna-last-contact-date">
                 </td>
                 <td>
-                    <select name="last_contact_person" size="1"
-                            aria-labelledby="luna-last-contact-legend luna-last-contact-who">
-                        <option value="">
-                            -- <?= dgettext('luna', 'bitte auswählen') ?> --
-                        </option>
-                        <?php foreach ($clientUsers as $u) : ?>
-                            <option value="<?= $u->user_id ?>">
-                                <?= htmlReady($u->getFullname('full')) ?>
-                            </option>
-                        <?php endforeach ?>
-                    </select>
-                </td>
-                <td>
-                    <?= QuickSearch::get('last_contact_contact', new StandardSearch('user_id'))
+                    <?= QuickSearch::get('last_contact_person', new StandardSearch('user_id'))
                         ->withButton()
+                        ->setAttributes(['aria-labelledby' => 'luna-last-contact-legend luna-last-contact-who'])
                         ->render();
                     ?>
-
+                </td>
+                <td>
+                    <input type="text" name="last_contact_contact" size="50" maxlength="255"
+                              aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
                 </td>
                 <td>
                     <textarea name="last_contact_notes" cols="50" rows="3"

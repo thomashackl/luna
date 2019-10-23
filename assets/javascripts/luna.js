@@ -290,7 +290,7 @@
         },
 
         prepareFileUpload: function(input) {
-            var ul = $('ul#luna-newdocs');
+            var ul = $(input).closest('label').siblings('ul.luna-newdocs');
             for (var i = 0 ; i < input.files.length ; i++) {
                 var li = $('<li>');
                 var newdoc = $('<input>').
@@ -611,7 +611,7 @@
             }
 
             // File uploads
-            $('input[name="docs[]"]').on('change', function() {
+            $('input[name="docs[]"], input[name="contactdocs[]"]').on('change', function() {
                 STUDIP.Luna.prepareFileUpload(this);
             });
 

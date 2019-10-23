@@ -429,6 +429,61 @@ class PersonsController extends AuthenticatedController {
                     }
 
                 }
+
+                // Save last contact if given.
+                if (Request::get('last_contact_date') && Request::option('last_contact_person') &&
+                    Request::get('last_contact_contact')) {
+
+                    if (count($user->last_contacts) < 1) {
+                        $user->last_contacts = new SimpleCollection();
+                    }
+
+                    $lastContact = new LunaLastContact();
+                    $lastContact->user_id = Request::option('last_contact_person');
+                    $lastContact->luna_object_id = $user->id;
+                    $lastContact->type = 'person';
+                    $lastContact->date = strtotime(Request::get('last_contact_date'));
+                    $lastContact->contact = Request::get('last_contact_contact');
+                    $lastContact->notes = Request::get('last_contact_notes');
+
+                    $success = $lastContact->store();
+
+                    if ($success !== false) {
+
+                        $user->last_contacts->append($lastContact);
+
+                        if (is_array($_FILES['contactdocs']) && $_FILES['contactdocs']['error'][0] != 4) {
+                            $folder = Folder::findOneByRange_id($lastContact->id);
+
+                            if (!$folder) {
+                                $folder = Folder::createTopFolder(
+                                    $lastContact->id,
+                                    'luna',
+                                    'LunaFolder'
+                                );
+                                $folder->store();
+                            }
+                            $folder = $folder->getTypedFolder();
+
+                            $uploaded = FileManager::handleFileUpload($_FILES['contactdocs'], $folder, $GLOBALS['user']->id);
+
+                            if ($uploaded['error']) {
+                                $success = false;
+                                PageLayout::postError(
+                                    dgettext('luna', 'Es ist ein Fehler beim Dateiupload aufgetreten.'),
+                                    $uploaded['error']
+                                );
+                            }
+                        }
+
+                    } else {
+
+                        PageLayout::postError(
+                            dgettext('luna', 'Es ist ein Fehler beim Speichern der letzten Kontakte aufgetreten.'));
+
+                    }
+                }
+
             } else {
                 PageLayout::postError(sprintf(
                     dgettext('luna', 'Die Personendaten von %s konnten nicht gespeichert werden.'),

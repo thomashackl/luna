@@ -254,7 +254,7 @@
                             <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom']) ?>
                             <?= _('Datei hochladen') ?>
                         </label>
-                        <ul id="luna-newdocs"></ul>
+                        <ul class="luna-newdocs"></ul>
                     </section>
                 </td>
             </tr>
@@ -264,7 +264,7 @@
                         <td><?= date('d.m.Y', $lc->date) ?></td>
                         <td><?= htmlReady($lc->user->getFullName()) ?></td>
                         <td><?= htmlReady($lc->contact) ?></td>
-                        <td><?= htmlReady($lc->notes) ?></td>
+                        <td><?= $lc->notes ?></td>
                         <td>
                             <?php if ($folder != NULL) : ?>
                                 <?php if (count($folder->getFiles()) > 0) : ?>

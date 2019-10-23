@@ -33,13 +33,14 @@
  * @property string  notes database column
  * @property string  mkdate database column
  * @property string  chdate database column
- * @property LunaSkill skills has_and_belongs_to_many LunaSkill
- * @property LunaCompany companies has_and_belongs_to_many LunaCompany
+ * @property SimpleCollection skills has_and_belongs_to_many LunaSkill
+ * @property SimpleCollection companies has_and_belongs_to_many LunaCompany
  * @property LunaTag tags has_and_belongs_to_many LunaTag
  * @property LunaEMail emails has_many LunaEMail
  * @property LunaPhoneNumber phonenumbers has_many LunaPhoneNumber
  * @property LunaFolder documents has_one LunaFolder
  * @property User studip_user has_one User
+ * @property SimpleCollection last_contacts has_many LunaLastContact
  */
 class LunaUser extends SimpleORMap
 {
@@ -93,6 +94,14 @@ class LunaUser extends SimpleORMap
             'foreign_key' => 'studip_user_id',
             'assoc_foreign_key' => 'user_id'
         ];
+        $config['has_many']['last_contacts'] = [
+            'class_name' => 'LunaLastContact',
+            'foreign_key' => 'user_id',
+            'assoc_foreign_key' => 'luna_object_id',
+            'order_by' => "ORDER BY `date` DESC",
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        ];
 
         $config['registered_callbacks']['after_create'][] = 'cbLog';
         $config['registered_callbacks']['before_store'][] = 'cbLog';
@@ -131,6 +140,15 @@ class LunaUser extends SimpleORMap
     public function getDefaultEmail()
     {
         return $this->emails->findOneBy('default', 1)->email;
+    }
+
+    public function getLast_contacts()
+    {
+        return SimpleCollection::createFromArray(
+            LunaLastContact::findBySQL(
+                "`type` = 'person' AND `luna_object_id` = ? ORDER BY `date` DESC",
+                [$this->id]
+            ));
     }
 
     public static function getDistinctValues($client, $field, $type = 'user')

@@ -29,10 +29,11 @@
  * @property string sector database column
  * @property string mkdate database column
  * @property string chdate database column
- * @property LunaUser members has_and_belongs_to_many LunaUser
+ * @property SimpleCollection members has_and_belongs_to_many LunaUser
  * @property LunaUser contact has_one LunaUser
- * @property LunaTag skills has_and_belongs_to_many LunaSkill
- * @property LunaTag tags has_and_belongs_to_many LunaTag
+ * @property SimpleCollection skills has_and_belongs_to_many LunaSkill
+ * @property SimpleCollection tags has_and_belongs_to_many LunaTag
+ * @property SimpleCollection has_many last_contacts LunaLastContact
  */
 class LunaCompany extends SimpleORMap
 {
@@ -75,10 +76,10 @@ class LunaCompany extends SimpleORMap
             'on_store' => 'store',
         ];
         $config['has_many']['last_contacts'] = [
-            'class_name' => 'LunaCompanyLastContact',
+            'class_name' => 'LunaLastContact',
             'foreign_key' => 'company_id',
-            'assoc_foreign_key' => 'company_id',
-            'order_by' => 'ORDER BY `date` DESC',
+            'assoc_foreign_key' => 'luna_object_id',
+            'order_by' => "ORDER BY `date` DESC",
             'on_delete' => 'delete',
             'on_store' => 'store'
         ];
@@ -90,6 +91,15 @@ class LunaCompany extends SimpleORMap
         $config['registered_callbacks']['before_store'][] = 'cbHomepageAddress';
 
         parent::configure($config);
+    }
+
+    public function getLast_contacts()
+    {
+        return SimpleCollection::createFromArray(
+            LunaLastContact::findBySQL(
+                "`type` = 'company' AND `luna_object_id` = ? ORDER BY `date` DESC",
+                [$this->id]
+        ));
     }
 
     public static function getDistinctValues($client, $field, $type = 'company')

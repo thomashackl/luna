@@ -67,29 +67,87 @@ class MessageController extends AuthenticatedController {
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' . dgettext('luna', 'Serienmail schreiben'));
         Navigation::activateItem('/tools/luna/persons');
 
+        // Message for a single user.
         if ($type == 'user' && $id) {
+
             $ids = [$id];
             $this->type = 'user';
             $this->target_id = $id;
+
+        // Message for a single company
         } else if ($type == 'company' && $id) {
+
             $company = LunaCompany::find($id);
-            $ids = $company->members->pluck('user_id');
-            if ($company->contact_person) {
+
+            $ids = [];
+
+            /*if (count($company->members) > 0) {
+                $ids = $company->members->pluck('user_id');
+            }*/
+
+            if ($company->contact_person != null && !in_array($company->contact_person, $ids)) {
                 $ids[] = $company->contact_person;
             }
             $this->type = 'company';
             $this->target_id = $id;
+            $this->companies[$id] = $ids;
+
+        // Message for several companies.
         } else if ($type == 'companies') {
+
+            // Some companies are selected manually.
             if ($this->flash['bulkcompanies']) {
-                $companies = $this->flash['bulkcompanies'];
-                $ids = DBManager::get()->fetchAll(
-                    "SELECT DISTINCT `user_id`  FROM `luna_user_company` WHERE `company_id` IN (?)",
-                    [$companies]);
+
+                $this->companies = [];
+                $ids = [];
+
+                foreach ($this->flash['bulkcompanies'] as $one) {
+                    /*$ids = array_merge($ids, DBManager::get()->fetchFirst(
+                        "SELECT `user_id`  FROM `luna_user_company` WHERE `company_id` = ?",
+                        [$one])
+                    );*/
+
+                    $contact = DBManager::get()->fetchColumn(
+                        "SELECT `contact_person` FROM `luna_companies` WHERE `company_id` = ?",
+                        [$one]
+                    );
+
+                    if ($contact != null && !in_array($contact, $ids)) {
+                        $ids[] = $contact;
+                    }
+
+                    $this->companies[$one] = $ids;
+                }
+                $ids = array_unique($ids);
+
+            // Write the message to all companies.
             } else {
-                $this->persons = $this->client->getFilteredUsers()->pluck('id');
+
+                $this->persons = [];
+                $this->companies = [];
+                $ids = [];
+
+                foreach ($this->client->getFilteredCompanies() as $one) {
+                    /*if (count($one->members) > 0) {
+                        if (count($one->members) > 0) {
+                            $ids = $one->members->pluck('user_id');
+                        }
+                    }*/
+
+                    if ($one->contact_person != null && !in_array($contact, $ids)) {
+                        $ids[] = $one->contact_person;
+                    }
+
+                    $this->companies[$one] = $ids;
+                }
+
             }
+
+        // Message for several persons.
         } else {
+
             $ids = $this->flash['bulkusers'] ?: $this->persons = $this->client->getFilteredUsers()->pluck('id');
+
         }
         $this->users = array_filter(LunaUser::findMany($ids, "ORDER BY `lastname`, `firstname`"), function ($u) {
             return ($u->getDefaultEmail() !== null && $u->getDefaultEmail() !== '');
@@ -103,6 +161,11 @@ class MessageController extends AuthenticatedController {
     public function send_action()
     {
         $users = LunaUser::findMany(Request::getArray('recipients'));
+
+        // If available, use list of contacted companies.
+        $companies = Request::getArray('companies', []);
+        // Keep track which company already has a last contact entry for this mail.
+        $processed = [];
 
         if (LunaMarker::hasMarkers(Request::get('message'))) {
             foreach ($users as $u) {
@@ -130,6 +193,33 @@ class MessageController extends AuthenticatedController {
                 }
 
                 if ($mail->send()) {
+
+                    // Add serial mail as last contact to person.
+                    $lc = new LunaLastContact();
+                    $lc->user_id = $GLOBALS['user']->id;
+                    $lc->luna_object_id = $u->id;
+                    $lc->type = 'person';
+                    $lc->date = time();
+                    $lc->contact = $u->getFullname();
+                    $lc->notes = $message;
+                    $lc->store();
+
+                    $company_id = $this->findUserCompany($u->id, $companies);
+
+                    // Add last contact entry to company.
+                    if ($company_id !== null && !$processed[$company_id]) {
+                        $lc = new LunaLastContact();
+                        $lc->user_id = $GLOBALS['user']->id;
+                        $lc->luna_object_id = $company_id;
+                        $lc->type = 'company';
+                        $lc->date = time();
+                        $lc->contact = $u->getFullname();
+                        $lc->notes = $message;
+                        $lc->store();
+
+                        $processed[$company_id] = true;
+                    }
+
                     PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
                 } else {
                     PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
@@ -183,9 +273,40 @@ class MessageController extends AuthenticatedController {
                 ->setBodyText('')
                 ->setSenderEmail(Request::get('sender'));
 
+            $message = $this->wysiwyg ? Request::get('message') : formatReady(Request::get('message'));
+
             foreach ($users as $u) {
                 if (!$mail->isRecipient($u->getDefaultEmail())) {
                     $mail->addRecipient($u->getDefaultEmail(), $u->getFullname('full'), 'Bcc');
+
+                    // Add serial mail as last contact to person.
+                    $lc = new LunaLastContact();
+                    $lc->user_id = $GLOBALS['user']->id;
+                    $lc->luna_object_id = $u;
+                    $lc->type = 'person';
+                    $lc->date = time();
+                    $lc->contact = $u->getFullname();
+                    $lc->notes = $message;
+                    $lc->store();
+
+                    if (count($companies > 0)) {
+                        $company_id = $this->findUserCompany($u->id, $companies);
+
+                        // Add last contact entry to company.
+                        if ($company_id !== null && !$processed[$company_id]) {
+                            $lc = new LunaLastContact();
+                            $lc->user_id = $GLOBALS['user']->id;
+                            $lc->luna_object_id = $company_id;
+                            $lc->type = 'company';
+                            $lc->date = time();
+                            $lc->contact = $u->getFullname();
+                            $lc->notes = $message;
+                            $lc->store();
+
+                            $processed[$company_id] = true;
+                        }
+                    }
+
                 }
             }
 
@@ -216,9 +337,7 @@ class MessageController extends AuthenticatedController {
                 }
             }
 
-            $message = $this->wysiwyg ? wysiwygReady(Request::get('message')) : formatReady(Request::get('message'));
-
-            $mail->setBodyHtml(formatReady($message));
+            $mail->setBodyHtml($message);
 
             if ($mail->send()) {
                 PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
@@ -238,6 +357,17 @@ class MessageController extends AuthenticatedController {
         $log->store();
 
         $this->relocate('persons');
+    }
+
+    private function findUserCompany($user, $companies)
+    {
+        foreach ($companies as $id => $users) {
+            if (in_array($user, $users)) {
+                return $id;
+            }
+        }
+
+        return null;
     }
 
     /**

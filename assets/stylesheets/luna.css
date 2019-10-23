@@ -112,7 +112,8 @@ form.default section input.luna-new-tag {
   display: inline !important;
   max-width: 16em;
 }
-form.default section input[name="docs[]"] {
+form.default section input[name="docs[]"],
+form.default section input[name="contactdocs[]"] {
   display: none;
 }
 form.default section a.luna-skill-add img,
@@ -192,3 +193,4 @@ form.default section span.luna-company-contact {
 form.default a.luna-phone-add img {
   padding-top: 5px;
 }
+/*# sourceMappingURL=luna.css.map */

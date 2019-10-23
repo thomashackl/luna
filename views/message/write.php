@@ -97,6 +97,13 @@
             <input type="hidden" name="type" value="<?= $type ?>">
             <input type="hidden" name="target_id" value="<?= $id ?>">
         <?php endif ?>
+        <?php if ($companies) : ?>
+            <?php foreach ($companies as $one => $members) : ?>
+                <?php foreach ($members as $member) : ?>
+                    <input type="hidden" name="companies[<?= htmlReady($one) ?>][]" value="<?= htmlReady($member) ?>">
+                <?php endforeach ?>
+            <?php endforeach ?>
+        <?php endif ?>
         <?= Studip\Button::createAccept(dgettext('luna', 'Absenden'), 'send') ?>
         <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('persons')) ?>
     </footer>

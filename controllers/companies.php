@@ -271,50 +271,70 @@ class CompaniesController extends AuthenticatedController {
             }
             $company->tags = SimpleORMapCollection::createFromArray($tags);
 
-            if (Request::get('last_contact_date') && Request::option('last_contact_person') &&
+            $success = $company->store();
+
+            if ($success !== false) {
+
+                // Save last contact if given.
+                if (Request::get('last_contact_date') && Request::option('last_contact_person') &&
                     Request::get('last_contact_contact')) {
 
-                if (count($company->last_contacts) < 1) {
-                    $company->last_contacts = new SimpleCollection();
-                }
-
-                $lastContact = new LunaCompanyLastContact();
-                $lastContact->user_id = Request::option('last_contact_person');
-                $lastContact->date = strtotime(Request::get('last_contact_date'));
-                $lastContact->contact = Request::get('last_contact_contact');
-                $lastContact->notes = Request::get('last_contact_notes');
-
-                $company->last_contacts->append($lastContact);
-            }
-
-            if ($company->store()!== false) {
-                if (is_array($_FILES['docs']) && $_FILES['docs']['error'][0] != 4) {
-                    $folder = Folder::findOneByRange_id($lastContact->id);
-
-                    if (!$folder) {
-                        $folder = Folder::createTopFolder(
-                            $lastContact->id,
-                            'luna',
-                            'LunaFolder'
-                        );
-                        $folder->store();
+                    if (count($company->last_contacts) < 1) {
+                        $company->last_contacts = new SimpleCollection();
                     }
-                    $folder = $folder->getTypedFolder();
 
-                    $uploaded = FileManager::handleFileUpload($_FILES['docs'], $folder, $GLOBALS['company']->id);
+                    $lastContact = new LunaLastContact();
+                    $lastContact->user_id = Request::option('last_contact_person');
+                    $lastContact->luna_object_id = $company->id;
+                    $lastContact->type = 'company';
+                    $lastContact->date = strtotime(Request::get('last_contact_date'));
+                    $lastContact->contact = Request::get('last_contact_contact');
+                    $lastContact->notes = Request::get('last_contact_notes');
 
-                    if ($uploaded['error']) {
-                        PageLayout::postError(
-                            dgettext('luna', 'Es ist ein Fehler beim Dateiupload aufgetreten.'),
-                            $uploaded['error']
-                        );
+                    $success = $lastContact->store();
+
+                    if ($success !== false) {
+
+                        $company->last_contacts->append($lastContact);
+
+                        if (is_array($_FILES['docs']) && $_FILES['docs']['error'][0] != 4) {
+                            $folder = Folder::findOneByRange_id($lastContact->id);
+
+                            if (!$folder) {
+                                $folder = Folder::createTopFolder(
+                                    $lastContact->id,
+                                    'luna',
+                                    'LunaFolder'
+                                );
+                                $folder->store();
+                            }
+                            $folder = $folder->getTypedFolder();
+
+                            $uploaded = FileManager::handleFileUpload($_FILES['docs'], $folder, $GLOBALS['company']->id);
+
+                            if ($uploaded['error']) {
+                                $success = false;
+                                PageLayout::postError(
+                                    dgettext('luna', 'Es ist ein Fehler beim Dateiupload aufgetreten.'),
+                                    $uploaded['error']
+                                );
+                            }
+                        }
+
                     } else {
-                        PageLayout::postSuccess(sprintf(
-                            dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
-                            $company->name));
-                    }
 
+                        PageLayout::postError(
+                            dgettext('luna', 'Es ist ein Fehler beim Speichern der letzten Kontakte aufgetreten.'));
+
+                    }
                 }
+
+                if ($success) {
+                    PageLayout::postSuccess(sprintf(
+                        dgettext('luna', 'Die Unternehmensdaten von "%s" wurden gespeichert.'),
+                        $company->name));
+                }
+
             } else {
                 PageLayout::postError(sprintf(
                     dgettext('luna', 'Die Unternehmensdaten von "%s" konnten nicht gespeichert werden.'),
@@ -358,7 +378,7 @@ class CompaniesController extends AuthenticatedController {
 
     public function delete_last_contact_action($contact_id)
     {
-        $contact = LunaCompanyLastContact::find([$contact_id]);
+        $contact = LunaLastContact::find([$contact_id]);
         $company_id = $contact->company_id;
         if ($contact->delete()) {
             PageLayout::postSuccess(dgettext('luna', 'Der Eintrag wurde gelöscht.'));

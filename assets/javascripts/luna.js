@@ -184,6 +184,30 @@
             return false;
         },
 
+        addContactPerson: function(element) {
+            var selected = element.children('option:selected');
+            $.post({
+                url: $('#luna-contact-persons').data('person-template-url'),
+                dataType: 'html',
+                data: {
+                    contact_person: selected.val()
+                },
+                success: function (data) {
+                    $('#luna-contact-persons ul').prepend(data);
+                    selected.attr('disabled', true);
+                }
+            });
+        },
+
+        removeContactPerson: function(id) {
+            var select = $('select[name="contact_person"]');
+            $('#luna-contact-person-' + id).remove();
+            select.children('option[value="' + id + '"]').attr('disabled', null);
+            select.children('option').attr('selected', null);
+            select.children('option').first().attr('selected', true);
+            return false;
+        },
+
         addEmail: function() {
             var template = $('section#luna-email-template');
             var newEl = template.clone();
@@ -536,6 +560,12 @@
             subSectorInput.autocomplete({
                 source: subSectorInput.data('available-subsectors'),
                 minLength: 2
+            });
+
+            // Contact person handling
+            $('select[name="contact_person"]').on('change', function() {
+                STUDIP.Luna.addContactPerson($(this));
+                return false;
             });
 
             // E-Mail address handling

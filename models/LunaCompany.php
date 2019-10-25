@@ -50,10 +50,10 @@ class LunaCompany extends SimpleORMap
             'on_store' => 'store',
             'on_delete' => 'delete'
         ];
-        $config['has_one']['contact'] = [
-            'class_name' => 'LunaUser',
-            'foreign_key' => 'contact_person',
-            'assoc_foreign_key' => 'user_id',
+        $config['has_many']['contact_persons'] = [
+            'class_name' => 'LunaCompanyContactPerson',
+            'foreign_key' => 'company_id',
+            'assoc_foreign_key' => 'company_id',
             'on_store' => 'store',
             'on_delete' => 'delete'
         ];

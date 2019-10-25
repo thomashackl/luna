@@ -69,8 +69,24 @@
                             <?= htmlReady($c->state) ?>
                         </td>
                         <td>
-                            <?php if ($c->contact) : ?>
-                                <?= htmlReady($c->contact->getFullname('full')) ?>
+                            <?php if (count($c->contact_persons) > 0) : ?>
+                                <?php if (count($c->contact_persons) == 1) : $p = $c->contact_persons->first(); ?>
+                                    <?= htmlReady($p->user->getFullname('full')) ?>
+                                    <?php if ($p->function != '') : ?>
+                                        (<?= htmlReady($p->function) ?>)
+                                    <?php endif ?>
+                                <?php else : ?>
+                                    <ul>
+                                    <?php foreach ($c->contact_persons as $person) : ?>
+                                        <li>
+                                            <?= htmlReady($person->user->getFullname('full')) ?>
+                                            <?php if ($person->function != '') : ?>
+                                            (<?= htmlReady($person->function) ?>)
+                                            <?php endif ?>
+                                        </li>
+                                    <?php endforeach ?>
+                                    </ul>
+                                <?php endif ?>
                             <?php endif ?>
                         </td>
                         <td><?= htmlReady($c->email) ?></td>

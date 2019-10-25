@@ -86,15 +86,18 @@
                 </td>
             </tr>
         <?php endif ?>
-        <?php if ($company->contact_person) : ?>
+        <?php if ($company->contact_persons !== null && count($company->contact_persons) > 0) : ?>
             <tr>
                 <td class="luna-label">
                     <?= dgettext('luna', 'Ansprechpartner') ?>
                 </td>
                 <td>
-                    <a href="<?= $controller->url_for('persons/info', $company->contact_person) ?>" data-dialog="size=auto">
-                        <?= htmlReady(LunaUser::find($company->contact_person)->getFullname('full')) ?>
-                    </a>
+                    <?php foreach ($company->contact_persons as $one) : ?>
+                        <a href="<?= $controller->url_for('persons/info', $one->person_id) ?>" data-dialog="size=auto">
+                            <?= htmlReady($one->user->getFullname('full')) ?>
+                        </a>
+                        <br>
+                    <?php endforeach ?>
                 </td>
             </tr>
         <?php endif ?>

@@ -85,8 +85,12 @@ class MessageController extends AuthenticatedController {
                 $ids = $company->members->pluck('user_id');
             }*/
 
-            if ($company->contact_person != null && !in_array($company->contact_person, $ids)) {
-                $ids[] = $company->contact_person;
+            if ($company->contact_persons !== null && count($company->contact_persons) > 0) {
+                foreach ($company->contact_persons as $one) {
+                    if (!in_array($one->person_id, $ids)) {
+                        $ids[] = $one->person_id;
+                    }
+                }
             }
             $this->type = 'company';
             $this->target_id = $id;
@@ -102,21 +106,26 @@ class MessageController extends AuthenticatedController {
                 $ids = [];
 
                 foreach ($this->flash['bulkcompanies'] as $one) {
+                    $companyIds = [];
+
                     /*$ids = array_merge($ids, DBManager::get()->fetchFirst(
                         "SELECT `user_id`  FROM `luna_user_company` WHERE `company_id` = ?",
                         [$one])
                     );*/
 
-                    $contact = DBManager::get()->fetchColumn(
-                        "SELECT `contact_person` FROM `luna_companies` WHERE `company_id` = ?",
+                    $contacts = DBManager::get()->fetchFirst(
+                        "SELECT `person_id` FROM `luna_company_contact_person` WHERE `company_id` = ?",
                         [$one]
                     );
 
-                    if ($contact != null && !in_array($contact, $ids)) {
-                        $ids[] = $contact;
+                    foreach ($contacts as $one) {
+                        if (!in_array($one, $ids)) {
+                            $ids[] = $one;
+                            $companyIds[] = $one;
+                        }
                     }
 
-                    $this->companies[$one] = $ids;
+                    $this->companies[$one] = $companyIds;
                 }
                 $ids = array_unique($ids);
 
@@ -126,19 +135,30 @@ class MessageController extends AuthenticatedController {
                 $this->persons = [];
                 $this->companies = [];
                 $ids = [];
+                $companyIds = [];
 
                 foreach ($this->client->getFilteredCompanies() as $one) {
+
                     /*if (count($one->members) > 0) {
                         if (count($one->members) > 0) {
                             $ids = $one->members->pluck('user_id');
                         }
                     }*/
 
-                    if ($one->contact_person != null && !in_array($contact, $ids)) {
-                        $ids[] = $one->contact_person;
+                    if ($one->contact_persons != null && count($one->contact_persons) > 0) {
+
+                        foreach ($one->contact_persons as $person) {
+
+                            if (!in_array($person->person_id, $ids)) {
+                                $ids[] = $person->person_id;
+                                $companyIds[] = $person->person_id;
+                            }
+
+                        }
+
                     }
 
-                    $this->companies[$one] = $ids;
+                    $this->companies[$one->id] = $companyIds;
                 }
 
             }

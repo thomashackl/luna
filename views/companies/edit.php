@@ -80,22 +80,31 @@
         <legend>
             <?= dgettext('luna', 'Kontaktdaten') ?>
         </legend>
-        <section>
-            <label>
-                <?= dgettext('luna', 'Kontaktperson') ?>
-                <?= $usersearch->render() ?>
-            </label>
-            <?php if ($company->contact) : ?>
-                <span class="luna-company-contact">
-                    <input type="hidden" name="currentcontact" value="<?= $company->contact_person ?>">
-                    <?= sprintf(dgettext('luna', 'Aktuell: %s'), htmlReady($company->contact->getFullname('full'))) ?>
-                </span>
-                <br>
-            <?php endif ?>
-            <?= dgettext('luna', 'oder') ?>
-            <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufügen'), 'newperson',
-                ['data-dialog' => '']) ?>
-        </section>
+        <?php if (count($company->members) > 0) : ?>
+            <section>
+                <label>
+                    <?= dgettext('luna', 'Kontaktperson hinzufügen') ?>
+                </label>
+                <select name="contact_person">
+                    <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
+                    <?php foreach ($company->members as $one) : ?>
+                        <option value="<?= htmlReady($one->id) ?>"<?= in_array($one->id, $available_contact_persons) ? '' : ' disabled' ?>>
+                            <?= htmlReady($one->getFullname()) ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+                <div id="luna-contact-persons"
+                     data-person-template-url="<?= $controller->url_for('companies/contact_person_template') ?>">
+                    <?php if (count($company->contact_persons) > 0) : ?>
+                        <ul>
+                        <?php foreach ($company->contact_persons as $person) : ?>
+                            <?= $this->render_partial('companies/contact_person_template', ['person' => $person]) ?>
+                        <?php endforeach ?>
+                        </ul>
+                    <?php endif ?>
+                </div>
+            </section>
+        <?php endif ?>
         <section>
             <label>
                 <?= dgettext('luna', 'E-Mailadresse') ?>

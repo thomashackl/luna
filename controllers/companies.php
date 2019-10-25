@@ -195,12 +195,17 @@ class CompaniesController extends AuthenticatedController {
 
         $this->flash->keep();
 
-        $this->usersearch = QuickSearch::get('contact', new LunaSearch('user_id'))
-            ->setInputStyle('width: 240px');
-
         $this->clientUsers = SimpleCollection::createFromArray(array_map(function ($u) {
             return $u->user;
         }, LunaClientUser::findByClient_id($this->client->id)))->orderBy('nachname, vorname');
+
+        $this->available_contact_persons = [];
+
+        if (count($this->company->members) > 0) {
+            $this->available_contact_persons = $this->company->members->filter(function ($person) {
+                return $this->company->contact_persons->findOneBy('person_id', $person->id) == null;
+            })->pluck('id');
+        }
     }
 
     /**
@@ -221,7 +226,6 @@ class CompaniesController extends AuthenticatedController {
             }
             $company->client_id = $this->client->client_id;
             $company->name = Request::get('name');
-            $company->contact_person = Request::get('contact') ?: Request::get('currentcontact') ?: null;
             $company->address = Request::get('address');
             $company->zip = Request::get('zip');
             $company->city = Request::get('city');
@@ -270,6 +274,19 @@ class CompaniesController extends AuthenticatedController {
                 $tags[] = $data;
             }
             $company->tags = SimpleORMapCollection::createFromArray($tags);
+
+            $contact_persons = new SimpleORMapCollection();
+            foreach (Request::getArray('contact_persons') as $one) {
+                if ($one['id']) {
+                    $entry = LunaCompanyContactPerson::find($one['id']);
+                } else {
+                    $entry = new LunaCompanyContactPerson();
+                    $entry->person_id = $one['person_id'];
+                }
+                $entry->function = $one['function'];
+                $contact_persons->append($entry);
+            }
+            $company->contact_persons = $contact_persons;
 
             $success = $company->store();
 
@@ -440,6 +457,13 @@ class CompaniesController extends AuthenticatedController {
             "SELECT DISTINCT `subsector` FROM `luna_companies` WHERE `client_id` = ? AND `subsector` LIKE ? ORDER BY `subsector`",
             [$this->client->id, '%' . Request::quoted('term') . '%']);
         $this->render_text(studip_json_encode($values));
+    }
+
+    public function contact_person_template_action()
+    {
+        $this->person = new LunaCompanyContactPerson();
+        $this->person->person_id = Request::option('contact_person');
+        $this->person->user = LunaUser::find(Request::option('contact_person'));
     }
 
     // customized #url_for for plugins

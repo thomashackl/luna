@@ -81,10 +81,12 @@ EMAIL;TYPE=WORK,PREF,INTERNET:<?= $e->email ?>
 URL:<?= $e->homepage ?>
 
 <?php endif ?>
-<?php if ($e->contact) : ?>
-RELATION;TYPE=contact:urn:uuid:<?= md5($e->contact->id) ?>-<?= strtolower($trans->transliterate($e->contact->lastname)) ?>
-
+<?php if ($e->contact_persons != null && count($e->contact_persons) > 0) : ?>
+<?php foreach ($e->contact_persons as $one) : ?>
+RELATED;TYPE=contact:urn:uuid:<?= md5($one->person_id) ?>-<?= strtolower($trans->transliterate($one->user->lastname)) ?>
+<?php endforeach ?>
 <?php endif ?>
+
 REV:<?= date('Y-m-d') ?>T<?= date('H:I:s') ?>Z
 END:VCARD
 <?php endforeach ?>

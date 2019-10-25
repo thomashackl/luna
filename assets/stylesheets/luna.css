@@ -67,6 +67,15 @@ table.default tfoot tr td div.luna-pagination a {
   margin-right: 5px;
   padding: 5px;
 }
+form.default section #luna-contact-persons ul {
+  margin-top: 0.75em;
+}
+form.default section #luna-contact-persons ul li div {
+  margin-top: 0;
+}
+form.default section #luna-contact-persons ul li div.col-1 {
+  padding-top: 5px;
+}
 form.default section#luna-last-contact-doc-list {
   padding-top: 0 !important;
 }

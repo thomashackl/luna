@@ -80,31 +80,25 @@
         <legend>
             <?= dgettext('luna', 'Kontaktdaten') ?>
         </legend>
-        <?php if (count($company->members) > 0) : ?>
-            <section>
-                <label>
-                    <?= dgettext('luna', 'Kontaktperson hinzufügen') ?>
-                </label>
-                <select name="contact_person">
-                    <option value="">-- <?= dgettext('luna', 'bitte auswählen') ?> --</option>
-                    <?php foreach ($company->members as $one) : ?>
-                        <option value="<?= htmlReady($one->id) ?>"<?= in_array($one->id, $available_contact_persons) ? '' : ' disabled' ?>>
-                            <?= htmlReady($one->getFullname()) ?>
-                        </option>
-                    <?php endforeach ?>
-                </select>
-                <div id="luna-contact-persons"
-                     data-person-template-url="<?= $controller->url_for('companies/contact_person_template') ?>">
+        <section>
+            <label>
+                <?= dgettext('luna', 'Kontaktperson') ?>
+                <?= $usersearch->render() ?>
+            </label>
+            <?= dgettext('luna', 'oder') ?>
+            <?= Studip\Button::create(dgettext('luna', 'Neue Person hinzufügen'), 'newperson',
+                array('data-dialog' => '')) ?>
+            <div id="luna-contact-persons"
+                 data-person-template-url="<?= $controller->url_for('companies/contact_person_template') ?>">
+                <ul>
                     <?php if (count($company->contact_persons) > 0) : ?>
-                        <ul>
                         <?php foreach ($company->contact_persons as $person) : ?>
                             <?= $this->render_partial('companies/contact_person_template', ['person' => $person]) ?>
                         <?php endforeach ?>
-                        </ul>
                     <?php endif ?>
-                </div>
-            </section>
-        <?php endif ?>
+                </ul>
+            </div>
+        </section>
         <section>
             <label>
                 <?= dgettext('luna', 'E-Mailadresse') ?>
@@ -206,103 +200,105 @@
             <?php endif ?>
         </section>
     </fieldset>
-    <table class="default">
-        <caption>
-            <?= dgettext('luna', 'Letzte Kontakte') ?>
-            <span class="actions" id="luna-add-last-contact-container">
-                <a href="" id="luna-add-last-contact">
-                    <?= Icon::create('add') ?>
-                    <?= dgettext('luna', 'hinzufügen') ?>
-                </a>
-            </span>
-        </caption>
-        <colgroup>
-            <col width="150">
-            <col width="200">
-            <col width="200">
-            <col>
-            <col width="200">
-            <col width="16">
-        </colgroup>
-        <thead id="luna-last-contacts-thead"<?= count($company->last_contacts) < 1 ? ' class="hidden-js"' : '' ?>>
-            <tr>
-                <th id="luna-last-contact-date"><?= dgettext('luna', 'Wann?') ?></th>
-                <th id="luna-last-contact-who"><?= dgettext('luna', 'Wer?') ?></th>
-                <th id="luna-last-contact-contact"><?= dgettext('luna', 'Mit wem?') ?></th>
-                <th id="luna-last-contact-notes"><?= dgettext('luna', 'Notizen') ?></th>
-                <th id="luna-last-contact-documents"><?= dgettext('luna', 'Dokumente') ?></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="luna-new-last-contact" class="hidden-js">
-                <td>
-                    <input type="text" name="last_contact_date" value="<?= date('d.m.Y') ?>"
-                           readonly data-date-picker
-                           aria-labelledby="luna-last-contact-legend luna-last-contact-date">
-                </td>
-                <td>
-                    <?= QuickSearch::get('last_contact_person', new StandardSearch('user_id'))
-                        ->withButton()
-                        ->setAttributes(['aria-labelledby' => 'luna-last-contact-legend luna-last-contact-who'])
-                        ->render();
-                    ?>
-                </td>
-                <td>
-                    <input type="text" name="last_contact_contact" size="50" maxlength="255"
-                              aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
-                </td>
-                <td>
-                    <textarea name="last_contact_notes" cols="50" rows="3"
-                              aria-labelledby="luna-last-contact-legend luna-last-contact-notes"></textarea>
-                </td>
-                <td>
-                    <section>
-                        <label class="luna-cursor-pointer">
-                            <input type="file" name="docs[]" multiple>
-                            <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom']) ?>
-                            <?= _('Datei hochladen') ?>
-                        </label>
-                        <ul class="luna-newdocs"></ul>
-                    </section>
-                </td>
-            </tr>
-            <?php foreach ($company->last_contacts as $lc) : ?>
-                <?php $folder = LunaFolder::findTopFolder($lc->id) ?>
-                    <tr>
-                        <td><?= date('d.m.Y', $lc->date) ?></td>
-                        <td><?= htmlReady($lc->user->getFullName()) ?></td>
-                        <td><?= htmlReady($lc->contact) ?></td>
-                        <td><?= $lc->notes ?></td>
-                        <td>
-                            <?php if ($folder != NULL) : ?>
-                                <?php if (count($folder->getFiles()) > 0) : ?>
-                                <section id="luna-last-contact-doc-list">
-                                    <ul id="luna-last_contact_docs">
-                                        <?php foreach ($folder->getFiles() as $d) : ?>
-                                            <li>
-                                                <input type="hidden" name="last_contact_docs[]" value="<?= $d->id ?>">
-                                                <a href="<?= $d->getDownloadURL() ?>" target="_blank">
-                                                    <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
-                                                    <?= htmlReady($d->name) ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach ?>
-                                    </ul>
-                                </section>
+    <?php if (!$company->isNew()) : ?>
+        <table class="default">
+            <caption>
+                <?= dgettext('luna', 'Letzte Kontakte') ?>
+                <span class="actions" id="luna-add-last-contact-container">
+                    <a href="" id="luna-add-last-contact">
+                        <?= Icon::create('add') ?>
+                        <?= dgettext('luna', 'hinzufügen') ?>
+                    </a>
+                </span>
+            </caption>
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col>
+                <col width="200">
+                <col width="16">
+            </colgroup>
+            <thead id="luna-last-contacts-thead"<?= count($company->last_contacts) < 1 ? ' class="hidden-js"' : '' ?>>
+                <tr>
+                    <th id="luna-last-contact-date"><?= dgettext('luna', 'Wann?') ?></th>
+                    <th id="luna-last-contact-who"><?= dgettext('luna', 'Wer?') ?></th>
+                    <th id="luna-last-contact-contact"><?= dgettext('luna', 'Mit wem?') ?></th>
+                    <th id="luna-last-contact-notes"><?= dgettext('luna', 'Notizen') ?></th>
+                    <th id="luna-last-contact-documents"><?= dgettext('luna', 'Dokumente') ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="luna-new-last-contact" class="hidden-js">
+                    <td>
+                        <input type="text" name="last_contact_date" value="<?= date('d.m.Y') ?>"
+                               readonly data-date-picker
+                               aria-labelledby="luna-last-contact-legend luna-last-contact-date">
+                    </td>
+                    <td>
+                        <?= QuickSearch::get('last_contact_person', new StandardSearch('user_id'))
+                            ->withButton()
+                            ->setAttributes(['aria-labelledby' => 'luna-last-contact-legend luna-last-contact-who'])
+                            ->render();
+                        ?>
+                    </td>
+                    <td>
+                        <input type="text" name="last_contact_contact" size="50" maxlength="255"
+                                  aria-labelledby="luna-last-contact-legend luna-last-contact-contact">
+                    </td>
+                    <td>
+                        <textarea name="last_contact_notes" cols="50" rows="3"
+                                  aria-labelledby="luna-last-contact-legend luna-last-contact-notes"></textarea>
+                    </td>
+                    <td>
+                        <section>
+                            <label class="luna-cursor-pointer">
+                                <input type="file" name="docs[]" multiple>
+                                <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom']) ?>
+                                <?= _('Datei hochladen') ?>
+                            </label>
+                            <ul class="luna-newdocs"></ul>
+                        </section>
+                    </td>
+                </tr>
+                <?php foreach ($company->last_contacts as $lc) : ?>
+                    <?php $folder = LunaFolder::findTopFolder($lc->id) ?>
+                        <tr>
+                            <td><?= date('d.m.Y', $lc->date) ?></td>
+                            <td><?= htmlReady($lc->user->getFullName()) ?></td>
+                            <td><?= htmlReady($lc->contact) ?></td>
+                            <td><?= $lc->notes ?></td>
+                            <td>
+                                <?php if ($folder != NULL) : ?>
+                                    <?php if (count($folder->getFiles()) > 0) : ?>
+                                    <section id="luna-last-contact-doc-list">
+                                        <ul id="luna-last_contact_docs">
+                                            <?php foreach ($folder->getFiles() as $d) : ?>
+                                                <li>
+                                                    <input type="hidden" name="last_contact_docs[]" value="<?= $d->id ?>">
+                                                    <a href="<?= $d->getDownloadURL() ?>" target="_blank">
+                                                        <?= FileManager::getIconForMimeType($d->file->mime_type) ?>
+                                                        <?= htmlReady($d->name) ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </section>
+                                    <?php endif ?>
                                 <?php endif ?>
-                            <?php endif ?>
-                        </td>
-                        <td>
-                            <a href="<?= $controller->url_for('companies/delete_last_contact', $lc->contact_id) ?>"
-                               data-confirm="<?= dgettext('luna', 'Soll der Eintrag wirklich gelöscht werden?') ?>">
-                                <?= Icon::create('trash') ?>
-                            </a>
-                        </td>
-                    </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+                            </td>
+                            <td>
+                                <a href="<?= $controller->url_for('companies/delete_last_contact', $lc->contact_id) ?>"
+                                   data-confirm="<?= dgettext('luna', 'Soll der Eintrag wirklich gelöscht werden?') ?>">
+                                    <?= Icon::create('trash') ?>
+                                </a>
+                            </td>
+                        </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    <?php endif ?>
     <footer data-dialog-button>
         <?php foreach ($flash->flash as $key => $value) : ?>
             <?php if (is_array($value)) : ?>

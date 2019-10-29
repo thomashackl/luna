@@ -168,9 +168,45 @@ class CompaniesController extends AuthenticatedController {
             $this->company = new LunaCompany();
         }
 
-        foreach (words('name contact_person address zip city region state country email phone fax homepage') as $entry) {
-            if (isset($this->flash[$entry])) {
-                $this->company->$entry = $this->flash[$entry];
+        $metadata = $this->company->getTableMetadata();
+        foreach ($metadata['fields'] as $name => $field) {
+            if (isset($this->flash[$name])) {
+                $this->company->$name = $this->flash[$name];
+            }
+        }
+        foreach ($metadata['relations'] as $relation) {
+            if (isset($this->flash[$relation])) {
+                if ($this->company->$relation == null) {
+                    $this->company->$relation = new SimpleCollection();
+                }
+                switch ($relation) {
+                    case 'contact_persons':
+                        foreach ($this->flash['contact_persons'] as $one) {
+                            if ($one['id']) {
+                                $contact = LunaCompanyContactPerson::find($one['id']);
+                            } else {
+                                $contact = new LunaCompanyContactPerson();
+                                $contact->person_id = $one['person_id'];
+                            }
+                            $contact->function = $one['function'];
+                            $this->company->contact_persons->append($contact);
+                        }
+                        break;
+                    case 'skills':
+                        foreach ($this->flash['skills'] as $one) {
+                            $skill = new LunaSkill();
+                            $skill->name = $one;
+                            $this->company->skills->append($skill);
+                        }
+                        break;
+                    case 'tags':
+                        foreach ($this->flash['tags'] as $one) {
+                            $tag = new LunaTag();
+                            $tag->name = $one;
+                            $this->company->tags->append($tag);
+                        }
+                        break;
+                }
             }
         }
 
@@ -206,6 +242,10 @@ class CompaniesController extends AuthenticatedController {
                 return $this->company->contact_persons->findOneBy('person_id', $person->id) == null;
             })->pluck('id');
         }
+
+        $this->usersearch = QuickSearch::get('contact', new LunaContactPersonSearch($id))
+            ->fireJSFunctionOnSelect('STUDIP.Luna.addContactPerson')
+            ->setInputStyle('width: 240px');
     }
 
     /**
@@ -275,16 +315,24 @@ class CompaniesController extends AuthenticatedController {
             }
             $company->tags = SimpleORMapCollection::createFromArray($tags);
 
-            $contact_persons = new SimpleORMapCollection();
+            $contact_persons = new SimpleCollection();
             foreach (Request::getArray('contact_persons') as $one) {
                 if ($one['id']) {
                     $entry = LunaCompanyContactPerson::find($one['id']);
                 } else {
                     $entry = new LunaCompanyContactPerson();
                     $entry->person_id = $one['person_id'];
+
+                    if ($company->members == null) {
+                        $company->members = new SimpleCollection();
+                    }
                 }
                 $entry->function = $one['function'];
                 $contact_persons->append($entry);
+
+                if (!$company->members->findOneBy('user_id', $entry->person_id)) {
+                    $company->members->append(LunaUser::find($entry->person_id));
+                }
             }
             $company->contact_persons = $contact_persons;
 
@@ -371,21 +419,15 @@ class CompaniesController extends AuthenticatedController {
                 $this->relocate('companies');
             }
         } else if (Request::submitted('newperson')) {
-            $this->flash['name'] = Request::get('name');
-            if (Request::option('currentcontact')) {
-                $this->flash['contact_person'] = Request::option('currentcontact');
+            $request = Request::getInstance()->getIterator()->getArrayCopy();
+            $filtered = array_filter($request, function($value, $key) {
+                return ($value != '' && $value != null &&
+                    !in_array($key, ['security_token', 'newperson', 'contact', 'contact_paramter']));
+            }, ARRAY_FILTER_USE_BOTH);
+
+            foreach ($filtered as $key => $value) {
+                $this->flash[$key] = $value;
             }
-            $this->flash['address'] = Request::get('address');
-            $this->flash['zip'] = Request::get('zip');
-            $this->flash['city'] = Request::get('city');
-            $this->flash['region'] = Request::get('region');
-            $this->flash['state'] = Request::get('state');
-            $this->flash['country'] = Request::get('country');
-            $this->flash['email'] = Request::get('email');
-            $this->flash['phone'] = Request::get('phone');
-            $this->flash['fax'] = Request::get('fax');
-            $this->flash['homepage'] = Request::get('homepage');
-            $this->flash['tags'] = Request::getArray('tags');
             $this->flash['return_to'] = $this->url_for('companies/edit', $id ?: null);
 
             $this->redirect($this->url_for('persons/edit'));

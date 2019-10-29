@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-29 13:49+0100\n"
-"PO-Revision-Date: 2019-09-30 11:11+0000\n"
+"PO-Revision-Date: 2019-10-29 12:51+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
 "weblate/projects/studip/luna/en/>\n"
@@ -122,9 +122,8 @@ msgid ""
 msgstr "Unable to create the file as there was no folder to save it!"
 
 #: models/LunaContactPersonSearch.php:38
-#, fuzzy
 msgid "Kontaktperson suchen"
-msgstr "Contact person"
+msgstr "Search for contact person"
 
 #: models/LunaClientUser.php:60
 msgid "Lesezugriff"
@@ -340,9 +339,8 @@ msgid "Die Personendaten von %s wurden gespeichert."
 msgstr "The person data of %s has been saved."
 
 #: controllers/persons.php:482 controllers/companies.php:392
-#, fuzzy
 msgid "Es ist ein Fehler beim Speichern der letzten Kontakte aufgetreten."
-msgstr "A file upload error has occurred."
+msgstr "An error occurred on saving the last contacts."
 
 #: controllers/persons.php:489
 #, php-format
@@ -743,7 +741,7 @@ msgstr ""
 
 #: views/message/write.php:57
 msgid "Geben Sie hier den Betreff Ihrer E-Mail ein."
-msgstr "Enter e-mail subject here"
+msgstr "Enter e-mail subject here."
 
 #: views/message/write.php:62
 msgid "Feld für Serienmail einfügen"
@@ -1362,9 +1360,8 @@ msgstr "Contact person"
 
 #: views/companies/contact_person_template.php:13
 #: views/companies/contact_person_template.php:14
-#, fuzzy
 msgid "Funktion"
-msgstr "Operation"
+msgstr "Function"
 
 #: views/companies/load_companies.php:34
 #, php-format

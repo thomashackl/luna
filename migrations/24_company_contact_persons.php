@@ -4,7 +4,7 @@
  * A company should have several contact persons in different functions
  */
 
-require_once(realpath(__DIR__ . '/../models/LunaCompanyContacatPerson.php'));
+require_once(realpath(__DIR__ . '/../models/LunaCompanyContactPerson.php'));
 
 class CompanyContactPersons extends Migration {
 

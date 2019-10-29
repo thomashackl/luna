@@ -184,27 +184,21 @@
             return false;
         },
 
-        addContactPerson: function(element) {
-            var selected = element.children('option:selected');
+        addContactPerson: function(id, name) {
             $.post({
                 url: $('#luna-contact-persons').data('person-template-url'),
                 dataType: 'html',
                 data: {
-                    contact_person: selected.val()
+                    contact_person: id
                 },
                 success: function (data) {
                     $('#luna-contact-persons ul').prepend(data);
-                    selected.attr('disabled', true);
                 }
             });
         },
 
         removeContactPerson: function(id) {
-            var select = $('select[name="contact_person"]');
             $('#luna-contact-person-' + id).remove();
-            select.children('option[value="' + id + '"]').attr('disabled', null);
-            select.children('option').attr('selected', null);
-            select.children('option').first().attr('selected', true);
             return false;
         },
 

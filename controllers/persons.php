@@ -403,7 +403,7 @@ class PersonsController extends AuthenticatedController {
 
             if ($user->store() !== false) {
 
-                if ($_FILES['docs']['error'][0] != 4) {
+                if ($_FILES['docs'] && $_FILES['docs']['error'][0] != 4) {
                     $folder = Folder::findOneByRange_id($user->id);
                     if (!$folder) {
                         $folder = Folder::createTopFolder(
@@ -497,7 +497,16 @@ class PersonsController extends AuthenticatedController {
                         $this->flash[$key] = $value;
                     }
                 }
-                $this->flash['contact_person'] = $user->id;
+                $this->flash['contact_persons'] = array_merge(
+                    $this->flash['contact_persons'],
+                    [
+                        $user->id => [
+                            'id' => '',
+                            'person_id' => $user->id,
+                            'function' => ''
+                        ]
+                    ]
+                );
                 $this->redirect($companydata['return_to']);
             } else {
                 $this->relocate('persons');

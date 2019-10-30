@@ -235,9 +235,10 @@ class LunaUserFilter
     {
         $config = UserConfig::get($user_id)->LUNA_USER_FILTER;
         if ($config === null || $config === '') {
-            $config = [];
+            $filters = [];
+        } else {
+            $filters = studip_json_decode($config);
         }
-        $filters = studip_json_decode($config);
         foreach ($filters as $clientId => $clientFilters) {
             $actualFilters = is_array($clientFilters['filters']) ? $clientFilters['filters'] : [];
             foreach ($actualFilters as $index => $filter) {

@@ -84,6 +84,11 @@ class ClientsController extends AuthenticatedController {
             $this->client->users = new SimpleORMapCollection();
             $this->client->companies = new SimpleORMapCollection();
             $this->client->skills = new SimpleORMapCollection();
+            $this->client->config_entries = new SimpleORMapCollection();
+            foreach (LunaClientConfig::findBySQL("1 ORDER BY `key`") as $one) {
+                $entry = LunaClientConfigEntry::build(['key' => $one['key']]);
+                $this->client->config_entries->append($entry);
+            }
         }
 
         PageLayout::setTitle($this->plugin->getDisplayName() . ' - ' .
@@ -112,16 +117,29 @@ class ClientsController extends AuthenticatedController {
             $client = LunaClient::find($id);
         } else {
             $client = new LunaClient();
-            $client->beneficiaries = new SimpleORMapCollection();
-            $client->users = new SimpleORMapCollection();
-            $client->companies = new SimpleORMapCollection();
-            $client->skills = new SimpleORMapCollection();
+            $client->beneficiaries = new SimpleCollection();
+            $client->users = new SimpleCollection();
+            $client->companies = new SimpleCollection();
+            $client->skills = new SimpleCollection();
+            $client->config_entries = new SimpleCollection();
         }
         $client->name = Request::get('name');
         $client->sender_address = Request::get('sender_address');
 
+        $entries = new SimpleCollection();
         foreach (Request::getArray('configuration') as $entry => $value) {
-            $client->config_entries->findOneBy('key', $entry)->value = $value;
+            $one = $client->config_entries->findOneBy('key', $entry);
+            if ($one) {
+                $one->value = $value;
+                $entries->append($one);
+            } else {
+                $one = LunaClientConfigEntry::build([
+                    'key' => $entry,
+                    'value' => $value
+                ]);
+                $entries->append($one);
+            }
+            $client->config_entries = $entries;
         }
 
         if ($client->store()) {

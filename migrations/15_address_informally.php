@@ -13,8 +13,7 @@ class AddressInformally extends Migration {
         DBManager::get()->exec(
             "UPDATE `luna_markers` SET `replacement_informal` = 'PERSONAL_SALUTATION' WHERE `marker` = 'SALUTATION'");
 
-        LunaUser::expireTableScheme();
-        LunaMarker::expireTableScheme();
+        SimpleORMap::expireTableScheme();
 
         foreach (LunaTag::findByName('Duz-Freund') as $tag) {
             foreach ($tag->users as $user) {
@@ -29,8 +28,7 @@ class AddressInformally extends Migration {
         DBManager::get()->exec("ALTER TABLE `luna_users` DROP `informal`");
         DBManager::get()->exec("ALTER TABLE `luna_markers` DROP `replacement_informal`");
 
-        LunaUser::expireTableScheme();
-        LunaMarker::expireTableScheme();
+        SimpleORMap::expireTableScheme();
     }
 
 }

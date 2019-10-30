@@ -12,17 +12,16 @@ class FilterFieldDisjunction extends Migration {
          * Migrate user and company filters.
          */
         $data = DBManager::get()->fetchAll(
-            "SELECT `userconfig_id`, `user_id`, `field`, `value`
-            FROM `user_config`
+            "SELECT `field`, `range_id`, `value`
+            FROM `config_values`
             WHERE `field` IN (?)",
             [['LUNA_COMPANY_FILTER', 'LUNA_USER_FILTER']]
         );
 
         // Prepare statement for updating.
-        $stmt = DBManager::get()->prepare("UPDATE `user_config`
+        $stmt = DBManager::get()->prepare("UPDATE `config_values`
             SET `value` = :value
-            WHERE `userconfig_id`= :id
-                AND `user_id` = :user
+            WHERE `range_id`= :user
                 AND `field` = :field");
 
         foreach ($data as $one) {
@@ -42,7 +41,6 @@ class FilterFieldDisjunction extends Migration {
             if (count($new) > 0) {
                 $stmt->execute([
                     'value' => studip_json_encode($new),
-                    'id' => $one['userconfig_id'],
                     'user' => $one['user_id'],
                     'field' => $one['field']
                 ]);
@@ -53,17 +51,16 @@ class FilterFieldDisjunction extends Migration {
          * Migrate filter presets.
          */
         $data = DBManager::get()->fetchAll(
-            "SELECT `userconfig_id`, `user_id`, `field`, `value`
-            FROM `user_config`
+            "SELECT `field`, `range_id`, `value`
+            FROM `config_values`
             WHERE `field` IN (?)",
             [['LUNA_COMPANY_FILTER_PRESETS', 'LUNA_USER_FILTER_PRESETS']]
         );
 
         // Prepare statement for updating.
-        $stmt = DBManager::get()->prepare("UPDATE `user_config`
+        $stmt = DBManager::get()->prepare("UPDATE `config_values`
             SET `value` = :value
-            WHERE `userconfig_id`= :id
-                AND `user_id` = :user
+            WHERE `range_id` = :user
                 AND `field` = :field");
 
         foreach ($data as $one) {
@@ -85,7 +82,6 @@ class FilterFieldDisjunction extends Migration {
             if (count($new) > 0) {
                 $stmt->execute([
                     'value' => studip_json_encode($new),
-                    'id' => $one['userconfig_id'],
                     'user' => $one['user_id'],
                     'field' => $one['field']
                 ]);
@@ -98,17 +94,16 @@ class FilterFieldDisjunction extends Migration {
          * Migrate user and company filters.
          */
         $data = DBManager::get()->fetchAll(
-            "SELECT `userconfig_id`, `user_id`, `field`, `value`
-            FROM `user_config`
+            "SELECT `field`, `field`, `value`
+            FROM `config_values`
             WHERE `field` IN (?)",
             [['LUNA_COMPANY_FILTER', 'LUNA_USER_FILTER']]
         );
 
         // Prepare statement for updating.
-        $stmt = DBManager::get()->prepare("UPDATE `user_config`
+        $stmt = DBManager::get()->prepare("UPDATE `config_values`
             SET `value` = :value
-            WHERE `userconfig_id`= :id
-                AND `user_id` = :user
+            WHERE `range_id` = :user
                 AND `field` = :field");
 
         foreach ($data as $one) {
@@ -125,7 +120,6 @@ class FilterFieldDisjunction extends Migration {
             if (count($new) > 0) {
                 $stmt->execute([
                     'value' => studip_json_encode($new),
-                    'id' => $one['userconfig_id'],
                     'user' => $one['user_id'],
                     'field' => $one['field']
                 ]);
@@ -136,17 +130,16 @@ class FilterFieldDisjunction extends Migration {
          * Migrate filter presets.
          */
         $data = DBManager::get()->fetchAll(
-            "SELECT `userconfig_id`, `user_id`, `field`, `value`
-            FROM `user_config`
+            "SELECT `field`, `field`, `value`
+            FROM `config_values`
             WHERE `field` IN (?)",
             [['LUNA_COMPANY_FILTER_PRESETS', 'LUNA_USER_FILTER_PRESETS']]
         );
 
         // Prepare statement for updating.
-        $stmt = DBManager::get()->prepare("UPDATE `user_config`
+        $stmt = DBManager::get()->prepare("UPDATE `config_values`
             SET `value` = :value
-            WHERE `userconfig_id`= :id
-                AND `user_id` = :user
+            WHERE `user_id` = :user
                 AND `field` = :field");
 
         foreach ($data as $one) {
@@ -165,7 +158,6 @@ class FilterFieldDisjunction extends Migration {
             if (count($new) > 0) {
                 $stmt->execute([
                     'value' => studip_json_encode($new),
-                    'id' => $one['userconfig_id'],
                     'user' => $one['user_id'],
                     'field' => $one['field']
                 ]);

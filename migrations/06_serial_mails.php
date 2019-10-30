@@ -19,6 +19,7 @@ class SerialMails extends Migration {
             `replacement` TEXT NOT NULL,
             `replacement_male` TEXT NULL,
             `replacement_female` TEXT NULL,
+            `replacement_unknown` TEXT NULL,
             `mkdate` INT NOT NULL DEFAULT 0,
             `chdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`marker_id`)

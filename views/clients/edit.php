@@ -35,6 +35,8 @@
         </legend>
         <?php foreach ($client->config_entries as $entry) : ?>
             <section>
+                <input type="hidden" name="configuration[<?= htmlReady($entry->key) ?>]"
+                       value="0">
                 <label>
                     <?php if ($entry->config->type === 'bool') : ?>
                         <input type="checkbox" name="configuration[<?= htmlReady($entry->key) ?>]"
@@ -42,8 +44,6 @@
                     <?php endif ?>
                     <?= htmlReady($entry->config->description) ?>
                 </label>
-                <input type="hidden" name="configuration[<?= htmlReady($entry->key) ?>]"
-                       value="0">
             </section>
         <?php endforeach ?>
     </fieldset>

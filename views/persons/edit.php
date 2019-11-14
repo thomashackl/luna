@@ -470,7 +470,7 @@
                 <tr>
                     <td><?= date('d.m.Y', $lc->date) ?></td>
                     <td><?= htmlReady($lc->user->getFullName()) ?></td>
-                    <td><?= htmlReady($lc->notes) ?></td>
+                    <td><?= $lc->notes ?></td>
                     <td>
                         <?php if ($folder != NULL) : ?>
                             <?php if (count($folder->getFiles()) > 0) : ?>

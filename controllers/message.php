@@ -188,6 +188,9 @@ class MessageController extends AuthenticatedController {
         $processed = [];
 
         if (LunaMarker::hasMarkers(Request::get('message'))) {
+
+            $success = true;
+
             foreach ($users as $u) {
                 $message = LunaMarker::replaceMarkers(Request::get('message'), $u, true);
 
@@ -240,10 +243,15 @@ class MessageController extends AuthenticatedController {
                         $processed[$company_id] = true;
                     }
 
-                    PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
                 } else {
-                    PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
+                    $success = false;
                 }
+            }
+
+            if ($success) {
+                PageLayout::postSuccess(dgettext('luna', 'Die Nachricht wurde verschickt.'));
+            } else {
+                PageLayout::postError(dgettext('luna', 'Die Nachricht konnte nicht verschickt werden.'));
             }
 
             // Send copy to self or other recipients if requested.
@@ -302,7 +310,7 @@ class MessageController extends AuthenticatedController {
                     // Add serial mail as last contact to person.
                     $lc = new LunaLastContact();
                     $lc->user_id = $GLOBALS['user']->id;
-                    $lc->luna_object_id = $u;
+                    $lc->luna_object_id = $u->id;
                     $lc->type = 'person';
                     $lc->date = time();
                     $lc->contact = $u->getFullname();

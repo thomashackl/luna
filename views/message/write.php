@@ -89,7 +89,7 @@
             <?= Icon::create('upload', 'clickable', ['title' => _('Datei(en) hochladen'), 'class' => 'text-bottom']) ?>
             <?= _('Datei(en) hochladen') ?>
         </label>
-        <ul id="luna-newdocs"></ul>
+        <ul class="luna-newdocs"></ul>
         <br><br>
     </section>
     <footer data-dialog-button>
